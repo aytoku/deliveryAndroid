@@ -27,39 +27,29 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         //alignment: Alignment.center,
         children: <Widget>[
           Container(
-            height: taille,
-            width: taille,
+            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(menuItem.imageUrl),
-                    fit: BoxFit.cover
-                ),
-                borderRadius: BorderRadius.circular(15.0)
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15.0),
+                border: Border.all(
+                    width: 1.0,
+                    color: Colors.grey[200]
+                )
             ),
-          ),
-//          Container(
-//            height:taille,
-//            width: taille,
-//            decoration: BoxDecoration(
-//              borderRadius: BorderRadius.circular(15.0),
-//              gradient: LinearGradient(
-//                begin: Alignment.topRight,
-//                end: Alignment.bottomLeft,
-//                colors: [
-//                  Colors.black.withOpacity(0.3),
-//                  Colors.black87.withOpacity(0.3),
-//                  Colors.black54.withOpacity(0.3),
-//                  Colors.black38.withOpacity(0.3),
-//                ],
-//                stops: [0.1, 0.4, 0.6, 0.9],
-//              )
-//            ),
-//          ),
-          Positioned(
-            //bottom: 65.0,
             child: Column(
               children: <Widget>[
-
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Hero(
+                        tag: menuItem.name,
+                        child: Image(
+                          image: AssetImage(menuItem.imageUrl),
+                          fit: BoxFit.cover,
+                          height: 170.0,
+                          width: 200.0,
+                        )
+                    )
+                ),
                 Container(
                   margin: EdgeInsets.all(12.0),
                   child: Column(
@@ -75,37 +65,56 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: 4.0,),
-                      // RatingStarts(rating: restaurant.rating, taille: 26.0,),
-
-                      SizedBox(height: 4.0,),
+                      Row(
+                        children: <Widget>[
+                          SizedBox(height: 4.0,),
+                          // RatingStarts(rating: restaurant.rating, taille: 26.0,),
+                          Text(
+                            '${menuItem.price}',
+                            style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w600
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Positioned(
+                            //bottom: 10.0,
+                              right: 10.0,
+                              child: Container(
+                                width: 48.0,
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    borderRadius: BorderRadius.circular(30.0)
+                                ),
+                                child: IconButton(
+                                  icon: Icon(Icons.add),
+                                  iconSize: 30.0,
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    currentUser.cart.add(
+                                        new Order(food: menuItem, quantity: 1, restaurant: widget.restaurant, date: DateTime.now().toString())
+                                    );
+                                    _snack(menuItem);
+                                  },
+                                ),
+                              )
+                          ),
+                          Text(
+                              '${currentUser.cart.length}',
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1.2,
+                              )
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 )
               ],
             ),
           ),
-          Positioned(
-            //bottom: 10.0,
-              right: 10.0,
-              child: Container(
-                width: 48.0,
-                decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(30.0)
-                ),
-                child: IconButton(
-                  icon: Icon(Icons.add),
-                  iconSize: 30.0,
-                  color: Colors.white,
-                  onPressed: () {
-                    currentUser.cart.add(
-                        new Order(food: menuItem, quantity: 1, restaurant: widget.restaurant, date: DateTime.now().toString())
-                    );
-                    _snack(menuItem);
-                  },
-                ),
-              )
-          )
         ],
       ),
     );
@@ -156,13 +165,14 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.arrow_back_ios),
-                      color: Colors.black,
-                      iconSize: 30.0,
+                    FlatButton(
+                      child: Image(
+                        image: AssetImage('assets/images/arr.png'),
+                      ),
                       onPressed: () {Navigator.pop(context);},
                     ),
-                    Text("Sandwich Street")
+                    Text(widget.restaurant.name)
+                    //Text("Sandwich Street")
 //                      IconButton(
 //                      icon: Icon(Icons.favorite),
 //                      color: Theme.of(context).primaryColor,
@@ -198,13 +208,13 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 //                  ],
 //                ),
                 //RatingStarts(rating: widget.restaurant.rating, taille: 35.0,),
-                SizedBox(height: 6.0,),
-                Text(
-                    widget.restaurant.address,
-                    style: TextStyle(
-                        fontSize: 15.0
-                    )
-                )
+//                SizedBox(height: 6.0,),
+//                Text(
+//                    widget.restaurant.address,
+//                    style: TextStyle(
+//                        fontSize: 15.0
+//                    )
+//                )
               ],
             ),
           ),
@@ -246,7 +256,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           SizedBox(height: 6.0),
           Center(
             child: Text(
-                'Меню',
+                'Сэндвичи',
                 style: TextStyle(
                     fontSize: 22.0,
                     fontWeight: FontWeight.w600,
@@ -265,6 +275,17 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   return _buildMenuItem(food);
                 }),
               )
+          ),
+          SizedBox(height: 10.0),
+          Center(
+            child: Text(
+                'Корзина (${currentUser.cart.length})',
+                style: TextStyle(
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 1.2,
+                )
+            ),
           ),
         ],
       ),
