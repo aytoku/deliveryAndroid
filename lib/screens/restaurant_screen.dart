@@ -46,7 +46,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                           image: AssetImage(menuItem.imageUrl),
                           fit: BoxFit.cover,
                           height: 170.0,
-                          width: 200.0,
+                          width: 400.0,
                         )
                     )
                 ),
