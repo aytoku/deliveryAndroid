@@ -21,7 +21,7 @@ final _restaurant0 = Restaurant(
 );
 
 final List<Restaurant> restaurants = [
-  _restaurant0,
+  _restaurant0
 ];
 
 final addCart = AddCart(
