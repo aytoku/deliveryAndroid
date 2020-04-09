@@ -1,3 +1,4 @@
+import 'package:food_delivery/models/addCardScreen.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/models/restaurant.dart';
@@ -22,6 +23,10 @@ final _restaurant0 = Restaurant(
 final List<Restaurant> restaurants = [
   _restaurant0,
 ];
+
+final addCart = AddCart(
+  imageUrl: 'assets/images/restaurant1.jpg',
+  name: 'Sandwich Street',);
 
 // User
 final currentUser = User(

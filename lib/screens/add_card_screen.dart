@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/data/data.dart';
+import 'package:food_delivery/models/addCardScreen.dart';
 
 class AddCartScreen extends StatefulWidget {
   AddCartScreen({Key key}) : super(key: key);
@@ -11,13 +13,13 @@ class _AddCartScreenState extends State<AddCartScreen> {
 
   _buildNearlyRestaurant() {
     List<Widget> restaurantList = [];
-    restaurants.forEach((Restaurant restaurant) {
+    addCart.forEach((AddCart addCart) {
       restaurantList.add(
           GestureDetector(
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => RestaurantScreen(restaurant: restaurant),
+                  //builder: (_) => RestaurantScreen(restaurant: restaurant),
                 ),
               ),
               child:
@@ -36,9 +38,9 @@ class _AddCartScreenState extends State<AddCartScreen> {
                     ClipRRect(
                         borderRadius: BorderRadius.circular(15.0),
                         child: Hero(
-                            tag: restaurant.name,
+                            tag: addCart.name,
                             child: Image(
-                              image: AssetImage(restaurant.imageUrl),
+                              image: AssetImage(addCart.imageUrl),
                               fit: BoxFit.cover,
                               height: 200.0,
                               width: 450.0,
@@ -52,20 +54,10 @@ class _AddCartScreenState extends State<AddCartScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            restaurant.name,
+                            addCart.name,
                             style: TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 4.0,),
-                          // RatingStarts(rating: restaurant.rating, taille: 26.0,),
-                          Text(
-                            restaurant.address,
-                            style: TextStyle(
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w600
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -81,5 +73,17 @@ class _AddCartScreenState extends State<AddCartScreen> {
     });
 
     return Column(children: restaurantList);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Old School"),
+        ),
+      ),
+    );
   }
 }
