@@ -8,4 +8,6 @@ class AddCart {
     this.imageUrl,
     this.name,
   });
+
+  void forEach(Null Function(AddCart addCart) param0) {}
 }

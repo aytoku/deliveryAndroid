@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: <Widget>[
                     ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
                         child: Hero(
                             tag: restaurant.name,
                             child: Image(
@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                     ),
                     Container(
-                      margin: EdgeInsets.all(12.0),
+                      margin: EdgeInsets.only(right: 160.0, top: 12, bottom: 12),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,8 +145,13 @@ class _HomeScreenState extends State<HomeScreen> {
         body: ListView(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
-              child: Text("Еда", style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),),
+              padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
+              child: Row(
+                children: <Widget>[
+                  Image(image: AssetImage('assets/images/faem_pict.png'),),
+                  Text("Еда", style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),),
+                ],
+              ),
             ),
 //             Padding(
 //               padding: EdgeInsets.all(18.0),

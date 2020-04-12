@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/data/data.dart';
+import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:flutter_counter/flutter_counter.dart';
 
@@ -23,70 +24,53 @@ class _CartScreenState extends State<CartScreen> {
           Expanded(
               child:  Row(
                 children: <Widget>[
-                  Container(
-                    width: 150.0,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image:AssetImage(order.food.imageUrl),
-                            fit: BoxFit.cover
-                        ),
-                        borderRadius: BorderRadius.circular(15.0)
-                    ),
-                  ),
+//                  Container(
+//                    width: 150.0,
+//                    decoration: BoxDecoration(
+//                        image: DecorationImage(
+//                            image:AssetImage(order.food.imageUrl),
+//                            fit: BoxFit.cover
+//                        ),
+//                        borderRadius: BorderRadius.circular(15.0)
+//                    ),
+//                  ),
                   Expanded(
                     child: Container(
                       margin: EdgeInsets.all(12.0),
-                      child: Column(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            order.food.name,
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 10.0),
-                          Text(
-                            order.restaurant.name,
-                            style: TextStyle(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w600
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
                           Container(
                               width: 100.0,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  border: Border.all(
-                                      width: 0.8,
-                                      color: Colors.black54
-                                  )
-                              ),
+//                              decoration: BoxDecoration(
+//                                  borderRadius: BorderRadius.circular(10.0),
+//                                  border: Border.all(
+//                                      width: 0.8,
+//                                      color: Colors.black54
+//                                  )
+//                              ),
                               child: Container(
                                   padding: new EdgeInsets.all(4.0),
                                   child: new Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            if (order.quantity > 1) {
-                                              setState(() {
-                                                order.quantity--;
-                                              });
-                                            }
-                                          },child: Text(
-                                          '-',
-                                          style: TextStyle(
-                                            fontSize: 24.0,
-                                            fontWeight: FontWeight.w600,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                        ),
+//                                        GestureDetector(
+//                                          onTap: () {
+//                                            if (order.quantity > 1) {
+//                                              setState(() {
+//                                                order.quantity--;
+//                                              });
+//                                            }
+//                                          },child: Text(
+//                                          '-',
+//                                          style: TextStyle(
+//                                            fontSize: 24.0,
+//                                            fontWeight: FontWeight.w600,
+//                                            color: Theme.of(context).primaryColor,
+//                                          ),
+//                                        ),
+//                                        ),
                                         SizedBox(width: 20.0),
                                         Text(
                                           '${order.quantity.toStringAsFixed(0)}',
@@ -95,23 +79,23 @@ class _CartScreenState extends State<CartScreen> {
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
-                                        SizedBox(width: 20.0),
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              if (order.quantity < 10) {
-                                                order.quantity++;
-                                              }
-                                            });
-                                          },child: Text(
-                                          '+',
-                                          style: TextStyle(
-                                            fontSize: 24.0,
-                                            fontWeight: FontWeight.w600,
-                                            color: Theme.of(context).primaryColor,
-                                          ),
-                                        ),
-                                        ),
+//                                        GestureDetector(
+//                                          onTap: () {
+//                                            setState(() {
+//                                              if (order.quantity < 10) {
+//                                                order.quantity++;
+//                                              }
+//                                            });
+//                                          },
+//                                          child: Text(
+//                                          '+',
+//                                          style: TextStyle(
+//                                            fontSize: 24.0,
+//                                            fontWeight: FontWeight.w600,
+//                                            color: Theme.of(context).primaryColor,
+//                                          ),
+//                                        ),
+//                                        ),
                                       ]
                                   )
                               )
@@ -129,7 +113,24 @@ class _CartScreenState extends State<CartScreen> {
                               });
                             },
                           ), */
-                          )
+                          ),
+                          Text(
+                            order.food.name,
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(height: 10.0),
+//                          Text(
+//                            order.restaurant.name,
+//                            style: TextStyle(
+//                                fontSize: 13.0,
+//                                fontWeight: FontWeight.w600
+//                            ),
+//                            overflow: TextOverflow.ellipsis,
+//                          ),
                         ],
                       ),
                     ),
@@ -140,7 +141,7 @@ class _CartScreenState extends State<CartScreen> {
           Container(
             //  margin: EdgeInsets.all(3.0),
             child: Text(
-                '\$${order.quantity * order.food.price}',
+                '${order.quantity * order.food.price}',
                 style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.w600
@@ -156,12 +157,14 @@ class _CartScreenState extends State<CartScreen> {
 
     double totalPrice = 0;
     currentUser.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
+    Food menuItem;
 
     return new Scaffold(
       appBar: AppBar(
         title: Text('Корзина (${currentUser.cart.length})'),
         centerTitle: true,
       ),
+
       body: ListView.separated(
         itemCount: currentUser.cart.length + 1,
         itemBuilder: (BuildContext context, int index) {
@@ -203,7 +206,7 @@ class _CartScreenState extends State<CartScreen> {
                           fontWeight: FontWeight.w600
                       ),),
                     Text(
-                        '\$${totalPrice.toStringAsFixed(2)}',
+                        '${totalPrice.toStringAsFixed(2)}',
                         style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.w600,

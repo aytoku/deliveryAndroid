@@ -1,5 +1,6 @@
 import 'package:food_delivery/models/addCardScreen.dart';
 import 'package:food_delivery/models/food.dart';
+import 'package:food_delivery/models/food_list.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/models/restaurant.dart';
 import 'package:food_delivery/models/user.dart';
@@ -7,9 +8,9 @@ import 'package:food_delivery/models/user.dart';
 
 // Food
 final _burrito =
-Food(imageUrl: 'assets/images/steak.jpg', name: 'Лакшери\nСэндвич', price: 8.99);
+Food(imageUrl: 'assets/images/steak.jpg', name: 'Лакшери\nСэндвич', price: 90);
 final _steak =
-Food(imageUrl: 'assets/images/burrito.jpg', name: 'Авокадный\nСэндвич', price: 17.99);
+Food(imageUrl: 'assets/images/burrito.jpg', name: 'Авокадный\nСэндвич', price: 99);
 
 // Restaurants
 final _restaurant0 = Restaurant(
