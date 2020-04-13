@@ -3,15 +3,16 @@ import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:flutter_counter/flutter_counter.dart';
+import 'package:food_delivery/screens/home_screen.dart';
 
-class CartScreen extends StatefulWidget {
-  CartScreen({Key key}) : super(key: key);
+class AddressScreen extends StatefulWidget {
+  AddressScreen({Key key}) : super(key: key);
 
   @override
-  _CartScreenState createState() => _CartScreenState();
+  _AddressScreenState createState() => _AddressScreenState();
 }
 
-class _CartScreenState extends State<CartScreen> {
+class _AddressScreenState extends State<AddressScreen> {
 
   double total;
 
@@ -26,30 +27,11 @@ class _CartScreenState extends State<CartScreen> {
                 children: <Widget>[
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.all(12.0),
+                      margin: EdgeInsets.only(bottom:12.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                              width: 100.0,
-                              child: Container(
-                                  padding: new EdgeInsets.all(4.0),
-                                  child: new Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(width: 20.0),
-                                        Text(
-                                          '${order.quantity.toStringAsFixed(0)}',
-                                          style: TextStyle(
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ]
-                                  )
-                              )
-                          ),
                           Text(
                            'Оформление заказа',
                             style: TextStyle(
@@ -67,41 +49,105 @@ class _CartScreenState extends State<CartScreen> {
               )
           ),
           Container(
-            //  margin: EdgeInsets.all(3.0),
+            padding: EdgeInsets.only(bottom:10.0),
             child: Text(
                 'Адрес доставки',
                 style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold
                 )
             ),
           ),
           Container(
-            //  margin: EdgeInsets.all(3.0),
-            child: Text(
-                'Адрес доставки',
-                style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600
-                )
-            ),
-          ),
-          Container(
-            //  margin: EdgeInsets.all(3.0),
-            child: Text(
-                'Хаджи мамсурова',
-                style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600
-                )
-            ),
-          ),
-          Container(
-            //  margin: EdgeInsets.all(3.0),
+            padding: EdgeInsets.only(bottom:10.0),
             child: Row(
               children: <Widget>[
-                Text('Кв./офис'),
-                Text('Домофон')
+                Text(
+                    'Адрес доставки',
+                    style: TextStyle(
+                        fontSize: 11.0,
+                        color: Color(0xB0B0B0B0),
+                        fontWeight: FontWeight.bold
+                    )
+                ),
+
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(bottom:10.0),
+            child: Row(
+              children: <Widget>[
+                Text(
+                    'Хаджи мамсурова',
+                    style: TextStyle(
+                        fontSize: 13.0,
+                        color: Color(0xB0B0B0B0),
+                        fontWeight: FontWeight.bold
+                    )
+                ),
+
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(bottom:10.0),
+            child: Row(
+              children: <Widget>[
+                Text(
+                    'Кв./офис',
+                    style: TextStyle(
+                        fontSize: 13.0,
+                        color: Color(0xB0B0B0B0),
+                        fontWeight: FontWeight.bold
+                    )
+                ),
+                Text(
+                    'Домофон',
+                    style: TextStyle(
+                        fontSize: 13.0,
+                        color: Color(0xB0B0B0B0),
+                        fontWeight: FontWeight.bold
+                    )
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(bottom:10.0),
+            child: Row(
+              children: <Widget>[
+                Text(
+                    'Подъезд',
+                    style: TextStyle(
+                        fontSize: 13.0,
+                        color: Color(0xB0B0B0B0),
+                        fontWeight: FontWeight.bold
+                    )
+                ),
+                Text(
+                    'Этаж',
+                    style: TextStyle(
+                        fontSize: 13.0,
+                        color: Color(0xB0B0B0B0),
+                        fontWeight: FontWeight.bold
+                    )
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(bottom:10.0),
+            child: Row(
+              children: <Widget>[
+                Text(
+                    'Комментарий к заказу',
+                    style: TextStyle(
+                        fontSize: 11.0,
+                        color: Color(0xB0B0B0B0),
+                        fontWeight: FontWeight.bold
+                    )
+                ),
               ],
             ),
           ),
@@ -128,93 +174,35 @@ class _CartScreenState extends State<CartScreen> {
           if (index < currentUser.cart.length) {
             Order order = currentUser.cart[index];
             return _buildCartItem(order);
-
           }
           return Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.only(top:20.0),
             child: Column(
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      'Время ожидания',
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w600
-                      ),),
-                    Text(
-                        '25 мин.',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w600
-                        )
+                    FlatButton(
+                      child: Text('Далее'),
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => HomeScreen()
+                          )
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(height: 10.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      'Общая сумма',
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w600
-                      ),),
-                    Text(
-                        '${totalPrice.toStringAsFixed(2)}',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.green[700]
-                        )
-                    ),
-                  ],
-                ),
-                SizedBox(height: 80.0)
               ],
             ),
           );
-
-
         }, separatorBuilder: (BuildContext context, int index) {
         return Divider(
           height: 1.0,
-          color: Colors.green,
+          color: Colors.grey,
         );
       },
       ),
-//      bottomSheet: Container(
-//        height: 80.0,
-//        width: MediaQuery.of(context).size.width,
-//        decoration: BoxDecoration(
-//          color: Theme.of(context).primaryColor,
-//          boxShadow: [
-//            BoxShadow(
-//              color: Colors.black26,
-//              offset: Offset(0, -1),
-//              blurRadius: 6.0
-//            )
-//          ]
-//        ),
-//        child: Center(
-//          child: FlatButton(
-//             child: Text(
-//                'CHECKOUT',
-//                style: TextStyle(
-//                  color: Colors.white,
-//                  fontSize: 22.0,
-//                  fontWeight: FontWeight.bold,
-//                  letterSpacing: 2.0
-//                )
-//          ),
-//          onPressed: () {
-//            print("Merci bcp");
-//          },
-//          ),
-//        ),
-//      ),
     );
   }
 }

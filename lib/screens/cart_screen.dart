@@ -3,6 +3,7 @@ import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:flutter_counter/flutter_counter.dart';
+import 'package:food_delivery/screens/address_screen.dart';
 
 class CartScreen extends StatefulWidget {
   CartScreen({Key key}) : super(key: key);
@@ -210,12 +211,22 @@ class _CartScreenState extends State<CartScreen> {
                         style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.w600,
-                            color: Colors.green[700]
+                            color: Colors.black
                         )
                     ),
                   ],
                 ),
-                SizedBox(height: 80.0)
+                SizedBox(height: 80.0),
+
+                FlatButton(
+                  child: Text('Далее'),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => AddressScreen()
+                      )
+                  ),
+                ),
               ],
             ),
           );
@@ -224,7 +235,7 @@ class _CartScreenState extends State<CartScreen> {
         }, separatorBuilder: (BuildContext context, int index) {
         return Divider(
           height: 1.0,
-          color: Colors.green,
+          color: Colors.grey,
         );
       },
       ),
