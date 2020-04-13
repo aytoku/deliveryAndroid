@@ -19,7 +19,7 @@ class _AddressScreenState extends State<AddressScreen> {
   _buildCartItem(Order order){
     return Container(
       padding: EdgeInsets.all(20.0),
-      height: 170.0,
+      height: 300.0,
       child: Column(
         children: <Widget>[
           Expanded(
