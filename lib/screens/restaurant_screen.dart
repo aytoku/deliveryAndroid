@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/food_list.dart';
+import 'package:food_delivery/models/global_state.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/models/restaurant.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
@@ -19,6 +20,14 @@ class RestaurantScreen extends StatefulWidget {
 class _RestaurantScreenState extends State<RestaurantScreen> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  GlobalState _store = GlobalState.instance;
+  TextEditingController _name;
+
+  @override
+  void initState(){
+    _name = TextEditingController(text: "");
+  }
 
   _buildMenuItem(Food menuItem) {
 
@@ -40,17 +49,20 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             ),
             child: Column(
               children: <Widget>[
-                ClipRRect(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
-                    child: Hero(
-                        tag: menuItem.name,
-                        child: Image(
-                          image: AssetImage(menuItem.imageUrl),
-                          fit: BoxFit.cover,
-                          height: 170.0,
-                          width: 180.0,
-                        )
-                    )
+                FlatButton(
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
+                      child: Hero(
+                          tag: menuItem.name,
+                          child: Image(
+                            image: AssetImage(menuItem.imageUrl),
+                            fit: BoxFit.cover,
+                            height: 170.0,
+                            width: 180.0,
+                          )
+                      )
+                  ),
+                    //onPressed: _showModalBottomSheet,
                 ),
                 Container(
                   margin: EdgeInsets.all(12.0),
@@ -120,6 +132,24 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  _showModalBottomSheet(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 300,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+        );
+      },
     );
   }
 
