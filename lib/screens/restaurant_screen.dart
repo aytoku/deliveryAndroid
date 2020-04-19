@@ -33,11 +33,13 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
     double taille = MediaQuery.of(context).size.width / 2.25;
     return Center(
+
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         //alignment: Alignment.center,
         children: <Widget>[
           Container(
-            width: 180,
+            width: 170,
             margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -49,20 +51,17 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             ),
             child: Column(
               children: <Widget>[
-                FlatButton(
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
-                      child: Hero(
-                          tag: menuItem.name,
-                          child: Image(
-                            image: AssetImage(menuItem.imageUrl),
-                            fit: BoxFit.cover,
-                            height: 170.0,
-                            width: 180.0,
-                          )
-                      )
-                  ),
-                    //onPressed: _showModalBottomSheet,
+                ClipRRect(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
+                    child: Hero(
+                        tag: menuItem.name,
+                        child: Image(
+                          image: AssetImage(menuItem.imageUrl),
+                          fit: BoxFit.cover,
+                          height: 170.0,
+                          width: 170.0,
+                        )
+                    )
                 ),
                 Container(
                   margin: EdgeInsets.all(12.0),
@@ -190,6 +189,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     return Scaffold(
       key : _scaffoldKey,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Stack(
             children: <Widget>[
@@ -209,7 +209,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(right: 30),
-                      child:  FlatButton(
+                      child:  MaterialButton(
                         child: Image(
                           image: AssetImage('assets/images/arr.png'),
                         ),

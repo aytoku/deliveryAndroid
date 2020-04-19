@@ -19,7 +19,7 @@ class _AddressScreenState extends State<AddressScreen> {
   _buildCartItem(Order order){
     return Container(
       padding: EdgeInsets.all(20.0),
-      height: 300.0,
+      height: 400.0,
       child: Column(
         children: <Widget>[
           Expanded(
@@ -48,6 +48,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 ],
               )
           ),
+          SizedBox(height: 20.0),
           Container(
             padding: EdgeInsets.only(bottom:10.0),
             child: Text(
@@ -58,6 +59,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 )
             ),
           ),
+          SizedBox(height: 10.0),
           Container(
             padding: EdgeInsets.only(bottom:10.0),
             child: Row(
@@ -74,6 +76,7 @@ class _AddressScreenState extends State<AddressScreen> {
               ],
             ),
           ),
+          SizedBox(height: 20.0),
           Container(
             padding: EdgeInsets.only(bottom:10.0),
             child: Row(
@@ -90,6 +93,7 @@ class _AddressScreenState extends State<AddressScreen> {
               ],
             ),
           ),
+          SizedBox(height: 20.0),
           Container(
             padding: EdgeInsets.only(bottom:10.0),
             child: Row(
@@ -113,6 +117,7 @@ class _AddressScreenState extends State<AddressScreen> {
               ],
             ),
           ),
+          SizedBox(height: 20.0),
           Container(
             padding: EdgeInsets.only(bottom:10.0),
             child: Row(
@@ -136,6 +141,7 @@ class _AddressScreenState extends State<AddressScreen> {
               ],
             ),
           ),
+          SizedBox(height: 20.0),
           Container(
             padding: EdgeInsets.only(bottom:10.0),
             child: Row(
@@ -178,20 +184,26 @@ class _AddressScreenState extends State<AddressScreen> {
             return _buildCartItem(order);
           }
           return Padding(
-            padding: EdgeInsets.only(top:20.0),
+            padding: EdgeInsets.only(top:20.0, left: 30),
             child: Column(
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     FlatButton(
-                      child: Text('Далее'),
-                      onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => HomeScreen()
-                          )
+                      child: Text("Оплатить", style: TextStyle(color: Colors.white, fontSize: 15),),
+                      color: Colors.red,
+                      splashColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
+                      padding: EdgeInsets.only(left: 120, top: 14.5, right: 120, bottom: 14.5),
+                      onPressed: (){Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new AddressScreen(),
+                        ),
+                      );},
                     ),
                   ],
                 ),

@@ -217,15 +217,20 @@ class _CartScreenState extends State<CartScreen> {
                   ],
                 ),
                 SizedBox(height: 80.0),
-
                 FlatButton(
-                  child: Text('Далее'),
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => AddressScreen()
-                      )
+                  child: Text("Далее", style: TextStyle(color: Colors.white, fontSize: 15),),
+                  color: Colors.red,
+                  splashColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
+                  padding: EdgeInsets.only(left: 120, top: 14.5, right: 120, bottom: 14.5),
+                  onPressed: (){Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new AddressScreen(),
+                    ),
+                  );},
                 ),
               ],
             ),
@@ -239,36 +244,6 @@ class _CartScreenState extends State<CartScreen> {
         );
       },
       ),
-//      bottomSheet: Container(
-//        height: 80.0,
-//        width: MediaQuery.of(context).size.width,
-//        decoration: BoxDecoration(
-//          color: Theme.of(context).primaryColor,
-//          boxShadow: [
-//            BoxShadow(
-//              color: Colors.black26,
-//              offset: Offset(0, -1),
-//              blurRadius: 6.0
-//            )
-//          ]
-//        ),
-//        child: Center(
-//          child: FlatButton(
-//             child: Text(
-//                'CHECKOUT',
-//                style: TextStyle(
-//                  color: Colors.white,
-//                  fontSize: 22.0,
-//                  fontWeight: FontWeight.bold,
-//                  letterSpacing: 2.0
-//                )
-//          ),
-//          onPressed: () {
-//            print("Merci bcp");
-//          },
-//          ),
-//        ),
-//      ),
     );
   }
 }
