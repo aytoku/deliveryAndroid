@@ -8,12 +8,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Old School',
+        title: '',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.grey[50],
-          primaryColor: Colors.red,
-        ),
+//        theme: ThemeData(
+//          scaffoldBackgroundColor: Colors.grey[50],
+//          primaryColor: Colors.red,
+//        ),
         home: HomeScreen()
     );
   }

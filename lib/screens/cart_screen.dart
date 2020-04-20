@@ -3,11 +3,12 @@ import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:flutter_counter/flutter_counter.dart';
+import 'package:food_delivery/models/restaurant.dart';
 import 'package:food_delivery/screens/address_screen.dart';
 
 class CartScreen extends StatefulWidget {
-  CartScreen({Key key}) : super(key: key);
-
+  CartScreen({Key key, this.restaurant}) : super(key: key);
+  final Restaurant restaurant;
   @override
   _CartScreenState createState() => _CartScreenState();
 }
@@ -161,10 +162,18 @@ class _CartScreenState extends State<CartScreen> {
     Food menuItem;
 
     return new Scaffold(
-      appBar: AppBar(
-        title: Text('Корзина (${currentUser.cart.length})'),
-        centerTitle: true,
-      ),
+
+//      appBar: AppBar(
+//        title: Text(widget.restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+//        leading: FloatingActionButton(
+//          backgroundColor: Colors.white,
+//          isExtended: true,
+//          child: Image(
+//            image: AssetImage('assets/images/arr.png'),
+//          ),
+//          onPressed: () {Navigator.pop(context);},
+//        ),
+//      ),
 
       body: ListView.separated(
         itemCount: currentUser.cart.length + 1,
@@ -201,7 +210,7 @@ class _CartScreenState extends State<CartScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      'Общая сумма',
+                      'Итого',
                       style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w600
@@ -217,21 +226,24 @@ class _CartScreenState extends State<CartScreen> {
                   ],
                 ),
                 SizedBox(height: 80.0),
-                FlatButton(
-                  child: Text("Далее", style: TextStyle(color: Colors.white, fontSize: 15),),
-                  color: Colors.red,
-                  splashColor: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  padding: EdgeInsets.only(left: 120, top: 14.5, right: 120, bottom: 14.5),
-                  onPressed: (){Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new AddressScreen(),
+                Padding(
+                  padding: EdgeInsets.only(top: 220),
+                  child: FlatButton(
+                    child: Text("Далее", style: TextStyle(color: Colors.white, fontSize: 15),),
+                    color: Colors.red,
+                    splashColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
-                  );},
-                ),
+                    padding: EdgeInsets.only(left: 120, top: 14.5, right: 120, bottom: 14.5),
+                    onPressed: (){Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new AddressScreen(),
+                      ),
+                    );},
+                  ),
+                )
               ],
             ),
           );

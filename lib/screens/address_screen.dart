@@ -49,114 +49,114 @@ class _AddressScreenState extends State<AddressScreen> {
               )
           ),
           SizedBox(height: 20.0),
-          Container(
-            padding: EdgeInsets.only(bottom:10.0),
-            child: Text(
-                'Адрес доставки',
-                style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold
-                )
-            ),
-          ),
+//          Container(
+//            padding: EdgeInsets.only(bottom:10.0),
+//            child: Text(
+//                'Адрес доставки',
+//                style: TextStyle(
+//                    fontSize: 20.0,
+//                    fontWeight: FontWeight.bold
+//                )
+//            ),
+//          ),
           SizedBox(height: 10.0),
-          Container(
-            padding: EdgeInsets.only(bottom:10.0),
-            child: Row(
-              children: <Widget>[
-                Text(
-                    'Адрес доставки',
-                    style: TextStyle(
-                        fontSize: 11.0,
-                        color: Color(0xB0B0B0B0),
-                        fontWeight: FontWeight.bold
-                    )
-                ),
-
-              ],
-            ),
-          ),
-          SizedBox(height: 20.0),
-          Container(
-            padding: EdgeInsets.only(bottom:10.0),
-            child: Row(
-              children: <Widget>[
-                Text(
-                    'Хаджи мамсурова',
-                    style: TextStyle(
-                        fontSize: 13.0,
-                        color: Color(0xB0B0B0B0),
-                        fontWeight: FontWeight.bold
-                    )
-                ),
-
-              ],
-            ),
-          ),
-          SizedBox(height: 20.0),
-          Container(
-            padding: EdgeInsets.only(bottom:10.0),
-            child: Row(
-              children: <Widget>[
-                Text(
-                    'Кв./офис',
-                    style: TextStyle(
-                        fontSize: 13.0,
-                        color: Color(0xB0B0B0B0),
-                        fontWeight: FontWeight.bold
-                    )
-                ),
-                Text(
-                    'Домофон',
-                    style: TextStyle(
-                        fontSize: 13.0,
-                        color: Color(0xB0B0B0B0),
-                        fontWeight: FontWeight.bold
-                    )
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20.0),
-          Container(
-            padding: EdgeInsets.only(bottom:10.0),
-            child: Row(
-              children: <Widget>[
-                Text(
-                    'Подъезд',
-                    style: TextStyle(
-                        fontSize: 13.0,
-                        color: Color(0xB0B0B0B0),
-                        fontWeight: FontWeight.bold
-                    )
-                ),
-                Text(
-                    'Этаж',
-                    style: TextStyle(
-                        fontSize: 13.0,
-                        color: Color(0xB0B0B0B0),
-                        fontWeight: FontWeight.bold
-                    )
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 20.0),
-          Container(
-            padding: EdgeInsets.only(bottom:10.0),
-            child: Row(
-              children: <Widget>[
-                Text(
-                    'Комментарий к заказу',
-                    style: TextStyle(
-                        fontSize: 11.0,
-                        color: Color(0xB0B0B0B0),
-                        fontWeight: FontWeight.bold
-                    )
-                ),
-              ],
-            ),
-          ),
+//          Container(
+//            padding: EdgeInsets.only(bottom:10.0),
+//            child: Row(
+//              children: <Widget>[
+//                Text(
+//                    'Адрес доставки',
+//                    style: TextStyle(
+//                        fontSize: 11.0,
+//                        color: Color(0xB0B0B0B0),
+//                        fontWeight: FontWeight.bold
+//                    )
+//                ),
+//
+//              ],
+//            ),
+//          ),
+//          SizedBox(height: 20.0),
+//          Container(
+//            padding: EdgeInsets.only(bottom:10.0),
+//            child: Row(
+//              children: <Widget>[
+//                Text(
+//                    'Хаджи мамсурова',
+//                    style: TextStyle(
+//                        fontSize: 13.0,
+//                        color: Color(0xB0B0B0B0),
+//                        fontWeight: FontWeight.bold
+//                    )
+//                ),
+//
+//              ],
+//            ),
+//          ),
+//          SizedBox(height: 20.0),
+//          Container(
+//            padding: EdgeInsets.only(bottom:10.0),
+//            child: Row(
+//              children: <Widget>[
+//                Text(
+//                    'Кв./офис',
+//                    style: TextStyle(
+//                        fontSize: 13.0,
+//                        color: Color(0xB0B0B0B0),
+//                        fontWeight: FontWeight.bold
+//                    )
+//                ),
+//                Text(
+//                    'Домофон',
+//                    style: TextStyle(
+//                        fontSize: 13.0,
+//                        color: Color(0xB0B0B0B0),
+//                        fontWeight: FontWeight.bold
+//                    )
+//                ),
+//              ],
+//            ),
+//          ),
+//          SizedBox(height: 20.0),
+//          Container(
+//            padding: EdgeInsets.only(bottom:10.0),
+//            child: Row(
+//              children: <Widget>[
+//                Text(
+//                    'Подъезд',
+//                    style: TextStyle(
+//                        fontSize: 13.0,
+//                        color: Color(0xB0B0B0B0),
+//                        fontWeight: FontWeight.bold
+//                    )
+//                ),
+//                Text(
+//                    'Этаж',
+//                    style: TextStyle(
+//                        fontSize: 13.0,
+//                        color: Color(0xB0B0B0B0),
+//                        fontWeight: FontWeight.bold
+//                    )
+//                ),
+//              ],
+//            ),
+//          ),
+//          SizedBox(height: 20.0),
+//          Container(
+//            padding: EdgeInsets.only(bottom:10.0),
+//            child: Row(
+//              children: <Widget>[
+//                Text(
+//                    'Комментарий к заказу',
+//                    style: TextStyle(
+//                        fontSize: 11.0,
+//                        color: Color(0xB0B0B0B0),
+//                        fontWeight: FontWeight.bold
+//                    )
+//                ),
+//              ],
+//            ),
+//          ),
         ],
       ),
     );
@@ -171,10 +171,6 @@ class _AddressScreenState extends State<AddressScreen> {
     Food menuItem;
 
     return new Scaffold(
-      appBar: AppBar(
-        title: Text('Корзина (${currentUser.cart.length})'),
-        centerTitle: true,
-      ),
 
       body: ListView.separated(
         itemCount: currentUser.cart.length + 1,
@@ -190,21 +186,24 @@ class _AddressScreenState extends State<AddressScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    FlatButton(
-                      child: Text("Оплатить", style: TextStyle(color: Colors.white, fontSize: 15),),
-                      color: Colors.red,
-                      splashColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      padding: EdgeInsets.only(left: 120, top: 14.5, right: 120, bottom: 14.5),
-                      onPressed: (){Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => new AddressScreen(),
+                    Padding(
+                      padding: EdgeInsets.only(top: 120),
+                      child: FlatButton(
+                        child: Text("Оплатить", style: TextStyle(color: Colors.white, fontSize: 15),),
+                        color: Colors.red,
+                        splashColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                      );},
-                    ),
+                        padding: EdgeInsets.only(left: 120, top: 14.5, right: 120, bottom: 14.5),
+                        onPressed: (){Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => new HomeScreen(),
+                          ),
+                        );},
+                      ),
+                    )
                   ],
                 ),
               ],

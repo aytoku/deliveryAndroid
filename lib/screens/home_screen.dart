@@ -96,52 +96,52 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Old School"),
-          actions: <Widget>[
-            Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Container(
-                    padding: EdgeInsets.only(right: 5.0, bottom: 5.0, top: 5.0),
-                    margin: EdgeInsets.only(right: 5.0),
-                    child: FloatingActionButton(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        tooltip: 'Корзина',
-                        isExtended: true,
-                        heroTag: "",
-                        child: Icon(
-                            Icons.shopping_cart,
-                            color: Colors.white,
-                            size: 30.0
-                        ),
-                        onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => CartScreen()
-                            )
-                        )
-                    )
-                ),
-                Positioned(
-                  bottom: 37.0,
-                  right: 30.0,
-                  child: Text(
-                      '${currentUser.cart.length}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color:  Colors.white,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w600,
-                        //  letterSpacing: 1.2
-                      )
-                  ),
-                )
-              ],
-            ),
-          ],
-        ),
+//        appBar: AppBar(
+//          centerTitle: true,
+//          title: Text(""),
+//          actions: <Widget>[
+//            Stack(
+//              alignment: Alignment.center,
+//              children: <Widget>[
+////                Container(
+////                    padding: EdgeInsets.only(right: 5.0, bottom: 5.0, top: 5.0),
+////                    margin: EdgeInsets.only(right: 5.0),
+////                    child: FloatingActionButton(
+////                        backgroundColor: Theme.of(context).primaryColor,
+////                        tooltip: 'Корзина',
+////                        isExtended: true,
+////                        heroTag: "",
+////                        child: Icon(
+////                            Icons.shopping_cart,
+////                            color: Colors.white,
+////                            size: 30.0
+////                        ),
+////                        onPressed: () => Navigator.push(
+////                            context,
+////                            MaterialPageRoute(
+////                                builder: (_) => CartScreen()
+////                            )
+////                        )
+////                    )
+////                ),
+//                Positioned(
+//                  bottom: 37.0,
+//                  right: 30.0,
+//                  child: Text(
+//                      '${currentUser.cart.length}',
+//                      textAlign: TextAlign.center,
+//                      style: TextStyle(
+//                        color:  Colors.white,
+//                        fontSize: 14.0,
+//                        fontWeight: FontWeight.w600,
+//                        //  letterSpacing: 1.2
+//                      )
+//                  ),
+//                )
+//              ],
+//            ),
+//          ],
+//        ),
         body: ListView(
           children: <Widget>[
             Padding(

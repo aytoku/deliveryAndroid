@@ -5,6 +5,7 @@ import 'package:food_delivery/models/food_list.dart';
 import 'package:food_delivery/models/global_state.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/models/restaurant.dart';
+import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
 
 class RestaurantScreen extends StatefulWidget {
@@ -208,8 +209,10 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(right: 30),
-                      child:  MaterialButton(
+                      padding: EdgeInsets.only(right: 15),
+                      child:  FloatingActionButton(
+                        backgroundColor: Colors.white,
+                        isExtended: true,
                         child: Image(
                           image: AssetImage('assets/images/arr.png'),
                         ),
@@ -347,16 +350,34 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               )
           ),
           SizedBox(height: 10.0),
-          Center(
-            child: Text(
-                'Корзина (${currentUser.cart.length})',
-                style: TextStyle(
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.2,
-                )
+          Padding(
+            padding: EdgeInsets.only(left: 20, bottom: 10),
+            child: FlatButton(
+              child: Text("Корзина (${currentUser.cart.length})", style: TextStyle(color: Colors.white, fontSize: 15),),
+              color: Colors.red,
+              splashColor: Colors.red,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: EdgeInsets.only(left: 120, top: 14.5, right: 120, bottom: 14.5),
+              onPressed: (){Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => new CartScreen(),
+                ),
+              );},
             ),
-          ),
+          )
+//          Center(
+//            child: Text(
+//                'Корзина (${currentUser.cart.length})',
+//                style: TextStyle(
+//                    fontSize: 22.0,
+//                    fontWeight: FontWeight.w600,
+//                    letterSpacing: 1.2,
+//                )
+//            ),
+//          ),
         ],
       ),
     );
