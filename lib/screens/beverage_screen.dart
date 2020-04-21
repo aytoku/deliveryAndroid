@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/data/data.dart';
+import 'package:food_delivery/models/beverage.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/food_list.dart';
 import 'package:food_delivery/models/global_state.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/models/restaurant.dart';
 import 'package:food_delivery/screens/add_card_screen.dart';
-import 'package:food_delivery/screens/beverage_screen.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
-import 'package:food_delivery/screens/desert_screen.dart';
+import 'package:food_delivery/screens/restaurant_screen.dart';
 import 'package:food_delivery/screens/salad_screen.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
 
-class RestaurantScreen extends StatefulWidget {
+import 'desert_screen.dart';
 
-  final Restaurant restaurant;
+class BeverageScreen extends StatefulWidget {
 
-  RestaurantScreen({this.restaurant});
+  final Beverage restaurant;
+
+  BeverageScreen({this.restaurant});
 
   @override
-  _RestaurantScreenState createState() => _RestaurantScreenState();
+  _BeverageScreenState createState() => _BeverageScreenState();
 }
 
-class _RestaurantScreenState extends State<RestaurantScreen> {
+class _BeverageScreenState extends State<BeverageScreen> {
 
   String apple_pay = "Apple Pay";
 
@@ -64,67 +66,67 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
   _buildMenuItem(Food menuItem) {
 
-   // double taille = MediaQuery.of(context).size.width / 2.25;
+    // double taille = MediaQuery.of(context).size.width / 2.25;
     return Center(
 
-      child: GestureDetector(
-        onTap: (){
-          _showModalBottomSheet(menuItem);
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              width: 170,
-              margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(
-                      width: 1.0,
-                      color: Colors.grey[200]
-                  )
-              ),
-              child: Column(
-                children: <Widget>[
-                  ClipRRect(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
-                      child: Hero(
-                          tag: menuItem.name,
-                          child: Image(
-                            image: AssetImage(menuItem.imageUrl),
-                            fit: BoxFit.cover,
-                            height: 170.0,
-                            width: 170.0,
-                          )
-                      )
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(12.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          menuItem.name,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(height: 4.0,),
-                        Row(
-                          children: <Widget>[
-                            SizedBox(height: 4.0,),
-                            // RatingStarts(rating: restaurant.rating, taille: 26.0,),
-                            Text(
-                              '${menuItem.price}',
-                              style: TextStyle(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w600
-                              ),
-                              overflow: TextOverflow.ellipsis,
+        child: GestureDetector(
+          onTap: (){
+            _showModalBottomSheet(menuItem);
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: 170,
+                margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15.0),
+                    border: Border.all(
+                        width: 1.0,
+                        color: Colors.grey[200]
+                    )
+                ),
+                child: Column(
+                  children: <Widget>[
+                    ClipRRect(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
+                        child: Hero(
+                            tag: menuItem.name,
+                            child: Image(
+                              image: AssetImage(menuItem.imageUrl),
+                              fit: BoxFit.cover,
+                              height: 170.0,
+                              width: 170.0,
+                            )
+                        )
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(12.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            menuItem.name,
+                            style: TextStyle(
+                              fontSize: 18.0,
                             ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(height: 4.0,),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(height: 4.0,),
+                              // RatingStarts(rating: restaurant.rating, taille: 26.0,),
+                              Text(
+                                '${menuItem.price}',
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w600
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
 //                            Positioned(
 //                              //bottom: 10.0,
 //                                left: 90.0,
@@ -147,27 +149,27 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 //                                  ),
 //                                )
 //                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 90),
-                              child: Text(
-                                  '${currentUser.cart.length}',
-                                  style: TextStyle(
-                                    fontSize: 14.0,
-                                    letterSpacing: 1.2,
-                                  )
+                              Padding(
+                                padding: EdgeInsets.only(left: 90),
+                                child: Text(
+                                    '${currentUser.cart.length}',
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      letterSpacing: 1.2,
+                                    )
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      )
+            ],
+          ),
+        )
     );
   }
 
@@ -302,7 +304,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                       padding: EdgeInsets.only(left: 80, top: 20, right: 80, bottom: 20),
                                       onPressed: (){
                                         currentUser.cart.add(
-                                            new Order(food: food, quantity: counter, restaurant: widget.restaurant, date: DateTime.now().toString())
+                                            new Order(food: food, quantity: counter, date: DateTime.now().toString())
                                         );
                                         _snack(food);},
                                     ),
@@ -350,9 +352,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     return Text(
         s,
         style: TextStyle(
-        fontSize: 15.0,
-        color: Color(0x99999999)
-    ));
+            fontSize: 15.0,
+            color: Color(0x99999999)
+        ));
   }
 
   @override
@@ -411,64 +413,64 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      GestureDetector(
-//                          onTap: () => Navigator.push(
-//                            context,
-//                            MaterialPageRoute(
-//                              builder: (_) => RestaurantScreen(),
-//                            ),
-//                          ),
-                          child:Padding(
-                            padding: EdgeInsets.only(right: 20),
-                            child: foodList('Сэндвичи'),
-                          ),
-                      ),GestureDetector(
-//                        onTap: () => Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                            builder: (_) => SaladScreen(),
-//                          ),
-//                        ),
-                        child:Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: foodList('Салаты'),
+                Row(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => RestaurantScreen(),
                         ),
                       ),
-                      GestureDetector(
-//                        onTap: () => Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                            builder: (_) => DesertScreen(),
-//                          ),
-//                        ),
-                        child:Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: foodList('Десерт'),
+                      child:Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: foodList('Сэндвичи'),
+                      ),
+                    ),GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => SaladScreen(),
                         ),
                       ),
-                      GestureDetector(
-//                        onTap: () => Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                            builder: (_) => BeverageScreen(),
-//                          ),
-//                        ),
-                        child:Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: foodList('Напитки'),
+                      child:Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: foodList('Салаты'),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DesertScreen(),
                         ),
                       ),
-                    ],
-                  ),
+                      child:Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: foodList('Десерт'),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BeverageScreen(),
+                        ),
+                      ),
+                      child:Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: foodList('Напитки'),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
           SizedBox(height: 6.0),
           Center(
             child: Text(
-                'Сэндвичи',
+                'Салаты',
                 style: TextStyle(
                     fontSize: 22.0,
                     fontWeight: FontWeight.w600,

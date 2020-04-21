@@ -8,7 +8,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="NewOldSchool"
-        android:icon="@mipmap/gg">
+        android:icon="@mipmap/faem_pict">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
