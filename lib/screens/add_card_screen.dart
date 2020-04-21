@@ -83,6 +83,7 @@ class _AddCartScreenState extends State<AddCartScreen> {
           centerTitle: true,
           title: Text("Old School"),
         ),
+        body: _buildNearlyRestaurant()
       ),
     );
   }

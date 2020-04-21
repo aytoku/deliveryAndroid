@@ -57,22 +57,6 @@ class _CartScreenState extends State<CartScreen> {
                                   child: new Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-//                                        GestureDetector(
-//                                          onTap: () {
-//                                            if (order.quantity > 1) {
-//                                              setState(() {
-//                                                order.quantity--;
-//                                              });
-//                                            }
-//                                          },child: Text(
-//                                          '-',
-//                                          style: TextStyle(
-//                                            fontSize: 24.0,
-//                                            fontWeight: FontWeight.w600,
-//                                            color: Theme.of(context).primaryColor,
-//                                          ),
-//                                        ),
-//                                        ),
                                         SizedBox(width: 20.0),
                                         Text(
                                           '${order.quantity.toStringAsFixed(0)}',
@@ -81,40 +65,9 @@ class _CartScreenState extends State<CartScreen> {
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
-//                                        GestureDetector(
-//                                          onTap: () {
-//                                            setState(() {
-//                                              if (order.quantity < 10) {
-//                                                order.quantity++;
-//                                              }
-//                                            });
-//                                          },
-//                                          child: Text(
-//                                          '+',
-//                                          style: TextStyle(
-//                                            fontSize: 24.0,
-//                                            fontWeight: FontWeight.w600,
-//                                            color: Theme.of(context).primaryColor,
-//                                          ),
-//                                        ),
-//                                        ),
                                       ]
                                   )
                               )
-                            /* Counter(
-                            buttonSize: 25.0,
-                            color: Theme.of(context).primaryColor,
-                            initialValue: order.quantity,
-                            minValue: 1,
-                            maxValue: 100,
-                            step: 1,
-                            decimalPlaces: 0,
-                            onChanged: (value) { // get the latest value from here
-                              setState(() {
-                                //  order.quantity = value;
-                              });
-                            },
-                          ), */
                           ),
                           Text(
                             order.food.name,
