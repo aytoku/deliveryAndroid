@@ -22,54 +22,26 @@ class _CartScreenState extends State<CartScreen> {
   _buildList(){
     double totalPrice = 0;
     currentUser.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
-    return Container(
-       child: ListView.separated(
-         itemCount: currentUser.cart.length + 1,
-         itemBuilder: (BuildContext context, int index) {
-           if (index < currentUser.cart.length) {
-             Order order = currentUser.cart[index];
-             return _buildCartItem(order);
+    return ListView.separated(
+      itemCount: currentUser.cart.length + 1,
+      itemBuilder: (BuildContext context, int index) {
+        if (index < currentUser.cart.length) {
+          Order order = currentUser.cart[index];
+          return _buildCartItem(order);
 
-           }
-           return Padding(
-             padding: EdgeInsets.all(20.0),
-             child: Column(
-               children: <Widget>[
-//                Row(
-//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                  children: <Widget>[
-//                    Text(
-//                      'Итого',
-//                      style: TextStyle(
-//                          fontSize: 20.0,
-//                          fontWeight: FontWeight.w600
-//                      ),),
-//                    Text(
-//                        '${totalPrice.toStringAsFixed(2)}',
-//                        style: TextStyle(
-//                            fontSize: 20.0,
-//                            fontWeight: FontWeight.w600,
-//                            color: Colors.black
-//                        )
-//                    ),
-//                  ],
-//                ),
-               ],
-             ),
-           );
-         }, separatorBuilder: (BuildContext context, int index) {
-         return Divider(
-           height: 1.0,
-           color: Colors.grey,
-         );
-       },
-       ),
+        }
+      }, separatorBuilder: (BuildContext context, int index) {
+      return Divider(
+        height: 1.0,
+        color: Colors.grey,
+      );
+    },
     );
   }
 
   _buildCartItem(Order order){
     return Container(
-      padding: EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(5.0),
       child: Column(
         children: <Widget>[
           Column(
@@ -123,13 +95,13 @@ class _CartScreenState extends State<CartScreen> {
 //                width: 600,
 //              ),
               Container(
-                height: 50,
+                height: 40,
                 child: Expanded(
                     child:  Row(
                       children: <Widget>[
                         Expanded(
                           child: Container(
-                            margin: EdgeInsets.all(12.0),
+                            margin: EdgeInsets.only(left:12.0, right: 12),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,20 +109,23 @@ class _CartScreenState extends State<CartScreen> {
                                 Container(
                                     width: 100.0,
                                     child: Container(
-                                        padding: new EdgeInsets.all(4.0),
+                                        padding: EdgeInsets.only(left:4.0, right: 4),
                                         child: new Row(
                                             mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                               SizedBox(width: 20.0),
-                                              Text(
-                                                '${order.quantity.toStringAsFixed(0)}',
-                                                style: TextStyle(
-                                                  fontSize: 14.0,
-                                                  fontWeight: FontWeight.w600,
+                                              Padding(
+                                                padding: EdgeInsets.only(top: 8),
+                                                child: Text(
+                                                  '${order.quantity.toStringAsFixed(0)}',
+                                                  style: TextStyle(
+                                                    fontSize: 14.0,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(left: 30),
+                                                padding: EdgeInsets.only(left: 30, top: 8),
                                                 child: Image(image: AssetImage('assets/images/cross.png'),),
                                               )
                                             ]
@@ -160,12 +135,11 @@ class _CartScreenState extends State<CartScreen> {
                                 Text(
                                   order.food.name,
                                   style: TextStyle(
-                                      fontSize: 20.0,
+                                      fontSize: 14.0,
                                       fontWeight: FontWeight.bold
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                SizedBox(height: 10.0),
                                 Container(
                                   //  margin: EdgeInsets.all(3.0),
                                   child: Row(
@@ -173,11 +147,11 @@ class _CartScreenState extends State<CartScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget>[
                                       Padding(
-                                        padding: EdgeInsets.only(left: 40, top: 5),
+                                        padding: EdgeInsets.only(left: 120, top: 10),
                                         child: Text(
                                             '${order.quantity * order.food.price}',
                                             style: TextStyle(
-                                                fontSize: 16.0,
+                                                fontSize: 14.0,
                                                 fontWeight: FontWeight.w600,
                                               color: Color(0xB0B0B0B0)
                                             )
@@ -280,13 +254,18 @@ class _CartScreenState extends State<CartScreen> {
                   height: 10,
                   width: 600,
                 ),
-
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 170),
-            child: _buildList(),
+            padding: EdgeInsets.only(top: 100),
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                height: 340,
+                child: _buildList(),
+              ),
+            ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
