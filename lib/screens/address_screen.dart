@@ -310,7 +310,7 @@ class _AddressScreenState extends State<AddressScreen> {
                     Padding(
                       padding: EdgeInsets.only(right: 0),
                       child: Text(
-                          'Далее',
+                          'Оплатить',
                           style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.w600,
@@ -336,7 +336,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
+                padding: EdgeInsets.only(left: 10, top: 20, right: 2, bottom: 20),
                 onPressed: (){Navigator.push(
                   context,
                   new MaterialPageRoute(
