@@ -46,54 +46,6 @@ class _CartScreenState extends State<CartScreen> {
         children: <Widget>[
           Column(
             children: <Widget>[
-//              Row(
-//                children: <Widget>[
-//                  Padding(
-//                    padding: EdgeInsets.only(right: 15),
-//                    child:  FloatingActionButton(
-//                      backgroundColor: Colors.white,
-//                      isExtended: true,
-//                      child: Image(
-//                        image: AssetImage('assets/images/arr.png'),
-//                      ),
-//                      onPressed: () {Navigator.pop(context);},
-//                    ),
-//                  ),
-//                  Padding(
-//                    padding: EdgeInsets.only(right: 40),
-//                    child:  Text(order.restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-//                  ),
-//                  Padding(
-//                    padding: EdgeInsets.only(left: 15),
-//                    child: DragTargetWidget(bloc),
-//                  ),
-//                ],
-//              ),
-//              Container(
-//                color: Color(0xF5F5F5F5),
-//                height: 10,
-//                width: 700,
-//              ),
-//              Container(
-//                child: Row(
-//                  children: <Widget>[
-//                    Column(
-//                      mainAxisAlignment: MainAxisAlignment.start,
-//                      crossAxisAlignment: CrossAxisAlignment.start,
-//                      children: <Widget>[
-//                        Text("Доставка еды", style: TextStyle(fontWeight: FontWeight.bold),),
-//                        Text("Закажите еще на 1000 Р. для бесплатной\nдоставки")
-//                      ],
-//                    ),
-//                    Text("134 Р", style: TextStyle(color: Colors.grey),)
-//                  ],
-//                ),
-//              ),
-//              Container(
-//                color: Color(0xF5F5F5F5),
-//                height: 10,
-//                width: 600,
-//              ),
               Container(
                 height: 40,
                 child: Expanded(
@@ -142,23 +94,23 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 Container(
                                   //  margin: EdgeInsets.all(3.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 120, top: 10),
-                                        child: Text(
-                                            '${order.quantity * order.food.price}',
-                                            style: TextStyle(
-                                                fontSize: 14.0,
-                                                fontWeight: FontWeight.w600,
-                                              color: Color(0xB0B0B0B0)
-                                            )
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 120, top: 10),
+                                          child: Text(
+                                              '${order.quantity * order.food.price}',
+                                              style: TextStyle(
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(0xB0B0B0B0)
+                                              )
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  )
+                                      ],
+                                    )
                                 )
                               ],
                             ),
@@ -349,7 +301,7 @@ class _DragTargetWidgetState extends State<DragTargetWidget> {
     return DragTarget<Food>(
       onAccept: (Food foodItem) {
         currentFoodItem = foodItem;
-       // widget.bloc.removeFromList(currentFoodItem);
+        // widget.bloc.removeFromList(currentFoodItem);
       },
       onWillAccept: (Food foodItem) {
         return true;
