@@ -39,7 +39,7 @@ final currentUser = User(
       restaurant: _restaurant0,
       quantity: 1,)
   ],
-  cart: [
+  cart:  [
     Order(
       date: 'Nov 11, 2019',
       food: _burrito,

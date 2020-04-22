@@ -379,14 +379,19 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(right: 15),
-                      child:  FloatingActionButton(
-                        backgroundColor: Colors.white,
-                        isExtended: true,
-                        child: Image(
-                          image: AssetImage('assets/images/arr.png'),
+                      padding: EdgeInsets.only(left: 15),
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(
+                            context
                         ),
-                        onPressed: () {Navigator.pop(context);},
+                        child:Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Image(
+                            width: 30,
+                            height: 30,
+                            image: AssetImage('assets/images/arr.png'),
+                          ),
+                        ),
                       ),
                     ),
                     Padding(
@@ -476,7 +481,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 )
             ),
           ),
-          SizedBox(height: 10.0,),
+          SizedBox(height: 5.0,),
           Expanded(
               child: GridView.count(
                 padding: EdgeInsets.all(10.0),

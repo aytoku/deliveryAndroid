@@ -3,12 +3,15 @@ import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/food_list.dart';
 import 'package:food_delivery/models/global_state.dart';
+import 'package:food_delivery/models/modal_trigger.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/models/restaurant.dart';
 import 'package:food_delivery/screens/add_card_screen.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
+
+import 'food_bottom_sheet_screen.dart';
 
 class AddressScreen extends StatefulWidget {
 
@@ -112,14 +115,19 @@ class _AddressScreenState extends State<AddressScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(right: 15,),
-                    child:  FloatingActionButton(
-                      backgroundColor: Colors.white,
-                      isExtended: true,
-                      child: Image(
-                        image: AssetImage('assets/images/arr.png'),
+                    padding: EdgeInsets.only(left: 15),
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(
+                          context
                       ),
-                      onPressed: () {Navigator.pop(context);},
+                      child:Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: Image(
+                          width: 30,
+                          height: 30,
+                          image: AssetImage('assets/images/arr.png'),
+                        ),
+                      ),
                     ),
                   ),
                   Padding(
@@ -261,46 +269,29 @@ class _AddressScreenState extends State<AddressScreen> {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
-              child: Row(
-                children: <Widget>[
-                  Text("Способ оплаты", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-                ],
-              ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
+                  child: Row(
+                    children: <Widget>[
+                      Text("Способ оплаты", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
+                    ],
+                  ),
+                ),
+              ],
             ),
             Row(
               children: <Widget>[
-                GestureDetector(
-                    onTap: (){
-                      _showModalBottomSheet(context);
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
-                          child: Row(
-                            children: <Widget>[
-                              Image(image: AssetImage('assets/images/card.png'),),
-                              Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text("VISA ****8744", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 150),
-                                child: Image(image: AssetImage('assets/images/arrow_right.png'),),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    )
+                Theme(
+                  data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+                  child: ModalTrigger(),
                 ),
               ],
             ),
 
             Padding(
-              padding: EdgeInsets.only(top: 20, right: 20, left: 20),
+              padding: EdgeInsets.only(top: 40, right: 20, left: 20),
               child: FlatButton(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
