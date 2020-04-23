@@ -43,11 +43,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   GlobalState _store = GlobalState.instance;
   TextEditingController _name;
 
-  @override
-  void initState(){
-    _name = TextEditingController(text: "");
-  }
-
   int counter = 1;
   // ignore: non_constant_identifier_names
   void _incrementCounter_plus(){
@@ -355,6 +350,14 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     ));
   }
 
+  bool _color;
+
+  @override
+  void initState() {
+    super.initState();
+    _color = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -419,16 +422,18 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   Row(
                     children: <Widget>[
                       GestureDetector(
-//                          onTap: () => Navigator.push(
-//                            context,
-//                            MaterialPageRoute(
-//                              builder: (_) => RestaurantScreen(),
-//                            ),
-//                          ),
-                          child:Padding(
-                            padding: EdgeInsets.only(right: 20),
-                            child: foodList('Сэндвичи'),
-                          ),
+                          onTap: () {
+                            setState(() {
+                              _color = !_color;
+                            });
+                          },
+                          child:Card(
+                            color: _color ? Colors.white : Colors.red,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 20),
+                              child: foodList('Сэндвичи'),
+                            ),
+                          )
                       ),GestureDetector(
 //                        onTap: () => Navigator.push(
 //                          context,
@@ -562,5 +567,47 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         ],
       ),
     );
+  }
+}
+
+class Screen1 extends StatefulWidget {
+  @override
+  Screen1State createState() {
+    return new Screen1State();
+  }
+}
+
+class Screen1State extends State<Screen1> {
+  bool _color;
+
+  @override
+  void initState() {
+    super.initState();
+    _color = true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(
+          child: Card(
+            color: _color ? Colors.deepOrangeAccent : Colors.purpleAccent,
+            child: ListTile(
+              onTap: () {
+                setState(() {
+                  _color = !_color;
+                });
+              },
+              title: Text(
+                'Title',
+                style: TextStyle(color: Colors.white),
+              ),
+              subtitle: Text(
+                'Subtitle',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        ));
   }
 }
