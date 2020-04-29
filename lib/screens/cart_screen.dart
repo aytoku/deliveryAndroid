@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/order.dart';
-import 'package:flutter_counter/flutter_counter.dart';
+import 'package:food_delivery/scopped_model/main_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import 'address_screen.dart';
 
@@ -15,6 +16,14 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  String title;
+  String category;
+  String description;
+  String price;
+  String discount;
+
+  GlobalKey<FormState> _foodItemFormKey = GlobalKey();
+  GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
 
   double total;
 
@@ -141,13 +150,16 @@ class _CartScreenState extends State<CartScreen> {
       ),
     ))]));
   }
+
+
   @override
   Widget build(BuildContext context) {
-
+    MainModel model = MainModel();
     double totalPrice = 0;
     currentUser.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
     Order bloc;
     return new Scaffold(
+      key: _scaffoldStateKey,
      body: Container(
        color: Colors.white,
        child: Column(
@@ -284,12 +296,123 @@ class _CartScreenState extends State<CartScreen> {
                  );},
                ),
              ),
-           )
+
+           ),
+
+//           Align(
+//             alignment: Alignment.bottomCenter,
+//             child: GestureDetector(
+//                   onTap: () {
+//                     onSubmit(model.addFood);
+//                     if (model.isLoading) {
+//                       // show loading progess indicator
+//                       Navigator.push(context, new MaterialPageRoute(
+//                         builder: (context) => new AddressScreen(),
+//                       ),);
+//                     }
+//                   },
+//                   child:FlatButton(
+//                     child: Row(
+//                       mainAxisAlignment: MainAxisAlignment.start,
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: <Widget>[
+//                         Padding(
+//                           padding: EdgeInsets.only(right: 60),
+//                           child: Text(
+//                             '30 – 50 мин',
+//                             style: TextStyle(
+//                               fontSize: 14.0,
+//                               fontWeight: FontWeight.w600,
+//                               color: Colors.white,
+//                             ),),
+//                         ),
+//                         Padding(
+//                           padding: EdgeInsets.only(right: 0),
+//                           child: Text(
+//                               'Далее',
+//                               style: TextStyle(
+//                                   fontSize: 14.0,
+//                                   fontWeight: FontWeight.w600,
+//                                   color: Colors.white
+//                               )
+//                           ),
+//                         ),
+//                         Padding(
+//                           padding: EdgeInsets.only(left: 60),
+//                           child: Text(
+//                               '${totalPrice.toStringAsFixed(2)}',
+//                               style: TextStyle(
+//                                   fontSize: 14.0,
+//                                   fontWeight: FontWeight.w600,
+//                                   color: Colors.white
+//                               )
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                     color: Colors.redAccent,
+//                     splashColor: Colors.red,
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(8),
+//                     ),
+//                     padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
+//                     onPressed: (){Navigator.push(
+//                       context,
+//                       new MaterialPageRoute(
+//                         builder: (context) => new AddressScreen(),
+//                       ),
+//                     );},
+//                   ),
+//                 )
+//           ),
          ],
        )
      ),
     );
   }
+
+  void onSubmit(Function addFood) async{
+    if (_foodItemFormKey.currentState.validate()) {
+      _foodItemFormKey.currentState.save();
+
+      final Food food = Food(
+        name: title,
+        price: double.parse(price),
+      );
+      bool value = await addFood(food);
+      if(value){
+        Navigator.of(context).pop();
+        SnackBar snackBar = SnackBar(
+            content: Text("Food item successfully added.")
+        );
+        _scaffoldStateKey.currentState.showSnackBar(snackBar);
+      }else if(!value){
+        Navigator.of(context).pop();
+        SnackBar snackBar = SnackBar(
+            content: Text("Failed to add food item")
+        );
+        _scaffoldStateKey.currentState.showSnackBar(snackBar);
+      }
+    }
+  }
+
+//  Future<void> showLoadingIndicator() {
+//    return showDialog(
+//        context: context,
+//        barrierDismissible: false,
+//        builder: (BuildContext context){
+//          return AlertDialog(
+//            content: Row(
+//              children: <Widget>[
+//                CircularProgressIndicator(),
+//                SizedBox(width: 10.0,),
+//                Text("Adding food item..."),
+//              ],
+//            ),
+//          );
+//        }
+//    );
+//  }
 }
 
 class DragTargetWidget extends StatefulWidget {

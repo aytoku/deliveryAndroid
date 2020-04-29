@@ -8,9 +8,9 @@ import 'package:food_delivery/models/user.dart';
 
 // Food
 final _burrito =
-Food(imageUrl: 'assets/images/steak.jpg', name: 'Лакшери\nСэндвич', price: 90);
+Food(imagePath: 'assets/images/steak.jpg', name: 'Лакшери\nСэндвич', price: 90);
 final _steak =
-Food(imageUrl: 'assets/images/burrito.jpg', name: 'Авокадный\nСэндвич', price: 99);
+Food(imagePath: 'assets/images/burrito.jpg', name: 'Авокадный\nСэндвич', price: 99);
 
 // Restaurants
 final _restaurant0 = Restaurant(

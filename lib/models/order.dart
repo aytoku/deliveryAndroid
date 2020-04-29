@@ -4,16 +4,18 @@ import 'package:food_delivery/models/user.dart';
 
 class Order {
   List<User> foodItems = [];
+  final id;
   final Restaurant restaurant;
   final Food food;
   int quantity;
   final String date;
 
   Order({
+    this.id,
     this.restaurant,
     this.food,
     this.date,
-    this.quantity
+    this.quantity,
   });
 
   void removeFromList(Order currentFoodItem) {

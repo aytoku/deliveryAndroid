@@ -15,8 +15,7 @@ import 'package:food_delivery/widgets/rating_starts.dart';
 class RestaurantScreen extends StatefulWidget {
 
   final Restaurant restaurant;
-
-  RestaurantScreen({this.restaurant});
+  RestaurantScreen({Key key, this.restaurant}) : super(key: key);
 
   @override
   _RestaurantScreenState createState() => _RestaurantScreenState();
@@ -25,6 +24,12 @@ class RestaurantScreen extends StatefulWidget {
 class _RestaurantScreenState extends State<RestaurantScreen> {
 
   String apple_pay = "Apple Pay";
+
+  String name;
+  String price;
+
+  GlobalKey<FormState> _foodItemFormKey = GlobalKey();
+  GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
 
   @override
   void initStateModal(){
@@ -87,7 +92,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       child: Hero(
                           tag: menuItem.name,
                           child: Image(
-                            image: AssetImage(menuItem.imageUrl),
+                            image: AssetImage(menuItem.imagePath),
                             fit: BoxFit.cover,
                             height: 170.0,
                             width: 170.0,
@@ -199,7 +204,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         child: Hero(
                             tag: food.name,
                             child: Image(
-                              image: AssetImage(food.imageUrl),
+                              image: AssetImage(food.imagePath),
                               fit: BoxFit.cover,
                               height: 170.0,
                               width: 600.0,
@@ -361,7 +366,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key : _scaffoldKey,
+      key : _scaffoldStateKey,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -414,64 +419,58 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               )
             ],
           ),
+//          Padding(
+//            padding: EdgeInsets.only(left: 15),
+//            child: Expanded(
+//              child: ListView(
+//                children: <Widget>[
+//                  Row(
+//                    children: <Widget>[
+//                      ListTile(
+//                        title: Text('Сэндвичи'),
+//                      ),
+//                      ListTile(
+//                        title: Text('Салаты'),
+//                      ),
+//                      ListTile(
+//                        title: Text('Десерт'),
+//                      ),
+//                      ListTile(
+//                        title: Text('Напитки'),
+//                      ),
+//                    ],
+//                  ),
+//                ],
+//              ),
+//            ),
+//          ),
           Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
+            padding: EdgeInsets.all(15.0),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _color = !_color;
-                            });
-                          },
-                          child:Card(
-                            color: _color ? Colors.white : Colors.red,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 20),
-                              child: foodList('Сэндвичи'),
-                            ),
-                          )
-                      ),GestureDetector(
-//                        onTap: () => Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                            builder: (_) => SaladScreen(),
-//                          ),
-//                        ),
-                        child:Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: foodList('Салаты'),
-                        ),
-                      ),
-                      GestureDetector(
-//                        onTap: () => Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                            builder: (_) => DesertScreen(),
-//                          ),
-//                        ),
-                        child:Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: foodList('Десерт'),
-                        ),
-                      ),
-                      GestureDetector(
-//                        onTap: () => Navigator.push(
-//                          context,
-//                          MaterialPageRoute(
-//                            builder: (_) => BeverageScreen(),
-//                          ),
-//                        ),
-                        child:Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: foodList('Напитки'),
-                        ),
-                      ),
-                    ],
-                  ),
+                Text('Сэндвичи'),
+                Text('Салаты'),
+                Text('Десерт'),
+                Text('Напитки'),
+//                  Row(
+//                    children: <Widget>[
+//                      GestureDetector(
+//                          onTap: () {
+//                            setState(() {
+//                              _color = !_color;
+//                            });
+//                          },
+//                          child:Card(
+//                            color: _color ? Colors.white : Colors.red,
+//                            child: Padding(
+//                              padding: EdgeInsets.only(right: 20),
+//                              child: foodList('Сэндвичи'),
+//                            ),
+//                          )
+//                      )
+//                    ],
+//                  ),
               ],
             ),
           ),
@@ -566,6 +565,49 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 //          ),
         ],
       ),
+    );
+  }
+
+  void onSubmit(Function addFood) async{
+    if (_foodItemFormKey.currentState.validate()) {
+      _foodItemFormKey.currentState.save();
+
+      final Food food = Food(
+        name: name,
+        price: double.parse(price),
+      );
+      bool value = await addFood(food);
+      if(value){
+        Navigator.of(context).pop();
+        SnackBar snackBar = SnackBar(
+            content: Text("Food item successfully added.")
+        );
+        _scaffoldStateKey.currentState.showSnackBar(snackBar);
+      }else if(!value){
+        Navigator.of(context).pop();
+        SnackBar snackBar = SnackBar(
+            content: Text("Failed to add food item")
+        );
+        _scaffoldStateKey.currentState.showSnackBar(snackBar);
+      }
+    }
+  }
+
+  Future<void> showLoadingIndicator() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return AlertDialog(
+            content: Row(
+              children: <Widget>[
+                CircularProgressIndicator(),
+                SizedBox(width: 10.0,),
+                Text("Adding food item..."),
+              ],
+            ),
+          );
+        }
     );
   }
 }

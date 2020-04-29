@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/button.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/food_list.dart';
 import 'package:food_delivery/models/global_state.dart';
 import 'package:food_delivery/models/modal_trigger.dart';
 import 'package:food_delivery/models/order.dart';
+import 'package:food_delivery/models/order_redister.dart';
 import 'package:food_delivery/models/restaurant.dart';
+import 'package:food_delivery/scopped_model/main_model.dart';
 import 'package:food_delivery/screens/add_card_screen.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import 'food_bottom_sheet_screen.dart';
 
 class AddressScreen extends StatefulWidget {
 
-  final AddressScreen restaurant;
-
-  AddressScreen({this.restaurant});
+  AddressScreen({Key key}) : super(key: key);
 
   @override
   _AddressScreenState createState() => _AddressScreenState();
@@ -99,6 +101,13 @@ _showModalBottomSheet(context) {
 }
 
 class _AddressScreenState extends State<AddressScreen> {
+  String address  = 'Адрес доставки';
+  String office;
+  String floor;
+  String comment;
+
+  GlobalKey<FormState> _foodItemFormKey = GlobalKey();
+  GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
   final maxLines = 1;
 
   @override
@@ -107,247 +116,297 @@ class _AddressScreenState extends State<AddressScreen> {
     currentUser.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
     return Container(
       child: Scaffold(
-        body: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 35.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 15),
-                    child: GestureDetector(
-                      onTap: () => Navigator.pop(
-                          context
-                      ),
-                      child:Padding(
-                        padding: EdgeInsets.only(right: 20),
-                        child: Image(
-                          width: 30,
-                          height: 30,
-                          image: AssetImage('assets/images/arr.png'),
+          key: _scaffoldStateKey,
+          body: Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 35.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(
+                            context
+                        ),
+                        child:Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Image(
+                            width: 30,
+                            height: 30,
+                            image: AssetImage('assets/images/arr.png'),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 80),
-                    child:  Text("Оформление заказа", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                  ),
-                ],
+                    Padding(
+                      padding: EdgeInsets.only(right: 80),
+                      child:  Text("Оформление заказа", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 1, left: 20),
-              child: Row(
-                children: <Widget>[
-                  Text("Адрес доставки", style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),),
-                ],
+              Padding(
+                padding: EdgeInsets.only(top: 10, bottom: 1, left: 20),
+                child: Row(
+                  children: <Widget>[
+                    Text("Адрес доставки", style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text("Адрес доставки", style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xB0B0B0B0)),),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(right: 20),
-                        child: Container(
-                          height: maxLines * 40.0,
-                          width: maxLines * 300.0,
-                          child: TextField(
-                            maxLines: maxLines,
-                            decoration: InputDecoration(
-                              hintText: "",
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
+//              Padding(
+//                padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
+//                child: Column(
+//                  children: <Widget>[
+////                    Row(
+////                      children: <Widget>[
+////                        Text("Адрес доставки", style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xB0B0B0B0)),),
+////                      ],
+////                    ),
+//                    Row(
+//                      children: <Widget>[
+//                        Padding(
+//                          padding: EdgeInsets.only(right: 20),
+//                          child: Container(
+//                            height: maxLines * 40.0,
+//                            width: maxLines * 300.0,
+//                            child: _buildTextFormField('Адрес доставки'),
+//                          ),
+//                        )
+//                      ],
+//                    )
+//                  ],
+//                ),
+//              ),
+//              Padding(
+//                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
+//                  child: Column(
+//                    children: <Widget>[
+////                      Row(
+////                        children: <Widget>[
+////                          Text("Кв./офис", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
+////                          Padding(
+////                            padding: EdgeInsets.only(left: 150),
+////                            child: Text("Домофон", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
+////                          ),
+////                        ],
+////                      ),
+//                      Row(
+//                        children: <Widget>[
+//                          Padding(
+//                            padding: EdgeInsets.only(right: 20),
+//                            child: Container(
+//                              height: maxLines * 40.0,
+//                              width: maxLines * 300.0,
+//                              child: _buildTextFormField('Адрес доставки'),
+//                            ),
+//                          )
+//                        ],
+//                      )
+//                    ],
+//                  )
+//              ),
+//              Padding(
+//                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
+//                  child: Column(
+//                    children: <Widget>[
+////                      Row(
+////                        children: <Widget>[
+////                          Text("Подъезд", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
+////                          Padding(
+////                            padding: EdgeInsets.only(left: 150),
+////                            child: Text("Этаж", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
+////                          ),
+////                        ],
+////                      ),
+//                      Row(
+//                        children: <Widget>[
+//                          Padding(
+//                            padding: EdgeInsets.only(right: 20),
+//                            child: Container(
+//                              height: maxLines * 40.0,
+//                              width: maxLines * 300.0,
+//                              child: _buildTextFormField('Адрес доставки'),
+//                            ),
+//                          )
+//                        ],
+//                      )
+//                    ],
+//                  )
+//              ),
+//              Padding(
+//                padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
+//                child: Column(
+//                  children: <Widget>[
+////                    Row(
+////                      children: <Widget>[
+////                        Text("Комментарий к заказу", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
+////                      ],
+////                    ),
+//                    Row(
+//                      children: <Widget>[
+//                        Padding(
+//                          padding: EdgeInsets.only(right: 20),
+//                          child: Container(
+//                            height: maxLines * 40.0,
+//                            width: maxLines * 300.0,
+//                            child: _buildTextFormField('Адрес доставки'),
+//                          ),
+//                        )
+//                      ],
+//                    )
+//                  ],
+//                ),
+//              ),
+              Form(
+                key: _foodItemFormKey,
                 child: Column(
                   children: <Widget>[
-                    Row(
+                    Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: _buildTextFormField(address),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: _buildTextFormField("Кв./офис  Домофон"),
+                    ),Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: _buildTextFormField("Подъезд  Этаж"),
+                    ),Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: _buildTextFormField("Комментарий к заказу"),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
+                    child: Row(
                       children: <Widget>[
-                        Text("Кв./офис", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-                        Padding(
-                          padding: EdgeInsets.only(left: 150),
-                          child: Text("Домофон", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-                        ),
+                        Text("Способ оплаты", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
                       ],
                     ),
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Container(
-                            height: maxLines * 40.0,
-                            width: maxLines * 300.0,
-                            child: TextField(
-                              maxLines: maxLines,
-                              decoration: InputDecoration(
-                                hintText: "",
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Theme(
+                    data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
+                    child: ModalTrigger(),
+                  ),
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                    padding: EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 10),
+                    child: ScopedModelDescendant(
+                      builder: (BuildContext context, Widget child, MainModel model){
+                        return GestureDetector(
+                          onTap: () {
+                            onSubmit(model.addFood);
+                            if (model.isLoading) {
+                              // show loading progess indicator
+                              showLoadingIndicator();
+                            }
+                          },
+                          child: Button(btnText: '${totalPrice.toStringAsFixed(2)}',),
+                        );
+                      },
                     )
-                  ],
-                )
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text("Подъезд", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-                      Padding(
-                        padding: EdgeInsets.only(left: 150),
-                        child: Text("Этаж", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(right: 20),
-                        child: Container(
-                          height: maxLines * 40.0,
-                          width: maxLines * 300.0,
-                          child: TextField(
-                            maxLines: maxLines,
-                            decoration: InputDecoration(
-                              hintText: "",
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
+                ),
               )
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text("Комментарий к заказу", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(right: 40),
-                        child: Container(
-                          height: maxLines * 40.0,
-                          width: maxLines * 300.0,
-                          child: TextField(
-                            maxLines: maxLines,
-                            decoration: InputDecoration(
-                              hintText: "",
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
-                  child: Row(
-                    children: <Widget>[
-                      Text("Способ оплаты", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Theme(
-                  data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
-                  child: ModalTrigger(),
-                ),
-              ],
-            ),
-
-            Padding(
-              padding: EdgeInsets.only(top: 40, right: 20, left: 20),
-              child: FlatButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(right: 60),
-                      child: Text(
-                        '30 – 50 мин',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 0),
-                      child: Text(
-                          'Оплатить',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white
-                          )
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 60),
-                      child: Text(
-                          '${totalPrice.toStringAsFixed(2)}',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white
-                          )
-                      ),
-                    ),
-                  ],
-                ),
-                color: Colors.redAccent,
-                splashColor: Colors.red,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: EdgeInsets.only(left: 10, top: 20, right: 2, bottom: 20),
-                onPressed: (){Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => new HomeScreen(),
-                  ),
-                );},
-              ),
-            )
-          ],
-        )
+            ],
+          )
       ),
+    );
+  }
+  void onSubmit(Function addFood) async{
+    if (_foodItemFormKey.currentState.validate()) {
+      _foodItemFormKey.currentState.save();
+
+      final OrderRegister food = OrderRegister(
+        address: address,
+        office: office,
+        floor: floor,
+        comment: comment,
+      );
+      bool value = await addFood(food);
+      if(value){
+        Navigator.of(context).pop();
+        SnackBar snackBar = SnackBar(
+            content: Text("Заказ прошел успешно")
+        );
+        _scaffoldStateKey.currentState.showSnackBar(snackBar);
+      }else if(!value){
+        Navigator.of(context).pop();
+        SnackBar snackBar = SnackBar(
+            content: Text("Произоше сбой")
+        );
+        _scaffoldStateKey.currentState.showSnackBar(snackBar);
+      }
+    }
+  }
+
+  Future<void> showLoadingIndicator() {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return AlertDialog(
+            content: Row(
+              children: <Widget>[
+                CircularProgressIndicator(),
+                SizedBox(width: 10.0,),
+                Text("Идет оплата"),
+              ],
+            ),
+          );
+        }
+    );
+  }
+
+  Widget _buildTextFormField(String hint, {int maxLine = 1}) {
+    return TextFormField(
+      decoration: InputDecoration(hintText: "$hint"),
+      maxLines: maxLine,
+      keyboardType: hint == "Price" || hint == "Discount"
+          ? TextInputType.number
+          : TextInputType.text,
+      validator: (String value) {
+        if (value.isEmpty && hint == "Адрес доставки") {
+          return "Заполните поле";
+        }
+        if (value.isEmpty && hint == "Кв./офис  Домофон") {
+          return "Заполните поле";
+        }
+
+        if (value.isEmpty && hint == "Подъезд  Этаж") {
+          return "Заполните поле";
+        }
+
+        if (value.isEmpty && hint == "Комментарий к заказу") {
+          return "Заполните поле";
+        }
+      },
+      onChanged: (String value) {
+        if (hint == "Адрес доставки") {
+          address = value;
+        }
+        if (hint == "Кв./офис  Домофон") {
+          office = value;
+        }
+        if (hint == "Подъезд  Этаж") {
+          floor = value;
+        }
+        if (hint == "Комментарий к заказу") {
+          comment = value;
+        }
+      },
     );
   }
 }

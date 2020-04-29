@@ -94,7 +94,7 @@ class _BeverageScreenState extends State<BeverageScreen> {
                         child: Hero(
                             tag: menuItem.name,
                             child: Image(
-                              image: AssetImage(menuItem.imageUrl),
+                              image: AssetImage(menuItem.imagePath),
                               fit: BoxFit.cover,
                               height: 170.0,
                               width: 170.0,
@@ -206,7 +206,7 @@ class _BeverageScreenState extends State<BeverageScreen> {
                         child: Hero(
                             tag: food.name,
                             child: Image(
-                              image: AssetImage(food.imageUrl),
+                              image: AssetImage(food.imagePath),
                               fit: BoxFit.cover,
                               height: 170.0,
                               width: 600.0,
