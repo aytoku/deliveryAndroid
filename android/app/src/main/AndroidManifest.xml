@@ -10,7 +10,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="NewOldSchool"
+        android:label="Faem Delivery"
         android:icon="@mipmap/faem_pict">
         <activity
             android:name=".MainActivity"

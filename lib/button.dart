@@ -25,7 +25,7 @@ class Button extends StatelessWidget {
                 ),),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 25),
+              padding: EdgeInsets.only(left: 35),
               child: Text(
                   'Оплатить',
                   style: TextStyle(

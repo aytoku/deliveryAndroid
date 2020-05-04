@@ -6,25 +6,25 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 
 class  FoodBasketModel extends Model {
-  List<Order> _foods = [];
+  List<Food> _foods = [];
   bool _isLoading = false;
 
   bool get isLoading {
     return _isLoading;
   }
 
-  List<Order> get foods {
+  List<Food> get foods {
     return List.from(_foods);
   }
 
-  Future<bool> addFood(Order order) async {
+  Future<bool> addFood(Food food) async {
     _isLoading = true;
     notifyListeners();
 
     try {
       final Map<String, dynamic> foodData = {
-        "name": order.food.name,
-        "price": order.food.price,
+        "name": food.name,
+        "price": food.price,
       };
       final http.Response response = await http.post(
           "https://food-cb2e1.firebaseio.com/foods.json",
@@ -32,9 +32,10 @@ class  FoodBasketModel extends Model {
 
       final Map<String, dynamic> responeData = json.decode(response.body);
 
-      Order foodWithID = Order(
+      Food foodWithID = Food(
         id: responeData["name"],
-        food: Food(name: order.food.name, price: order.food.price),
+        name: food.name,
+        price: food.price
       );
 
       _foods.add(foodWithID);

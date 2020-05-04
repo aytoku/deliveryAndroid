@@ -94,7 +94,7 @@ class ModalTrigger extends StatelessWidget {
                   child: Text("VISA ****8744", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 150),
+                  padding: EdgeInsets.only(left: 170),
                   child: Image(image: AssetImage('assets/images/arrow_right.png'),),
                 )
               ],

@@ -114,13 +114,15 @@ class _AddressScreenState extends State<AddressScreen> {
   Widget build(BuildContext context) {
     double totalPrice = 0;
     currentUser.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
-    return Container(
-      child: Scaffold(
-          key: _scaffoldStateKey,
-          body: Column(
+    return Scaffold(
+        key: _scaffoldStateKey,
+        resizeToAvoidBottomPadding: false,
+        body: Container(
+          color: Colors.white,
+          child: Column(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 35.0),
+                padding: EdgeInsets.only(top: 50, bottom: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -131,7 +133,7 @@ class _AddressScreenState extends State<AddressScreen> {
                             context
                         ),
                         child:Padding(
-                          padding: EdgeInsets.only(right: 20),
+                          padding: EdgeInsets.only(right: 0),
                           child: Image(
                             width: 30,
                             height: 30,
@@ -141,7 +143,7 @@ class _AddressScreenState extends State<AddressScreen> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: 80),
+                      padding: EdgeInsets.only(right: 95),
                       child:  Text("Оформление заказа", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
                     ),
                   ],
@@ -264,17 +266,17 @@ class _AddressScreenState extends State<AddressScreen> {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(left: 15),
+                      padding: EdgeInsets.only(left: 15, bottom: 20),
                       child: _buildTextFormField(address),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 15),
+                      padding: EdgeInsets.only(left: 15, bottom: 20),
                       child: _buildTextFormField("Кв./офис  Домофон"),
                     ),Padding(
-                      padding: EdgeInsets.only(left: 15),
+                      padding: EdgeInsets.only(left: 15, bottom: 20),
                       child: _buildTextFormField("Подъезд  Этаж"),
                     ),Padding(
-                      padding: EdgeInsets.only(left: 15),
+                      padding: EdgeInsets.only(left: 15, bottom: 20),
                       child: _buildTextFormField("Комментарий к заказу"),
                     ),
                   ],
@@ -303,33 +305,36 @@ class _AddressScreenState extends State<AddressScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                    padding: EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 10),
-                    child: ScopedModelDescendant(
-                      builder: (BuildContext context, Widget child, MainModel model){
-                        return GestureDetector(
-                          onTap: () {
-                            onSubmit(model.addFood);
-                            if (model.isLoading) {
-                              // show loading progess indicator
-                              showLoadingIndicator();
-                            }
-                          },
-                          child: Button(btnText: '${totalPrice.toStringAsFixed(2)}',),
-                        );
-                      },
-                    )
-                ),
+                  padding: EdgeInsets.only(top: 0),
+                  child: Padding(
+                      padding: EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 10),
+                      child: ScopedModelDescendant(
+                        builder: (BuildContext context, Widget child, MainModel model){
+                          return GestureDetector(
+                            onTap: () {
+                              onSubmit(model.addFood);
+                              if (model.isLoading) {
+                                // show loading progess indicator
+                                showLoadingIndicator();
+                              }
+                            },
+                            child: Button(btnText: '${totalPrice.toStringAsFixed(2)}',),
+                          );
+                        },
+                      )
+                  ),
+                )
               )
             ],
           )
-      ),
+        )
     );
   }
   void onSubmit(Function addFood) async{
     if (_foodItemFormKey.currentState.validate()) {
       _foodItemFormKey.currentState.save();
 
-      final OrderRegister food = OrderRegister(
+      final Food food = Food(
         address: address,
         office: office,
         floor: floor,

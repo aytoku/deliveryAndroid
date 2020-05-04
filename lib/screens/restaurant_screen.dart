@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/bottm_button.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/food_list.dart';
 import 'package:food_delivery/models/global_state.dart';
 import 'package:food_delivery/models/order.dart';
+import 'package:food_delivery/models/order_redister.dart';
 import 'package:food_delivery/models/restaurant.dart';
+import 'package:food_delivery/scopped_model/food_bascket_model.dart';
+import 'package:food_delivery/scopped_model/food_model.dart';
+import 'package:food_delivery/scopped_model/main_model.dart';
 import 'package:food_delivery/screens/add_card_screen.dart';
 import 'package:food_delivery/screens/beverage_screen.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/desert_screen.dart';
 import 'package:food_delivery/screens/salad_screen.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class RestaurantScreen extends StatefulWidget {
 
@@ -24,9 +30,10 @@ class RestaurantScreen extends StatefulWidget {
 class _RestaurantScreenState extends State<RestaurantScreen> {
 
   String apple_pay = "Apple Pay";
+  Food foood = Food();
 
   String name;
-  String price;
+  double price;
 
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
@@ -175,7 +182,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Container(
+        return  Container(
+          key: _scaffoldStateKey,
           height: 400,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -217,33 +225,36 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  food.name,
-                                  style: TextStyle(
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.bold
+                          Form(
+                            key: _foodItemFormKey,
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    food.name,
+                                    style: TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                              SizedBox(height: 4.0,),
-                              // RatingStarts(rating: restaurant.rating, taille: 26.0,),
-                              Padding(
-                                padding: EdgeInsets.only(left: 220),
-                                child: Text(
-                                  '${food.price}',
-                                  style: TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w600
+                                SizedBox(height: 4.0,),
+                                // RatingStarts(rating: restaurant.rating, taille: 26.0,),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 220),
+                                  child: Text(
+                                    '${food.price}',
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w600
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           SizedBox(height: 4.0,),
                           Padding(
@@ -291,22 +302,39 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(left: 30),
-                                    child: FlatButton(
-                                      child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 15),),
-                                      color: Colors.red,
-                                      splashColor: Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      padding: EdgeInsets.only(left: 80, top: 20, right: 80, bottom: 20),
-                                      onPressed: (){
-                                        currentUser.cart.add(
-                                            new Order(food: food, quantity: counter, restaurant: widget.restaurant, date: DateTime.now().toString())
-                                        );
-                                        _snack(food);},
-                                    ),
-                                  )
+                                      padding: EdgeInsets.only(top: 10, right: 20, left: 60, bottom: 6),
+                                      child: ScopedModelDescendant(
+                                        builder: (BuildContext context, Widget child, MainModel model){
+                                          return GestureDetector(
+                                            onTap: () {
+                                              onSubmit(model.addFood);
+                                              if (model.isLoading) {
+                                                // show loading progess indicator
+                                                showLoadingIndicator();
+                                              }
+                                            },
+                                            child: BottomButton(btnText: 'Добавить',),
+                                          );
+                                        },
+                                      )
+                                  ),
+//                                  Padding(
+//                                    padding: EdgeInsets.only(left: 30),
+//                                    child: FlatButton(
+//                                      child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 15),),
+//                                      color: Colors.red,
+//                                      splashColor: Colors.red,
+//                                      shape: RoundedRectangleBorder(
+//                                        borderRadius: BorderRadius.circular(20),
+//                                      ),
+//                                      padding: EdgeInsets.only(left: 80, top: 20, right: 80, bottom: 20),
+//                                      onPressed: (){
+//                                        currentUser.cart.add(
+//                                            new Order(food: food, quantity: counter, restaurant: widget.restaurant, date: DateTime.now().toString())
+//                                        );
+//                                        _snack(food);},
+//                                    ),
+//                                  )
                                 ]
                             ),
                           ),
@@ -320,6 +348,41 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildTextFormField(String hint, {int maxLine = 1}) {
+    return TextFormField(
+      decoration: InputDecoration(hintText: "$hint"),
+      maxLines: maxLine,
+      keyboardType: hint == "Price" || hint == "Discount"
+          ? TextInputType.number
+          : TextInputType.text,
+
+      onChanged: (String value) {
+        if (hint == foood.name) {
+          name = value;
+        }
+      },
+    );
+  }
+
+  _buildList(){
+    List<String> list = new List<String>();
+    double totalPrice = 0;
+    currentUser.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
+    return Expanded(
+      child: ListView(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              ListTile(
+                title: Text('Сэндвичи', style: TextStyle(color: Colors.black),),
+              ),
+            ],
+          ),
+        ],
+      )
     );
   }
 
@@ -367,11 +430,13 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key : _scaffoldStateKey,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Stack(
-            children: <Widget>[
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
 //              Hero(
 //                tag: widget.restaurant.name,
 //                child:  Image(
@@ -381,178 +446,153 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 //                    image: AssetImage(widget.restaurant.imageUrl),
 //                  )
 //              ) ,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 35.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 15),
-                      child: GestureDetector(
-                        onTap: () => Navigator.pop(
-                            context
-                        ),
-                        child:Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Image(
-                            width: 30,
-                            height: 30,
-                            image: AssetImage('assets/images/arr.png'),
+                Padding(
+                  padding: EdgeInsets.only(top: 50),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: GestureDetector(
+                          onTap: () => Navigator.pop(
+                              context
+                          ),
+                          child:Padding(
+                            padding: EdgeInsets.only(right: 0),
+                            child: Image(
+                              width: 30,
+                              height: 30,
+                              image: AssetImage('assets/images/arr.png'),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 80),
-                      child:  Text(widget.restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                    ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 115),
+                          child:  Text(widget.restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                        ),
+                      ),
 
-                    //Text("Sandwich Street")
+                      //Text("Sandwich Street")
 //                      IconButton(
 //                      icon: Icon(Icons.favorite),
 //                      color: Theme.of(context).primaryColor,
 //                      iconSize: 50.0,
 //                      onPressed: () {},
 //                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-//          Padding(
-//            padding: EdgeInsets.only(left: 15),
-//            child: Expanded(
-//              child: ListView(
-//                children: <Widget>[
-//                  Row(
-//                    children: <Widget>[
-//                      ListTile(
-//                        title: Text('Сэндвичи'),
-//                      ),
-//                      ListTile(
-//                        title: Text('Салаты'),
-//                      ),
-//                      ListTile(
-//                        title: Text('Десерт'),
-//                      ),
-//                      ListTile(
-//                        title: Text('Напитки'),
-//                      ),
-//                    ],
-//                  ),
-//                ],
-//              ),
-//            ),
-//          ),
-          Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('Сэндвичи'),
-                Text('Салаты'),
-                Text('Десерт'),
-                Text('Напитки'),
-//                  Row(
-//                    children: <Widget>[
-//                      GestureDetector(
-//                          onTap: () {
-//                            setState(() {
-//                              _color = !_color;
-//                            });
-//                          },
-//                          child:Card(
-//                            color: _color ? Colors.white : Colors.red,
-//                            child: Padding(
-//                              padding: EdgeInsets.only(right: 20),
-//                              child: foodList('Сэндвичи'),
-//                            ),
-//                          )
-//                      )
-//                    ],
-//                  ),
+                    ],
+                  ),
+                )
               ],
             ),
-          ),
-          SizedBox(height: 6.0),
-          Center(
-            child: Text(
-                'Сэндвичи',
-                style: TextStyle(
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.2
-                )
-            ),
-          ),
-          SizedBox(height: 5.0,),
-          Expanded(
-              child: GridView.count(
-                padding: EdgeInsets.all(10.0),
-                crossAxisCount: 1,
-                crossAxisSpacing: 15.0,
-                children: List.generate(widget.restaurant.menu.length, (index) {
-                  Food food = widget.restaurant.menu[index];
-                  return _buildMenuItem(food);
-                }),
-              )
-          ),
-          SizedBox(height: 10.0),
-          Padding(
-            padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),
-            child: FlatButton(
+            Padding(
+              padding: EdgeInsets.only(top: 25),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(right: 60),
-                    child: Text(
-                      '30 – 50 мин',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),),
+                    padding: EdgeInsets.only(left: 15),
+                    child: Text("Сэндвичи", style: TextStyle(color: Color(0x99999999), fontSize: 15),),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: 0),
-                    child: Text(
-                        'Корзина',
-                        style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white
-                        )
-                    ),
+                    padding: EdgeInsets.only(left: 15),
+                    child: Text("Салаты", style: TextStyle(color: Color(0x99999999), fontSize: 15),),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 60),
-                    child: Text(
-                        '588 Р',
-                        style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white
-                        )
-                    ),
+                    padding: EdgeInsets.only(left: 15),
+                    child: Text("Десерт", style: TextStyle(color: Color(0x99999999), fontSize: 15),),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 15),
+                    child: Text("Напитки", style: TextStyle(color: Color(0x99999999), fontSize: 15),),
                   ),
                 ],
               ),
-              color: Colors.redAccent,
-              splashColor: Colors.red,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
-              onPressed: (){Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => new CartScreen(),
-                ),
-              );},
             ),
-          )
+
+            SizedBox(height: 10.0),
+            Padding(
+              padding: EdgeInsets.only(top: 15),
+              child: Center(
+                child: Text(
+                    'Сэндвичи',
+                    style: TextStyle(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 1.2
+                    )
+                ),
+              ),
+            ),
+            SizedBox(height: 5.0,),
+            Expanded(
+                child: GridView.count(
+                  padding: EdgeInsets.all(10.0),
+                  crossAxisCount: 1,
+                  crossAxisSpacing: 15.0,
+                  children: List.generate(widget.restaurant.menu.length, (index) {
+                    Food food = widget.restaurant.menu[index];
+                    return _buildMenuItem(food);
+                  }),
+                )
+            ),
+            SizedBox(height: 10.0),
+            Padding(
+              padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),
+              child: FlatButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(right: 60),
+                      child: Text(
+                        '30 – 50 мин',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 0),
+                      child: Text(
+                          'Корзина',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white
+                          )
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 60),
+                      child: Text(
+                          '588 Р',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white
+                          )
+                      ),
+                    ),
+                  ],
+                ),
+                color: Colors.redAccent,
+                splashColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
+                onPressed: (){Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new CartScreen(),
+                  ),
+                );},
+              ),
+            )
 //          Center(
 //            child: Text(
 //                'Корзина (${currentUser.cart.length})',
@@ -563,7 +603,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 //                )
 //            ),
 //          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -573,20 +614,20 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       _foodItemFormKey.currentState.save();
 
       final Food food = Food(
-        name: name,
-        price: double.parse(price),
+        name: foood.name,
+        price: foood.price,
       );
       bool value = await addFood(food);
       if(value){
         Navigator.of(context).pop();
         SnackBar snackBar = SnackBar(
-            content: Text("Food item successfully added.")
+            content: Text("Заказ прошел успешно")
         );
         _scaffoldStateKey.currentState.showSnackBar(snackBar);
       }else if(!value){
         Navigator.of(context).pop();
         SnackBar snackBar = SnackBar(
-            content: Text("Failed to add food item")
+            content: Text("Произошел сбой")
         );
         _scaffoldStateKey.currentState.showSnackBar(snackBar);
       }
@@ -603,7 +644,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               children: <Widget>[
                 CircularProgressIndicator(),
                 SizedBox(width: 10.0,),
-                Text("Adding food item..."),
+                Text("Добавляется в корзину"),
               ],
             ),
           );
