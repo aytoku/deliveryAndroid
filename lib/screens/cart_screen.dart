@@ -188,7 +188,7 @@ class _CartScreenState extends State<CartScreen> {
                      ),
                      Padding(
                        padding: EdgeInsets.only(left: 80),
-                       child:  Text(currentUser.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                       child:  Text('Корзина', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
                      ),
                      Padding(
                        padding: EdgeInsets.only(left: 80),

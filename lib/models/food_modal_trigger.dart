@@ -183,10 +183,12 @@ class _FoodModalTriggerState extends State<FoodModalTrigger> {
                                       ),
                                       padding: EdgeInsets.only(left: 80, top: 20, right: 80, bottom: 20),
                                       onPressed: (){
-                                        currentUser.cart.add(
-                                            new Order(food: food, quantity: counter, restaurant: widget.restaurant, date: DateTime.now().toString())
-                                        );
-                                        _snack(food);},
+//                                        currentUser.cart.add(
+//                                            new Order(food: food, quantity: counter, restaurant: widget.restaurant, date: DateTime.now().toString())
+//                                        );
+//                                        _snack(food);
+                                        }
+                                        ,
                                     ),
                                   )
                                 ]

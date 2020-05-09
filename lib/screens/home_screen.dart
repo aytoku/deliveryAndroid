@@ -1,7 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:food_delivery/PostData/restaurant_items_data_pass.dart';
 import 'package:food_delivery/data/data.dart';
+import 'package:food_delivery/models/ResponseData.dart';
+import 'package:food_delivery/models/RestaurantDataItems.dart';
 import 'package:food_delivery/models/restaurant.dart';
 import 'package:food_delivery/screens/restaurant_screen.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
@@ -17,20 +20,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+  //DeliveryResponseData deliveryResponseData = new DeliveryResponseData();
   _buildNearlyRestaurant() {
     List<Widget> restaurantList = [];
-    restaurants.forEach((Restaurant restaurant) {
+    int i =0;
+    print(deliveryResponseData.records.length);
+    deliveryResponseData.records.forEach((Records restaurant) {
       restaurantList.add(
           GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => RestaurantScreen(restaurant: restaurant),
-                ),
-              ),
-              child:
-              Container(
+              child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -45,12 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ClipRRect(
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
                         child: Hero(
-                            tag: restaurant.name,
-                            child: Image(
-                              image: AssetImage(restaurant.imageUrl),
-                              fit: BoxFit.cover,
+                            tag: deliveryResponseData.records[i].name,
+                            child: Image.network(deliveryResponseData.records[i].image,
                               height: 200.0,
                               width: 450.0,
+                              fit: BoxFit.cover,
                             )
                         )
                     ),
@@ -61,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            restaurant.name,
+                            deliveryResponseData.records[i].name,
                             style: TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold
@@ -71,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           SizedBox(height: 4.0,),
                           // RatingStarts(rating: restaurant.rating, taille: 26.0,),
                           Text(
-                            restaurant.address,
+                            restaurant.destination_points[0].point_type,
                             style: TextStyle(
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w600
@@ -84,10 +81,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                   ],
                 ),
-              )
+              ),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) {
+                    print(context);
+                    return RestaurantScreen(restaurant: restaurant);
+                  }
+                ),
+              ),
           )
       );
-    });
+    i++;});
 
     return Column(children: restaurantList);
   }

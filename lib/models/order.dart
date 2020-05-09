@@ -1,3 +1,5 @@
+import 'package:food_delivery/models/ResponseData.dart';
+import 'package:food_delivery/models/RestaurantDataItems.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/restaurant.dart';
 import 'package:food_delivery/models/user.dart';
@@ -5,8 +7,8 @@ import 'package:food_delivery/models/user.dart';
 class Order {
   List<User> foodItems = [];
   final id;
-  final Restaurant restaurant;
-  final Food food;
+  final Records restaurant;
+  final FoodRecords food;
   int quantity;
   final String date;
 
