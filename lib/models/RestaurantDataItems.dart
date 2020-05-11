@@ -11,7 +11,11 @@ class RestaurantDataItems{
 
     var records_list = parsedJson['records'] as List;
     print(records_list.runtimeType);
-    List<FoodRecords> recordList = records_list.map((i) => FoodRecords.fromJson(i)).toList();
+    List<FoodRecords> recordList = null;
+    if(records_list != null){
+      recordList = records_list.map((i) =>
+          FoodRecords.fromJson(i)).toList();
+    }
 
     return RestaurantDataItems(
         records:recordList,

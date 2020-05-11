@@ -32,12 +32,20 @@ class RestaurantScreen extends StatefulWidget{
   RestaurantScreen({Key key, this.restaurant}) : super(key: key);
 
   @override
-  _RestaurantScreenState createState() => _RestaurantScreenState(restaurant);
+  _RestaurantScreenState createState() => _RestaurantScreenState(restaurant, '');
 }
 
 class _RestaurantScreenState extends State<RestaurantScreen> {
 
   final Records restaurant;
+  String category;
+
+
+  @override
+  void initStateColor() {
+    super.initState();
+    _color = true;
+  }
 
 //  final int restaurant_index;
 //  _RestaurantScreenState(this.restaurant_index);
@@ -51,7 +59,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
 
-  _RestaurantScreenState(this.restaurant);
+  _RestaurantScreenState(this.restaurant, this.category);
 
 
   void getData() async{
@@ -146,7 +154,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       )
                   ),
                   Container(
-                    margin: EdgeInsets.all(12.0),
+                    margin: EdgeInsets.only(left: 5.0, right: 5, top: 12, bottom: 12),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,6 +168,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         ),
                         SizedBox(height: 4.0,),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             SizedBox(height: 4.0,),
                             // RatingStarts(rating: restaurant.rating, taille: 26.0,),
@@ -171,30 +180,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
-//                            Positioned(
-//                              //bottom: 10.0,
-//                                left: 90.0,
-//                                child: Container(
-//                                  width: 20.0,
-////                                decoration: BoxDecoration(
-////                                    color: Theme.of(context).primaryColor,
-////                                    borderRadius: BorderRadius.circular(30.0)
-////                                ),
-//                                  child: IconButton(
-//                                    icon: Icon(Icons.add),
-//                                    iconSize: 15.0,
-//                                    color: Colors.black,
-//                                    onPressed: () {
-//                                      currentUser.cart.add(
-//                                          new Order(food: menuItem, quantity: 1, restaurant: widget.restaurant, date: DateTime.now().toString())
-//                                      );
-//                                      _snack(menuItem);
-//                                    },
-//                                  ),
-//                                )
-//                            ),
                             Padding(
-                              padding: EdgeInsets.only(left: 90),
+                              padding: EdgeInsets.only(left: 120),
                               child: Text(
                                   '${currentUser.cart.length}',
                                   style: TextStyle(
@@ -239,22 +226,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   }
 
   Column _buildBottomNavigationMenu(FoodRecords restaurantDataItems){
-    int i = 0;
     return Column(
       children: <Widget>[
         Align(
           child: Padding(
             padding: EdgeInsets.only(right: 0),
             child: Container(
-//                margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-//                decoration: BoxDecoration(
-//                    color: Colors.white,
-//                    borderRadius: BorderRadius.circular(0.0),
-//                    border: Border.all(
-//                        width: 1.0,
-//                        color: Colors.grey[200]
-//                    )
-//                ),
               child: Column(
                 children: <Widget>[
                   ClipRRect(
@@ -277,6 +254,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         Form(
                           key: _foodItemFormKey,
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(left: 15),
@@ -290,18 +268,20 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                 ),
                               ),
                               SizedBox(height: 4.0,),
-                              // RatingStarts(rating: restaurant.rating, taille: 26.0,),
-                              Padding(
-                                padding: EdgeInsets.only(left: 220),
-                                child: Text(
-                                  '${restaurantDataItems.price}',
-                                  style: TextStyle(
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w600
+                              Align(
+                                alignment: AlignmentDirectional.centerEnd,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 0),
+                                  child: Text(
+                                    '${restaurantDataItems.price}',
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w600
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
+                              )
                             ],
                           ),
                         ),
@@ -334,7 +314,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                     ),
                                   ),
                                 ),
-
                                 GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -350,23 +329,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                     ),
                                   ),
                                 ),
-//                                  Padding(
-//                                      padding: EdgeInsets.only(top: 10, right: 20, left: 60, bottom: 6),
-//                                      child: ScopedModelDescendant(
-//                                        builder: (BuildContext context, Widget child, MainModel model){
-//                                          return GestureDetector(
-//                                            onTap: () {
-//                                              onSubmit(model.addFood);
-//                                              if (model.isLoading) {
-//                                                // show loading progess indicator
-//                                                showLoadingIndicator();
-//                                              }
-//                                            },
-//                                            child: BottomButton(btnText: 'Добавить',),
-//                                          );
-//                                        },
-//                                      )
-//                                  ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 30),
                                   child: FlatButton(
@@ -400,237 +362,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     );
   }
 
-//  _showModalBottomSheet(Food food) {
-//    showModalBottomSheet(
-//      context: context,
-//      builder: (BuildContext context) {
-//        return  Container(
-//          key: _scaffoldStateKey,
-//          height: 400,
-//          decoration: BoxDecoration(
-//            color: Colors.white,
-//            borderRadius: BorderRadius.only(
-//              topLeft: Radius.circular(20),
-//              topRight: Radius.circular(20),
-//            ),
-//          ),
-//          child:  Align(
-//            child: Padding(
-//              padding: EdgeInsets.only(right: 0),
-//              child: Container(
-////                margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-////                decoration: BoxDecoration(
-////                    color: Colors.white,
-////                    borderRadius: BorderRadius.circular(0.0),
-////                    border: Border.all(
-////                        width: 1.0,
-////                        color: Colors.grey[200]
-////                    )
-////                ),
-//                child: Column(
-//                  children: <Widget>[
-//                    ClipRRect(
-//                        borderRadius: BorderRadius.only(topLeft: Radius.circular(0), topRight: Radius.circular(0), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
-//                        child: Hero(
-//                            tag: food.name,
-//                            child: Image(
-//                              image: AssetImage(food.imagePath),
-//                              fit: BoxFit.cover,
-//                              height: 170.0,
-//                              width: 600.0,
-//                            )
-//                        )
-//                    ),
-//                    Container(
-//                      margin: EdgeInsets.only(right: 10.0, top: 12, bottom: 12),
-//                      child: Column(
-//                        mainAxisAlignment: MainAxisAlignment.center,
-//                        crossAxisAlignment: CrossAxisAlignment.start,
-//                        children: <Widget>[
-//                          Form(
-//                            key: _foodItemFormKey,
-//                            child: Row(
-//                              children: <Widget>[
-//                                Padding(
-//                                  padding: EdgeInsets.only(left: 15),
-//                                  child: Text(
-//                                    food.name,
-//                                    style: TextStyle(
-//                                        fontSize: 15.0,
-//                                        fontWeight: FontWeight.bold
-//                                    ),
-//                                    overflow: TextOverflow.ellipsis,
-//                                  ),
-//                                ),
-//                                SizedBox(height: 4.0,),
-//                                // RatingStarts(rating: restaurant.rating, taille: 26.0,),
-//                                Padding(
-//                                  padding: EdgeInsets.only(left: 220),
-//                                  child: Text(
-//                                    '${food.price}',
-//                                    style: TextStyle(
-//                                        fontSize: 12.0,
-//                                        fontWeight: FontWeight.w600
-//                                    ),
-//                                    overflow: TextOverflow.ellipsis,
-//                                  ),
-//                                ),
-//                              ],
-//                            ),
-//                          ),
-//                          SizedBox(height: 4.0,),
-//                          Padding(
-//                            padding: EdgeInsets.only(top: 60),
-//                            child: Row(
-//                                mainAxisAlignment: MainAxisAlignment.center,
-//                                children: [
-//                                  GestureDetector(
-//                                    onTap: () {
-//                                      _incrementCounter_minus();
-//                                    },child: Text(
-//                                    '-',
-//                                    style: TextStyle(
-//                                      fontSize: 24.0,
-//                                      fontWeight: FontWeight.w600,
-//                                      color: Colors.black,
-//                                    ),
-//                                  ),
-//                                  ),
-//                                  SizedBox(width: 20.0),
-//                                  Padding(
-//                                    padding: EdgeInsets.only(right: 20),
-//                                    child: Text(
-//                                      '$counter',
-//                                      style: TextStyle(
-//                                        fontSize: 20.0,
-//                                        fontWeight: FontWeight.w600,
-//                                      ),
-//                                    ),
-//                                  ),
-//
-//                                  GestureDetector(
-//                                    onTap: () {
-//                                      setState(() {
-//                                        _incrementCounter_plus();
-//                                      });
-//                                    },
-//                                    child: Text(
-//                                      '+',
-//                                      style: TextStyle(
-//                                        fontSize: 24.0,
-//                                        fontWeight: FontWeight.w600,
-//                                        color: Colors.black,
-//                                      ),
-//                                    ),
-//                                  ),
-////                                  Padding(
-////                                      padding: EdgeInsets.only(top: 10, right: 20, left: 60, bottom: 6),
-////                                      child: ScopedModelDescendant(
-////                                        builder: (BuildContext context, Widget child, MainModel model){
-////                                          return GestureDetector(
-////                                            onTap: () {
-////                                              onSubmit(model.addFood);
-////                                              if (model.isLoading) {
-////                                                // show loading progess indicator
-////                                                showLoadingIndicator();
-////                                              }
-////                                            },
-////                                            child: BottomButton(btnText: 'Добавить',),
-////                                          );
-////                                        },
-////                                      )
-////                                  ),
-//                                  Padding(
-//                                    padding: EdgeInsets.only(left: 30),
-//                                    child: FlatButton(
-//                                      child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 15),),
-//                                      color: Colors.red,
-//                                      splashColor: Colors.red,
-//                                      shape: RoundedRectangleBorder(
-//                                        borderRadius: BorderRadius.circular(20),
-//                                      ),
-//                                      padding: EdgeInsets.only(left: 80, top: 20, right: 80, bottom: 20),
-//                                      onPressed: (){
-//                                        currentUser.cart.add(
-//                                            new Order(food: food, quantity: counter, restaurant: widget.restaurant, date: DateTime.now().toString())
-//                                        );
-//                                        _snack(food);},
-//                                    ),
-//                                  )
-//                                ]
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    )
-//                  ],
-//                ),
-//              ),
-//            ),
-//          ),
-//        );
-//      },
-//    );
-//  }
-
-  Widget _buildTextFormField(String hint, {int maxLine = 1}) {
-    return TextFormField(
-      decoration: InputDecoration(hintText: "$hint"),
-      maxLines: maxLine,
-      keyboardType: hint == "Price" || hint == "Discount"
-          ? TextInputType.number
-          : TextInputType.text,
-
-      onChanged: (String value) {
-        if (hint == foood.name) {
-          name = value;
-        }
-      },
-    );
-  }
-
-  _buildList(){
-    List<String> list = new List<String>();
-    double totalPrice = 0;
-    currentUser.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
-    return Expanded(
-      child: ListView(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              ListTile(
-                title: Text('Сэндвичи', style: TextStyle(color: Colors.black),),
-              ),
-            ],
-          ),
-        ],
-      )
-    );
-  }
-
-  _snack(Food menuItem) {
-    SnackBar snackBar = new SnackBar(
-      backgroundColor: Theme.of(context).primaryColor,
-      content:Text(
-        '${menuItem.name} добавлено в корзину',
-        style: TextStyle(
-            fontWeight: FontWeight.w600
-        ),
-      ),
-      elevation: 1.0,
-      action: SnackBarAction(
-        label: "удалить",
-        textColor: Colors.white,
-        onPressed: () {
-          currentUser.cart.removeAt(currentUser.cart.length-1);
-        },
-
-      ),
-    );
-
-    _scaffoldKey.currentState.showSnackBar(snackBar);
-  }
-
   Widget foodList(String s){
     return Text(
         s,
@@ -653,12 +384,15 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     return Scaffold(
       key : _scaffoldStateKey,
       body: FutureBuilder<RestaurantDataItems>(
-        future: loadRestaurantItems(this.restaurant.uuid),
-        // ignore: missing_return
+        future: loadRestaurantItems(this.restaurant.uuid, this.category),
         builder: (BuildContext context, AsyncSnapshot<RestaurantDataItems> snapshot){
-          //loadRestaurantItems();
-         //print('${snapshot.hasData}');
+          print(snapshot.hasData);
           if(snapshot.hasData){
+            if(snapshot.data.records_count == 0){
+              return Center(
+                child: Text('Нет товаров данной категории'),
+              );
+            }
             return Container(
               color: Colors.white,
               child: Column(
@@ -666,15 +400,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 children: <Widget>[
                   Stack(
                     children: <Widget>[
-//              Hero(
-//                tag: widget.restaurant.name,
-//                child:  Image(
-//                    height: 200.0,
-//                    width: MediaQuery.of(context).size.width,
-//                    fit: BoxFit.cover,
-//                    image: AssetImage(widget.restaurant.imageUrl),
-//                  )
-//              ) ,
                       Padding(
                         padding: EdgeInsets.only(top: 50),
                         child: Row(
@@ -703,61 +428,107 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                 child:  Text(this.restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
                               ),
                             ),
-
-                            //Text("Sandwich Street")
-//                      IconButton(
-//                      icon: Icon(Icons.favorite),
-//                      color: Theme.of(context).primaryColor,
-//                      iconSize: 50.0,
-//                      onPressed: () {},
-//                    )
                           ],
                         ),
                       )
                     ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 25),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(left: 15),
-                          child: Text(restaurant.product_category[0], style: TextStyle(color: Color(0x99999999), fontSize: 15),),
+//                  Padding(
+//                    padding: EdgeInsets.only(top: 25),
+//                    child: Row(
+//                      children: <Widget>[
+//                        Padding(
+//                          padding: EdgeInsets.only(left: 15),
+//                          child: Text(restaurant.product_category[0], style: TextStyle(color: Color(0x99999999), fontSize: 15),),
+//                        ),
+//                        Padding(
+//                          padding: EdgeInsets.only(left: 15),
+//                          child: Text(restaurant.product_category[1], style: TextStyle(color: Color(0x99999999), fontSize: 15),),
+//                        ),
+//                        Padding(
+//                          padding: EdgeInsets.only(left: 15),
+//                          child: Text(restaurant.product_category[2], style: TextStyle(color: Color(0x99999999), fontSize: 15),),
+//                        ),
+//                        Padding(
+//                          padding: EdgeInsets.only(left: 15),
+//                          child: Text(restaurant.product_category[3], style: TextStyle(color: Color(0x99999999), fontSize: 15),),
+//                        ),
+//                      ],
+//                    ),
+//                  ),
+//                  GridView.count(
+//                    crossAxisCount: 1,
+//                    mainAxisSpacing: 8.0,
+//                    crossAxisSpacing: 15.0,
+//                    scrollDirection: Axis.horizontal,
+//                    children: List.generate(restaurant.product_category.length, (index){
+//                      return Text(restaurant.product_category[index]);
+//                    }),
+//                  ),
+                  Container(
+                    height: 60,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 15, left: 10),
+                      child: Expanded(
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: List.generate(restaurant.product_category.length, (index){
+                            return GestureDetector(child:Padding(
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              child:Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                                  color: (restaurant.product_category[index] != category) ? Colors.white : Colors.redAccent),
+                                child:  Padding(
+                                  padding: EdgeInsets.only(left: 15, right: 15, top: 12,),
+                                  child: Text(restaurant.product_category[index],
+                                    style: TextStyle(color: (restaurant.product_category[index] != category) ? Color(0x99999999) : Colors.white, fontSize: 15),)
+                                ),
+                              )
+                            ), onTap: (){
+                              setState(() {
+                                category = restaurant.product_category[index];
+                                _color = !_color;
+                              });
+                            },);
+                          }),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 15),
-                          child: Text(restaurant.product_category[1], style: TextStyle(color: Color(0x99999999), fontSize: 15),),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 15),
-                          child: Text(restaurant.product_category[2], style: TextStyle(color: Color(0x99999999), fontSize: 15),),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 15),
-                          child: Text(restaurant.product_category[3], style: TextStyle(color: Color(0x99999999), fontSize: 15),),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10.0),
-                  Padding(
-                    padding: EdgeInsets.only(top: 15),
-                    child: Center(
-                      child: Text(
-                          'Сэндвичи',
-                          style: TextStyle(
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 1.2
-                          )
                       ),
                     ),
                   ),
-                  SizedBox(height: 5.0,),
+//                  GestureDetector(
+//                    child: Container(
+//                        height: 80,
+//                        width: MediaQuery.of(context).size.width,
+//                        alignment: Alignment.center,
+//                        child: Align(
+//                          alignment: Alignment.center,
+//                          child: Padding(
+//                            padding: EdgeInsets.only(top: 10, left: 15,),
+//                            child: Expanded(
+//                                child: GridView.builder(
+//                                    itemCount:restaurant.product_category.length,
+//                                    scrollDirection: Axis.horizontal,
+//                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                                      crossAxisCount: 1,
+//                                      mainAxisSpacing: 40.0,
+//                                      crossAxisSpacing: 15.0,),
+//                                    itemBuilder: (BuildContext context, int index){
+//                                      return Text(restaurant.product_category[index],style: TextStyle(color: Color(0x99999999)),);
+//                                    }
+//                                )
+//                            ),
+//                          ),
+//                        )
+//                    ),
+//                    onTap:(){
+//                      return widget.restaurant.product_category[0];
+//                    } ,
+//                  ),
                   Expanded(
                       child: GridView.count(
                         padding: EdgeInsets.all(10.0),
                         crossAxisCount: 1,
+                        mainAxisSpacing: 8.0,
                         crossAxisSpacing: 15.0,
                         children: List.generate(snapshot.data.records.length, (index) {
                           FoodRecords food = snapshot.data.records[index];
@@ -821,16 +592,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       );},
                     ),
                   )
-//          Center(
-//            child: Text(
-//                'Корзина (${currentUser.cart.length})',
-//                style: TextStyle(
-//                    fontSize: 22.0,
-//                    fontWeight: FontWeight.w600,
-//                    letterSpacing: 1.2,
-//                )
-//            ),
-//          ),
                 ],
               ),
             );

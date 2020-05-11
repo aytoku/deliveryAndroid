@@ -181,86 +181,6 @@ class _AddressScreenState extends State<AddressScreen> {
 //                  ],
 //                ),
 //              ),
-//              Padding(
-//                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
-//                  child: Column(
-//                    children: <Widget>[
-////                      Row(
-////                        children: <Widget>[
-////                          Text("Кв./офис", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-////                          Padding(
-////                            padding: EdgeInsets.only(left: 150),
-////                            child: Text("Домофон", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-////                          ),
-////                        ],
-////                      ),
-//                      Row(
-//                        children: <Widget>[
-//                          Padding(
-//                            padding: EdgeInsets.only(right: 20),
-//                            child: Container(
-//                              height: maxLines * 40.0,
-//                              width: maxLines * 300.0,
-//                              child: _buildTextFormField('Адрес доставки'),
-//                            ),
-//                          )
-//                        ],
-//                      )
-//                    ],
-//                  )
-//              ),
-//              Padding(
-//                  padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
-//                  child: Column(
-//                    children: <Widget>[
-////                      Row(
-////                        children: <Widget>[
-////                          Text("Подъезд", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-////                          Padding(
-////                            padding: EdgeInsets.only(left: 150),
-////                            child: Text("Этаж", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-////                          ),
-////                        ],
-////                      ),
-//                      Row(
-//                        children: <Widget>[
-//                          Padding(
-//                            padding: EdgeInsets.only(right: 20),
-//                            child: Container(
-//                              height: maxLines * 40.0,
-//                              width: maxLines * 300.0,
-//                              child: _buildTextFormField('Адрес доставки'),
-//                            ),
-//                          )
-//                        ],
-//                      )
-//                    ],
-//                  )
-//              ),
-//              Padding(
-//                padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
-//                child: Column(
-//                  children: <Widget>[
-////                    Row(
-////                      children: <Widget>[
-////                        Text("Комментарий к заказу", style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-////                      ],
-////                    ),
-//                    Row(
-//                      children: <Widget>[
-//                        Padding(
-//                          padding: EdgeInsets.only(right: 20),
-//                          child: Container(
-//                            height: maxLines * 40.0,
-//                            width: maxLines * 300.0,
-//                            child: _buildTextFormField('Адрес доставки'),
-//                          ),
-//                        )
-//                      ],
-//                    )
-//                  ],
-//                ),
-//              ),
               Form(
                 key: _foodItemFormKey,
                 child: Column(
@@ -304,25 +224,28 @@ class _AddressScreenState extends State<AddressScreen> {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 0),
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 10),
-                      child: ScopedModelDescendant(
-                        builder: (BuildContext context, Widget child, MainModel model){
-                          return GestureDetector(
-                            onTap: () {
-                              onSubmit(model.addFood);
-                              if (model.isLoading) {
-                                // show loading progess indicator
-                                showLoadingIndicator();
-                              }
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 0),
+                      child: Padding(
+                          padding: EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 10),
+                          child: ScopedModelDescendant(
+                            builder: (BuildContext context, Widget child, MainModel model){
+                              return GestureDetector(
+                                onTap: () {
+                                  onSubmit(model.addFood);
+                                  if (model.isLoading) {
+                                    // show loading progess indicator
+                                    showLoadingIndicator();
+                                  }
+                                },
+                                child: Button(btnText: '${totalPrice.toStringAsFixed(2)}',),
+                              );
                             },
-                            child: Button(btnText: '${totalPrice.toStringAsFixed(2)}',),
-                          );
-                        },
-                      )
-                  ),
+                          )
+                      ),
+                    )
                 )
               )
             ],

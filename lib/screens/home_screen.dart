@@ -52,18 +52,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                     ),
                     Container(
-                      margin: EdgeInsets.only(right: 160.0, top: 12, bottom: 12),
+                      margin: EdgeInsets.only(left: 15.0, top: 12, bottom: 12),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            deliveryResponseData.records[i].name,
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              deliveryResponseData.records[i].name,
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(height: 4.0,),
                           // RatingStarts(rating: restaurant.rating, taille: 26.0,),

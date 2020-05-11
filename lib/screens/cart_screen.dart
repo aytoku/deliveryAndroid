@@ -87,7 +87,6 @@ class _CartScreenState extends State<CartScreen> {
         children: <Widget>[
       Expanded(
       child: Container(
-        height: 40,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,13 +94,13 @@ class _CartScreenState extends State<CartScreen> {
           Container(
               width: 100.0,
               child: Container(
-                  padding: EdgeInsets.only(left:4.0, right: 4),
+                  padding: EdgeInsets.only(left:4.0, right: 0),
                   child: new Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SizedBox(width: 20.0),
                         Padding(
-                          padding: EdgeInsets.only(top: 8),
+                          padding: EdgeInsets.only(top: 15,bottom: 15),
                           child: Text(
                             '${order.quantity.toStringAsFixed(0)}',
                             style: TextStyle(
@@ -111,20 +110,23 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 30, top: 8),
+                          padding: EdgeInsets.only(left: 30, top: 15,bottom: 15),
                           child: Image(image: AssetImage('assets/images/cross.png'),),
                         )
                       ]
                   )
               )
           ),
-          Text(
-            order.food.name,
-            style: TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.bold
+          Padding(
+            padding: EdgeInsets.only(top: 15,bottom: 15),
+            child: Text(
+              order.food.name,
+              style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
-            overflow: TextOverflow.ellipsis,
           ),
           Container(
             //  margin: EdgeInsets.all(3.0),
@@ -132,17 +134,20 @@ class _CartScreenState extends State<CartScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 120, top: 10),
-                    child: Text(
-                        '${order.quantity * order.food.price}',
-                        style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xB0B0B0B0)
-                        )
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 80, top: 13, bottom: 15),
+                      child: Text(
+                          '${order.quantity * order.food.price}',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xB0B0B0B0)
+                          )
+                      ),
                     ),
-                  ),
+                  )
                 ],
               )
           )
