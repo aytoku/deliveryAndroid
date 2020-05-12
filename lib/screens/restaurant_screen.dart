@@ -379,6 +379,35 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     _color = true;
   }
 
+  _buildFoodCategoryList(){
+    return Flexible(
+      flex: 1,
+      fit: FlexFit.loose,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: List.generate(restaurant.product_category.length, (index){
+          return GestureDetector(child:Padding(
+              padding: EdgeInsets.only(left: 5, right: 5),
+              child:Container(
+                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                    color: (restaurant.product_category[index] != category) ? Colors.white : Colors.redAccent),
+                child:  Padding(
+                    padding: EdgeInsets.only(left: 15, right: 15, top: 12,),
+                    child: Text(restaurant.product_category[index],
+                      style: TextStyle(color: (restaurant.product_category[index] != category) ? Color(0x99999999) : Colors.white, fontSize: 15),)
+                ),
+              )
+          ), onTap: (){
+            setState(() {
+              category = restaurant.product_category[index];
+              _color = !_color;
+            });
+          },);
+        }),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -433,98 +462,32 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       )
                     ],
                   ),
-//                  Padding(
-//                    padding: EdgeInsets.only(top: 25),
-//                    child: Row(
-//                      children: <Widget>[
-//                        Padding(
-//                          padding: EdgeInsets.only(left: 15),
-//                          child: Text(restaurant.product_category[0], style: TextStyle(color: Color(0x99999999), fontSize: 15),),
-//                        ),
-//                        Padding(
-//                          padding: EdgeInsets.only(left: 15),
-//                          child: Text(restaurant.product_category[1], style: TextStyle(color: Color(0x99999999), fontSize: 15),),
-//                        ),
-//                        Padding(
-//                          padding: EdgeInsets.only(left: 15),
-//                          child: Text(restaurant.product_category[2], style: TextStyle(color: Color(0x99999999), fontSize: 15),),
-//                        ),
-//                        Padding(
-//                          padding: EdgeInsets.only(left: 15),
-//                          child: Text(restaurant.product_category[3], style: TextStyle(color: Color(0x99999999), fontSize: 15),),
-//                        ),
-//                      ],
-//                    ),
-//                  ),
-//                  GridView.count(
-//                    crossAxisCount: 1,
-//                    mainAxisSpacing: 8.0,
-//                    crossAxisSpacing: 15.0,
-//                    scrollDirection: Axis.horizontal,
-//                    children: List.generate(restaurant.product_category.length, (index){
-//                      return Text(restaurant.product_category[index]);
-//                    }),
-//                  ),
-                  Container(
-                    height: 60,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 15, left: 10),
-                      child: Expanded(
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: List.generate(restaurant.product_category.length, (index){
-                            return GestureDetector(child:Padding(
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              child:Container(
-                                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
-                                  color: (restaurant.product_category[index] != category) ? Colors.white : Colors.redAccent),
-                                child:  Padding(
-                                  padding: EdgeInsets.only(left: 15, right: 15, top: 12,),
-                                  child: Text(restaurant.product_category[index],
-                                    style: TextStyle(color: (restaurant.product_category[index] != category) ? Color(0x99999999) : Colors.white, fontSize: 15),)
-                                ),
-                              )
-                            ), onTap: (){
-                              setState(() {
-                                category = restaurant.product_category[index];
-                                _color = !_color;
-                              });
-                            },);
-                          }),
-                        ),
-                      ),
-                    ),
-                  ),
-//                  GestureDetector(
-//                    child: Container(
-//                        height: 80,
-//                        width: MediaQuery.of(context).size.width,
-//                        alignment: Alignment.center,
-//                        child: Align(
-//                          alignment: Alignment.center,
-//                          child: Padding(
-//                            padding: EdgeInsets.only(top: 10, left: 15,),
-//                            child: Expanded(
-//                                child: GridView.builder(
-//                                    itemCount:restaurant.product_category.length,
-//                                    scrollDirection: Axis.horizontal,
-//                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                                      crossAxisCount: 1,
-//                                      mainAxisSpacing: 40.0,
-//                                      crossAxisSpacing: 15.0,),
-//                                    itemBuilder: (BuildContext context, int index){
-//                                      return Text(restaurant.product_category[index],style: TextStyle(color: Color(0x99999999)),);
-//                                    }
-//                                )
+//                  Container(
+//                    height: 40,
+//                    color: Colors.white,
+//                    child: Padding(
+//                      padding: EdgeInsets.only(top: 15, left: 10),
+//                      child: Expanded(
+//                        child: ListView(
+//                          scrollDirection: Axis.horizontal,
+//                          children: List.generate(restaurant.product_category.length, (index){
+//                            return GestureDetector(child: Padding(
+//                              padding: EdgeInsets.only(left: 5, right: 15),
+//                              child: Text(restaurant.product_category[index]),
 //                            ),
-//                          ),
-//                        )
+//                            onTap: (){
+//                              setState(() {
+//                                category = restaurant.product_category[index];
+//                              });
+//                            });
+//                          }),
+//                        ),
+//                      ),
 //                    ),
-//                    onTap:(){
-//                      return widget.restaurant.product_category[0];
-//                    } ,
 //                  ),
-                  Expanded(
+                  _buildFoodCategoryList(),
+                  Flexible(
+                    flex: 7,
                       child: GridView.count(
                         padding: EdgeInsets.all(10.0),
                         crossAxisCount: 1,

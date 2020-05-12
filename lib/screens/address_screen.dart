@@ -106,6 +106,13 @@ class _AddressScreenState extends State<AddressScreen> {
   String floor;
   String comment;
 
+  bool _color;
+  @override
+  void initState() {
+    super.initState();
+    _color = true;
+  }
+
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
   final maxLines = 1;
@@ -149,6 +156,60 @@ class _AddressScreenState extends State<AddressScreen> {
                   ],
                 ),
               ),
+              Row(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: SizedBox(
+                      height: 50,
+                      child: GestureDetector(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 5, right: 5),
+                          child: Container(
+                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                              color: (_color ? Colors.white : Colors.redAccent),),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15, right: 15, top: 12),
+                              child: Text('Доставка',
+                                style: TextStyle(color: _color ? Color(0x99999999) : Colors.white, fontSize: 15),),
+                            ),
+                          ),
+                        ),
+                        onTap: (){
+                          setState(() {
+                            _color = !_color;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: SizedBox(
+                      height: 50,
+                      child: GestureDetector(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 5, right: 5),
+                          child: Container(
+                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                              color: (_color ? Colors.white : Colors.redAccent),),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15, right: 15, top: 12),
+                              child: Text('Заберу сам',
+                                style: TextStyle(color: _color ? Color(0x99999999) : Colors.white, fontSize: 15),),
+                            ),
+                          ),
+                        ),
+                        onTap: (){
+                          setState(() {
+                            _color = !_color;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Padding(
                 padding: EdgeInsets.only(top: 10, bottom: 1, left: 20),
                 child: Row(
@@ -157,30 +218,6 @@ class _AddressScreenState extends State<AddressScreen> {
                   ],
                 ),
               ),
-//              Padding(
-//                padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
-//                child: Column(
-//                  children: <Widget>[
-////                    Row(
-////                      children: <Widget>[
-////                        Text("Адрес доставки", style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Color(0xB0B0B0B0)),),
-////                      ],
-////                    ),
-//                    Row(
-//                      children: <Widget>[
-//                        Padding(
-//                          padding: EdgeInsets.only(right: 20),
-//                          child: Container(
-//                            height: maxLines * 40.0,
-//                            width: maxLines * 300.0,
-//                            child: _buildTextFormField('Адрес доставки'),
-//                          ),
-//                        )
-//                      ],
-//                    )
-//                  ],
-//                ),
-//              ),
               Form(
                 key: _foodItemFormKey,
                 child: Column(
@@ -236,7 +273,6 @@ class _AddressScreenState extends State<AddressScreen> {
                                 onTap: () {
                                   onSubmit(model.addFood);
                                   if (model.isLoading) {
-                                    // show loading progess indicator
                                     showLoadingIndicator();
                                   }
                                 },
@@ -305,36 +341,36 @@ class _AddressScreenState extends State<AddressScreen> {
       keyboardType: hint == "Price" || hint == "Discount"
           ? TextInputType.number
           : TextInputType.text,
-      validator: (String value) {
-        if (value.isEmpty && hint == "Адрес доставки") {
-          return "Заполните поле";
-        }
-        if (value.isEmpty && hint == "Кв./офис  Домофон") {
-          return "Заполните поле";
-        }
-
-        if (value.isEmpty && hint == "Подъезд  Этаж") {
-          return "Заполните поле";
-        }
-
-        if (value.isEmpty && hint == "Комментарий к заказу") {
-          return "Заполните поле";
-        }
-      },
-      onChanged: (String value) {
-        if (hint == "Адрес доставки") {
-          address = value;
-        }
-        if (hint == "Кв./офис  Домофон") {
-          office = value;
-        }
-        if (hint == "Подъезд  Этаж") {
-          floor = value;
-        }
-        if (hint == "Комментарий к заказу") {
-          comment = value;
-        }
-      },
+//      validator: (String value) {
+//        if (value.isEmpty && hint == "Адрес доставки") {
+//          return "Заполните поле";
+//        }
+//        if (value.isEmpty && hint == "Кв./офис  Домофон") {
+//          return "Заполните поле";
+//        }
+//
+//        if (value.isEmpty && hint == "Подъезд  Этаж") {
+//          return "Заполните поле";
+//        }
+//
+//        if (value.isEmpty && hint == "Комментарий к заказу") {
+//          return "Заполните поле";
+//        }
+//      },
+//      onChanged: (String value) {
+//        if (hint == "Адрес доставки") {
+//          address = value;
+//        }
+//        if (hint == "Кв./офис  Домофон") {
+//          office = value;
+//        }
+//        if (hint == "Подъезд  Этаж") {
+//          floor = value;
+//        }
+//        if (hint == "Комментарий к заказу") {
+//          comment = value;
+//        }
+//      },
     );
   }
 }
