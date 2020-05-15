@@ -30,13 +30,13 @@ class _CartScreenState extends State<CartScreen> {
   _buildList(){
 
     double totalPrice = 0;
-    currentUser.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
+    currentUser.cartDataModel.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
     return Expanded(
       child: ListView.separated(
-        itemCount: currentUser.cart.length + 1,
+        itemCount: currentUser.cartDataModel.cart.length + 1,
         itemBuilder: (BuildContext context, int index) {
-          if (index < currentUser.cart.length) {
-            Order order = currentUser.cart[index];
+          if (index < currentUser.cartDataModel.cart.length) {
+            Order order = currentUser.cartDataModel.cart[index];
             return _buildCartItem(order);
           }
           return  Padding(
@@ -143,7 +143,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     MainModel model = MainModel();
     double totalPrice = 0;
-    currentUser.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
+    currentUser.cartDataModel.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
     Order bloc;
     return new Scaffold(
       key: _scaffoldStateKey,

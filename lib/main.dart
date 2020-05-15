@@ -19,13 +19,13 @@ import 'test/http_test.dart';
 
 void main() async {
 
-    String device_id = 'ffewqewe';
-    int code = 2946;
-//    //String phone = '+79631770760';
-//    //AuthData _loadAuthData = await loadAuthData(device_id, phone);
-    authCodeData = await loadAuthCodeData(device_id, code);
-    print(authCodeData.token);
-    print(authCodeData.refresh_token);
+//    String device_id = 'ffewqewe';
+//    int code = 7069;
+////    //String phone = '+79631770760';
+////    //AuthData _loadAuthData = await loadAuthData(device_id, phone);
+//    authCodeData = await loadAuthCodeData(device_id, code);
+//    print(authCodeData.token);
+//    print(authCodeData.refresh_token);
 
     runApp(new App());
 }

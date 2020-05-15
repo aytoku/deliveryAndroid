@@ -123,7 +123,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
   @override
   Widget build(BuildContext context) {
     double totalPrice = 0;
-    currentUser.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
+    currentUser.cartDataModel.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
     return Scaffold(
         key: _scaffoldStateKey,
         resizeToAvoidBottomPadding: false,

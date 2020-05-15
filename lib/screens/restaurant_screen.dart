@@ -196,7 +196,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             Padding(
                               padding: EdgeInsets.only(left: 110),
                               child: Text(
-                                  '${currentUser.cart.length}',
+                                  '${currentUser.cartDataModel.cart.length}',
                                   style: TextStyle(
                                     fontSize: 14.0,
                                     letterSpacing: 1.2,
@@ -370,7 +370,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                     onPressed: ()
                                     {
                                       setState(() {
-                                        currentUser.cart.add(
+                                        currentUser.cartDataModel.cart.add(
                                             new Order(food: restaurantDataItems, quantity: counter, restaurant: restaurant, date: DateTime.now().toString())
                                         );
                                       });
@@ -443,7 +443,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   @override
   Widget build(BuildContext context) {
     double totalPrice = 0;
-    currentUser.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
+    currentUser.cartDataModel.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
     return Scaffold(
       key : _scaffoldStateKey,
       body: FutureBuilder<RestaurantDataItems>(
@@ -685,7 +685,7 @@ class CartItemsQuantityState extends State<CartItemsQuantity> {
     return  Padding(
       padding: EdgeInsets.only(left: 120),
       child: Text(
-          '${currentUser.cart.length}',
+          '${currentUser.cartDataModel.cart.length}',
           style: TextStyle(
             fontSize: 14.0,
             letterSpacing: 1.2,

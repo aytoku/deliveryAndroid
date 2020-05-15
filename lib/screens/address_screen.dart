@@ -49,7 +49,7 @@ class _AddressScreenState extends State<AddressScreen> {
   @override
   Widget build(BuildContext context) {
     double totalPrice = 0;
-    currentUser.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
+    currentUser.cartDataModel.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
     return Scaffold(
         key: _scaffoldStateKey,
         resizeToAvoidBottomPadding: false,
@@ -259,7 +259,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           office: office,
                           floor: floor,
                           comment: comment,
-                          order: currentUser.cart[0]
+                          cartDataModel: currentUser.cartDataModel
                       );
                       createOrder.sendData();
 //                      Navigator.push(

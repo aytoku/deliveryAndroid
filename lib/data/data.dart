@@ -1,3 +1,4 @@
+import 'package:food_delivery/models/CartDataModel.dart';
 import 'package:food_delivery/models/RestaurantDataItems.dart';
 import 'package:food_delivery/models/addCardScreen.dart';
 import 'package:food_delivery/models/Auth.dart';
@@ -15,9 +16,10 @@ final addCart = AddCart(
 
 // User
 final currentUser = User(
+  cartDataModel: new CartDataModel(),
   name: 'Harmonie',
   orders: [
   ],
-  cart:  [
-  ],
+//  cart:  [
+//  ],
 );

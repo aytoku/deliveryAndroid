@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/AuthCode.dart';
+import 'package:food_delivery/models/CartDataModel.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -13,14 +14,14 @@ class CreateOrder {
   String office;
   String floor;
   String comment;
-  Order order;
+  CartDataModel cartDataModel;
 
   CreateOrder( {
     this.address,
     this.office,
     this.floor,
     this.comment,
-    this.order
+    this.cartDataModel
   });
 
   sendRefreshToken() async{
@@ -39,23 +40,6 @@ class CreateOrder {
     print(response.body);
   }
 
-//  sendFCMToken() async{
-//    var url = 'https://client.apis.stage.faem.pro/api/v2/auth/firebasetoken ';
-//    var response = await http.post(url, body: jsonEncode({"token": authCodeData.token}),
-//        headers: <String, String>{
-//          'Content-Type': 'application/json; charset=UTF-8',
-//          'Authorization':'Bearer ' + authCodeData.token
-//        });
-//    if (response.statusCode == 200) {
-//      var jsonResponse = convert.jsonDecode(response.body);
-//      authCodeData = AuthCodeData.fromJson(jsonResponse);
-//      //print(jsonResponse);
-//    } else {
-//      print('Request failed with status: ${response.statusCode}.');
-//    }
-//    print(response.body);
-//  }
-
   Future sendData() async {
     await sendRefreshToken();
     print(authCodeData.token);
@@ -64,14 +48,7 @@ class CreateOrder {
       "callback_phone": phone,
       "increased_fare": 25,
       "comment": "Просит побыстрей",
-      "products_input": [
-        {
-          "uuid": order.food.uuid,
-          "variat_uuid": null,
-          "toppings_uuid": null,
-          "number": order.quantity
-        }
-      ],
+      "products_input": cartDataModel.toJson(),
       "routes": [
         {
           "unrestricted_value": "Наш супермаркет Х.Мамсурова, Мамсурова Хаджи 42",
@@ -114,16 +91,24 @@ class CreateOrder {
           "lon": 44.6944
         }
       ],
-      "service_uuid": "44db4a2b-c33b-4323-9ee7-7b4864179192",
+      "service_uuid": "6b73e9e3-927b-453c-81c4-dfae818291f4",
     }), headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
       'Source':'ios_client_app_1',
-        'Authorization':'Bearer ' + authCodeData.token
+      'Authorization':'Bearer ' + authCodeData.token
     });
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
-      print(jsonResponse);
+
+      http.Response suka = await http.get('https://client.apis.stage.faem.pro/api/v2/orders/' + jsonResponse['uuid'],
+         headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Source':'ios_client_app_1',
+        'Authorization':'Bearer ' + authCodeData.token
+      });
+      print(suka.body);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
