@@ -1,29 +1,23 @@
 import 'dart:convert';
-
-import 'package:flutter/services.dart';
-import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/RestaurantDataItems.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-Future<String> _loadRestaurantsItems(){
-  return  rootBundle.loadString('https://crm.apis.stage.faem.pro/api/v2/products');
-}
 
-Future<RestaurantDataItems> loadRestaurantItems(String uuid, String category) async {
+Future<RestaurantDataItems> loadRestaurantItems(String uuid, String category, int page, int limit) async {
   RestaurantDataItems restaurantDataItems1 = null;
   print(uuid);
   var json_request = jsonEncode({
     "store_uuid": uuid,
     "category": category,
-    "page": 1,
-    "limit": 12
+    "page": page,
+    "limit": limit
   });
   if(category == ''){
     json_request = jsonEncode({
       "store_uuid": uuid,
-      "page": 1,
-      "limit": 12
+      "page": page,
+      "limit": limit
     });
   }
   var url = 'https://crm.apis.stage.faem.pro/api/v2/products';

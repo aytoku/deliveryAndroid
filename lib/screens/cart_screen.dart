@@ -38,9 +38,8 @@ class _CartScreenState extends State<CartScreen> {
           if (index < currentUser.cart.length) {
             Order order = currentUser.cart[index];
             return _buildCartItem(order);
-
           }
-          return Padding(
+          return  Padding(
             padding: EdgeInsets.all(20.0),
             child: Column(
               children: <Widget>[
@@ -55,7 +54,7 @@ class _CartScreenState extends State<CartScreen> {
                           fontWeight: FontWeight.w600
                       ),),
                     Text(
-                        '\$${totalPrice.toStringAsFixed(2)}',
+                        '${totalPrice.toStringAsFixed(0)} \Р',
                         style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.w600,
@@ -66,10 +65,8 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 SizedBox(height: 80.0)
               ],
-            ),
+            )
           );
-
-
         }, separatorBuilder: (BuildContext context, int index) {
         return Divider(
           height: 1.0,
@@ -88,69 +85,54 @@ class _CartScreenState extends State<CartScreen> {
       Expanded(
       child: Container(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-              width: 100.0,
-              child: Container(
-                  padding: EdgeInsets.only(left:4.0, right: 0),
-                  child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 20.0),
-                        Padding(
-                          padding: EdgeInsets.only(top: 15,bottom: 15),
-                          child: Text(
-                            '${order.quantity.toStringAsFixed(0)}',
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 30, top: 15,bottom: 15),
-                          child: Image(image: AssetImage('assets/images/cross.png'),),
-                        )
-                      ]
-                  )
-              )
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 15,bottom: 15),
-            child: Text(
-              order.food.name,
-              style: TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.bold
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Container(
-            //  margin: EdgeInsets.all(3.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 80, top: 13, bottom: 15),
-                      child: Text(
-                          '${order.quantity * order.food.price}',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xB0B0B0B0)
-                          )
+          Flexible(
+            flex: 3,
+            child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
+                    child: Text(
+                      '${order.quantity.toStringAsFixed(0)}',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, top: 15,bottom: 15),
+                    child: Image(image: AssetImage('assets/images/cross.png'),),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10 ),
+                    child: Text(
+                      order.food.name,
+                      style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   )
-                ],
-              )
-          )
+                ]
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            child: Padding(
+              padding: EdgeInsets.only(right: 15),
+              child: Text(
+                  '${order.quantity * order.food.price}',
+                  style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xB0B0B0B0)
+                  )
+              ),
+            )
+          ),
         ],
       ),
     ))]));
@@ -250,11 +232,10 @@ class _CartScreenState extends State<CartScreen> {
                padding: EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 10),
                child: FlatButton(
                  child: Row(
-                   mainAxisAlignment: MainAxisAlignment.start,
-                   crossAxisAlignment: CrossAxisAlignment.start,
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                    children: <Widget>[
-                     Padding(
-                       padding: EdgeInsets.only(right: 60),
+                     Flexible(
+                       flex: 1,
                        child: Text(
                          '30 – 50 мин',
                          style: TextStyle(
@@ -263,28 +244,33 @@ class _CartScreenState extends State<CartScreen> {
                            color: Colors.white,
                          ),),
                      ),
-                     Padding(
-                       padding: EdgeInsets.only(right: 0),
+                     Flexible(
+                         flex: 1,
+                         child: Padding(
+                           padding: EdgeInsets.only(
+                             right: 30,
+                           ),
+                           child: Text(
+                               'Далее',
+                               style: TextStyle(
+                                   fontSize: 14.0,
+                                   fontWeight: FontWeight.w600,
+                                   color: Colors.white
+                               )
+                           ),
+                         )
+                     ),
+                     Flexible(
+                       flex: 1,
                        child: Text(
-                           'Далее',
+                           '${totalPrice.toStringAsFixed(0)}',
                            style: TextStyle(
                                fontSize: 14.0,
                                fontWeight: FontWeight.w600,
                                color: Colors.white
                            )
                        ),
-                     ),
-                     Padding(
-                       padding: EdgeInsets.only(left: 60),
-                       child: Text(
-                           '${totalPrice.toStringAsFixed(2)}',
-                           style: TextStyle(
-                               fontSize: 14.0,
-                               fontWeight: FontWeight.w600,
-                               color: Colors.white
-                           )
-                       ),
-                     ),
+                     )
                    ],
                  ),
                  color: Colors.redAccent,
@@ -301,75 +287,7 @@ class _CartScreenState extends State<CartScreen> {
                  );},
                ),
              ),
-
            ),
-
-//           Align(
-//             alignment: Alignment.bottomCenter,
-//             child: GestureDetector(
-//                   onTap: () {
-//                     onSubmit(model.addFood);
-//                     if (model.isLoading) {
-//                       // show loading progess indicator
-//                       Navigator.push(context, new MaterialPageRoute(
-//                         builder: (context) => new AddressScreen(),
-//                       ),);
-//                     }
-//                   },
-//                   child:FlatButton(
-//                     child: Row(
-//                       mainAxisAlignment: MainAxisAlignment.start,
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: <Widget>[
-//                         Padding(
-//                           padding: EdgeInsets.only(right: 60),
-//                           child: Text(
-//                             '30 – 50 мин',
-//                             style: TextStyle(
-//                               fontSize: 14.0,
-//                               fontWeight: FontWeight.w600,
-//                               color: Colors.white,
-//                             ),),
-//                         ),
-//                         Padding(
-//                           padding: EdgeInsets.only(right: 0),
-//                           child: Text(
-//                               'Далее',
-//                               style: TextStyle(
-//                                   fontSize: 14.0,
-//                                   fontWeight: FontWeight.w600,
-//                                   color: Colors.white
-//                               )
-//                           ),
-//                         ),
-//                         Padding(
-//                           padding: EdgeInsets.only(left: 60),
-//                           child: Text(
-//                               '${totalPrice.toStringAsFixed(2)}',
-//                               style: TextStyle(
-//                                   fontSize: 14.0,
-//                                   fontWeight: FontWeight.w600,
-//                                   color: Colors.white
-//                               )
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                     color: Colors.redAccent,
-//                     splashColor: Colors.red,
-//                     shape: RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(8),
-//                     ),
-//                     padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
-//                     onPressed: (){Navigator.push(
-//                       context,
-//                       new MaterialPageRoute(
-//                         builder: (context) => new AddressScreen(),
-//                       ),
-//                     );},
-//                   ),
-//                 )
-//           ),
          ],
        )
      ),
