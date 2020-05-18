@@ -5,10 +5,12 @@ class User{
   final String name;
   final List<Order> orders;
   final CartDataModel cartDataModel;
+  String phone;
 
   User({
     this.name,
     this.orders,
-    this.cartDataModel
+    this.cartDataModel,
+    this.phone
   });
 }

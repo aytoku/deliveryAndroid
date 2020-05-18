@@ -37,7 +37,9 @@ class RestaurantScreen extends StatefulWidget{
 
 class _RestaurantScreenState extends State<RestaurantScreen> {
 
-  final Records restaurant;
+  GlobalKey<CartItemsQuantityState> _myKey = new GlobalKey();
+
+final Records restaurant;
   String category;
 
   bool isLoading = true;
@@ -63,47 +65,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   _RestaurantScreenState(this.restaurant, this.category);
 
 
-  void getData() async{
-    Future<String> _loadRestaurantsItems() async {
-      return await rootBundle.loadString('https://crm.apis.stage.faem.pro/api/v2/products');
-    }
-
-    Future loadRestaurantItems() async {
-      String jsonString = await _loadRestaurantsItems();
-      final jsonResponse = json.decode(jsonString);
-      var response = await http.post(jsonResponse, body: {
-        'store_uuid': 'e93ef119-001c-4b27-915a-c86d58790cbf',
-        'page': '1',
-        'limit': '12'
-      });
-      if (response.statusCode == 200) {
-        var jsonResponse = convert.jsonDecode(response.body);
-        RestaurantDataItems restaurantDataItems1 = new RestaurantDataItems.fromJson(jsonResponse);
-        restaurantDataItems = restaurantDataItems1;
-      } else {
-        print('Request failed with status: ${response.statusCode}.');
-      }
-      print('Response body: ${response.body}');
-    }
-  }
-
-
-  @override
-  void initStateModal(){
-    apple_pay = new TextEditingController() as String;
-    _store.set('name', '');
-    apple_pay = _store.get('name');
-  }
-
-  onClickBtn(){
-    _store.set('name', apple_pay);
-    Navigator.of(context).pushNamed('/Create');
-  }
-
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  GlobalState _store = GlobalState.instance;
-  TextEditingController _name;
 
   int counter = 1;
   // ignore: non_constant_identifier_names
@@ -119,13 +80,11 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     });
   }
 
-  CartItemsQuantity cartItemsQuantity = new CartItemsQuantity();
+
 
   _buildMenuItem(FoodRecords restaurantDataItems) {
-    int i =0;
-   // double taille = MediaQuery.of(context).size.width / 2.25;
+    _myKey = new GlobalKey();
     return Center(
-
       child: GestureDetector(
         onTap: (){
           _onPressedButton(restaurantDataItems);
@@ -192,7 +151,11 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
-                            //cartItemsQuantity
+//                            Expanded(
+//                              child: new CartItemsQuantity(
+//                                key: _myKey,
+//                              ),
+//                            ),
                             Padding(
                               padding: EdgeInsets.only(left: 110),
                               child: Text(
@@ -371,8 +334,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                     {
                                       setState(() {
                                         currentUser.cartDataModel.cart.add(
-                                            new Order(food: restaurantDataItems, quantity: counter, restaurant: restaurant, date: DateTime.now().toString())
-                                        );
+                                          new Order(food: restaurantDataItems, quantity: counter, restaurant: restaurant, date: DateTime.now().toString())
+                                      );
+                                        //_myKey.currentState.refresh();
                                       });
                                     },
                                   ),
@@ -606,7 +570,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       onPressed: (){Navigator.push(
                         context,
                         new MaterialPageRoute(
-                          builder: (context) => new CartScreen(),
+                          builder: (context) => new CartScreen(restaurant: restaurant),
                         ),
                       );},
                     ),
@@ -672,6 +636,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 }
 
 class CartItemsQuantity extends StatefulWidget {
+  CartItemsQuantity({Key key,}) : super(key: key);
+
   @override
   CartItemsQuantityState createState() {
     return new CartItemsQuantityState();

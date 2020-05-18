@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/data/data.dart';
+import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/scopped_model/main_model.dart';
@@ -9,10 +10,11 @@ import 'package:scoped_model/scoped_model.dart';
 import 'address_screen.dart';
 
 class CartScreen extends StatefulWidget {
-  CartScreen({Key key}) : super(key: key);
+  CartScreen({Key key, this.restaurant}) : super(key: key);
+  final Records restaurant;
 
   @override
-  _CartScreenState createState() => _CartScreenState();
+  _CartScreenState createState() => _CartScreenState(restaurant);
 }
 
 class _CartScreenState extends State<CartScreen> {
@@ -21,11 +23,14 @@ class _CartScreenState extends State<CartScreen> {
   String description;
   String price;
   String discount;
+  final Records restaurant;
 
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
 
   double total;
+
+  _CartScreenState(this.restaurant);
 
   _buildList(){
 
@@ -282,7 +287,7 @@ class _CartScreenState extends State<CartScreen> {
                  onPressed: (){Navigator.push(
                    context,
                    new MaterialPageRoute(
-                     builder: (context) => new AddressScreen(),
+                     builder: (context) => new AddressScreen(restaurant: restaurant),
                    ),
                  );},
                ),
@@ -293,49 +298,6 @@ class _CartScreenState extends State<CartScreen> {
      ),
     );
   }
-
-  void onSubmit(Function addFood) async{
-    if (_foodItemFormKey.currentState.validate()) {
-      _foodItemFormKey.currentState.save();
-
-      final Food food = Food(
-        name: title,
-        price: double.parse(price),
-      );
-      bool value = await addFood(food);
-      if(value){
-        Navigator.of(context).pop();
-        SnackBar snackBar = SnackBar(
-            content: Text("Food item successfully added.")
-        );
-        _scaffoldStateKey.currentState.showSnackBar(snackBar);
-      }else if(!value){
-        Navigator.of(context).pop();
-        SnackBar snackBar = SnackBar(
-            content: Text("Failed to add food item")
-        );
-        _scaffoldStateKey.currentState.showSnackBar(snackBar);
-      }
-    }
-  }
-
-//  Future<void> showLoadingIndicator() {
-//    return showDialog(
-//        context: context,
-//        barrierDismissible: false,
-//        builder: (BuildContext context){
-//          return AlertDialog(
-//            content: Row(
-//              children: <Widget>[
-//                CircularProgressIndicator(),
-//                SizedBox(width: 10.0,),
-//                Text("Adding food item..."),
-//              ],
-//            ),
-//          );
-//        }
-//    );
-//  }
 }
 
 class DragTargetWidget extends StatefulWidget {

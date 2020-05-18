@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:food_delivery/models/Auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;

@@ -205,4 +205,34 @@ class DestinationPoints{
       lon:parsedJson['lon'],
     );
   }
+
+  Map<String, dynamic> toJson(){
+    Map<String, dynamic> temp = new Map<String, dynamic>();
+    temp = {
+      'uuid': uuid,
+      'point_type':point_type,
+      'unrestricted_value':unrestricted_value,
+      'value':value,
+      'country':country,
+      'region':region,
+      'region_type':region_type,
+      'type':type,
+      'city':city,
+      'category':category,
+      'city_type':city_type,
+      'street':street,
+      'street_type':street_type,
+      'street_with_type':street_with_type,
+      'house':house,
+      'front_door':front_door,
+      'comment':comment,
+      'out_of_town':out_of_town,
+      'house_type':house_type,
+      'accuracy_level':accuracy_level,
+      'radius':radius,
+      'lat':lat,
+      'lon':lon,
+    };
+    return temp;
+  }
 }

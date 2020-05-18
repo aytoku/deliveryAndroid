@@ -8,7 +8,8 @@ import 'package:food_delivery/models/user.dart';
 RestaurantDataItems restaurantDataItems = null;
 AuthCodeData authCodeData = null;
 AuthData authData = null;
-String phone = '';
+String device_id = 'ffewqewe';
+int code = 0;
 
 final addCart = AddCart(
   imageUrl: 'assets/images/restaurant1.jpg',
@@ -20,6 +21,4 @@ final currentUser = User(
   name: 'Harmonie',
   orders: [
   ],
-//  cart:  [
-//  ],
 );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/buttons/button.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
+import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/food_list.dart';
 import 'package:food_delivery/models/global_state.dart';
@@ -20,10 +21,11 @@ import 'food_bottom_sheet_screen.dart';
 
 class AddressScreen extends StatefulWidget {
 
-  AddressScreen({Key key}) : super(key: key);
+  AddressScreen({Key key, this.restaurant}) : super(key: key);
+  final Records restaurant;
 
   @override
-  _AddressScreenState createState() => _AddressScreenState();
+  _AddressScreenState createState() => _AddressScreenState(restaurant);
 }
 
 class _AddressScreenState extends State<AddressScreen> {
@@ -32,8 +34,11 @@ class _AddressScreenState extends State<AddressScreen> {
   String floor;
   String comment;
   String delivery;
+  final Records restaurant;
 
   bool _color;
+
+  _AddressScreenState(this.restaurant);
   @override
   void initState() {
     super.initState();
@@ -146,7 +151,7 @@ class _AddressScreenState extends State<AddressScreen> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(left: 15, bottom: 20),
-                      child: _buildTextFormField(address),
+                        child: _buildTextFormField(address),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 15, bottom: 20),
@@ -158,10 +163,10 @@ class _AddressScreenState extends State<AddressScreen> {
                       padding: EdgeInsets.only(left: 15, bottom: 20),
                       child: _buildTextFormField("Комментарий к заказу"),
                     ),
-//                    Padding(
-//                      padding: EdgeInsets.only(left: 15, bottom: 20),
-//                      child: _buildTextFormField("Доставка"),
-//                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, bottom: 20),
+                      child: _buildTextFormField("Доставка"),
+                    ),
                   ],
                 ),
               ),
@@ -259,15 +264,16 @@ class _AddressScreenState extends State<AddressScreen> {
                           office: office,
                           floor: floor,
                           comment: comment,
-                          cartDataModel: currentUser.cartDataModel
+                          cartDataModel: currentUser.cartDataModel,
+                          restaurant: restaurant
                       );
                       createOrder.sendData();
-//                      Navigator.push(
-//                      context,
-//                      new MaterialPageRoute(
-//                        builder: (context) => new HomeScreen(),
-//                      ),
-//                    );
+                      Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new HomeScreen(),
+                      ),
+                    );
                       },
                   ),
                 ),
@@ -326,51 +332,6 @@ class _AddressScreenState extends State<AddressScreen> {
     });
   }
 
-  void onSubmit(Function addFood) async{
-    if (_foodItemFormKey.currentState.validate()) {
-      _foodItemFormKey.currentState.save();
-
-      final Food food = Food(
-        address: address,
-        office: office,
-        floor: floor,
-        comment: comment,
-      );
-      bool value = await addFood(food);
-      if(value){
-        Navigator.of(context).pop();
-        SnackBar snackBar = SnackBar(
-            content: Text("Заказ прошел успешно")
-        );
-        _scaffoldStateKey.currentState.showSnackBar(snackBar);
-      }else if(!value){
-        Navigator.of(context).pop();
-        SnackBar snackBar = SnackBar(
-            content: Text("Произоше сбой")
-        );
-        _scaffoldStateKey.currentState.showSnackBar(snackBar);
-      }
-    }
-  }
-
-  Future<void> showLoadingIndicator() {
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context){
-          return AlertDialog(
-            content: Row(
-              children: <Widget>[
-                CircularProgressIndicator(),
-                SizedBox(width: 10.0,),
-                Text("Идет оплата"),
-              ],
-            ),
-          );
-        }
-    );
-  }
-
   Widget _buildTextFormField(String hint, {int maxLine = 1}) {
     return TextFormField(
       decoration: InputDecoration(hintText: "$hint"),
@@ -390,9 +351,9 @@ class _AddressScreenState extends State<AddressScreen> {
           return "Заполните поле";
         }
 
-//        if (value.isEmpty && hint == "Доставка") {
-//          return "Заполните поле";
-//        }
+        if (value.isEmpty && hint == "Доставка") {
+          return "Заполните поле";
+        }
 
         if (value.isEmpty && hint == "Комментарий к заказу") {
           return "Заполните поле";
@@ -411,9 +372,9 @@ class _AddressScreenState extends State<AddressScreen> {
         if (hint == "Комментарий к заказу") {
           comment = value;
         }
-//        if (hint == "Доставка") {
-//          delivery = value;
-//        }
+        if (hint == "Доставка") {
+          delivery = value;
+        }
       },
     );
   }
