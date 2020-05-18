@@ -88,6 +88,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   padding: EdgeInsets.only(left: 150, top: 20, right: 150, bottom: 20),
                   onPressed: (){
                     if(validateMobile(currentUser.phone)== null){
+                      if(currentUser.phone[0] != '+'){
+                        currentUser.phone = '+' + currentUser.phone;
+                      }
                       Navigator.push(
                         context,
                         new MaterialPageRoute(
@@ -110,8 +113,7 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   String validateMobile(String value) {
-
-    String pattern = r'(^(?:[+0]7)?[0-9]{10}$)';
+    String pattern = r'(^(?:[+]?7)[0-9]{10}$)';
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
       return 'Укажите норер';
