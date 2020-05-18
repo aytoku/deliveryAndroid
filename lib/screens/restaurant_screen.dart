@@ -80,9 +80,13 @@ final Records restaurant;
     });
   }
 
-
-
   _buildMenuItem(FoodRecords restaurantDataItems) {
+    int amount = 0;
+    currentUser.cartDataModel.cart.forEach((element) {
+      if(element.food.uuid == restaurantDataItems.uuid){
+        amount = element.quantity;
+      }
+    });
     _myKey = new GlobalKey();
     return Center(
       child: GestureDetector(
@@ -159,7 +163,7 @@ final Records restaurant;
                             Padding(
                               padding: EdgeInsets.only(left: 110),
                               child: Text(
-                                  '${currentUser.cartDataModel.cart.length}',
+                                  '${amount}',
                                   style: TextStyle(
                                     fontSize: 14.0,
                                     letterSpacing: 1.2,
@@ -333,7 +337,7 @@ final Records restaurant;
                                     onPressed: ()
                                     {
                                       setState(() {
-                                        currentUser.cartDataModel.cart.add(
+                                        currentUser.cartDataModel.addItem(
                                           new Order(food: restaurantDataItems, quantity: counter, restaurant: restaurant, date: DateTime.now().toString())
                                       );
                                         //_myKey.currentState.refresh();

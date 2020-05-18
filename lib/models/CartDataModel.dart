@@ -4,7 +4,6 @@ class CartDataModel {
   List<Order> cart = new List<Order>();
 
   List<Map<String, dynamic>> toJson(){
-    //Map<dynamic, dynamic> result = new Map<dynamic, dynamic>();
     List<Map<String, dynamic>> list = new List<Map<String, dynamic>>();
     cart.forEach((Order order) {
       Map<String, dynamic> item =
@@ -17,5 +16,18 @@ class CartDataModel {
       list.add(item);
     });
     return list;
+  }
+
+  void addItem(Order orderItem){
+    bool flag = false;
+    cart.forEach((element) {
+      if(element.food.uuid == orderItem.food.uuid){
+        element.quantity += orderItem.quantity;
+        flag = true;
+      }
+    });
+    if(!flag){
+      cart.add(orderItem);
+    }
   }
 }

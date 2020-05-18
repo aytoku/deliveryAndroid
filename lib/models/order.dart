@@ -6,14 +6,12 @@ import 'package:food_delivery/models/user.dart';
 
 class Order {
   List<User> foodItems = [];
-  final id;
   final Records restaurant;
   final FoodRecords food;
   int quantity;
   final String date;
 
   Order({
-    this.id,
     this.restaurant,
     this.food,
     this.date,

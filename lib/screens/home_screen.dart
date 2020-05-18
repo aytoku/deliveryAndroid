@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (_) {
-                    print(context);
+                    currentUser.cartDataModel.cart.clear();
                     return RestaurantScreen(restaurant: restaurant);
                   }
                 ),

@@ -29,6 +29,7 @@ class _CartScreenState extends State<CartScreen> {
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
 
   double total;
+  bool delete = false;
 
   _CartScreenState(this.restaurant);
 
@@ -42,7 +43,17 @@ class _CartScreenState extends State<CartScreen> {
         itemBuilder: (BuildContext context, int index) {
           if (index < currentUser.cartDataModel.cart.length) {
             Order order = currentUser.cartDataModel.cart[index];
-            return _buildCartItem(order);
+            return Draggable(
+              child: _buildCartItem(order),
+              data: index,
+              feedback: Container(
+                color: Colors.white,
+                height: 50,
+                width: MediaQuery.of(context).size.width,
+                child: _buildCartItem(order),
+              ),
+              childWhenDragging: Container(),
+            );
           }
           return  Padding(
             padding: EdgeInsets.all(20.0),
@@ -101,8 +112,10 @@ class _CartScreenState extends State<CartScreen> {
                     child: Text(
                       '${order.quantity.toStringAsFixed(0)}',
                       style: TextStyle(
+                        decoration: TextDecoration.none,
                         fontSize: 14.0,
                         fontWeight: FontWeight.w600,
+                        color: Colors.black
                       ),
                     ),
                   ),
@@ -115,8 +128,10 @@ class _CartScreenState extends State<CartScreen> {
                     child: Text(
                       order.food.name,
                       style: TextStyle(
+                          decoration: TextDecoration.none,
                           fontSize: 14.0,
-                          fontWeight: FontWeight.bold
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -129,8 +144,9 @@ class _CartScreenState extends State<CartScreen> {
             child: Padding(
               padding: EdgeInsets.only(right: 15),
               child: Text(
-                  '${order.quantity * order.food.price}',
+                  '${order.quantity * order.food.price} \Р',
                   style: TextStyle(
+                      decoration: TextDecoration.none,
                       fontSize: 14.0,
                       fontWeight: FontWeight.w600,
                       color: Color(0xB0B0B0B0)
@@ -179,12 +195,34 @@ class _CartScreenState extends State<CartScreen> {
                        ),
                      ),
                      Padding(
-                       padding: EdgeInsets.only(left: 80),
-                       child:  Text('Корзина', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                       padding: EdgeInsets.only(left: 50),
+                       child:  Text(restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
                      ),
                      Padding(
-                       padding: EdgeInsets.only(left: 80),
-                       child: DragTargetWidget(bloc),
+                       padding: EdgeInsets.only(left: 60),
+                       child: DragTarget<int>(
+                         builder: (context, List candidateData,List rejectedData){
+                           return Container(
+                             height: 40,
+                             width: 40,
+                             decoration: BoxDecoration(
+                                 borderRadius: BorderRadius.all(Radius.circular(5))
+                             ),
+                             child: Image(
+                               image: AssetImage('assets/images/delete.png'),
+                             ),
+                           );
+                         },
+                         onWillAccept: (data) {
+                           return true;
+                         },
+                         onAccept: (data) {
+                           setState(() {
+                             delete = true;
+                             currentUser.cartDataModel.cart.removeAt(data);
+                           });
+                         },
+                       )
                      ),
                    ],
                  ),
@@ -296,43 +334,6 @@ class _CartScreenState extends State<CartScreen> {
          ],
        )
      ),
-    );
-  }
-}
-
-class DragTargetWidget extends StatefulWidget {
-  final Order bloc;
-
-  DragTargetWidget(this.bloc);
-
-  @override
-  _DragTargetWidgetState createState() => _DragTargetWidgetState();
-}
-
-class _DragTargetWidgetState extends State<DragTargetWidget> {
-  @override
-  Widget build(BuildContext context) {
-    Food currentFoodItem;
-
-    return DragTarget<Food>(
-      onAccept: (Food foodItem) {
-        currentFoodItem = foodItem;
-        // widget.bloc.removeFromList(currentFoodItem);
-      },
-      onWillAccept: (Food foodItem) {
-        return true;
-      },
-
-
-      builder: (BuildContext context, List incoming, List rejected) {
-        return Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Icon(
-            CupertinoIcons.delete,
-            size: 35,
-          ),
-        );
-      },
     );
   }
 }
