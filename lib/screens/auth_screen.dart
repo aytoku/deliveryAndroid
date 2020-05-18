@@ -31,7 +31,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  String phone = '';
+  String error = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,18 +49,24 @@ class _AuthScreenState extends State<AuthScreen> {
             child: TextField(
               style: TextStyle(fontSize: 28),
               textAlign: TextAlign.center,
+              maxLength: 12,
               keyboardType: TextInputType.phone,
               decoration: new InputDecoration(
                 contentPadding: EdgeInsets.only(left: 0),
                 hintText: '+79188888888',
+                counterText: '',
               ),
               onChanged: (String value)async {
                 currentUser.phone = value;
               },
             ),
           ),
+          Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: Text(error,style: TextStyle(color: Colors.red, fontSize: 12),),
+          ),
           Container(
-            height: 450,
+            height: 430,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -81,12 +87,18 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                   padding: EdgeInsets.only(left: 150, top: 20, right: 150, bottom: 20),
                   onPressed: (){
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                        builder: (context) => new CodeScreen(),
-                      ),
-                    );
+                    if(validateMobile(currentUser.phone)== null){
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new CodeScreen(),
+                        ),
+                      );
+                    }else{
+                      setState(() {
+                        error = 'Указан неверный номер';
+                      });
+                    }
                   },
                 ),
               ),
@@ -95,5 +107,18 @@ class _AuthScreenState extends State<AuthScreen> {
         ],
       )
     );
+  }
+
+  String validateMobile(String value) {
+
+    String pattern = r'(^(?:[+0]7)?[0-9]{10}$)';
+    RegExp regExp = new RegExp(pattern);
+    if (value.length == 0) {
+      return 'Укажите норер';
+    }
+    else if (!regExp.hasMatch(value)) {
+      return 'Указан неверный номер';
+    }
+    return null;
   }
 }

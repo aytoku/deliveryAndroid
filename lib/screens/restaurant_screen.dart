@@ -37,10 +37,11 @@ class RestaurantScreen extends StatefulWidget{
 
 class _RestaurantScreenState extends State<RestaurantScreen> {
 
-  GlobalKey<CartItemsQuantityState> _myKey = new GlobalKey();
-
 final Records restaurant;
   String category;
+
+GlobalKey<ButtonCounterState> buttonCounterKey = new GlobalKey();
+GlobalKey<CounterState> counterKey = new GlobalKey();
 
   bool isLoading = true;
 
@@ -64,34 +65,16 @@ final Records restaurant;
 
   _RestaurantScreenState(this.restaurant, this.category);
 
-
-
-  int counter = 1;
-  // ignore: non_constant_identifier_names
-  void _incrementCounter_plus(){
-    setState(() {
-      counter++;
-    });
-  }
-  // ignore: non_constant_identifier_names
-  void _incrementCounter_minus(){
-    setState(() {
-      counter--;
-    });
-  }
-
   _buildMenuItem(FoodRecords restaurantDataItems) {
-    int amount = 0;
-    currentUser.cartDataModel.cart.forEach((element) {
-      if(element.food.uuid == restaurantDataItems.uuid){
-        amount = element.quantity;
-      }
-    });
-    _myKey = new GlobalKey();
+    GlobalKey<CartItemsQuantityState> cartItemsQuantityKey = new GlobalKey();
+    CartItemsQuantity cartItemsQuantity = new CartItemsQuantity(
+      key: cartItemsQuantityKey,
+      restaurantDataItems: restaurantDataItems,
+    );
     return Center(
       child: GestureDetector(
         onTap: (){
-          _onPressedButton(restaurantDataItems);
+          _onPressedButton(restaurantDataItems, cartItemsQuantityKey);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,21 +138,9 @@ final Records restaurant;
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
-//                            Expanded(
-//                              child: new CartItemsQuantity(
-//                                key: _myKey,
-//                              ),
-//                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 110),
-                              child: Text(
-                                  '${amount}',
-                                  style: TextStyle(
-                                    fontSize: 14.0,
-                                    letterSpacing: 1.2,
-                                  )
-                              ),
-                            )
+                            Expanded(
+                              child: cartItemsQuantity,
+                            ),
                           ],
                         ),
                       ],
@@ -184,7 +155,7 @@ final Records restaurant;
     );
   }
 
-  void _onPressedButton(FoodRecords food){
+  void _onPressedButton(FoodRecords food, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey){
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -197,7 +168,7 @@ final Records restaurant;
           return Container(
               height: 450,
               child:  Container(
-                child: _buildBottomNavigationMenu(food),
+                child: _buildBottomNavigationMenu(food, cartItemsQuantityKey),
                 decoration: BoxDecoration(
                     color: Theme.of(context).canvasColor,
                     borderRadius: BorderRadius.only(
@@ -210,7 +181,7 @@ final Records restaurant;
         });
   }
 
-  Column _buildBottomNavigationMenu(FoodRecords restaurantDataItems){
+  Column _buildBottomNavigationMenu(FoodRecords restaurantDataItems, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey){
     return Column(
       children: <Widget>[
         Align(
@@ -281,73 +252,34 @@ final Records restaurant;
                           ),
                         ),
                         SizedBox(height: 4.0,),
-                        Padding(
-                          padding: EdgeInsets.only(top: 20, left: 15),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    _incrementCounter_minus();
-                                  },child: Text(
-                                  '-',
-                                  style: TextStyle(
-                                    fontSize: 40.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black,
-                                  ),
+                        Row(
+                          children: <Widget>[
+                            Counter(
+                              key: counterKey,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 30),
+                              child: FlatButton(
+                                child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 15),),
+                                color: Colors.red,
+                                splashColor: Colors.red,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                                ),
-                                SizedBox(width: 20.0),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 20),
-                                  child: Text(
-                                    '$counter',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _incrementCounter_plus();
-                                    });
-                                  },
-                                  child: Text(
-                                    '+',
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 30),
-                                  child: FlatButton(
-                                    child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 15),),
-                                    color: Colors.red,
-                                    splashColor: Colors.red,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
-                                    onPressed: ()
-                                    {
-                                      setState(() {
-                                        currentUser.cartDataModel.addItem(
-                                          new Order(food: restaurantDataItems, quantity: counter, restaurant: restaurant, date: DateTime.now().toString())
-                                      );
-                                        //_myKey.currentState.refresh();
-                                      });
-                                    },
-                                  ),
-                                )
-                              ]
-                          ),
-                        ),
+                                padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
+                                onPressed: ()
+                                {
+                                  currentUser.cartDataModel.addItem(
+                                      new Order(food: restaurantDataItems, quantity: counterKey.currentState.counter, restaurant: restaurant, date: DateTime.now().toString())
+                                  );
+                                  cartItemsQuantityKey.currentState.refresh();
+                                  buttonCounterKey.currentState.refresh();
+                                  counterKey.currentState.refresh();
+                                },
+                              ),
+                            )
+                          ],
+                        )
                       ],
                     ),
                   )
@@ -410,8 +342,6 @@ final Records restaurant;
 
   @override
   Widget build(BuildContext context) {
-    double totalPrice = 0;
-    currentUser.cartDataModel.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
     return Scaffold(
       key : _scaffoldStateKey,
       body: FutureBuilder<RestaurantDataItems>(
@@ -506,19 +436,6 @@ final Records restaurant;
                       )
                     ),
                   ),
-//                  Flexible(
-//                    flex: 8,
-//                      child: GridView.count(
-//                        padding: EdgeInsets.all(10.0),
-//                        crossAxisCount: 1,
-//                        mainAxisSpacing: 8.0,
-//                        crossAxisSpacing: 15.0,
-//                        children: List.generate(snapshot.data.records.length, (index) {
-//                          FoodRecords food = snapshot.data.records[index];
-//                          return _buildMenuItem(food);
-//                        }),
-//                      )
-//                  ),
                   SizedBox(height: 10.0),
                   Padding(
                     padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),
@@ -552,16 +469,8 @@ final Records restaurant;
                               ),
                             )
                           ),
-                          Flexible(
-                            flex: 1,
-                            child: Text(
-                                '${totalPrice.toStringAsFixed(0)}',
-                                style: TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white
-                                )
-                            ),
+                          new ButtonCounter(
+                            key: buttonCounterKey,
                           )
                         ],
                       ),
@@ -594,71 +503,154 @@ final Records restaurant;
       ),
     );
   }
-
-  void onSubmit(Function addFood) async{
-    if (_foodItemFormKey.currentState.validate()) {
-      _foodItemFormKey.currentState.save();
-
-      final Food food = Food(
-        name: foood.name,
-        price: foood.price,
-      );
-      bool value = await addFood(food);
-      if(value){
-        Navigator.of(context).pop();
-        SnackBar snackBar = SnackBar(
-            content: Text("Заказ прошел успешно")
-        );
-        _scaffoldStateKey.currentState.showSnackBar(snackBar);
-      }else if(!value){
-        Navigator.of(context).pop();
-        SnackBar snackBar = SnackBar(
-            content: Text("Произошел сбой")
-        );
-        _scaffoldStateKey.currentState.showSnackBar(snackBar);
-      }
-    }
-  }
-
-  Future<void> showLoadingIndicator() {
-    return showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context){
-          return AlertDialog(
-            content: Row(
-              children: <Widget>[
-                CircularProgressIndicator(),
-                SizedBox(width: 10.0,),
-                Text("Добавляется в корзину"),
-              ],
-            ),
-          );
-        }
-    );
-  }
 }
 
 class CartItemsQuantity extends StatefulWidget {
-  CartItemsQuantity({Key key,}) : super(key: key);
+  CartItemsQuantity({Key key, this.restaurantDataItems,}) : super(key: key);
+  final FoodRecords restaurantDataItems;
 
   @override
   CartItemsQuantityState createState() {
-    return new CartItemsQuantityState();
+    return new CartItemsQuantityState(restaurantDataItems);
   }
 }
 
 class CartItemsQuantityState extends State<CartItemsQuantity> {
+  final FoodRecords restaurantDataItems;
 
+  CartItemsQuantityState(this.restaurantDataItems);
   @override
   Widget build(BuildContext context) {
+    int amount = 0;
+    currentUser.cartDataModel.cart.forEach((element) {
+      if(element.food.uuid == restaurantDataItems.uuid){
+        amount = element.quantity;
+      }
+    });
     return  Padding(
       padding: EdgeInsets.only(left: 120),
       child: Text(
-          '${currentUser.cartDataModel.cart.length}',
+          '$amount',
           style: TextStyle(
             fontSize: 14.0,
             letterSpacing: 1.2,
+          )
+      ),
+    );
+  }
+
+  void refresh(){
+    setState(() {
+
+    });
+  }
+}
+
+class Counter extends StatefulWidget{
+  Counter({Key key}) : super(key: key);
+
+  @override
+  CounterState createState() {
+    return new CounterState();
+  }
+}
+
+class CounterState extends State<Counter>{
+  int counter = 1;
+  // ignore: non_constant_identifier_names
+  void _incrementCounter_plus(){
+    setState(() {
+      counter++;
+    });
+  }
+  // ignore: non_constant_identifier_names
+  void _incrementCounter_minus(){
+    setState(() {
+      counter--;
+    });
+  }
+
+  Widget build(BuildContext context){
+    return  Padding(
+      padding: EdgeInsets.only(top: 20, left: 15),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () {
+                _incrementCounter_minus();
+              },child: Text(
+              '-',
+              style: TextStyle(
+                fontSize: 40.0,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
+            ),
+            SizedBox(width: 20.0),
+            Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: Text(
+                '$counter',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _incrementCounter_plus();
+                });
+              },
+              child: Text(
+                '+',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ]
+      ),
+    );
+  }
+
+  void refresh(){
+    setState(() {
+
+    });
+  }
+}
+
+class ButtonCounter extends StatefulWidget {
+  ButtonCounter({Key key}) : super(key: key);
+
+  @override
+  ButtonCounterState createState() {
+    return new ButtonCounterState();
+  }
+
+}
+
+class ButtonCounterState extends State<ButtonCounter> {
+
+  @override
+  Widget build(BuildContext context) {
+    double totalPrice = 0;
+    currentUser.cartDataModel.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
+
+    return  Flexible(
+      flex: 1,
+      child: Text(
+          '${totalPrice.toStringAsFixed(0)}',
+          style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w600,
+              color: Colors.white
           )
       ),
     );

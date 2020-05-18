@@ -108,7 +108,7 @@ class _CartScreenState extends State<CartScreen> {
             child: Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
+                    padding: EdgeInsets.only(top: 10,bottom: 15,left: 10),
                     child: Text(
                       '${order.quantity.toStringAsFixed(0)}',
                       style: TextStyle(

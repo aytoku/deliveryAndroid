@@ -9,7 +9,6 @@ Future<AuthCodeData> loadAuthCodeData(String device_id, int code) async {
     "device_id": device_id,
     "code": code
   });
-  print(code);
   var url = 'https://client.apis.stage.faem.pro/api/v2/auth/verification';
   var response = await http.post(url, body: json_request, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
@@ -20,5 +19,6 @@ Future<AuthCodeData> loadAuthCodeData(String device_id, int code) async {
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
+  print(response.body);
   return authCodeData;
 }

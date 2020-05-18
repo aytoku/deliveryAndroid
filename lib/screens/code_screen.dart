@@ -20,6 +20,8 @@ import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'dart:async';
+
 
 import 'food_bottom_sheet_screen.dart';
 
@@ -34,6 +36,7 @@ class CodeScreen extends StatefulWidget {
 class _CodeScreenState extends State<CodeScreen> {
 
   var code = ['0','0','0','0'];
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -140,43 +143,60 @@ class _CodeScreenState extends State<CodeScreen> {
                     ),
                   ],
                 ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text(error,style: TextStyle(color: Colors.red, fontSize: 12),),
+                ),
                 Container(
-                  height: 430,
+                  height: 400,
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
-                      child: FlatButton(
-                        child: Text(
-                            'Далее',
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            )
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 10, top: 295),
+                          child: new TimerCountDown(codeScreenState: this),
                         ),
-                        color: Colors.grey,
-                        splashColor: Colors.grey,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: EdgeInsets.only(left: 150, top: 20, right: 150, bottom: 20),
-                        onPressed: ()async {
-                          String temp = '';
-                          code.forEach((element) {
-                            temp += element;
-                          });
-                          print(temp);
-                          authCodeData = await loadAuthCodeData(device_id, int.parse(temp));
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) => new HomeScreen(),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
+                          child: FlatButton(
+                            child: Text(
+                                'Далее',
+                                style: TextStyle(
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white
+                                )
                             ),
-                          );
-                        },
-                      ),
-                    ),
+                            color: Colors.grey,
+                            splashColor: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: EdgeInsets.only(left: 150, top: 20, right: 150, bottom: 20),
+                            onPressed: ()async {
+                              String temp = '';
+                              code.forEach((element) {
+                                temp += element;
+                              });
+                              authCodeData = await loadAuthCodeData(device_id, int.parse(temp));
+                              if(authCodeData != null){
+                                Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                    builder: (context) => new HomeScreen(),
+                                  ),
+                                );
+                              }else{
+                                setState(() {
+                                  error = 'Вы ввели неверный смс код';
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    )
                   ),
                 )
               ],
@@ -189,6 +209,68 @@ class _CodeScreenState extends State<CodeScreen> {
           }
         },
       )
+    );
+  }
+}
+
+class TimerCountDown extends StatefulWidget {
+  TimerCountDown({Key key, this.codeScreenState,}) : super(key: key);
+  final _CodeScreenState codeScreenState;
+
+  @override
+  TimerCountDownState createState() {
+    return new TimerCountDownState(codeScreenState: codeScreenState);
+  }
+}
+
+class TimerCountDownState extends State<TimerCountDown> {
+  TimerCountDownState({this.codeScreenState});
+  final _CodeScreenState codeScreenState;
+  Timer _timer;
+  int _start = 60;
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+          (Timer timer) => setState((){
+          if (_start < 1) {
+            timer.cancel();
+            _timer.cancel();
+          } else {
+            _start = _start - 1;
+          }
+        },
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if(_start == 60){
+      startTimer();
+    }
+    return  _start != 0 ?  Center(
+      child: Text(
+          'Получить новый код можно через $_start c',
+          style: TextStyle(
+            color: Color(0x97979797),
+            fontSize: 13.0,
+            letterSpacing: 1.2,
+          )
+      ),
+    ): GestureDetector(
+      child: Text('Отпарвить код повторно', style: TextStyle(),),
+      onTap: (){
+        codeScreenState.setState(() {
+
+        });
+      },
     );
   }
 }

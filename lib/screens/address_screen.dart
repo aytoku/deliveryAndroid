@@ -118,31 +118,31 @@ class _AddressScreenState extends State<AddressScreen> {
                       ),
                     ),
                   ),
-                  Flexible(
-                    flex: 1,
-                    child: SizedBox(
-                      height: 50,
-                      child: GestureDetector(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 5, right: 5),
-                          child: Container(
-                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
-                              color: (_color ? Colors.white : Colors.redAccent),),
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 15, right: 15, top: 15),
-                              child: Text('Заберу сам',
-                                style: TextStyle(color: _color ? Color(0x99999999) : Colors.white, fontSize: 15),),
-                            ),
-                          ),
-                        ),
-                        onTap: (){
-                          setState(() {
-                            _color = !_color;
-                          });
-                        },
-                      ),
-                    ),
-                  ),
+//                  Flexible(
+//                    flex: 1,
+//                    child: SizedBox(
+//                      height: 50,
+//                      child: GestureDetector(
+//                        child: Padding(
+//                          padding: EdgeInsets.only(left: 5, right: 5),
+//                          child: Container(
+//                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+//                              color: (_color ? Colors.white : Colors.redAccent),),
+//                            child: Padding(
+//                              padding: EdgeInsets.only(left: 15, right: 15, top: 15),
+//                              child: Text('Заберу сам',
+//                                style: TextStyle(color: _color ? Color(0x99999999) : Colors.white, fontSize: 15),),
+//                            ),
+//                          ),
+//                        ),
+//                        onTap: (){
+//                          setState(() {
+//                            _color = !_color;
+//                          });
+//                        },
+//                      ),
+//                    ),
+//                  ),
                 ],
               ),
               Form(
