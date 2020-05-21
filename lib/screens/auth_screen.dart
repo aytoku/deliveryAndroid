@@ -91,7 +91,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       if(currentUser.phone[0] != '+'){
                         currentUser.phone = '+' + currentUser.phone;
                       }
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         new MaterialPageRoute(
                           builder: (context) => new CodeScreen(),

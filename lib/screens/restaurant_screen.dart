@@ -254,14 +254,17 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                         SizedBox(height: 4.0,),
                         Row(
                           children: <Widget>[
-                            Counter(
-                              key: counterKey,
+                            Padding(
+                              padding: EdgeInsets.only(right: 0),
+                              child: Counter(
+                                key: counterKey,
+                              ),
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 30),
                               child: FlatButton(
                                 child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 15),),
-                                color: Colors.red,
+                                color: Colors.redAccent,
                                 splashColor: Colors.red,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),

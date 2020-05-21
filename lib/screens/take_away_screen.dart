@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/models/CreateModelTakeAway.dart';
+import 'package:food_delivery/models/CreateOrderModel.dart';
+import 'package:food_delivery/models/ResponseData.dart';
+import 'package:food_delivery/screens/auto_complete.dart';
 import 'address_screen.dart';
 import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/buttons/button.dart';
 import 'package:food_delivery/data/data.dart';
@@ -20,85 +24,11 @@ import 'food_bottom_sheet_screen.dart';
 
 class TakeAwayScreen extends StatefulWidget {
 
-  TakeAwayScreen({Key key}) : super(key: key);
+  TakeAwayScreen({Key key,  this.restaurant}) : super(key: key);
+  final Records restaurant;
 
   @override
-  _TakeAwayScreenState createState() => _TakeAwayScreenState();
-}
-
-_showModalBottomSheet(context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return Container(
-        height: 150,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        child:  Align(
-          child: Padding(
-            padding: EdgeInsets.only(right: 0),
-            child: Column(
-              children: <Widget>[
-                new FlatButton(
-                  child: Row(
-                    children: <Widget>[
-                      Image(image: AssetImage('assets/dollar.png'),),
-                      Padding(
-                        padding: EdgeInsets.only(right: 0, left: 15),
-                        child: Text("Наличными", style: TextStyle(color: Colors.black),),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 160),
-                        child:
-                        Image(image: AssetImage('assets/check_box.png'),),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                  },
-                ),
-                new FlatButton(
-                  child: Row(
-                    children: <Widget>[
-                      Image(image: AssetImage('assets/play.png'),),
-                      Padding(
-                        padding: EdgeInsets.only(right: 0, left: 15),
-                        child: Text("Apple Pay", style: TextStyle(color: Colors.black),),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 180),
-                        child:
-                        Image(image: AssetImage('assets/check_box.png'),),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                  },
-                ),
-                new FlatButton(
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(right: 90),
-                        child: Text("Другой картой", style: TextStyle(color: Colors.black),),
-                      ),
-                    ],
-                  ),
-                  onPressed: () {
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    },
-  );
+  _TakeAwayScreenState createState() => _TakeAwayScreenState(restaurant);
 }
 
 class _TakeAwayScreenState extends State<TakeAwayScreen> {
@@ -106,8 +36,12 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
   String office;
   String floor;
   String comment;
+  String delivery;
+  final Records restaurant;
 
   bool _color;
+
+  _TakeAwayScreenState(this.restaurant);
   @override
   void initState() {
     super.initState();
@@ -118,6 +52,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
 
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
+  GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
   final maxLines = 1;
 
   @override
@@ -165,7 +100,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                     Flexible(
                       flex: 1,
                       child: SizedBox(
-                        height: 50,
+                        height: 40,
                         child: GestureDetector(
                           child: Padding(
                             padding: EdgeInsets.only(left: 5, right: 5),
@@ -173,7 +108,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                               decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
                                 color: Colors.white,),
                               child: Padding(
-                                padding: EdgeInsets.only(left: 15, right: 15, top: 15),
+                                padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                                 child: Text('Доставка',
                                   style: TextStyle(color: Color(0x99999999), fontSize: 15),),
                               ),
@@ -181,10 +116,11 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                           ),
                           onTap: (){
                             setState(() {
-                              {Navigator.push(
+                              {
+                                Navigator.pushReplacement(
                                 context,
                                 new MaterialPageRoute(
-                                  builder: (context) => new AddressScreen(),
+                                  builder: (context) => new AddressScreen(restaurant: restaurant),
                                 ),
                               );}
                             });
@@ -195,7 +131,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                     Flexible(
                       flex: 1,
                       child: SizedBox(
-                        height: 50,
+                        height: 40,
                         child: GestureDetector(
                           child: Padding(
                             padding: EdgeInsets.only(left: 5, right: 5),
@@ -203,17 +139,12 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                               decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
                                 color:  Colors.redAccent,),
                               child: Padding(
-                                padding: EdgeInsets.only(left: 15, right: 15, top: 15),
+                                padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                                 child: Text('Заберу сам',
                                   style: TextStyle(color: Colors.white, fontSize: 15),),
                               ),
                             ),
                           ),
-                          onTap: (){
-                            setState(() {
-                              _color = !_color;
-                            });
-                          },
                         ),
                       ),
                     ),
@@ -223,17 +154,53 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                   key: _foodItemFormKey,
                   child: Column(
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 20),
-                        child: _buildTextFormField(address),
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(bottom: 10, top: 20, left: 15),
+                              child: Text('Адрес заведения', style: TextStyle(color: Color(0xB0B0B0B0),fontWeight: FontWeight.bold, fontSize: 11),)
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(bottom: 10, top: 0, left: 15),
+                              child: Text(restaurant.name, style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontSize: 21),)
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(bottom: 20,left: 15),
+                              child: Text(restaurant.destination_points[0].unrestricted_value,style: TextStyle(color: Colors.black, fontSize: 15),)
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(bottom: 5, top: 20, left: 15,),
+                              child: Text('Комментарий к заказу', style: TextStyle(color: Color(0xB0B0B0B0),fontWeight: FontWeight.bold, fontSize: 11),)
+                          ),
+                        ],
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 15, bottom: 20),
-                        child: _buildTextFormField("Комментарий к заказу"),
+                        child: _buildTextFormField(""),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(bottom: 5, top: 20, left: 15,),
+                              child: Text('Время ожидания', style: TextStyle(color: Color(0xB0B0B0B0),fontWeight: FontWeight.bold, fontSize: 11),)
+                          ),
+                        ],
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 15, bottom: 20),
-                        child: _buildTextFormField("Время ожидания"),
+                        child: _buildTextFormField(""),
                       ),
                     ],
                   ),
@@ -254,7 +221,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                   children: <Widget>[
                     GestureDetector(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20,bottom: 150),
+                        padding: EdgeInsets.only(left: 20,bottom: 40),
                         child: Row(
                           children: <Widget>[
                             Image(image: AssetImage('assets/images/card.png'),),
@@ -276,7 +243,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 10),
+                    padding: EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 9),
                     child: FlatButton(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -326,7 +293,14 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
-                      onPressed: (){Navigator.push(
+                      onPressed: (){
+                        CreateOrderTakeAway createOrderTakeAway = new CreateOrderTakeAway(
+                            comment: comment,
+                            cartDataModel: currentUser.cartDataModel,
+                            restaurant: restaurant
+                        );
+                        createOrderTakeAway.sendData();
+                        Navigator.push(
                         context,
                         new MaterialPageRoute(
                           builder: (context) => new HomeScreen(),
@@ -334,7 +308,6 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                       );},
                     ),
                   ),
-
                 ),
               ],
             )
@@ -390,32 +363,6 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
     });
   }
 
-  void onSubmit(Function addFood) async{
-    if (_foodItemFormKey.currentState.validate()) {
-      _foodItemFormKey.currentState.save();
-
-      final Food food = Food(
-        address: address,
-        office: office,
-        floor: floor,
-        comment: comment,
-      );
-      bool value = await addFood(food);
-      if(value){
-        Navigator.of(context).pop();
-        SnackBar snackBar = SnackBar(
-            content: Text("Заказ прошел успешно")
-        );
-        _scaffoldStateKey.currentState.showSnackBar(snackBar);
-      }else if(!value){
-        Navigator.of(context).pop();
-        SnackBar snackBar = SnackBar(
-            content: Text("Произоше сбой")
-        );
-        _scaffoldStateKey.currentState.showSnackBar(snackBar);
-      }
-    }
-  }
 
   Future<void> showLoadingIndicator() {
     return showDialog(
@@ -442,36 +389,43 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
       keyboardType: hint == "Price" || hint == "Discount"
           ? TextInputType.number
           : TextInputType.text,
-//      validator: (String value) {
-//        if (value.isEmpty && hint == "Адрес доставки") {
-//          return "Заполните поле";
-//        }
-//        if (value.isEmpty && hint == "Кв./офис  Домофон") {
-//          return "Заполните поле";
-//        }
-//
-//        if (value.isEmpty && hint == "Подъезд  Этаж") {
-//          return "Заполните поле";
-//        }
-//
-//        if (value.isEmpty && hint == "Комментарий к заказу") {
-//          return "Заполните поле";
-//        }
-//      },
-//      onChanged: (String value) {
-//        if (hint == "Адрес доставки") {
-//          address = value;
-//        }
-//        if (hint == "Кв./офис  Домофон") {
-//          office = value;
-//        }
-//        if (hint == "Подъезд  Этаж") {
-//          floor = value;
-//        }
-//        if (hint == "Комментарий к заказу") {
-//          comment = value;
-//        }
-//      },
+      validator: (String value) {
+        if (value.isEmpty && hint == "Адрес доставки") {
+          return "Заполните поле";
+        }
+        if (value.isEmpty && hint == "Кв./офис  Домофон") {
+          return "Заполните поле";
+        }
+
+        if (value.isEmpty && hint == "Подъезд  Этаж") {
+          return "Заполните поле";
+        }
+
+        if (value.isEmpty && hint == "Доставка") {
+          return "Заполните поле";
+        }
+
+        if (value.isEmpty && hint == "Комментарий к заказу") {
+          return "Заполните поле";
+        }
+      },
+      onChanged: (String value) {
+        if (hint == "Адрес доставки") {
+          address = value;
+        }
+        if (hint == "Кв./офис  Домофон") {
+          office = value;
+        }
+        if (hint == "Подъезд  Этаж") {
+          floor = value;
+        }
+        if (hint == "Комментарий к заказу") {
+          comment = value;
+        }
+        if (hint == "Доставка") {
+          delivery = value;
+        }
+      },
     );
   }
 }

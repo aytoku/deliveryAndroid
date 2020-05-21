@@ -3,7 +3,6 @@ import 'package:food_delivery/models/Auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-
 Future<AuthData> loadAuthData(String device_id, String phone) async {
   AuthData authData = null;
   var json_request = jsonEncode({

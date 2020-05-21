@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:device_id/device_id.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/PostData/auth_code_data_pass.dart';
 import 'package:food_delivery/PostData/auth_data_pass.dart';

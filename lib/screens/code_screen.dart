@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/PostData/auth_code_data_pass.dart';
 import 'package:food_delivery/PostData/auth_data_pass.dart';
+import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/Auth.dart';
 import 'package:food_delivery/models/AuthCode.dart';
 import 'package:food_delivery/test/api_test.dart';
@@ -35,7 +36,10 @@ class CodeScreen extends StatefulWidget {
 
 class _CodeScreenState extends State<CodeScreen> {
 
-  var code = ['0','0','0','0'];
+  TextField code1;
+  TextField code2;
+  TextField code3;
+  TextField code4;
   String error = '';
 
   @override
@@ -43,7 +47,7 @@ class _CodeScreenState extends State<CodeScreen> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       body: FutureBuilder<AuthData>(
-        future: loadAuthData(device_id, currentUser.phone),
+        future: loadAuthData(necessaryDataForAuth.device_id, currentUser.phone),
         builder: (BuildContext context, AsyncSnapshot<AuthData> snapshot){
           if(snapshot.connectionState == ConnectionState.done){
             return Column(
@@ -72,7 +76,9 @@ class _CodeScreenState extends State<CodeScreen> {
                       flex: 1,
                       child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10),
-                        child: TextField(
+                        child: code1 = TextField(
+                            focusNode: new FocusNode(),
+                            controller: new TextEditingController(),
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 28),
                             keyboardType: TextInputType.number,
@@ -80,9 +86,11 @@ class _CodeScreenState extends State<CodeScreen> {
                             decoration: new InputDecoration(
                               counterText: '',
                             ),
-                          onChanged: (String value) async {
-                            code[0] = value;
-                          },
+                          onChanged: (String value){
+                              if(value != ''){
+                                code2.focusNode.requestFocus();
+                              }
+                          }
                         ),
                       ),
                     ),
@@ -90,7 +98,9 @@ class _CodeScreenState extends State<CodeScreen> {
                       flex: 1,
                       child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10),
-                        child: TextField(
+                        child: code2 = TextField(
+                            focusNode: new FocusNode(),
+                            controller: new TextEditingController(),
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 28),
                             keyboardType: TextInputType.number,
@@ -98,9 +108,11 @@ class _CodeScreenState extends State<CodeScreen> {
                             decoration: new InputDecoration(
                               counterText: '',
                             ),
-                          onChanged: (String value) async {
-                            code[1] = value;
-                          },
+                            onChanged: (String value){
+                              if(value != ''){
+                                code3.focusNode.requestFocus();
+                              }
+                            }
                         ),
                       ),
                     ),
@@ -108,7 +120,9 @@ class _CodeScreenState extends State<CodeScreen> {
                       flex: 1,
                       child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10),
-                        child: TextField(
+                        child: code3 = TextField(
+                            focusNode: new FocusNode(),
+                            controller: new TextEditingController(),
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 28),
                             keyboardType: TextInputType.number,
@@ -116,9 +130,11 @@ class _CodeScreenState extends State<CodeScreen> {
                             decoration: new InputDecoration(
                               counterText: '',
                             ),
-                          onChanged: (String value) async {
-                            code[2] = value;
-                          },
+                            onChanged: (String value){
+                              if(value != ''){
+                                code4.focusNode.requestFocus();
+                              }
+                            }
                         ),
                       ),
                     ),
@@ -126,7 +142,9 @@ class _CodeScreenState extends State<CodeScreen> {
                       flex: 1,
                       child: Padding(
                         padding: EdgeInsets.only(left: 10, right: 10),
-                        child: TextField(
+                        child: code4 = TextField(
+                            focusNode: new FocusNode(),
+                            controller: new TextEditingController(),
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 28),
                             keyboardType: TextInputType.number,
@@ -134,10 +152,6 @@ class _CodeScreenState extends State<CodeScreen> {
                             decoration: new InputDecoration(
                               counterText: '',
                             ),
-                          onChanged: (String value) async {
-                            code[3] = value;
-                            print(code);
-                          },
                         ),
                       ),
                     ),
@@ -154,7 +168,7 @@ class _CodeScreenState extends State<CodeScreen> {
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(bottom: 10, top: 295),
+                          padding: EdgeInsets.only(bottom: 10, top: 299),
                           child: new TimerCountDown(codeScreenState: this),
                         ),
                         Padding(
@@ -176,12 +190,14 @@ class _CodeScreenState extends State<CodeScreen> {
                             padding: EdgeInsets.only(left: 150, top: 20, right: 150, bottom: 20),
                             onPressed: ()async {
                               String temp = '';
-                              code.forEach((element) {
-                                temp += element;
-                              });
-                              authCodeData = await loadAuthCodeData(device_id, int.parse(temp));
+                              temp = code1.controller.text +
+                                  code2.controller.text +
+                                  code3.controller.text +
+                                  code4.controller.text;
+                              authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, int.parse(temp));
                               if(authCodeData != null){
-                                Navigator.push(
+                                necessaryDataForAuth = await NecessaryDataForAuth.saveData(currentUser.phone, authCodeData.refresh_token);
+                                Navigator.pushReplacement(
                                   context,
                                   new MaterialPageRoute(
                                     builder: (context) => new HomeScreen(),

@@ -1,4 +1,7 @@
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/PostData/necessary_address_data_pass.dart';
+import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/screens/auto_complete.dart';
 import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/buttons/button.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
@@ -14,6 +17,7 @@ import 'package:food_delivery/scopped_model/main_model.dart';
 import 'package:food_delivery/screens/add_card_screen.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
+import 'package:food_delivery/screens/take_away_screen.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -35,6 +39,8 @@ class _AddressScreenState extends State<AddressScreen> {
   String comment;
   String delivery;
   final Records restaurant;
+
+  GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
 
   bool _color;
 
@@ -96,21 +102,47 @@ class _AddressScreenState extends State<AddressScreen> {
                   Flexible(
                     flex: 1,
                     child: SizedBox(
-                      height: 50,
+                      height: 40,
                       child: GestureDetector(
                         child: Padding(
                           padding: EdgeInsets.only(left: 5, right: 5),
                           child: Container(
                             decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
-                              color: (_color ? Colors.white : Colors.redAccent),),
+                              color: Colors.redAccent,),
                             child: Padding(
-                              padding: EdgeInsets.only(left: 15, right: 15, top: 15),
+                              padding: EdgeInsets.only(left: 15, right: 15, top: 10),
                               child: Text('Доставка',
-                                style: TextStyle(color: _color ? Color(0x99999999) : Colors.white, fontSize: 15),),
+                                style: TextStyle(color: Colors.white, fontSize: 15),),
                             ),
                           ),
                         ),
-                        onTap: (){
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: SizedBox(
+                      height: 40,
+                      child: GestureDetector(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 5, right: 5),
+                          child: Container(
+                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                              color: Colors.white,),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                              child: Text('Заберу сам',
+                                style: TextStyle(color: Color(0x99999999), fontSize: 15),),
+                            ),
+                          ),
+                        ),
+                        onTap: (){{
+                          Navigator.pushReplacement(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => new TakeAwayScreen(restaurant: restaurant,),
+                            ),
+                          );}
                           setState(() {
                             _color = !_color;
                           });
@@ -118,40 +150,23 @@ class _AddressScreenState extends State<AddressScreen> {
                       ),
                     ),
                   ),
-//                  Flexible(
-//                    flex: 1,
-//                    child: SizedBox(
-//                      height: 50,
-//                      child: GestureDetector(
-//                        child: Padding(
-//                          padding: EdgeInsets.only(left: 5, right: 5),
-//                          child: Container(
-//                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
-//                              color: (_color ? Colors.white : Colors.redAccent),),
-//                            child: Padding(
-//                              padding: EdgeInsets.only(left: 15, right: 15, top: 15),
-//                              child: Text('Заберу сам',
-//                                style: TextStyle(color: _color ? Color(0x99999999) : Colors.white, fontSize: 15),),
-//                            ),
-//                          ),
-//                        ),
-//                        onTap: (){
-//                          setState(() {
-//                            _color = !_color;
-//                          });
-//                        },
-//                      ),
-//                    ),
-//                  ),
                 ],
               ),
               Form(
                 key: _foodItemFormKey,
                 child: Column(
                   children: <Widget>[
+//                    Row(
+//                      children: <Widget>[
+//                        Padding(
+//                          padding: EdgeInsets.only(top: 10, left: 15),
+//                          child: Text('Адрес доставки',style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+//                        ),
+//                      ],
+//                    ),
                     Padding(
-                      padding: EdgeInsets.only(left: 15, bottom: 20),
-                        child: _buildTextFormField(address),
+                      padding: EdgeInsets.only(bottom: 20,),
+                        child: AutoComplete(destinationPointsKey),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 15, bottom: 20),
@@ -260,7 +275,7 @@ class _AddressScreenState extends State<AddressScreen> {
                     padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
                     onPressed: (){
                       CreateOrder createOrder = new CreateOrder(
-                          address: address,
+                          address: destinationPointsKey.currentState.searchTextField.textField.controller.text,
                           office: office,
                           floor: floor,
                           comment: comment,

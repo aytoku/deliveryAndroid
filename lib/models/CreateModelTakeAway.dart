@@ -3,7 +3,6 @@ import 'dart:ffi';
 
 import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/PostData/necessary_address_data_pass.dart';
-import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/AuthCode.dart';
 import 'package:food_delivery/models/CartDataModel.dart';
@@ -13,19 +12,15 @@ import 'package:food_delivery/models/order.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-class CreateOrder {
+class CreateOrderTakeAway {
   String address;
-  String office;
-  String floor;
   String comment;
   String delivery;
   CartDataModel cartDataModel;
   Records restaurant;
 
-  CreateOrder( {
+  CreateOrderTakeAway( {
     this.address,
-    this.office,
-    this.floor,
     this.comment,
     this.delivery,
     this.cartDataModel,
@@ -36,12 +31,12 @@ class CreateOrder {
     var url = 'https://client.apis.stage.faem.pro/api/v2/auth/refresh';
     var response = await http.post(url, body: jsonEncode({"refresh": authCodeData.refresh_token}),
         headers: <String, String>{
-    'Content-Type': 'application/json; charset=UTF-8',
-    });
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
       authCodeData = AuthCodeData.fromJson(jsonResponse);
-      necessaryDataForAuth = await NecessaryDataForAuth.saveData(currentUser.phone,authCodeData.refresh_token);
+      //print(jsonResponse);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -49,7 +44,6 @@ class CreateOrder {
   }
 
   Future sendData() async {
-    NecessaryAddressData necessaryAddressData = await loadNecessaryAddressData(address);
     await sendRefreshToken();
     print(authCodeData.token);
     var url = 'https://client.apis.stage.faem.pro/api/v2/orders';
@@ -60,7 +54,6 @@ class CreateOrder {
       "products_input": cartDataModel.toJson(),
       "routes": [
         restaurant.destination_points[0].toJson(),
-        necessaryAddressData.destinationPoints[0].toJson()
       ],
       "service_uuid": "6b73e9e3-927b-453c-81c4-dfae818291f4",
     }), headers: <String, String>{
@@ -73,12 +66,12 @@ class CreateOrder {
       var jsonResponse = convert.jsonDecode(response.body);
 
       http.Response suka = await http.get('https://client.apis.stage.faem.pro/api/v2/orders/' + jsonResponse['uuid'],
-         headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json',
-        'Source':'ios_client_app_1',
-        'Authorization':'Bearer ' + authCodeData.token
-      });
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Source':'ios_client_app_1',
+            'Authorization':'Bearer ' + authCodeData.token
+          });
       print(suka.body);
     } else {
       print('Request failed with status: ${response.statusCode}.');

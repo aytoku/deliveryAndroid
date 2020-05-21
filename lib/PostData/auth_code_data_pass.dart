@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 Future<AuthCodeData> loadAuthCodeData(String device_id, int code) async {
+
   AuthCodeData authCodeData = null;
   var json_request = jsonEncode({
     "device_id": device_id,

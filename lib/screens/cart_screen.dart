@@ -46,9 +46,12 @@ class _CartScreenState extends State<CartScreen> {
             return Draggable(
               child: _buildCartItem(order),
               data: index,
+              onDragStarted: (){
+
+              },
               feedback: Container(
                 color: Colors.white,
-                height: 50,
+                height: 60,
                 width: MediaQuery.of(context).size.width,
                 child: _buildCartItem(order),
               ),
@@ -108,7 +111,7 @@ class _CartScreenState extends State<CartScreen> {
             child: Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 10,bottom: 15,left: 10),
+                    padding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
                     child: Text(
                       '${order.quantity.toStringAsFixed(0)}',
                       style: TextStyle(
@@ -173,56 +176,66 @@ class _CartScreenState extends State<CartScreen> {
        child: Column(
          children: <Widget>[
            Padding(
-             padding: EdgeInsets.only(top:40),
+             padding: EdgeInsets.only(top:50),
              child: Column(
                children: <Widget>[
                  Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                    children: <Widget>[
-                     Padding(
-                       padding: EdgeInsets.only(left: 15),
-                       child: GestureDetector(
-                          onTap: () => Navigator.pop(
-                            context
-                          ),
-                         child:Padding(
-                           padding: EdgeInsets.only(right: 20),
-                           child: Image(
-                             width: 30,
-                             height: 30,
-                             image: AssetImage('assets/images/arr.png'),
+                     Flexible(
+                       flex: 0,
+                       child: Padding(
+                         padding: EdgeInsets.only(left: 5),
+                         child: GestureDetector(
+                           onTap: () => Navigator.pop(
+                               context
+                           ),
+                           child:Padding(
+                             padding: EdgeInsets.only(right: 0),
+                             child: Image(
+                               width: 30,
+                               height: 30,
+                               image: AssetImage('assets/images/arr.png'),
+                             ),
                            ),
                          ),
                        ),
                      ),
-                     Padding(
-                       padding: EdgeInsets.only(left: 50),
-                       child:  Text(restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                     Flexible(
+                       flex: 0,
+                       child: Padding(
+                         padding: EdgeInsets.only(left: 0),
+                         child:  Text(restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                       ),
                      ),
-                     Padding(
-                       padding: EdgeInsets.only(left: 60),
-                       child: DragTarget<int>(
-                         builder: (context, List candidateData,List rejectedData){
-                           return Container(
-                             height: 40,
-                             width: 40,
-                             decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.all(Radius.circular(5))
-                             ),
-                             child: Image(
-                               image: AssetImage('assets/images/delete.png'),
-                             ),
-                           );
-                         },
-                         onWillAccept: (data) {
-                           return true;
-                         },
-                         onAccept: (data) {
-                           setState(() {
-                             delete = true;
-                             currentUser.cartDataModel.cart.removeAt(data);
-                           });
-                         },
-                       )
+                     Flexible(
+                       flex: 0,
+                       child: Padding(
+                           padding: EdgeInsets.only(right: 5),
+                           child: DragTarget<int>(
+                             builder: (context, List candidateData,List rejectedData){
+                               return Container(
+                                 height: 30,
+                                 width: 30,
+                                 decoration: BoxDecoration(
+                                     borderRadius: BorderRadius.all(Radius.circular(5))
+                                 ),
+                                 child: Image(
+                                   image: AssetImage('assets/images/delete.png'),
+                                 ),
+                               );
+                             },
+                             onWillAccept: (data) {
+                               return true;
+                             },
+                             onAccept: (data) {
+                               setState(() {
+                                 delete = true;
+                                 currentUser.cartDataModel.cart.removeAt(data);
+                               });
+                             },
+                           )
+                       ),
                      ),
                    ],
                  ),

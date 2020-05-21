@@ -1,3 +1,4 @@
+import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/CartDataModel.dart';
 import 'package:food_delivery/models/RestaurantDataItems.dart';
 import 'package:food_delivery/models/addCardScreen.dart';
@@ -8,9 +9,9 @@ import 'package:food_delivery/models/user.dart';
 RestaurantDataItems restaurantDataItems = null;
 AuthCodeData authCodeData = null;
 AuthData authData = null;
-String device_id = 'ffewqewe';
+String device_id = '';
 int code = 0;
-
+NecessaryDataForAuth necessaryDataForAuth = new NecessaryDataForAuth(phone_number: null, refresh_token: null, device_id: null);
 final addCart = AddCart(
   imageUrl: 'assets/images/restaurant1.jpg',
   name: 'Sandwich Street',);
