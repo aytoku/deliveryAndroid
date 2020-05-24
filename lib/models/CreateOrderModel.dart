@@ -32,7 +32,7 @@ class CreateOrder {
     this.restaurant
   });
 
-  sendRefreshToken() async{
+  static sendRefreshToken() async{
     var url = 'https://client.apis.stage.faem.pro/api/v2/auth/refresh';
     var response = await http.post(url, body: jsonEncode({"refresh": authCodeData.refresh_token}),
         headers: <String, String>{
@@ -69,17 +69,9 @@ class CreateOrder {
       'Source':'ios_client_app_1',
       'Authorization':'Bearer ' + authCodeData.token
     });
+
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
-
-      http.Response suka = await http.get('https://client.apis.stage.faem.pro/api/v2/orders/' + jsonResponse['uuid'],
-         headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json',
-        'Source':'ios_client_app_1',
-        'Authorization':'Bearer ' + authCodeData.token
-      });
-      print(suka.body);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }

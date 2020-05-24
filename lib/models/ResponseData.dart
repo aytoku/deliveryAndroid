@@ -11,7 +11,6 @@ class DeliveryResponseData {
 
   factory DeliveryResponseData.fromJson(Map<String, dynamic> parsedJson){
 
-
     var records_list = parsedJson['records'] as List;
     print(records_list.runtimeType);
     List<Records> recordList = records_list.map((i) => Records.fromJson(i)).toList();
@@ -80,7 +79,7 @@ class Records{
 
     var destination_points_uuid_list = parsedJson['destination_points_uuid'] as List;
     List<String> destinationPointsUuidList = new List<String>();
-    if(destinationPointsUuidList != null){
+    if(destination_points_uuid_list != null){
       destination_points_uuid_list.forEach((element) {
         destinationPointsUuidList.add(element as String);
       });

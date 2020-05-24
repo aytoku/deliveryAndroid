@@ -27,6 +27,7 @@ class NecessaryDataForAuth{
    if(!(await refreshToken(refresh_token))){
      result.refresh_token = null;
    }
+   saveData(phone_number, refresh_token);
    return result;
  }
 

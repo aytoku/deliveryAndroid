@@ -18,6 +18,7 @@ import 'package:food_delivery/screens/add_card_screen.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/screens/take_away_screen.dart';
+import 'package:food_delivery/sideBar/side_bar.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -286,7 +287,7 @@ class _AddressScreenState extends State<AddressScreen> {
                       Navigator.push(
                       context,
                       new MaterialPageRoute(
-                        builder: (context) => new HomeScreen(),
+                        builder: (context) => new SideBar(),
                       ),
                     );
                       },

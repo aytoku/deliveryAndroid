@@ -4,6 +4,7 @@ import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/Auth.dart';
 import 'package:food_delivery/models/AuthCode.dart';
+import 'package:food_delivery/sideBar/side_bar.dart';
 import 'package:food_delivery/test/api_test.dart';
 import 'address_screen.dart';
 import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/buttons/button.dart';
@@ -200,7 +201,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   new MaterialPageRoute(
-                                    builder: (context) => new HomeScreen(),
+                                    builder: (context) => new SideBar(),
                                   ),
                                 );
                               }else{

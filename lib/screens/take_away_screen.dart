@@ -3,6 +3,7 @@ import 'package:food_delivery/models/CreateModelTakeAway.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/screens/auto_complete.dart';
+import 'package:food_delivery/sideBar/side_bar.dart';
 import 'address_screen.dart';
 import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/buttons/button.dart';
 import 'package:food_delivery/data/data.dart';
@@ -303,7 +304,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                         Navigator.push(
                         context,
                         new MaterialPageRoute(
-                          builder: (context) => new HomeScreen(),
+                          builder: (context) => new SideBar(),
                         ),
                       );},
                     ),

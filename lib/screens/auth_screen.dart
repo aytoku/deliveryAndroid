@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/PostData/auth_data_pass.dart';
+import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/Auth.dart';
 import 'package:food_delivery/models/AuthCode.dart';
 import 'package:food_delivery/screens/code_screen.dart';
@@ -86,7 +87,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   padding: EdgeInsets.only(left: 150, top: 20, right: 150, bottom: 20),
-                  onPressed: (){
+                  onPressed: () async {
                     if(validateMobile(currentUser.phone)== null){
                       if(currentUser.phone[0] != '+'){
                         currentUser.phone = '+' + currentUser.phone;

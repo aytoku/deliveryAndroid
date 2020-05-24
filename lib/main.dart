@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/PostData/auth_code_data_pass.dart';
 import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/app/app.dart';
+import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/main_screen.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/Auth.dart';
