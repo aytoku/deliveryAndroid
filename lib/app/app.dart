@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/scopped_model/main_model.dart';
+import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/auth_screen.dart';
 import 'package:food_delivery/screens/code_screen.dart';
 import 'package:food_delivery/screens/device_id_screen.dart';

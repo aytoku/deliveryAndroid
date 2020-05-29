@@ -4,6 +4,7 @@ import 'package:food_delivery/models/CreateOrderModel.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/screens/auto_complete.dart';
 import 'package:food_delivery/sideBar/side_bar.dart';
+import 'AttachCardScreen.dart';
 import 'address_screen.dart';
 import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/buttons/button.dart';
 import 'package:food_delivery/data/data.dart';
@@ -49,7 +50,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
     _color = true;
   }
 
-  String title = 'VISA ****8744';
+  String title = 'Visa8744';
 
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
@@ -231,7 +232,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                               child: Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 170),
+                              padding: EdgeInsets.only(left: 200),
                               child: Image(image: AssetImage('assets/images/arrow_right.png'),),
                             )
                           ],
@@ -322,7 +323,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
         builder: (context){
           return Container(
             color: Color(0xFF737373),
-            height: 180,
+            height: 240,
             child: Container(
               child: _buildBottomNavigationMenu(),
               decoration: BoxDecoration(
@@ -342,16 +343,30 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
     return Column(
       children: <Widget>[
         ListTile(
-          title: Text("Наличными", style: TextStyle(color: Colors.black),),
-          onTap: ()=>_selectItem("Наличными",),
+          leading: Image(image: AssetImage('assets/images/visa.png'),),
+          title: Text("Visa8744", style: TextStyle(color: Colors.black),),
+          trailing: Image(image: AssetImage('assets/images/circle.png'),),
+          onTap: ()=>_selectItem("Visa8744",),
         ),
         ListTile(
-          title: Text("VISA ****8744", style: TextStyle(color: Colors.black),),
-          onTap: ()=>_selectItem("VISA ****8744",),
+          leading: Image(image: AssetImage('assets/images/visa.png'),),
+          title: Text("Visa8744", style: TextStyle(color: Colors.black),),
+          trailing: Image(image: AssetImage('assets/images/circle.png'),),
+          onTap: ()=>_selectItem("Visa8744",),
         ),
         ListTile(
-          title: Text("Другой картой", style: TextStyle(color: Colors.black),),
-          onTap: ()=>_selectItem("Другой картой",),
+          leading: Image(image: AssetImage('assets/images/Apple_Pay.png'),),
+          title: Text("Apple Pay", style: TextStyle(color: Colors.black),),
+          trailing: Image(image: AssetImage('assets/images/circle.png'),),
+          onTap: ()=>_selectItem("Apple Pay",),
+        ),
+        ListTile(
+            title: Text("Привязать Карту", style: TextStyle(color: Colors.black),),
+            trailing: Image(image: AssetImage('assets/images/arrow_right.png'),),
+            onTap: (){
+              Navigator.push(context, new MaterialPageRoute(builder:
+                  (context)=> new AttachCardScreen()));
+            }
         ),
       ],
     );

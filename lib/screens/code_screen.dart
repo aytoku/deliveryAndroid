@@ -169,7 +169,7 @@ class _CodeScreenState extends State<CodeScreen> {
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(bottom: 10, top: 299),
+                          padding: EdgeInsets.only(bottom: 10, top: 298),
                           child: new TimerCountDown(codeScreenState: this),
                         ),
                         Padding(

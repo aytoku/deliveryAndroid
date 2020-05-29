@@ -109,6 +109,7 @@ class _CartScreenState extends State<CartScreen> {
           Flexible(
             flex: 3,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
@@ -126,17 +127,19 @@ class _CartScreenState extends State<CartScreen> {
                     padding: EdgeInsets.only(left: 10, top: 15,bottom: 15),
                     child: Image(image: AssetImage('assets/images/cross.png'),),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10 ),
-                    child: Text(
-                      order.food.name,
-                      style: TextStyle(
-                          decoration: TextDecoration.none,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 10 ),
+                      child: Text(
+                        order.food.name,
+                        style: TextStyle(
+                            decoration: TextDecoration.none,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black
+                        ),
+                        textAlign: TextAlign.start,
                       ),
-                      overflow: TextOverflow.ellipsis,
                     ),
                   )
                 ]

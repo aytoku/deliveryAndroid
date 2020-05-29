@@ -4,6 +4,7 @@ import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/screens/auth_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
+import 'package:food_delivery/sideBar/side_bar.dart';
 
 class DeviceIdScreen extends StatelessWidget {
 
@@ -19,7 +20,7 @@ class DeviceIdScreen extends StatelessWidget {
             return AuthScreen();
           }
           print(necessaryDataForAuth.refresh_token);
-          return HomeScreen();
+          return SideBar();
         }else{
           return Center(
             child: CircularProgressIndicator(),

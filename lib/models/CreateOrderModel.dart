@@ -41,7 +41,7 @@ class CreateOrder {
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
       authCodeData = AuthCodeData.fromJson(jsonResponse);
-      necessaryDataForAuth = await NecessaryDataForAuth.saveData(currentUser.phone,authCodeData.refresh_token);
+      necessaryDataForAuth = await NecessaryDataForAuth.saveData(necessaryDataForAuth.phone_number,authCodeData.refresh_token);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }

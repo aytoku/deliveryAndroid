@@ -212,7 +212,7 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(right: 10.0, top: 10, bottom: 12),
+                    margin: EdgeInsets.only(right: 0.0, top: 10, bottom: 12),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,22 +222,24 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  restaurantDataItems.name,
-                                  style: TextStyle(
-                                      fontSize: 15.0,
-                                      fontWeight: FontWeight.bold
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    restaurantDataItems.name,
+                                    style: TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold
+                                    ),
+                                    textAlign: TextAlign.start,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               SizedBox(height: 4.0,),
                               Align(
                                 alignment: AlignmentDirectional.centerEnd,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 0),
+                                  padding: EdgeInsets.only(right: 10),
                                   child: Text(
                                     '${restaurantDataItems.price}',
                                     style: TextStyle(
@@ -255,13 +257,13 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                         Row(
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(right: 0),
+                              padding: EdgeInsets.only(top: 0),
                               child: Counter(
                                 key: counterKey,
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 30),
+                              padding: EdgeInsets.only(left: 30, top: 0),
                               child: FlatButton(
                                 child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 15),),
                                 color: Colors.redAccent,
@@ -357,8 +359,63 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
               this.food_records_items.clear();
             }
             if(snapshot.data.records_count == 0){
-              return Center(
-                child: Text('Нет товаров данной категории'),
+              return Container(
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 50),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Flexible(
+                                flex: 1,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: GestureDetector(
+                                    onTap: () => Navigator.pop(
+                                        context
+                                    ),
+                                    child:Padding(
+                                      padding: EdgeInsets.only(right: 0),
+                                      child: Image(
+                                        width: 30,
+                                        height: 30,
+                                        image: AssetImage('assets/images/arr.png'),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Flexible(
+                                flex: 10,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 0),
+                                    child:  Text(this.restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    _buildFoodCategoryList(),
+                    Container(
+                        height: 500,
+                        child: Center(
+                          child: Text('Нет товаров данной категории'),
+                        )
+                    ),
+                    SizedBox(height: 10.0),
+                  ],
+                )
               );
             }
             if(snapshot.connectionState == ConnectionState.done){

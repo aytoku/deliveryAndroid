@@ -86,24 +86,25 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            (ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].unrestricted_value : 'Error',
+                            (ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].unrestricted_value : 'Пусто',
                             style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold
+                                fontSize: 17.0,
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            (ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[1].unrestricted_value : 'Error',
-                            style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Text(
+                              (ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[1].unrestricted_value : 'Пусто',
+                              style: TextStyle(
+                                fontSize: 17.0,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                          )
                         ),
                         SizedBox(height: 4.0,),
                         Text(
@@ -249,46 +250,61 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
           alignment: Alignment.centerLeft,
           child: Padding(
             padding: EdgeInsets.only(top: 10, left: 15),
-            child:  Text((restaurantDataItems.store != null) ? restaurantDataItems.store.name : 'Error', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-          ),
+            child:Text(
+              (restaurantDataItems.store != null) ? restaurantDataItems.routes[0].unrestricted_value : 'Пусто',
+              style: TextStyle(
+                fontSize: 17.0,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          )
         ),
         Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            (restaurantDataItems.store != null) ? restaurantDataItems.routes[0].unrestricted_value : 'Error',
-            style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold
+          child: Padding(
+            padding: EdgeInsets.only(top: 10, left: 15),
+            child: Text(
+              (restaurantDataItems.store != null) ? restaurantDataItems.routes[1].unrestricted_value : 'Пусто',
+              style: TextStyle(
+                  fontSize: 17.0,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
-            overflow: TextOverflow.ellipsis,
-          ),
+          )
         ),
         Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            (restaurantDataItems.store != null) ? restaurantDataItems.routes[1].unrestricted_value : 'Error',
-            style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold
-            ),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        Text(
-          'Заказ'
+          child: Padding(
+            padding: EdgeInsets.only(top: 10, left: 15),
+            child: Text(
+              'Заказ'
+              , style: TextStyle(fontSize: 17),),
+          )
         ),
         Flexible(
           child: Padding(
             padding: EdgeInsets.only(top: 10, left: 15),
             child: ListView(
               children: List.generate((restaurantDataItems.products != null) ? restaurantDataItems.products.length : 0, (index){
-                return Text(restaurantDataItems.products[index].name + '${restaurantDataItems.products[index].number}');
+                return Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Text(restaurantDataItems.products[index].name),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child:
+                        Text('${restaurantDataItems.products[index].number}'),
+                      )
+                    ],
+                  ),
+                );
               }),
             )
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(top: 50, right: 20,left: 20),
+          padding: EdgeInsets.only(top: 10, right: 20,left: 20, bottom: 10),
           child: FlatButton(
             child: Center(
               child: Text(
