@@ -51,6 +51,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
   }
 
   String title = 'Visa8744';
+  String image = 'assets/images/card.png';
 
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
@@ -223,10 +224,10 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                   children: <Widget>[
                     GestureDetector(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20,bottom: 40),
+                        padding: EdgeInsets.only(left: 20,bottom: 35),
                         child: Row(
                           children: <Widget>[
-                            Image(image: AssetImage('assets/images/card.png'),),
+                            Image.asset(image),
                             Padding(
                               padding: EdgeInsets.only(left: 15),
                               child: Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),),
@@ -305,7 +306,7 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                         Navigator.push(
                         context,
                         new MaterialPageRoute(
-                          builder: (context) => new SideBar(),
+                          builder: (context) => new HomeScreen(),
                         ),
                       );},
                     ),
@@ -346,36 +347,37 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
           leading: Image(image: AssetImage('assets/images/visa.png'),),
           title: Text("Visa8744", style: TextStyle(color: Colors.black),),
           trailing: Image(image: AssetImage('assets/images/circle.png'),),
-          onTap: ()=>_selectItem("Visa8744",),
+          onTap: ()=>_selectItem("Visa8744",'assets/images/visa.png'),
         ),
         ListTile(
           leading: Image(image: AssetImage('assets/images/visa.png'),),
           title: Text("Visa8744", style: TextStyle(color: Colors.black),),
           trailing: Image(image: AssetImage('assets/images/circle.png'),),
-          onTap: ()=>_selectItem("Visa8744",),
+          onTap: ()=>_selectItem("Visa8744",'assets/images/visa.png'),
         ),
         ListTile(
           leading: Image(image: AssetImage('assets/images/Apple_Pay.png'),),
           title: Text("Apple Pay", style: TextStyle(color: Colors.black),),
           trailing: Image(image: AssetImage('assets/images/circle.png'),),
-          onTap: ()=>_selectItem("Apple Pay",),
+          onTap: ()=>_selectItem("Apple Pay",'assets/images/Apple_Pay.png'),
         ),
         ListTile(
-            title: Text("Привязать Карту", style: TextStyle(color: Colors.black),),
-            trailing: Image(image: AssetImage('assets/images/arrow_right.png'),),
-            onTap: (){
-              Navigator.push(context, new MaterialPageRoute(builder:
-                  (context)=> new AttachCardScreen()));
-            }
+          title: Text("Привязать Карту", style: TextStyle(color: Colors.black),),
+          trailing: Image(image: AssetImage('assets/images/arrow_right.png'),),
+//          onTap: (){
+//            Navigator.push(context, new MaterialPageRoute(builder:
+//            (context)=> new AttachCardScreen()));
+//          }
         ),
       ],
     );
   }
 
-  void _selectItem(String name){
+  void _selectItem(String name, String image_name){
     Navigator.pop(context);
     setState(() {
       title = name;
+      image = image_name;
     });
   }
 

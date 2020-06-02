@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:food_delivery/PostData/orders_story_data.dart';
 import 'package:food_delivery/PostData/restaurant_data_pass.dart';
 import 'package:food_delivery/PostData/restaurant_items_data_pass.dart';
@@ -9,6 +10,7 @@ import 'package:food_delivery/models/OrderStoryModel.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/RestaurantDataItems.dart';
 import 'package:food_delivery/models/restaurant.dart';
+import 'package:food_delivery/screens/orders_details.dart';
 import 'package:food_delivery/screens/restaurant_screen.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
 import 'package:food_delivery/widgets/recent_orders.dart';
@@ -41,91 +43,55 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
         var time = '';
         time = format.format(date);
       restaurantList.add(
-          GestureDetector(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 8.0, // soften the shadow
-                      spreadRadius: 3.0, //extend the shadow
-                    )
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(
-                      width: 1.0,
-                      color: Colors.grey[200]
-                  )
-              ),
-              child: Column(
-                children: <Widget>[
-                  Row(
+        Container(
+          child: GestureDetector(
+            child: Column(
+              children: <Widget>[
+                GestureDetector(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(left: 15, top: 10),
-                        child: Text(time, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 10, right: 15),
+                        padding: EdgeInsets.only(top: 15, left: 15),
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child:  Text('${ordersStoryModelItem.price}', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
+                          child:  Text(ordersStoryModelItem.routes[0].value, style: TextStyle(fontSize: 14)),
                         ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15, top: 10, right: 15),
+                        child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xB0B0B0B0)),),
                       ),
                     ],
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 15.0, top: 12, bottom: 12),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            (ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].unrestricted_value : 'Пусто',
-                            style: TextStyle(
-                                fontSize: 17.0,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 5, left: 15, bottom: 15),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child:  Text('${ordersStoryModelItem.price} \Р', style: TextStyle(fontSize: 14,color: Color(0xB0B0B0B0),),
                         ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 10),
-                            child: Text(
-                              (ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[1].unrestricted_value : 'Пусто',
-                              style: TextStyle(
-                                fontSize: 17.0,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          )
-                        ),
-                        SizedBox(height: 4.0,),
-                        Text(
-                          (ordersStoryModelItem.store != null && ordersStoryModelItem.store.destination_points != null)? ordersStoryModelItem.store.destination_points[0].unrestricted_value: ' ',
-                          style: TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w600
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(height: 4.0,),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                      ),
+                    )],
+                ),
+                Divider(height: 1.0, color: Colors.grey),
+              ],
             ),
-            onTap: (){
-              _onPressedButton(ordersStoryModelItem, cartItemsQuantityKey);
+              onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) {
+                      return OrdersDetailsScreen(ordersStoryModelItem: ordersStoryModelItem);
+                    }
+                ),
+              );
             }
-          )
+          ),
+        ),
       );
       i++;});
 
@@ -169,7 +135,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
         context: context,
         builder: (context){
           return Container(
-              height: 150,
+              height: 140,
               child:  Container(
                 child: _buildDeleteBottomNavigationMenu(),
                 decoration: BoxDecoration(
@@ -196,7 +162,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(top: 10, left: 15),
+                    padding: EdgeInsets.only(top: 15, left: 15),
                     child:  Text('Вы действительно хотите удалить\nданную поездку?', style: TextStyle(fontSize: 17),),
                   ),
                   Row(
@@ -275,10 +241,10 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
         Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: EdgeInsets.only(top: 10, left: 15),
+            padding: EdgeInsets.only(top: 20, left: 15),
             child: Text(
               'Заказ'
-              , style: TextStyle(fontSize: 17),),
+              , style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
           )
         ),
         Flexible(
@@ -290,11 +256,23 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                   padding: EdgeInsets.only(top: 10),
                   child: Row(
                     children: <Widget>[
-                      Text(restaurantDataItems.products[index].name),
                       Padding(
                         padding: EdgeInsets.only(left: 15),
                         child:
                         Text('${restaurantDataItems.products[index].number}'),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10,),
+                        child: Image(image: AssetImage('assets/images/cross.png'),),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: Text(restaurantDataItems.products[index].name),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child:
+                        Text('${restaurantDataItems.products[index].price} \Р'),
                       )
                     ],
                   ),
@@ -343,9 +321,21 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                 return ListView(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 20, left: 15),
+                      padding: EdgeInsets.only(top: 20, bottom: 30, left: 15),
                       child: Row(
                         children: <Widget>[
+                          GestureDetector(
+                            child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Padding(
+                                    padding: EdgeInsets.only(),
+                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg')
+                                )
+                            ),
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                          ),
                           Center(
                             child: Padding(
                               padding: EdgeInsets.only(left: 100),
@@ -355,6 +345,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                         ],
                       ),
                     ),
+                    Divider(height: 1.0, color: Colors.grey),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/Auth.dart';
@@ -33,6 +34,7 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   String error = '';
+  var controller = new MaskedTextController(mask: '+70000000000');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,9 +52,10 @@ class _AuthScreenState extends State<AuthScreen> {
             child: TextField(
               style: TextStyle(fontSize: 28),
               textAlign: TextAlign.center,
-              maxLength: 12,
+              maxLength: 13,
               keyboardType: TextInputType.phone,
               decoration: new InputDecoration(
+
                 contentPadding: EdgeInsets.only(left: 0),
                 hintText: '+79188888888',
                 counterText: '',
@@ -66,47 +69,61 @@ class _AuthScreenState extends State<AuthScreen> {
             padding: EdgeInsets.only(top: 10),
             child: Text(error,style: TextStyle(color: Colors.red, fontSize: 12),),
           ),
-          Container(
-            height: 430,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
-                child: FlatButton(
-                  child: Text(
-                      'Далее',
-                      style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white
-                      )
+          Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 300),
+                child: Text(
+                    'Нажимая кнопку “Далее”, вы принимете условия\nПользовательского соглашения и Политики\nконфиденцальности',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0x97979797),
+                    fontSize: 13
                   ),
-                  color: Colors.grey,
-                  splashColor: Colors.grey,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: EdgeInsets.only(left: 150, top: 20, right: 150, bottom: 20),
-                  onPressed: () async {
-                    if(validateMobile(currentUser.phone)== null){
-                      if(currentUser.phone[0] != '+'){
-                        currentUser.phone = '+' + currentUser.phone;
-                      }
-                      Navigator.pushReplacement(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => new CodeScreen(),
-                        ),
-                      );
-                    }else{
-                      setState(() {
-                        error = 'Указан неверный номер';
-                      });
-                    }
-                  },
                 ),
               ),
-            ),
+              Container(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
+                    child: FlatButton(
+                      child: Text(
+                          'Далее',
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white
+                          )
+                      ),
+                      color: Colors.grey,
+                      splashColor: Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
+                      onPressed: () async {
+                        if(validateMobile(currentUser.phone)== null){
+                          if(currentUser.phone[0] != '+'){
+                            currentUser.phone = '+' + currentUser.phone;
+                          }
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => new CodeScreen(),
+                            ),
+                          );
+                        }else{
+                          setState(() {
+                            error = 'Указан неверный номер';
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ),
+              )
+            ],
           )
         ],
       )

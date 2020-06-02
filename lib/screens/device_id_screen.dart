@@ -20,7 +20,7 @@ class DeviceIdScreen extends StatelessWidget {
             return AuthScreen();
           }
           print(necessaryDataForAuth.refresh_token);
-          return SideBar();
+          return HomeScreen();
         }else{
           return Center(
             child: CircularProgressIndicator(),

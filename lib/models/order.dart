@@ -9,12 +9,14 @@ class Order {
   final Records restaurant;
   final FoodRecords food;
   int quantity;
+  bool isSelected;
   final String date;
 
   Order({
     this.restaurant,
     this.food,
     this.date,
+    this.isSelected = false,
     this.quantity,
   });
 

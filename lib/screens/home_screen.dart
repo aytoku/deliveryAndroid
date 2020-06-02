@@ -1,16 +1,27 @@
+import 'dart:developer';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:food_delivery/PostData/restaurant_data_pass.dart';
 import 'package:food_delivery/PostData/restaurant_items_data_pass.dart';
+import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/RestaurantDataItems.dart';
 import 'package:food_delivery/models/restaurant.dart';
+import 'package:food_delivery/screens/infromation_screen.dart';
+import 'package:food_delivery/screens/my_addresses_screen.dart';
+import 'package:food_delivery/screens/orders_story_screen.dart';
+import 'package:food_delivery/screens/payments_methods_screen.dart';
 import 'package:food_delivery/screens/restaurant_screen.dart';
+import 'package:food_delivery/screens/service_screen.dart';
+import 'package:food_delivery/screens/ssettings_screen.dart';
+import 'package:food_delivery/sideBar/side_bar.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
 import 'package:food_delivery/widgets/recent_orders.dart';
 
+import 'auth_screen.dart';
 import 'cart_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,6 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
   int limit = 12;
   bool isLoading = true;
   List<Records> records_items = new List<Records>();
+  String category;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  bool _color;
+
+  @override
+  void initState() {
+    super.initState();
+    _color = true;
+  }
 
   _buildNearlyRestaurant() {
     List<Widget> restaurantList = [];
@@ -112,10 +132,104 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(children: restaurantList);
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
+        key: _scaffoldKey,
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: ListTile(
+                  title: Text(necessaryDataForAuth.phone_number, style: TextStyle(color: Colors.black),),
+                ),
+              ),
+              ListTile(
+                title: Text('Способы оплаты'),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new PaymentsMethodsScreen(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('История заказов'),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new OrdersStoryScreen(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Мои адреса'),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new MyAddressesScreen(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Настройки'),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new SettingsScreen(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Инфоромация'),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new InformationScreen(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Служба поддержки'),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new ServiceScreen(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Выход'),
+                onTap: (){
+                  NecessaryDataForAuth.clear().then((value){
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new AuthScreen(),
+                      ),
+                    );
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
         body:  FutureBuilder<DeliveryResponseData>(
             future: loadRestaurant(page, limit),
             initialData: null,
@@ -138,12 +252,54 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
-                      child: Row(
+                      child:Row(
                         children: <Widget>[
-                          Image(image: AssetImage('assets/images/faem_pict.png'),),
-                          Text("Еда", style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),),
+                          Flexible(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: GestureDetector(
+                                child: SvgPicture.asset('assets/svg_images/menu.svg'),
+                                onTap: (){
+                                  _scaffoldKey.currentState.openDrawer();
+                                },
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            flex: 5,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 50,),
+                              child: GestureDetector(
+                                  child: Text(
+                                    'Указать адрес доставки',
+                                    style: TextStyle(
+                                        color: Colors.redAccent,
+                                        decoration: TextDecoration.underline,
+                                        fontSize: 14
+                                    ),
+                                  )
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            flex: 2,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 50),
+                              child: GestureDetector(
+                                child: Image(
+                                  image: AssetImage(
+                                      'assets/images/search.png'
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -20,6 +20,7 @@ import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 import 'food_bottom_sheet_screen.dart';
 
@@ -33,6 +34,7 @@ class AttachCardScreen extends StatefulWidget {
 
 class AttachCardScreenState extends State<AttachCardScreen> {
   String error = '';
+  var controller = new MaskedTextController(mask: '00/00');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +47,12 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.topLeft,
-                    child: Image(image: AssetImage('assets/images/arrow_left.png'),),
+                    child: GestureDetector(
+                      child: Image(image: AssetImage('assets/images/arrow_left.png'),),
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                    )
                   ),
                   Align(
                     alignment: Alignment.topCenter,
@@ -57,69 +64,98 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 10, left: 10),
-              child: Text(
-                'Номер карты'
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.only(top: 35, left: 15),
+                child: Text(
+                    'Номер карты'
+                ),
               ),
             ),
-            const Divider(
-              color: Color(0xEDEDEDED),
-              height: 20,
-              thickness: 5,
-              indent: 20,
-              endIndent: 0,
-            ),
-            Row(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, left: 10),
-                      child: Text(
-                          'Срок действия'
-                      ),
-                    ),
-                    const Divider(
-                      color: Color(0xEDEDEDED),
-                      height: 20,
-                      thickness: 5,
-                      indent: 20,
-                      endIndent: 0,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, left: 10),
-                      child: Text(
-                          'CVV'
-                      ),
-                    ),
-                    const Divider(
-                      color: Colors.red,
-                      height: 20,
-                      thickness: 5,
-                      indent: 20,
-                      endIndent: 0,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, left: 10),
-                      child: Text(
-                          'Трехзначный код на\nобороте карты'
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
             Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: Text(error,style: TextStyle(color: Colors.red, fontSize: 12),),
+              padding: EdgeInsets.only(top: 0, left: 15, right: 15),
+              child: TextField(
+                maxLength: 12,
+                keyboardType: TextInputType.number,
+                decoration: new InputDecoration(
+                  contentPadding: EdgeInsets.only(left: 0),
+                  hintText: '',
+                  counterText: '',
+                ),
+              ),
+            ),
+            Expanded(
+              child:  Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 15, left: 15),
+                            child: Text(
+                                'Срок действия'
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 0, left: 15, right: 15),
+                          child: TextField(
+                            controller: controller,
+                            maxLength: 5,
+                            keyboardType: TextInputType.number,
+                            decoration: new InputDecoration(
+                              contentPadding: EdgeInsets.only(left: 0),
+                              hintText: '',
+                              counterText: '',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 15, left: 15),
+                            child: Text(
+                                'CVV'
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 0, left: 15, right: 15),
+                          child: TextField(
+                            maxLength: 4,
+                            obscureText: true,
+                            keyboardType: TextInputType.number,
+                            decoration: new InputDecoration(
+                              contentPadding: EdgeInsets.only(left: 0),
+                              hintText: '',
+                              counterText: '',
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Text(
+                            'Трехзначный код на\nобороте карты'
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
             Container(
-              height: 400,
+              height: 350,
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
@@ -147,7 +183,7 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                         Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(
-                            builder: (context) => new CodeScreen(),
+                            builder: (context) => new AddressScreen(),
                           ),
                         );
                       }else{

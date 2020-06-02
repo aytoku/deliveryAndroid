@@ -54,6 +54,8 @@ class _AddressScreenState extends State<AddressScreen> {
   }
 
   String title = 'Visa8744';
+  String image = 'assets/images/card.png';
+  String checkbox = 'assets/images/checkbox.png';
 
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
@@ -67,97 +69,97 @@ class _AddressScreenState extends State<AddressScreen> {
         key: _scaffoldStateKey,
         resizeToAvoidBottomPadding: false,
         body: Container(
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 50, bottom: 10),
-                child: Row(
+            color: Colors.white,
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 50, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: GestureDetector(
+                          onTap: () => Navigator.pop(
+                              context
+                          ),
+                          child:Padding(
+                            padding: EdgeInsets.only(right: 0),
+                            child: Image(
+                              width: 30,
+                              height: 30,
+                              image: AssetImage('assets/images/arr.png'),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 95),
+                        child:  Text("Оформление заказа", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 15),
-                      child: GestureDetector(
-                        onTap: () => Navigator.pop(
-                            context
-                        ),
-                        child:Padding(
-                          padding: EdgeInsets.only(right: 0),
-                          child: Image(
-                            width: 30,
-                            height: 30,
-                            image: AssetImage('assets/images/arr.png'),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 95),
-                      child:  Text("Оформление заказа", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 1,
-                    child: SizedBox(
-                      height: 40,
-                      child: GestureDetector(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 5, right: 5),
-                          child: Container(
-                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
-                              color: Colors.redAccent,),
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                              child: Text('Доставка',
-                                style: TextStyle(color: Colors.white, fontSize: 15),),
+                    Flexible(
+                      flex: 1,
+                      child: SizedBox(
+                        height: 40,
+                        child: GestureDetector(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 5, right: 5),
+                            child: Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                                color: Colors.redAccent,),
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                                child: Text('Доставка',
+                                  style: TextStyle(color: Colors.white, fontSize: 15),),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: SizedBox(
-                      height: 40,
-                      child: GestureDetector(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 5, right: 5),
-                          child: Container(
-                            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
-                              color: Colors.white,),
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                              child: Text('Заберу сам',
-                                style: TextStyle(color: Color(0x99999999), fontSize: 15),),
+                    Flexible(
+                      flex: 1,
+                      child: SizedBox(
+                        height: 40,
+                        child: GestureDetector(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 5, right: 5),
+                            child: Container(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                                color: Colors.white,),
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                                child: Text('Заберу сам',
+                                  style: TextStyle(color: Color(0x99999999), fontSize: 15),),
+                              ),
                             ),
                           ),
-                        ),
-                        onTap: (){{
-                          Navigator.pushReplacement(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) => new TakeAwayScreen(restaurant: restaurant,),
-                            ),
-                          );}
+                          onTap: (){{
+                            Navigator.pushReplacement(
+                              context,
+                              new MaterialPageRoute(
+                                builder: (context) => new TakeAwayScreen(restaurant: restaurant,),
+                              ),
+                            );}
                           setState(() {
                             _color = !_color;
                           });
-                        },
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Form(
-                key: _foodItemFormKey,
-                child: Column(
-                  children: <Widget>[
+                  ],
+                ),
+                Form(
+                  key: _foodItemFormKey,
+                  child: Column(
+                    children: <Widget>[
 //                    Row(
 //                      children: <Widget>[
 //                        Padding(
@@ -166,137 +168,137 @@ class _AddressScreenState extends State<AddressScreen> {
 //                        ),
 //                      ],
 //                    ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 20,),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 20,),
                         child: AutoComplete(destinationPointsKey),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 15, bottom: 20),
-                      child: _buildTextFormField("Кв./офис"),
-                    ),Padding(
-                      padding: EdgeInsets.only(left: 15, bottom: 20),
-                      child: _buildTextFormField("Подъезд"),
-                    ),Padding(
-                      padding: EdgeInsets.only(left: 15, bottom: 20),
-                      child: _buildTextFormField("Комментарий к заказу"),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 15, bottom: 20),
-                      child: _buildTextFormField("Доставка"),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
-                    child: Row(
-                      children: <Widget>[
-                        Text("Способ оплаты", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15, bottom: 20),
+                        child: _buildTextFormField("Кв./офис"),
+                      ),Padding(
+                        padding: EdgeInsets.only(left: 15, bottom: 20),
+                        child: _buildTextFormField("Подъезд"),
+                      ),Padding(
+                        padding: EdgeInsets.only(left: 15, bottom: 20),
+                        child: _buildTextFormField("Комментарий к заказу"),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15, bottom: 20),
+                        child: _buildTextFormField("Доставка"),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  GestureDetector(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 20,bottom: 20),
+                ),
+                Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
                       child: Row(
                         children: <Widget>[
-                          Image(image: AssetImage('assets/images/card.png'),),
-                          Padding(
-                            padding: EdgeInsets.only(left: 15),
-                            child: Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 200),
-                            child: Image(image: AssetImage('assets/images/arrow_right.png'),),
-                          )
+                          Text("Способ оплаты", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
                         ],
                       ),
                     ),
-                    onTap: _onPress,
-                  )
-                ],
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 10),
-                  child: FlatButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Flexible(
-                          flex: 1,
-                          child: Text(
-                            '30 – 50 мин',
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),),
-                        ),
-                        Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                right: 30,
-                              ),
-                              child: Text(
-                                  'Оплатить',
-                                  style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white
-                                  )
-                              ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20,bottom: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Image.asset(image),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 200),
+                              child: Image(image: AssetImage('assets/images/arrow_right.png'),),
                             )
+                          ],
                         ),
-                        Flexible(
-                          flex: 1,
-                          child: Text(
-                              '${totalPrice.toStringAsFixed(0)}',
+                      ),
+                      onTap: _onPress,
+                    )
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 10),
+                    child: FlatButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            flex: 1,
+                            child: Text(
+                              '30 – 50 мин',
                               style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),),
+                          ),
+                          Flexible(
+                              flex: 1,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  right: 30,
+                                ),
+                                child: Text(
+                                    'Оплатить',
+                                    style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white
+                                    )
+                                ),
                               )
                           ),
-                        )
-                      ],
-                    ),
-                    color: Colors.redAccent,
-                    splashColor: Colors.red,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
-                    onPressed: (){
-                      CreateOrder createOrder = new CreateOrder(
-                          address: destinationPointsKey.currentState.searchTextField.textField.controller.text,
-                          office: office,
-                          floor: floor,
-                          comment: comment,
-                          cartDataModel: currentUser.cartDataModel,
-                          restaurant: restaurant
-                      );
-                      createOrder.sendData();
-                      Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                        builder: (context) => new SideBar(),
+                          Flexible(
+                            flex: 1,
+                            child: Text(
+                                '${totalPrice.toStringAsFixed(0)}',
+                                style: TextStyle(
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white
+                                )
+                            ),
+                          )
+                        ],
                       ),
-                    );
+                      color: Colors.redAccent,
+                      splashColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
+                      onPressed: (){
+                        CreateOrder createOrder = new CreateOrder(
+                            address: destinationPointsKey.currentState.searchTextField.textField.controller.text,
+                            office: office,
+                            floor: floor,
+                            comment: comment,
+                            cartDataModel: currentUser.cartDataModel,
+                            restaurant: restaurant
+                        );
+                        createOrder.sendData();
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => new HomeScreen(),
+                          ),
+                        );
                       },
+                    ),
                   ),
                 ),
-              ),
-            ],
-          )
+              ],
+            )
         )
     );
   }
@@ -330,36 +332,37 @@ class _AddressScreenState extends State<AddressScreen> {
           leading: Image(image: AssetImage('assets/images/visa.png'),),
           title: Text("Visa8744", style: TextStyle(color: Colors.black),),
           trailing: Image(image: AssetImage('assets/images/circle.png'),),
-          onTap: ()=>_selectItem("Visa8744",),
+          onTap: ()=>_selectItem("Visa8744",'assets/images/visa.png'),
         ),
         ListTile(
           leading: Image(image: AssetImage('assets/images/visa.png'),),
           title: Text("Visa8744", style: TextStyle(color: Colors.black),),
           trailing: Image(image: AssetImage('assets/images/circle.png'),),
-          onTap: ()=>_selectItem("Visa8744",),
+          onTap: ()=>_selectItem("Visa8744",'assets/images/visa.png'),
         ),
         ListTile(
           leading: Image(image: AssetImage('assets/images/Apple_Pay.png'),),
           title: Text("Apple Pay", style: TextStyle(color: Colors.black),),
           trailing: Image(image: AssetImage('assets/images/circle.png'),),
-          onTap: ()=>_selectItem("Apple Pay",),
+          onTap: ()=>_selectItem("Apple Pay",'assets/images/Apple_Pay.png'),
         ),
         ListTile(
           title: Text("Привязать Карту", style: TextStyle(color: Colors.black),),
           trailing: Image(image: AssetImage('assets/images/arrow_right.png'),),
-          onTap: (){
-            Navigator.push(context, new MaterialPageRoute(builder:
-            (context)=> new AttachCardScreen()));
-          }
+//          onTap: (){
+//            Navigator.push(context, new MaterialPageRoute(builder:
+//            (context)=> new AttachCardScreen()));
+//          }
         ),
       ],
     );
   }
 
-  void _selectItem(String name){
+  void _selectItem(String name, String image_name){
     Navigator.pop(context);
     setState(() {
       title = name;
+      image = image_name;
     });
   }
 

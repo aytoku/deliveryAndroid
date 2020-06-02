@@ -34,7 +34,6 @@ class _CartScreenState extends State<CartScreen> {
   _CartScreenState(this.restaurant);
 
   _buildList(){
-
     double totalPrice = 0;
     currentUser.cartDataModel.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
     return Expanded(
@@ -43,19 +42,11 @@ class _CartScreenState extends State<CartScreen> {
         itemBuilder: (BuildContext context, int index) {
           if (index < currentUser.cartDataModel.cart.length) {
             Order order = currentUser.cartDataModel.cart[index];
-            return Draggable(
+            return Container(
+              color: Colors.white,
+              height: 60,
+              width: MediaQuery.of(context).size.width,
               child: _buildCartItem(order),
-              data: index,
-              onDragStarted: (){
-
-              },
-              feedback: Container(
-                color: Colors.white,
-                height: 60,
-                width: MediaQuery.of(context).size.width,
-                child: _buildCartItem(order),
-              ),
-              childWhenDragging: Container(),
             );
           }
           return  Padding(
@@ -97,71 +88,83 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   _buildCartItem(Order order){
+    GlobalKey<CounterState> counterKey = new GlobalKey();
     return Container(
       padding: EdgeInsets.all(5.0),
       child: Row(
         children: <Widget>[
       Expanded(
       child: Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Flexible(
-            flex: 3,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
-                    child: Text(
-                      '${order.quantity.toStringAsFixed(0)}',
-                      style: TextStyle(
-                        decoration: TextDecoration.none,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, top: 15,bottom: 15),
-                    child: Image(image: AssetImage('assets/images/cross.png'),),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 10 ),
+      child: GestureDetector(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Flexible(
+              flex: 3,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    !order.isSelected ?
+                    Padding(
+                      padding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
                       child: Text(
-                        order.food.name,
+                        '${order.quantity.toStringAsFixed(0)}',
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                             color: Colors.black
                         ),
-                        textAlign: TextAlign.start,
                       ),
+                    ): Counter(key: counterKey,initial_counter: order.quantity,),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10, top: 15,bottom: 15),
+                      child: Image(image: AssetImage('assets/images/cross.png'),),
                     ),
-                  )
-                ]
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            child: Padding(
-              padding: EdgeInsets.only(right: 15),
-              child: Text(
-                  '${order.quantity * order.food.price} \Р',
-                  style: TextStyle(
-                      decoration: TextDecoration.none,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xB0B0B0B0)
-                  )
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 10 ),
+                        child: Text(
+                          order.food.name,
+                          style: TextStyle(
+                              decoration: TextDecoration.none,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                    )
+                  ]
               ),
-            )
-          ),
-        ],
-      ),
+            ),
+            Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 15),
+                  child: Text(
+                      '${order.quantity * order.food.price} \Р',
+                      style: TextStyle(
+                          decoration: TextDecoration.none,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xB0B0B0B0)
+                      )
+                  ),
+                )
+            ),
+          ],
+        ),
+        onTap: (){
+            setState(() {
+              if(order.isSelected){
+                order.quantity = counterKey.currentState.counter;
+              }
+              order.isSelected = !order.isSelected;
+            });
+        },
+      )
     ))]));
   }
 
@@ -215,28 +218,22 @@ class _CartScreenState extends State<CartScreen> {
                        flex: 0,
                        child: Padding(
                            padding: EdgeInsets.only(right: 5),
-                           child: DragTarget<int>(
-                             builder: (context, List candidateData,List rejectedData){
-                               return Container(
-                                 height: 30,
-                                 width: 30,
-                                 decoration: BoxDecoration(
-                                     borderRadius: BorderRadius.all(Radius.circular(5))
-                                 ),
+                           child: Container(
+                               height: 30,
+                               width: 30,
+                               decoration: BoxDecoration(
+                                   borderRadius: BorderRadius.all(Radius.circular(5))
+                               ),
+                               child: GestureDetector(
                                  child: Image(
                                    image: AssetImage('assets/images/delete.png'),
                                  ),
-                               );
-                             },
-                             onWillAccept: (data) {
-                               return true;
-                             },
-                             onAccept: (data) {
-                               setState(() {
-                                 delete = true;
-                                 currentUser.cartDataModel.cart.removeAt(data);
-                               });
-                             },
+                                 onTap: (){
+                                   setState(() {
+                                     currentUser.cartDataModel.cart.clear();
+                                   });
+                                 },
+                               )
                            )
                        ),
                      ),
@@ -351,5 +348,99 @@ class _CartScreenState extends State<CartScreen> {
        )
      ),
     );
+  }
+}
+
+class Counter extends StatefulWidget{
+  final int initial_counter;
+  Counter({Key key, this.initial_counter}) : super(key: key);
+
+  @override
+  CounterState createState() {
+    return new CounterState(counter: initial_counter);
+  }
+}
+
+class CounterState extends State<Counter>{
+  int counter = 1;
+  CounterState({this.counter});
+  // ignore: non_constant_identifier_names
+  void _incrementCounter_plus(){
+    setState(() {
+      counter++;
+    });
+  }
+  // ignore: non_constant_identifier_names
+  void _incrementCounter_minus(){
+    setState(() {
+      counter--;
+    });
+  }
+
+  Widget build(BuildContext context){
+    return  Padding(
+      padding: EdgeInsets.only(top: 0, left: 15),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(color: Color(0xF5F5F5F5))
+        ),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 5),
+                child: GestureDetector(
+                  onTap: () {
+                    _incrementCounter_minus();
+                  },child: Text(
+                  '-',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                ),
+                ),
+              ),
+              SizedBox(width: 20.0),
+              Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Text(
+                  '$counter',
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 5),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _incrementCounter_plus();
+                    });
+                  },
+                  child: Text(
+                    '+',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              )
+            ]
+        ),
+      ),
+    );
+  }
+
+  void refresh(){
+    setState(() {
+
+    });
   }
 }

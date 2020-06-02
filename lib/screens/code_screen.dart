@@ -71,79 +71,81 @@ class _CodeScreenState extends State<CodeScreen> {
                     child: Text('Введите код из смс',style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold)),
                   ),
                 ),
-                Row(
-                  children: <Widget>[
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: code1 = TextField(
-                            focusNode: new FocusNode(),
-                            controller: new TextEditingController(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 28),
-                            keyboardType: TextInputType.number,
-                            maxLength: 1,
-                            decoration: new InputDecoration(
-                              counterText: '',
-                            ),
-                          onChanged: (String value){
-                              if(value != ''){
-                                code2.focusNode.requestFocus();
+                Padding(
+                  padding: EdgeInsets.only(right: 30, left: 30),
+                  child: Row(
+                    children: <Widget>[
+                      Flexible(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: code1 = TextField(
+                              focusNode: new FocusNode(),
+                              controller: new TextEditingController(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 28),
+                              keyboardType: TextInputType.number,
+                              maxLength: 1,
+                              decoration: new InputDecoration(
+                                counterText: '',
+                              ),
+                              onChanged: (String value){
+                                if(value != ''){
+                                  code2.focusNode.requestFocus();
+                                }
                               }
-                          }
+                          ),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: code2 = TextField(
-                            focusNode: new FocusNode(),
-                            controller: new TextEditingController(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 28),
-                            keyboardType: TextInputType.number,
-                            maxLength: 1,
-                            decoration: new InputDecoration(
-                              counterText: '',
-                            ),
-                            onChanged: (String value){
-                              if(value != ''){
-                                code3.focusNode.requestFocus();
+                      Flexible(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: code2 = TextField(
+                              focusNode: new FocusNode(),
+                              controller: new TextEditingController(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 28),
+                              keyboardType: TextInputType.number,
+                              maxLength: 1,
+                              decoration: new InputDecoration(
+                                counterText: '',
+                              ),
+                              onChanged: (String value){
+                                if(value != ''){
+                                  code3.focusNode.requestFocus();
+                                }
                               }
-                            }
+                          ),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: code3 = TextField(
-                            focusNode: new FocusNode(),
-                            controller: new TextEditingController(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 28),
-                            keyboardType: TextInputType.number,
-                            maxLength: 1,
-                            decoration: new InputDecoration(
-                              counterText: '',
-                            ),
-                            onChanged: (String value){
-                              if(value != ''){
-                                code4.focusNode.requestFocus();
+                      Flexible(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: code3 = TextField(
+                              focusNode: new FocusNode(),
+                              controller: new TextEditingController(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 28),
+                              keyboardType: TextInputType.number,
+                              maxLength: 1,
+                              decoration: new InputDecoration(
+                                counterText: '',
+                              ),
+                              onChanged: (String value){
+                                if(value != ''){
+                                  code4.focusNode.requestFocus();
+                                }
                               }
-                            }
+                          ),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: code4 = TextField(
+                      Flexible(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: code4 = TextField(
                             focusNode: new FocusNode(),
                             controller: new TextEditingController(),
                             textAlign: TextAlign.center,
@@ -153,10 +155,11 @@ class _CodeScreenState extends State<CodeScreen> {
                             decoration: new InputDecoration(
                               counterText: '',
                             ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 10),
@@ -186,9 +189,9 @@ class _CodeScreenState extends State<CodeScreen> {
                             color: Colors.grey,
                             splashColor: Colors.grey,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(50),
                             ),
-                            padding: EdgeInsets.only(left: 150, top: 20, right: 150, bottom: 20),
+                            padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
                             onPressed: ()async {
                               String temp = '';
                               temp = code1.controller.text +
@@ -201,7 +204,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   new MaterialPageRoute(
-                                    builder: (context) => new SideBar(),
+                                    builder: (context) => new HomeScreen(),
                                   ),
                                 );
                               }else{
