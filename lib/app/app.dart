@@ -27,7 +27,7 @@ class App extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "Food Delivery App",
         theme: ThemeData(primaryColor: Colors.blueAccent),
-        home: MyAddressesScreen(),
+        home: DeviceIdScreen(),
         // home: AddFoodItem(),
       ),
     );
