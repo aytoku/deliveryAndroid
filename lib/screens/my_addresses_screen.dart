@@ -86,6 +86,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: FutureBuilder<List<MyAddressesModel>>(
         future: MyAddressesModel.getAddresses(),
         builder: (BuildContext context, AsyncSnapshot<List<MyAddressesModel>> snapshot){

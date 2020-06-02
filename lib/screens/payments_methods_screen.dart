@@ -59,7 +59,7 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
             child: Padding(
                 padding: EdgeInsets.only(top: 10, left: 10, bottom: 10),
                 child: ListTile(
-                  leading: Image(image: AssetImage('assets/images/visa.png'),),
+                  leading: SvgPicture.asset('assets/svg_images/visa.svg'),
                   title: Text("Visa8744", style: TextStyle(color: Colors.black),),
                   trailing: Image(image: AssetImage('assets/images/circle.png'),),
                 ),
@@ -71,7 +71,7 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
             child: Padding(
               padding: EdgeInsets.only(top: 10, left: 10, bottom: 10),
               child: ListTile(
-                leading: Image(image: AssetImage('assets/images/visa.png'),),
+                leading: SvgPicture.asset('assets/svg_images/visa.svg'),
                 title: Text("Visa8744", style: TextStyle(color: Colors.black),),
                 trailing: Image(image: AssetImage('assets/images/circle.png'),),
               ),
@@ -83,7 +83,7 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
             child: Padding(
               padding: EdgeInsets.only(top: 10, left: 10, bottom: 10),
               child: ListTile(
-                leading: Image(image: AssetImage('assets/images/Apple_Pay.png'),),
+                leading: SvgPicture.asset('assets/svg_images/Apple_Pay.svg'),
                 title: Text("Apple Pay", style: TextStyle(color: Colors.black),),
                 trailing: Image(image: AssetImage('assets/images/circle.png'),),
               ),

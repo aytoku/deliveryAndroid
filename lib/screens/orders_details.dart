@@ -67,12 +67,12 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
               Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(left: 15, top: 10),
+                    padding: EdgeInsets.only(left: 15, top: 15, right: 40),
                     child: Text((ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].value : 'Пусто',
                       style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 15, top: 5),
+                    padding: EdgeInsets.only(left: 15, top: 5, right: 100),
                     child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xB0B0B0B0)),),
                   )
                 ],
@@ -80,7 +80,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
               Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(right: 15),
+                    padding: EdgeInsets.only(right: 15, top: 15),
                     child: Text('Статус заказа: Выдан', style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),),
                   ),
                   Padding(
@@ -96,7 +96,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
             child: Text('Адрес заведения', style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 210, top: 5, bottom: 10),
+            padding: EdgeInsets.only(right: 240, top: 5, bottom: 10),
             child: Text((ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].street + ordersStoryModelItem.routes[0].house : 'Пусто',
               style: TextStyle(fontSize: 12, color: Color(0xB0B0B0B0)),),
           ),
@@ -111,29 +111,35 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                     padding: EdgeInsets.only(top: 10),
                     child: Column(
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 15),
-                              child:
-                              Text('${ordersStoryModelItem.products[index].number}'),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15, right: 15),
-                              child: SvgPicture.asset('assets/svg_images/cross.svg'),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15),
-                              child: Text(ordersStoryModelItem.products[index].name),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15),
-                              child:
-                              Text('${ordersStoryModelItem.products[index].price} \Р'),
-                            ),
-                          ],
+                        Padding(
+                          padding: EdgeInsets.only(top: 10, bottom: 10),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: 15),
+                                child:
+                                Text('${ordersStoryModelItem.products[index].number}'),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15, right: 15),
+                                child: SvgPicture.asset('assets/svg_images/cross.svg'),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15),
+                                child: Text(ordersStoryModelItem.products[index].name),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15),
+                                child:
+                                Text('${ordersStoryModelItem.products[index].price} \Р'),
+                              ),
+                            ],
+                          ),
                         ),
-                        Divider(height: 1.0, color: Colors.grey),
+                        Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Divider(height: 1.0, color: Colors.grey),
+                        )
                       ],
                     )
                   );

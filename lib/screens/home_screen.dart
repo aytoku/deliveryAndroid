@@ -287,11 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Padding(
                               padding: EdgeInsets.only(left: 50),
                               child: GestureDetector(
-                                child: Image(
-                                  image: AssetImage(
-                                      'assets/images/search.png'
-                                  ),
-                                ),
+                                child: SvgPicture.asset('assets/svg_images/search.svg')
                               ),
                             ),
                           ),

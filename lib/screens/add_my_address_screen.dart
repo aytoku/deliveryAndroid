@@ -81,7 +81,6 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
               ),
             ),
           ),
-          Divider(height: 1.0, color: Colors.grey),
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -92,7 +91,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: EdgeInsets.only(top: 30, left: 20),
+              padding: EdgeInsets.only(top: 10, left: 20, bottom: 20),
               child: Text('г.Владикавказ, республика Северная Осетия-Алания, Россия',style: TextStyle(fontSize: 14, color: Color(0x9B9B9B9B))),
             ),
           ),

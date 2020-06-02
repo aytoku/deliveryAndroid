@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:food_delivery/PostData/auth_code_data_pass.dart';
 import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
@@ -58,7 +59,7 @@ class _CodeScreenState extends State<CodeScreen> {
                       alignment: Alignment.topLeft,
                       child: Padding(
                         padding: EdgeInsets.only(left: 15, top: 50),
-                        child: Image(image: AssetImage('assets/images/arrow_left.png'), height: 20, width: 20,),
+                        child: SvgPicture.asset('assets/svg_images/arrow_left.svg')
                       )
                   ),
                   onTap: () => Navigator.pop(

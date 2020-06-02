@@ -50,12 +50,12 @@ class _AuthScreenState extends State<AuthScreen> {
           Padding(
             padding: EdgeInsets.only(top: 30),
             child: TextField(
+              controller: controller,
               style: TextStyle(fontSize: 28),
               textAlign: TextAlign.center,
               maxLength: 13,
               keyboardType: TextInputType.phone,
               decoration: new InputDecoration(
-
                 contentPadding: EdgeInsets.only(left: 0),
                 hintText: '+79188888888',
                 counterText: '',
