@@ -10,7 +10,7 @@ import 'dart:convert' as convert;
 Future<DeliveryResponseData> loadRestaurant(int page, int limit) async {
   DeliveryResponseData deliveryResponseData = null;
   var json_request = jsonEncode({
-    "store_uuid": "restaurant",
+    "type": "restaurant",
     "page": page,
     "limit": limit
   });

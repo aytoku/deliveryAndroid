@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:food_delivery/PostData/restaurant_items_data_pass.dart';
 import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/buttons/bottm_button.dart';
 import 'package:food_delivery/data/data.dart';
@@ -157,6 +158,8 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
 
   void _onPressedButton(FoodRecords food, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey){
     showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(12),
@@ -166,7 +169,7 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
         context: context,
         builder: (context){
           return Container(
-              height: 450,
+              height: 500,
               child:  Container(
                 child: _buildBottomNavigationMenu(food, cartItemsQuantityKey),
                 decoration: BoxDecoration(
@@ -196,13 +199,14 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                           tag: restaurantDataItems.name,
                           child: Image.network(restaurantDataItems.image,
                             fit: BoxFit.cover,
-                            height: 200.0,
+                            height: 300.0,
                             width: 600.0,
                           )
                       )
                   ),
                   Container(
-                    height: 30,
+                    color: Color(0xFAFAFAFA),
+                    height: 60,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
@@ -254,36 +258,39 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                           ),
                         ),
                         SizedBox(height: 4.0,),
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(top: 0),
-                              child: Counter(
-                                key: counterKey,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 30, top: 0),
-                              child: FlatButton(
-                                child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 15),),
-                                color: Colors.redAccent,
-                                splashColor: Colors.red,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
+                        Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(top: 0),
+                                child: Counter(
+                                  key: counterKey,
                                 ),
-                                padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
-                                onPressed: ()
-                                {
-                                  currentUser.cartDataModel.addItem(
-                                      new Order(food: restaurantDataItems, quantity: counterKey.currentState.counter, restaurant: restaurant, date: DateTime.now().toString())
-                                  );
-                                  cartItemsQuantityKey.currentState.refresh();
-                                  buttonCounterKey.currentState.refresh();
-                                  counterKey.currentState.refresh();
-                                },
                               ),
-                            )
-                          ],
+                              Padding(
+                                padding: EdgeInsets.only(left: 20, top: 0),
+                                child: FlatButton(
+                                  child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 15),),
+                                  color: Colors.redAccent,
+                                  splashColor: Colors.red,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
+                                  onPressed: ()
+                                  {
+                                    currentUser.cartDataModel.addItem(
+                                        new Order(food: restaurantDataItems, quantity: counterKey.currentState.counter, restaurant: restaurant, date: DateTime.now().toString())
+                                    );
+                                    cartItemsQuantityKey.currentState.refresh();
+                                    buttonCounterKey.currentState.refresh();
+                                    counterKey.currentState.refresh();
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -632,49 +639,47 @@ class CounterState extends State<Counter>{
 
   Widget build(BuildContext context){
     return  Padding(
-      padding: EdgeInsets.only(top: 20, left: 15),
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                _incrementCounter_minus();
-              },child: Text(
-              '-',
-              style: TextStyle(
-                fontSize: 40.0,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-            ),
-            SizedBox(width: 20.0),
-            Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: Text(
-                '$counter',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
+      padding: EdgeInsets.only(top: 5, left: 15),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(color: Color(0xF5F5F5F5))
+        ),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
+                child: GestureDetector(
+                  onTap: () {
+                    _incrementCounter_minus();
+                  },child: SvgPicture.asset('assets/svg_images/minus.svg'),
                 ),
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _incrementCounter_plus();
-                });
-              },
-              child: Text(
-                '+',
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
+              SizedBox(width: 20.0),
+              Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Text(
+                  '$counter',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
-          ]
+              Padding(
+                padding: EdgeInsets.only(right: 15, top: 15, bottom: 15),
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _incrementCounter_plus();
+                    });
+                  },
+                  child: SvgPicture.asset('assets/svg_images/plus_counter.svg'),
+                ),
+              )
+            ]
+        ),
       ),
     );
   }

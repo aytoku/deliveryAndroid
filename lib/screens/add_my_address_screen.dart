@@ -28,6 +28,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
     nameField.text = myAddressesModel.name;
     // TODO: implement build
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: Column(
         children: <Widget>[
           Row(
@@ -59,8 +60,18 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
                       ),
                     )
                 ),
-                onTap: (){
-
+                onTap: () async {
+                    List<MyAddressesModel> list = await MyAddressesModel.getAddresses();
+                    list.remove(myAddressesModel);
+                    await MyAddressesModel.saveData();
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) {
+                            return new MyAddressesScreen();
+                          }
+                      ),
+                    );
                 },
               )
             ],
@@ -75,7 +86,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: EdgeInsets.only(top: 30, left: 20),
+              padding: EdgeInsets.only(top: 30, left: 20, right: 20),
               child:TextField(
                 controller: nameField,
               ),
@@ -97,7 +108,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
           ),
           Divider(height: 1.0, color: Colors.grey),
           Padding(
-            padding: EdgeInsets.only(left: 30, top: 270),
+            padding: EdgeInsets.only(left: 30, top: 260),
             child: FlatButton(
               child: Text("Сохранить", style: TextStyle(color: Colors.white, fontSize: 15),),
               color: Colors.redAccent,
@@ -113,7 +124,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
                       builder: (context) {
                         myAddressesModel.type = MyAddressesType.home;
                         myAddressesModel.name = nameField.text;
-                        MyAddressesModel.saveData(myAddressesModel);
+                        MyAddressesModel.saveData();
                         return new MyAddressesScreen();
                       }
                   ),

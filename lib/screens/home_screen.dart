@@ -14,6 +14,7 @@ import 'package:food_delivery/screens/infromation_screen.dart';
 import 'package:food_delivery/screens/my_addresses_screen.dart';
 import 'package:food_delivery/screens/orders_story_screen.dart';
 import 'package:food_delivery/screens/payments_methods_screen.dart';
+import 'package:food_delivery/screens/profile_screen.dart';
 import 'package:food_delivery/screens/restaurant_screen.dart';
 import 'package:food_delivery/screens/service_screen.dart';
 import 'package:food_delivery/screens/ssettings_screen.dart';
@@ -145,7 +146,24 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: EdgeInsets.only(top: 20),
                 child: ListTile(
-                  title: Text(necessaryDataForAuth.phone_number, style: TextStyle(color: Colors.black),),
+                  title: Text(necessaryDataForAuth.name, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 5),
+                child: ListTile(
+                  title: Text(necessaryDataForAuth.phone_number, style: TextStyle(color: Color(0x9B9B9B9B), fontSize: 14),),
+                  trailing: GestureDetector(
+                    child: SvgPicture.asset('assets/svg_images/pencil.svg'),
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new ProfileScreen(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
               ListTile(
@@ -212,19 +230,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (context) => new ServiceScreen(),
                     ),
                   );
-                },
-              ),
-              ListTile(
-                title: Text('Выход'),
-                onTap: (){
-                  NecessaryDataForAuth.clear().then((value){
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                        builder: (context) => new AuthScreen(),
-                      ),
-                    );
-                  });
                 },
               ),
             ],

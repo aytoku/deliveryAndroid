@@ -7,6 +7,7 @@ import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/add_my_address_screen.dart';
 
 import 'auto_complete.dart';
+import 'home_screen.dart';
 
 class MyAddressesScreen extends StatefulWidget {
   @override
@@ -106,7 +107,12 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                           )
                       ),
                       onTap: (){
-                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => new HomeScreen(),
+                          ),
+                        );
                       },
                     ),
                     GestureDetector(
@@ -118,8 +124,8 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                           )
                       ),
                       onTap: (){
-                        MyAddressesModel myAddressModel = new MyAddressesModel(type: MyAddressesType.empty);
-                        MyAddressesModel.saveData(myAddressModel).then((value) => setState(() {
+                        myAddressesModelList.add(new MyAddressesModel(type: MyAddressesType.empty));
+                        MyAddressesModel.saveData().then((value) => setState(() {
 
                         }));
                       },

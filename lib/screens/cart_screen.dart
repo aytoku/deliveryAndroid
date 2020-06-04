@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/food.dart';
@@ -217,7 +218,7 @@ class _CartScreenState extends State<CartScreen> {
                      Flexible(
                        flex: 0,
                        child: Padding(
-                           padding: EdgeInsets.only(right: 5),
+                           padding: EdgeInsets.only(right: 10),
                            child: Container(
                                height: 30,
                                width: 30,
@@ -225,9 +226,7 @@ class _CartScreenState extends State<CartScreen> {
                                    borderRadius: BorderRadius.all(Radius.circular(5))
                                ),
                                child: GestureDetector(
-                                 child: Image(
-                                   image: AssetImage('assets/images/delete.png'),
-                                 ),
+                                 child: SvgPicture.asset('assets/svg_images/delete.svg'),
                                  onTap: (){
                                    setState(() {
                                      currentUser.cartDataModel.cart.clear();

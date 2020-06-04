@@ -5,6 +5,7 @@ import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/Auth.dart';
 import 'package:food_delivery/models/AuthCode.dart';
+import 'package:food_delivery/screens/name_screen.dart';
 import 'package:food_delivery/sideBar/side_bar.dart';
 import 'package:food_delivery/test/api_test.dart';
 import 'address_screen.dart';
@@ -201,11 +202,11 @@ class _CodeScreenState extends State<CodeScreen> {
                                   code4.controller.text;
                               authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, int.parse(temp));
                               if(authCodeData != null){
-                                necessaryDataForAuth = await NecessaryDataForAuth.saveData(currentUser.phone, authCodeData.refresh_token);
-                                Navigator.pushReplacement(
+                                necessaryDataForAuth = await NecessaryDataForAuth.saveData(currentUser.phone, authCodeData.refresh_token, '');
+                                Navigator.push(
                                   context,
                                   new MaterialPageRoute(
-                                    builder: (context) => new HomeScreen(),
+                                    builder: (context) => new NameScreen(),
                                   ),
                                 );
                               }else{

@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:food_delivery/models/ResponseData.dart';
+import 'package:food_delivery/models/RestaurantDataItems.dart';
 
 class OrdersStoryModel{
   List<OrdersStoryModelItem> ordersStoryModelItems;
@@ -32,6 +33,7 @@ class OrdersStoryModelItem{
   Records store;
   List<FoodRecordsStory>products;
   int created_at_unix;
+  String state_title;
   int price;
 
   OrdersStoryModelItem( {
@@ -41,7 +43,8 @@ class OrdersStoryModelItem{
     this.store,
     this.products,
     this.created_at_unix,
-    this.price
+    this.price,
+    this.state_title
   });
 
   factory OrdersStoryModelItem.fromJson(Map<String, dynamic> parsedJson){
@@ -49,7 +52,7 @@ class OrdersStoryModelItem{
     var routes_list = parsedJson['routes'] as List;
 
     Records store = null;
-    List<DestinationPoints> routesList = null;
+    List<DestinationPoints> routesList = new List<DestinationPoints>();
     List<FoodRecordsStory> productsList = null;
     if(routes_list != null){
       routesList = routes_list.map((i) =>
@@ -57,6 +60,7 @@ class OrdersStoryModelItem{
     }
     if(parsedJson['products_data'] != null){
       store  = Records.fromJson(parsedJson['products_data']['store']);
+      store.destination_points = routesList;
       var products_list = parsedJson['products_data']['products'] as List;
       if(products_list != null){
         productsList = products_list.map((i) =>
@@ -71,7 +75,8 @@ class OrdersStoryModelItem{
       store: store,
       products: productsList,
       created_at_unix: parsedJson['created_at_unix'],
-      price: parsedJson['tariff']['total_price']
+      price: parsedJson['tariff']['total_price'],
+      state_title: parsedJson['state_title'],
     );
   }
 }
@@ -131,55 +136,6 @@ class FoodRecordsStory{
       store_uuid: parsedJson['store_uuid'],
       toppings: toppingsList,
       variants: variantsList,
-    );
-  }
-}
-
-class Toppings{
-  String uuid;
-  String name;
-  int price;
-  String comment;
-
-  Toppings( {
-    this.uuid,
-    this.name,
-    this.price,
-    this.comment,
-  });
-
-  factory Toppings.fromJson(Map<String, dynamic> parsedJson){
-    return Toppings(
-      uuid:parsedJson['uuid'],
-      name:parsedJson['name'],
-      price:parsedJson['price'],
-      comment:parsedJson['comment'],
-    );
-  }
-}
-
-class Variants{
-  String uuid;
-  String name;
-  bool standard;
-  int price;
-  String comment;
-
-  Variants( {
-    this.uuid,
-    this.name,
-    this.standard,
-    this.price,
-    this.comment,
-  });
-
-  factory Variants.fromJson(Map<String, dynamic> parsedJson){
-    return Variants(
-      uuid:parsedJson['uuid'],
-      name:parsedJson['name'],
-      standard:parsedJson['standard'],
-      price:parsedJson['price'],
-      comment:parsedJson['comment'],
     );
   }
 }

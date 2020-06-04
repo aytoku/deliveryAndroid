@@ -1,3 +1,5 @@
+import 'package:food_delivery/models/OrderStoryModel.dart';
+
 class RestaurantDataItems{
   List<FoodRecords> records;
   int records_count;
@@ -52,6 +54,23 @@ class FoodRecords{
     this.variants,
     this.created_at_unix,
   });
+
+  factory FoodRecords.fromFoodRecordsStory(FoodRecordsStory foodItem){
+    return FoodRecords(
+      uuid: foodItem.uuid,
+      weight:foodItem.weight,
+      name: foodItem.name,
+      comment: foodItem.comment,
+      available: foodItem.available,
+      price: foodItem.price,
+      image: foodItem.image,
+      store_uuid: foodItem.store_uuid,
+      toppings: foodItem.toppings,
+      category: null,
+      variants: foodItem.variants,
+      created_at_unix: null,
+    );
+  }
 
   factory FoodRecords.fromJson(Map<String, dynamic> parsedJson){
 
