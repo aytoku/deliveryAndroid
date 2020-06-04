@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
+import 'package:food_delivery/screens/service_orders_story.dart';
 
 class ServiceScreen extends StatefulWidget {
   @override
@@ -96,71 +97,111 @@ class ServiceScreenState extends State<ServiceScreen>{
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 10, left: 15),
-                  child: Text('Ошибка в заказе', style: TextStyle(fontSize: 17),),
+              padding: EdgeInsets.only(bottom: 15),
+              child: GestureDetector(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, left: 15),
+                      child: Text('Ошибка в заказе', style: TextStyle(fontSize: 17),),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, right: 15),
+                      child:  SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10, right: 15),
-                  child:  SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                ),
-              ],
-            ),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new ServiceOrdersStoryScreen(),
+                    ),
+                  );
+                },
+              )
           ),
           Divider(height: 1.0, color: Colors.grey),
           Padding(
             padding: EdgeInsets.only(bottom: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 10, left: 15),
-                  child: Text('Ошибка стоимости', style: TextStyle(fontSize: 17),),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10, right: 15),
-                  child:  SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                ),
-              ],
-            ),
+            child: GestureDetector(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, left: 15),
+                    child: Text('Ошибка стоимости', style: TextStyle(fontSize: 17),),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, right: 15),
+                    child:  SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                  ),
+                ],
+              ),
+              onTap: (){
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new ServiceOrdersStoryScreen(),
+                  ),
+                );
+              },
+            )
           ),
           Divider(height: 1.0, color: Colors.grey),
           Padding(
-            padding: EdgeInsets.only(bottom: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 10, left: 15),
-                  child: Text('Ошибка программмы', style: TextStyle(fontSize: 17),),
+              padding: EdgeInsets.only(bottom: 15),
+              child: GestureDetector(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, left: 15),
+                      child: Text('Ошибка программмы', style: TextStyle(fontSize: 17),),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, right: 15),
+                      child:  SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10, right: 15),
-                  child:  SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                ),
-              ],
-            ),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new ServiceOrdersStoryScreen(),
+                    ),
+                  );
+                },
+              )
           ),
           Divider(height: 1.0, color: Colors.grey),
           Padding(
-            padding: EdgeInsets.only(bottom: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 10, left: 15),
-                  child: Text('Другая поездка', style: TextStyle(fontSize: 17),),
+              padding: EdgeInsets.only(bottom: 15),
+              child: GestureDetector(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, left: 15),
+                      child: Text('Другая причина', style: TextStyle(fontSize: 17),),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, right: 15),
+                      child:  SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10, right: 15),
-                  child:  SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                ),
-              ],
-            ),
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new ServiceOrdersStoryScreen(),
+                    ),
+                  );
+                },
+              )
           ),
           Divider(height: 1.0, color: Colors.grey),
         ],
