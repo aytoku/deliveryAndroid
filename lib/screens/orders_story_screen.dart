@@ -43,8 +43,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
         var time = '';
         time = format.format(date);
       restaurantList.add(
-        Container(
-          child: GestureDetector(
+        GestureDetector(
             child: Column(
               children: <Widget>[
                 GestureDetector(
@@ -80,7 +79,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                 Divider(height: 1.0, color: Colors.grey),
               ],
             ),
-              onTap: () {
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -90,7 +89,6 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                 ),
               );
             }
-          ),
         ),
       );
       i++;});

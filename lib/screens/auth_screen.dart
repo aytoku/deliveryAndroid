@@ -40,85 +40,101 @@ class _AuthScreenState extends State<AuthScreen> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Center(
-            child: Padding(
-              padding: EdgeInsets.only(top: 80),
-              child: Text('Ваш номер телефона', style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 30),
-            child: TextField(
-              controller: controller,
-              style: TextStyle(fontSize: 28),
-              textAlign: TextAlign.center,
-              maxLength: 13,
-              keyboardType: TextInputType.phone,
-              decoration: new InputDecoration(
-                contentPadding: EdgeInsets.only(left: 0),
-                hintText: '+79188888888',
-                counterText: '',
+          Align(
+            alignment: Alignment.topLeft,
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.only(top: 90),
+                child: Text('Ваш номер телефона', style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),),
               ),
-              onChanged: (String value)async {
-                currentUser.phone = value;
-              },
+            )
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 100),
+              child: TextField(
+                controller: controller,
+                style: TextStyle(fontSize: 28),
+                textAlign: TextAlign.center,
+                maxLength: 13,
+                keyboardType: TextInputType.phone,
+                decoration: new InputDecoration(
+                  contentPadding: EdgeInsets.only(left: 0),
+                  hintText: '+79188888888',
+                  counterText: '',
+                ),
+                onChanged: (String value)async {
+                  currentUser.phone = value;
+                },
+              ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 10),
-            child: Text(error,style: TextStyle(color: Colors.red, fontSize: 12),),
+          Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Text(error,style: TextStyle(color: Colors.red, fontSize: 12),),
+            ),
           ),
           Column(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 300),
-                child: Text(
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 5),
+                  child: Text(
                     'Нажимая кнопку “Далее”, вы принимете условия\nПользовательского соглашения и Политики\nконфиденцальности',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0x97979797),
-                    fontSize: 13
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Color(0x97979797),
+                        fontSize: 13
+                    ),
                   ),
                 ),
               ),
-              Container(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
-                    child: FlatButton(
-                      child: Text(
-                          'Далее',
-                          style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white
-                          )
-                      ),
-                      color: Colors.grey,
-                      splashColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
-                      onPressed: () async {
-                        if(validateMobile(currentUser.phone)== null){
-                          if(currentUser.phone[0] != '+'){
-                            currentUser.phone = '+' + currentUser.phone;
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 10),
+                      child: FlatButton(
+                        child: Text(
+                            'Далее',
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            )
+                        ),
+                        color: Colors.grey,
+                        splashColor: Colors.grey,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
+                        onPressed: () async {
+                          if(validateMobile(currentUser.phone)== null){
+                            if(currentUser.phone[0] != '+'){
+                              currentUser.phone = '+' + currentUser.phone;
+                            }
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                builder: (context) => new CodeScreen(),
+                              ),
+                            );
+                          }else{
+                            setState(() {
+                              error = 'Указан неверный номер';
+                            });
                           }
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) => new CodeScreen(),
-                            ),
-                          );
-                        }else{
-                          setState(() {
-                            error = 'Указан неверный номер';
-                          });
-                        }
-                      },
+                        },
+                      ),
                     ),
                   ),
                 ),

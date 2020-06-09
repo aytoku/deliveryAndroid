@@ -9,6 +9,7 @@ import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/OrderStoryModel.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/RestaurantDataItems.dart';
+import 'package:food_delivery/models/TicketModel.dart';
 import 'package:food_delivery/models/restaurant.dart';
 import 'package:food_delivery/screens/orders_details.dart';
 import 'package:food_delivery/screens/restaurant_screen.dart';
@@ -20,10 +21,11 @@ import 'cart_screen.dart';
 import 'cost_error_screen.dart';
 
 class ServiceOrdersStoryScreen extends StatefulWidget {
-  ServiceOrdersStoryScreen({Key key}) : super(key: key);
+  final TicketModel ticketModel;
+  ServiceOrdersStoryScreen({Key key, this.ticketModel}) : super(key: key);
 
   @override
-  ServiceOrdersStoryScreenState createState() => ServiceOrdersStoryScreenState();
+  ServiceOrdersStoryScreenState createState() => ServiceOrdersStoryScreenState(ticketModel: ticketModel);
 }
 
 class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
@@ -32,6 +34,8 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
   int limit = 12;
   bool isLoading = true;
   List<OrdersStoryModelItem> records_items = new List<OrdersStoryModelItem>();
+  final TicketModel ticketModel;
+  ServiceOrdersStoryScreenState({this.ticketModel});
 
 
   _buildNearlyRestaurant() {
@@ -82,11 +86,12 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                 ],
               ),
               onTap: () {
+                ticketModel.uuid = ordersStoryModelItem.uuid;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (_) {
-                        return CostErrorScreen();
+                        return CostErrorScreen(ticketModel: ticketModel);
                       }
                   ),
                 );

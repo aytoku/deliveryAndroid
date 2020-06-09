@@ -43,6 +43,7 @@ class NameScreenState extends State<NameScreen> {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             GestureDetector(
               child: Align(
@@ -56,86 +57,102 @@ class NameScreenState extends State<NameScreen> {
                   context
               ),
             ),
-            Center(
-              child: Padding(
-                padding: EdgeInsets.only(top: 140, bottom: 20),
-                child: Text('Как вас зовут?',style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Color(0xB5B5B5B5))),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: 30, left: 30),
-              child: Row(
+            Align(
+              alignment: Alignment.center,
+              child: Column(
                 children: <Widget>[
-                  Flexible(
-                    flex: 1,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 0, bottom: 15),
+                        child: Text('Как вас зовут?',style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Color(0xB5B5B5B5))),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 15, right: 15),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Color(0xF5F5F5F5),
-                            borderRadius: BorderRadius.circular(7.0),
-                            border: Border.all(
-                                width: 1.0,
-                                color: Color(0xF5F5F5F5)
-                            )
-                        ),
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 28),
-                          keyboardType: TextInputType.text,
-                          decoration: new InputDecoration(
-                            border: InputBorder.none,
-                            counterText: '',
+                      padding: EdgeInsets.only(right: 30, left: 30, bottom: 100),
+                      child: Row(
+                        children: <Widget>[
+                          Flexible(
+                            flex: 1,
+                            child: Padding(
+                                padding: EdgeInsets.only(left: 15, right: 15),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Color(0xF5F5F5F5),
+                                      borderRadius: BorderRadius.circular(7.0),
+                                      border: Border.all(
+                                          width: 1.0,
+                                          color: Color(0xF5F5F5F5)
+                                      )
+                                  ),
+                                  child: TextField(
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 28),
+                                    keyboardType: TextInputType.text,
+                                    decoration: new InputDecoration(
+                                      border: InputBorder.none,
+                                      counterText: '',
+                                    ),
+                                    onChanged: (String value)async {
+                                      necessaryDataForAuth.name = value;
+                                      print(necessaryDataForAuth.name);
+                                    },
+                                  ),
+                                )
+                            ),
                           ),
-                          onChanged: (String value)async {
-                            necessaryDataForAuth.name = value;
-                            print(necessaryDataForAuth.name);
-                          },
-                        ),
-                      )
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Container(
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 230),
-                          child: FlatButton(
-                            child: Text(
-                                'Далее',
-                                style: TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white
-                                )
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: Container(
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 0),
+                            child: FlatButton(
+                              child: Text(
+                                  'Далее',
+                                  style: TextStyle(
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white
+                                  )
+                              ),
+                              color: Colors.grey,
+                              splashColor: Colors.grey,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
+                              onPressed: ()async {
+                                necessaryDataForAuth = await NecessaryDataForAuth.saveData(currentUser.phone, authCodeData.refresh_token,necessaryDataForAuth.name);
+                                print(necessaryDataForAuth.name);
+                                Navigator.pushReplacement(
+                                  context,
+                                  new MaterialPageRoute(
+                                    builder: (context) => new HomeScreen(),
+                                  ),
+                                );
+                              },
                             ),
-                            color: Colors.grey,
-                            splashColor: Colors.grey,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
-                            onPressed: ()async {
-                              necessaryDataForAuth = await NecessaryDataForAuth.saveData(currentUser.phone, authCodeData.refresh_token,necessaryDataForAuth.name);
-                              print(necessaryDataForAuth.name);
-                              Navigator.pushReplacement(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new HomeScreen(),
-                                ),
-                              );
-                            },
                           ),
-                        ),
-                      ],
-                    )
+                        ],
+                      )
+                  ),
                 ),
               ),
             )

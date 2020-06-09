@@ -3,7 +3,9 @@ import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/Auth.dart';
 import 'package:food_delivery/models/AuthCode.dart';
+import 'package:food_delivery/models/CardModel.dart';
 import 'package:food_delivery/screens/code_screen.dart';
+import 'package:food_delivery/screens/payments_methods_screen.dart';
 import 'address_screen.dart';
 import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/buttons/button.dart';
 import 'package:food_delivery/data/data.dart';
@@ -25,18 +27,26 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'food_bottom_sheet_screen.dart';
 
 class AttachCardScreen extends StatefulWidget {
-
-  AttachCardScreen({Key key}) : super(key: key);
+  final CardModel cardModel;
+  AttachCardScreen({Key key, this.cardModel}) : super(key: key);
 
   @override
-  AttachCardScreenState createState() => AttachCardScreenState();
+  AttachCardScreenState createState() => AttachCardScreenState(cardModel: cardModel);
 }
 
 class AttachCardScreenState extends State<AttachCardScreen> {
   String error = '';
   var controller = new MaskedTextController(mask: '00/00');
+  TextEditingController numberField = new TextEditingController();
+  TextEditingController expirationField = new TextEditingController();
+  TextEditingController cvvField = new TextEditingController();
+  final CardModel cardModel;
+  AttachCardScreenState({this.cardModel});
   @override
   Widget build(BuildContext context) {
+    numberField.text = cardModel.number;
+    controller.text = cardModel.expiration;
+    cvvField.text = cardModel.cvv;
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: Column(
@@ -78,6 +88,7 @@ class AttachCardScreenState extends State<AttachCardScreen> {
               child: TextField(
                 maxLength: 12,
                 keyboardType: TextInputType.number,
+                controller: numberField,
                 decoration: new InputDecoration(
                   contentPadding: EdgeInsets.only(left: 0),
                   hintText: '',
@@ -133,6 +144,7 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                           padding: EdgeInsets.only(top: 0, left: 15, right: 15),
                           child: TextField(
                             maxLength: 4,
+                            controller: cvvField,
                             obscureText: true,
                             keyboardType: TextInputType.number,
                             decoration: new InputDecoration(
@@ -176,21 +188,16 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                     ),
                     padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
                     onPressed: () async {
-                      if(validateMobile(currentUser.phone)== null){
-                        if(currentUser.phone[0] != '+'){
-                          currentUser.phone = '+' + currentUser.phone;
-                        }
-                        Navigator.pushReplacement(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => new AddressScreen(),
-                          ),
-                        );
-                      }else{
-                        setState(() {
-                          error = 'Указан неверный номер';
-                        });
-                      }
+                      cardModel.number = numberField.text;
+                      cardModel.expiration = controller.text;
+                      cardModel.cvv = cvvField.text;
+                      await CardModel.saveData();
+                      Navigator.pushReplacement(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new PaymentsMethodsScreen(),
+                        ),
+                      );
                     },
                   ),
                 ),

@@ -126,7 +126,6 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                       onTap: (){
                         myAddressesModelList.add(new MyAddressesModel(type: MyAddressesType.empty));
                         MyAddressesModel.saveData().then((value) => setState(() {
-
                         }));
                       },
                     ),
@@ -179,21 +178,38 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                           ],
                         );
                       }
-                      return GestureDetector(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 30, top: 10, bottom: 10),
-                          child: Text(myAddressesModelList[index].address),
-                        ),
-                        onTap: (){
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) {
-                                  return new AddMyAddressScreen(myAddressesModel: myAddressesModelList[index],);
-                                }
+                      return Padding(
+                        padding: EdgeInsets.only(left: 30),
+                        child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+                                child: Text(myAddressesModelList[index].name, style: TextStyle(fontWeight: FontWeight.bold),),
+                              ),
                             ),
-                          );
-                        },
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: GestureDetector(
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+                                  child: Text(myAddressesModelList[index].address),
+                                ),
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (context) {
+                                          return new AddMyAddressScreen(myAddressesModel: myAddressesModelList[index],);
+                                        }
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        ),
                       );
                     }),
                   ),

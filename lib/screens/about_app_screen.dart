@@ -80,14 +80,16 @@ class AboutAppScreenState extends State<AboutAppScreen>{
               alignment: Alignment.centerLeft,
               child: Padding(
                   padding: EdgeInsets.only(top: 20, left: 15, bottom: 20, right: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('Лицензионное соглашение'),
-                      GestureDetector(
-                        child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                      )
-                    ],
+                  child: GestureDetector(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text('Лицензионное соглашение'),
+                        GestureDetector(
+                          child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                        )
+                      ],
+                    ),
                   )
               ),
             ),
@@ -96,14 +98,16 @@ class AboutAppScreenState extends State<AboutAppScreen>{
               alignment: Alignment.centerLeft,
               child: Padding(
                   padding: EdgeInsets.only(top: 20, left: 15, bottom: 20, right: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('Политика конфиденцальности'),
-                      GestureDetector(
-                        child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                      )
-                    ],
+                  child: GestureDetector(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text('Политика конфиденцальности'),
+                        GestureDetector(
+                          child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                        )
+                      ],
+                    ),
                   )
               ),
             ),

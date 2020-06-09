@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/PostData/service_data_pass.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
 import 'package:food_delivery/models/OrderStoryModel.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/RestaurantDataItems.dart';
+import 'package:food_delivery/models/TicketModel.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/address_screen.dart';
@@ -14,18 +16,27 @@ import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/restaurant_screen.dart';
 import 'package:intl/intl.dart';
 
+import 'home_screen.dart';
+
 class CostErrorScreen extends StatefulWidget {
+  final TicketModel ticketModel;
+  CostErrorScreen({Key key, this.ticketModel}) : super(key: key);
 
   @override
-  CostErrorScreenState createState() => CostErrorScreenState();
+  CostErrorScreenState createState() => CostErrorScreenState(ticketModel: ticketModel);
 }
 
 class CostErrorScreenState extends State<CostErrorScreen>{
+  final TicketModel ticketModel;
+  CostErrorScreenState({this.ticketModel});
+  TextEditingController descField = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    descField.text = ticketModel.description;
     // TODO: implement build
     return Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: Column(
           children: <Widget>[
             Padding(
@@ -75,6 +86,16 @@ class CostErrorScreenState extends State<CostErrorScreen>{
                         color: Colors.grey[200]
                     )
                 ),
+                child: TextField(
+                  controller: descField,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14),
+                  keyboardType: TextInputType.text,
+                  decoration: new InputDecoration(
+                    border: InputBorder.none,
+                    counterText: '',
+                  ),
+                ),
               ),
             ),
             Padding(
@@ -87,7 +108,15 @@ class CostErrorScreenState extends State<CostErrorScreen>{
                   borderRadius: BorderRadius.circular(7),
                 ),
                 padding: EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
-                onPressed: (){
+                onPressed: () async {
+                  ticketModel.description = descField.text;
+                  await loadServiceData(ticketModel);
+                  Navigator.pushReplacement(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new HomeScreen(),
+                    ),
+                  );
                 },
               ),
             )

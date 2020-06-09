@@ -73,49 +73,55 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 15, top: 15, right: 40 ),
-                      child: Text((ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].value : 'Пусто',
-                        style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 15, top: 15, right: 0 ),
+                        child: Text((ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].value : 'Пусто',
+                          style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),),
+                      ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 15, top: 5, right: 100),
-                      child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xB0B0B0B0)),),
-                    ),
-                  )
-                ],
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 0, top: 5, right: 20),
+                        child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xB0B0B0B0)),),
+                      ),
+                    )
+                  ],
+                ),
               ),
-              Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 90, top: 40),
-                      child: Text('Статус заказа:', style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),),
+              Align(
+                alignment: Alignment.topRight,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 20, top: 40),
+                        child: Text('Статус заказа:', style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),),
+                      ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 15, top: 0),
-                      child: Text(ordersStoryModelItem.state_title, style: TextStyle(fontSize: 14, color: Colors.red, fontWeight: FontWeight.bold),),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 15, top: 0),
+                        child: Text(ordersStoryModelItem.state_title, style: TextStyle(fontSize: 14, color: Colors.red, fontWeight: FontWeight.bold),),
+                      ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 50, top: 5),
-                      child: Text('Заберу с собой', style: TextStyle(fontSize: 12, color: Color(0xB0B0B0B0)),),
-                    ),
-                  )
-                ],
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 30, top: 5),
+                        child: Text('Заберу с собой', style: TextStyle(fontSize: 12, color: Color(0xB0B0B0B0)),),
+                      ),
+                    )
+                  ],
+                ),
               )
             ],
           ),

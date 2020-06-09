@@ -21,6 +21,7 @@ class CreateOrder {
   String delivery;
   CartDataModel cartDataModel;
   Records restaurant;
+  String payment_type;
 
   CreateOrder( {
     this.address,
@@ -29,7 +30,8 @@ class CreateOrder {
     this.comment,
     this.delivery,
     this.cartDataModel,
-    this.restaurant
+    this.restaurant,
+    this.payment_type
   });
 
   static sendRefreshToken() async{
@@ -62,6 +64,7 @@ class CreateOrder {
         restaurant.destination_points[0].toJson(),
         necessaryAddressData.destinationPoints[0].toJson()
       ],
+      "payment_type": payment_type,
       "service_uuid": "6b73e9e3-927b-453c-81c4-dfae818291f4",
     }), headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',

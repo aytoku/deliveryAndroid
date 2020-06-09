@@ -31,30 +31,33 @@ class ProfileScreenState extends State<ProfileScreen>{
     return Scaffold(
         body: Column(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 40, bottom: 30, left: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  GestureDetector(
-                    child: Align(
+            Align(
+              child: Padding(
+                padding: EdgeInsets.only(top: 40, bottom: 30, left: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Align(
                         alignment: Alignment.topLeft,
-                        child: Padding(
-                            padding: EdgeInsets.only(),
-                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg')
-                        )
+                          child: Padding(
+                              padding: EdgeInsets.only(),
+                              child: SvgPicture.asset('assets/svg_images/arrow_left.svg')
+                          )
+                      ),
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
                     ),
-                    onTap: (){
-                      Navigator.pop(context);
-                    },
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 130),
-                      child: Text("Ваши данные", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
-                    ),
-                  )
-                ],
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 140),
+                        child: Text("Ваши данные", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
             Align(

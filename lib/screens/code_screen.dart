@@ -54,6 +54,7 @@ class _CodeScreenState extends State<CodeScreen> {
         builder: (BuildContext context, AsyncSnapshot<AuthData> snapshot){
           if(snapshot.connectionState == ConnectionState.done){
             return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 GestureDetector(
                   child: Align(
@@ -67,118 +68,125 @@ class _CodeScreenState extends State<CodeScreen> {
                       context
                   ),
                 ),
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 30, bottom: 20),
-                    child: Text('Введите код из смс',style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold)),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 0, bottom: 20),
+                      child: Text('Введите код из смс',style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold)),
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: 30, left: 30),
-                  child: Row(
-                    children: <Widget>[
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 15, right: 15),
-                          child: code1 = TextField(
-                              focusNode: new FocusNode(),
-                              controller: new TextEditingController(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 28),
-                              keyboardType: TextInputType.number,
-                              maxLength: 1,
-                              decoration: new InputDecoration(
-                                counterText: '',
-                              ),
-                              onChanged: (String value){
-                                if(value != ''){
-                                  code2.focusNode.requestFocus();
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 30, left: 30, bottom: 200),
+                    child: Row(
+                      children: <Widget>[
+                        Flexible(
+                          flex: 1,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 15, right: 15),
+                            child: code1 = TextField(
+                                focusNode: new FocusNode(),
+                                controller: new TextEditingController(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 28),
+                                keyboardType: TextInputType.number,
+                                maxLength: 1,
+                                decoration: new InputDecoration(
+                                  counterText: '',
+                                ),
+                                onChanged: (String value){
+                                  if(value != ''){
+                                    code2.focusNode.requestFocus();
+                                  }
                                 }
-                              }
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 15, right: 15),
-                          child: code2 = TextField(
-                              focusNode: new FocusNode(),
-                              controller: new TextEditingController(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 28),
-                              keyboardType: TextInputType.number,
-                              maxLength: 1,
-                              decoration: new InputDecoration(
-                                counterText: '',
-                              ),
-                              onChanged: (String value){
-                                if(value != ''){
-                                  code3.focusNode.requestFocus();
-                                }
-                              }
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 15, right: 15),
-                          child: code3 = TextField(
-                              focusNode: new FocusNode(),
-                              controller: new TextEditingController(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 28),
-                              keyboardType: TextInputType.number,
-                              maxLength: 1,
-                              decoration: new InputDecoration(
-                                counterText: '',
-                              ),
-                              onChanged: (String value){
-                                if(value != ''){
-                                  code4.focusNode.requestFocus();
-                                }
-                              }
-                          ),
-                        ),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 15, right: 15),
-                          child: code4 = TextField(
-                            focusNode: new FocusNode(),
-                            controller: new TextEditingController(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 28),
-                            keyboardType: TextInputType.number,
-                            maxLength: 1,
-                            decoration: new InputDecoration(
-                              counterText: '',
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        Flexible(
+                          flex: 1,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 15, right: 15),
+                            child: code2 = TextField(
+                                focusNode: new FocusNode(),
+                                controller: new TextEditingController(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 28),
+                                keyboardType: TextInputType.number,
+                                maxLength: 1,
+                                decoration: new InputDecoration(
+                                  counterText: '',
+                                ),
+                                onChanged: (String value){
+                                  if(value != ''){
+                                    code3.focusNode.requestFocus();
+                                  }
+                                }
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 15, right: 15),
+                            child: code3 = TextField(
+                                focusNode: new FocusNode(),
+                                controller: new TextEditingController(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 28),
+                                keyboardType: TextInputType.number,
+                                maxLength: 1,
+                                decoration: new InputDecoration(
+                                  counterText: '',
+                                ),
+                                onChanged: (String value){
+                                  if(value != ''){
+                                    code4.focusNode.requestFocus();
+                                  }
+                                }
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 1,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 15, right: 15),
+                            child: code4 = TextField(
+                              focusNode: new FocusNode(),
+                              controller: new TextEditingController(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 28),
+                              keyboardType: TextInputType.number,
+                              maxLength: 1,
+                              decoration: new InputDecoration(
+                                counterText: '',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text(error,style: TextStyle(color: Colors.red, fontSize: 12),),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text(error,style: TextStyle(color: Colors.red, fontSize: 12),),
+                  ),
                 ),
-                Container(
-                  height: 400,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
+                Align(
+                  alignment: Alignment.bottomCenter,
                     child: Column(
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(bottom: 10, top: 298),
+                          padding: EdgeInsets.only(bottom: 10, top: 0),
                           child: new TimerCountDown(codeScreenState: this),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
+                          padding: EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 10),
                           child: FlatButton(
                             child: Text(
                                 'Далее',
@@ -219,7 +227,6 @@ class _CodeScreenState extends State<CodeScreen> {
                         ),
                       ],
                     )
-                  ),
                 )
               ],
             );

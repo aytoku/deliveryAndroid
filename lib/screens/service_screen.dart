@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/models/TicketModel.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/service_orders_story.dart';
 
@@ -40,55 +41,6 @@ class ServiceScreenState extends State<ServiceScreen>{
               )
             ],
           ),
-//          Align(
-//            alignment: Alignment.centerLeft,
-//            child: Padding(
-//              padding: EdgeInsets.only(top: 30, left: 20, bottom: 10),
-//              child: Text('Последняя поездка',style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xB9B9B9B9))),
-//            ),
-//          ),
-//          Container(
-//            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-//            decoration: BoxDecoration(
-//                boxShadow: [
-//                  BoxShadow(
-//                    color: Colors.black12,
-//                    blurRadius: 8.0, // soften the shadow
-//                    spreadRadius: 3.0, //extend the shadow
-//                  )
-//                ],
-//                color: Colors.white,
-//                borderRadius: BorderRadius.circular(15.0),
-//                border: Border.all(
-//                    width: 1.0,
-//                    color: Colors.grey[200]
-//                )
-//            ),
-//            child: Column(
-//              children: <Widget>[
-//                Row(
-//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                  children: <Widget>[
-//                    Padding(
-//                      padding: EdgeInsets.only(top: 10, left: 15),
-//                      child: Text('Сегодня 10:10', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-//                    ),
-//                    Padding(
-//                      padding: EdgeInsets.only(top: 10, right: 15),
-//                      child: Text('Сегодня 10:10', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-//                    ),
-//                  ],
-//                ),
-//                Align(
-//                  alignment: Alignment.centerLeft,
-//                  child: Padding(
-//                    padding: EdgeInsets.only(top: 30, left: 15, bottom: 10),
-//                    child: Text('Максима Горького, 23', style: TextStyle(fontSize: 17),),
-//                  ),
-//                )
-//              ],
-//            ),
-//          ),
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -116,7 +68,7 @@ class ServiceScreenState extends State<ServiceScreen>{
                   Navigator.push(
                     context,
                     new MaterialPageRoute(
-                      builder: (context) => new ServiceOrdersStoryScreen(),
+                      builder: (context) => new ServiceOrdersStoryScreen(ticketModel: new TicketModel(title: 'Ошибка в заказе', description: ''),),
                     ),
                   );
                 },
@@ -143,7 +95,7 @@ class ServiceScreenState extends State<ServiceScreen>{
                 Navigator.push(
                   context,
                   new MaterialPageRoute(
-                    builder: (context) => new ServiceOrdersStoryScreen(),
+                    builder: (context) => new ServiceOrdersStoryScreen(ticketModel: new TicketModel(title: 'Ошибка в заказе', description: '')),
                   ),
                 );
               },
@@ -170,7 +122,7 @@ class ServiceScreenState extends State<ServiceScreen>{
                   Navigator.push(
                     context,
                     new MaterialPageRoute(
-                      builder: (context) => new ServiceOrdersStoryScreen(),
+                      builder: (context) => new ServiceOrdersStoryScreen(ticketModel: new TicketModel(title: 'Ошибка в заказе', description: '')),
                     ),
                   );
                 },
@@ -197,7 +149,7 @@ class ServiceScreenState extends State<ServiceScreen>{
                   Navigator.push(
                     context,
                     new MaterialPageRoute(
-                      builder: (context) => new ServiceOrdersStoryScreen(),
+                      builder: (context) => new ServiceOrdersStoryScreen(ticketModel: new TicketModel(title: 'Ошибка в заказе', description: '')),
                     ),
                   );
                 },
