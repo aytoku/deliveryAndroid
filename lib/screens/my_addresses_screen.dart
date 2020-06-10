@@ -93,6 +93,9 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
         builder: (BuildContext context, AsyncSnapshot<List<MyAddressesModel>> snapshot){
           if(snapshot.connectionState == ConnectionState.done){
             myAddressesModelList = snapshot.data;
+            if(myAddressesModelList.length == 0){
+              myAddressesModelList.add(new MyAddressesModel(type: MyAddressesType.empty));
+            }
             return Column(
               children: <Widget>[
                 Row(
@@ -103,7 +106,13 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                           alignment: Alignment.topLeft,
                           child: Padding(
                             padding: EdgeInsets.only(left: 15, top: 50),
-                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                            child: Container(
+                                width: 20,
+                                height: 20,
+                                child: Center(
+                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                )
+                            )
                           )
                       ),
                       onTap: (){

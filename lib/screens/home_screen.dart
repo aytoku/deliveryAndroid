@@ -4,10 +4,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/PostData/orders_story_data.dart';
 import 'package:food_delivery/PostData/restaurant_data_pass.dart';
 import 'package:food_delivery/PostData/restaurant_items_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/data/data.dart';
+import 'package:food_delivery/models/OrderStoryModel.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/RestaurantDataItems.dart';
 import 'package:food_delivery/models/restaurant.dart';
@@ -122,7 +124,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (_) {
-                    currentUser.cartDataModel.cart.clear();
+                    if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
+                      currentUser.cartDataModel.cart.clear();
+                    }
                     return RestaurantScreen(restaurant: restaurant);
                   }
                 ),
@@ -272,46 +276,46 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           ),
-                          Flexible(
-                            flex: 5,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 50,),
-                              child: GestureDetector(
-                                  child: Text(
-                                    'Указать адрес доставки',
-                                    style: TextStyle(
-                                        color: Colors.redAccent,
-                                        decoration: TextDecoration.underline,
-                                        fontSize: 14
-                                    ),
-                                  )
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 2,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 50),
-                              child: GestureDetector(
-                                child: SvgPicture.asset('assets/svg_images/search.svg')
-                              ),
-                            ),
-                          ),
+//                          Flexible(
+//                            flex: 5,
+//                            child: Padding(
+//                              padding: EdgeInsets.only(left: 50,),
+//                              child: GestureDetector(
+//                                  child: Text(
+//                                    'Указать адрес доставки',
+//                                    style: TextStyle(
+//                                        color: Colors.redAccent,
+//                                        decoration: TextDecoration.underline,
+//                                        fontSize: 14
+//                                    ),
+//                                  )
+//                              ),
+//                            ),
+//                          ),
+//                          Flexible(
+//                            flex: 2,
+//                            child: Padding(
+//                              padding: EdgeInsets.only(left: 50),
+//                              child: GestureDetector(
+//                                child: SvgPicture.asset('assets/svg_images/search.svg')
+//                              ),
+//                            ),
+//                          ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Divider(height: 1.0, color: Color(0xEEEEEEEE)),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    RestaurantsCategory(),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Divider(height: 1.0, color: Color(0xEEEEEEEE)),
+//                    SizedBox(
+//                      height: 10,
+//                    ),
+//                    Divider(height: 1.0, color: Color(0xEEEEEEEE)),
+//                    SizedBox(
+//                      height: 10,
+//                    ),
+//                    RestaurantsCategory(),
+//                    SizedBox(
+//                      height: 10,
+//                    ),
+//                    Divider(height: 1.0, color: Color(0xEEEEEEEE)),
                     SizedBox(
                       height: 10,
                     ),
@@ -375,136 +379,156 @@ class OrderCheckingState extends State<OrderChecking> {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 8.0, // soften the shadow
-              spreadRadius: 3.0, //extend the shadow
-            )
-          ],
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(17.0),
-          border: Border.all(
-              width: 1.0,
-              color: Colors.grey[200]
-          )
-      ),
-      child: Column(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(left: 12.0, top: 12, bottom: 12, right: 12),
+    return  FutureBuilder<OrdersStoryModel>(
+      future: loadOrdersStoryModel(),
+      builder: (BuildContext context, AsyncSnapshot<OrdersStoryModel>snapshot){
+        if(snapshot.hasData){
+          if(snapshot.data.ordersStoryModelItems.length == 0){
+            return Container();
+          }
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 8.0, // soften the shadow
+                    spreadRadius: 3.0, //extend the shadow
+                  )
+                ],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(17.0),
+                border: Border.all(
+                    width: 1.0,
+                    color: Colors.grey[200]
+                )
+            ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Ваш заказ из Sandwich club',
-                        style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    GestureDetector(
-                      child: Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
-                            color: Colors.redAccent),
-                        child:  Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10, top: 5,bottom: 5),
-                            child: Text('На карте',
-                              style: TextStyle(color: Colors.white, fontSize: 15),)
-                        ),
-                      ),
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) {
-                                return new OnMap();
-                              }
+                Container(
+                  margin: EdgeInsets.only(left: 12.0, top: 12, bottom: 12, right: 12),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Ваш заказ из ' + (snapshot.data.ordersStoryModelItems.length != 0 ? snapshot.data.ordersStoryModelItems[0].store.name : 'Пусто'),
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold
+                                ),
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ),
-                        );
-                      },
-                    )
-                  ],
-                ),
-                SizedBox(height: 4.0,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      height: 70,
-                      width: 70,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
-                          color: Color(0xF6F6F6F6)),
-                      child:  Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                            padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                            child: Text('Принят',
-                              style: TextStyle(color: Color(0x42424242), fontSize: 11),)
-                        ),
-                      )
-                    ),
-                    Container(
-                      height: 70,
-                      width: 70,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
-                          color: Color(0xF6F6F6F6)),
-                      child:  Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                            padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                            child: Text('Принят',
-                              style: TextStyle(color: Color(0x42424242), fontSize: 11),)
-                        ),
-                      )
-                    ),
-                    Container(
-                      height: 70,
-                      width: 70,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
-                          color: Color(0xF6F6F6F6)),
-                      child:  Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                            padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                            child: Text('Принят',
-                              style: TextStyle(color: Color(0x42424242), fontSize: 11),)
-                        ),
-                      )
-                    ),
-                    Container(
-                      height: 70,
-                      width: 70,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
-                          color: Color(0xF6F6F6F6)),
-                      child:  Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                            padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                            child: Text('Принят',
-                              style: TextStyle(color: Color(0x42424242), fontSize: 11),)
-                        ),
-                      )
-                    ),
-                  ],
-                ),
-                SizedBox(height: 4.0,),
+                          Flexible(
+                            flex: 1,
+                            child: GestureDetector(
+                              child: Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                                    color: Colors.redAccent),
+                                child:  Padding(
+                                    padding: EdgeInsets.only(left: 10, right: 10, top: 5,bottom: 5),
+                                    child: Text('На карте',
+                                      style: TextStyle(color: Colors.white, fontSize: 15),)
+                                ),
+                              ),
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) {
+                                        return new OnMap();
+                                      }
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 4.0,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
+                                  color: Color(0xF6F6F6F6)),
+                              child:  Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Padding(
+                                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                                    child: Text('Принят',
+                                      style: TextStyle(color: Color(0x42424242), fontSize: 11),)
+                                ),
+                              )
+                          ),
+                          Container(
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
+                                  color: Color(0xF6F6F6F6)),
+                              child:  Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Padding(
+                                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                                    child: Text('Принят',
+                                      style: TextStyle(color: Color(0x42424242), fontSize: 11),)
+                                ),
+                              )
+                          ),
+                          Container(
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
+                                  color: Color(0xF6F6F6F6)),
+                              child:  Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Padding(
+                                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                                    child: Text('Принят',
+                                      style: TextStyle(color: Color(0x42424242), fontSize: 11),)
+                                ),
+                              )
+                          ),
+                          Container(
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
+                                  color: Color(0xF6F6F6F6)),
+                              child:  Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Padding(
+                                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                                    child: Text('Принят',
+                                      style: TextStyle(color: Color(0x42424242), fontSize: 11),)
+                                ),
+                              )
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 4.0,),
+                    ],
+                  ),
+                )
               ],
             ),
-          )
-        ],
-      ),
+          );
+        }else{
+          return Center(
+            child: Container(),
+          );
+        }
+      },
     );
   }
 }

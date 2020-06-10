@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_delivery/models/CardModel.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
+import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/screens/payments_methods_delete_screen.dart';
 
 class PaymentsMethodsScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
     // TODO: implement build
     return Scaffold(
       body: FutureBuilder<List<CardModel>>(
-        future: CardModel.getAddresses(),
+        future: CardModel.getCards(),
         builder: (BuildContext context, AsyncSnapshot<List<CardModel>> snapshot){
           if(snapshot.connectionState == ConnectionState.done){
             return Column(
@@ -32,11 +33,22 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
                           alignment: Alignment.topLeft,
                           child: Padding(
                               padding: EdgeInsets.only(left: 15, top: 50),
-                              child: SvgPicture.asset('assets/svg_images/arrow_left.svg')
+                              child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  child: Center(
+                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                  )
+                              )
                           )
                       ),
                       onTap: (){
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => new HomeScreen(),
+                          ),
+                        );
                       },
                     ),
                     Align(

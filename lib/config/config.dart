@@ -12,6 +12,7 @@ class NecessaryDataForAuth{
  String phone_number;
  String refresh_token;
  String name;
+ static NecessaryDataForAuth _necessaryDataForAuth;
 
  NecessaryDataForAuth({
    this.device_id,
@@ -21,6 +22,8 @@ class NecessaryDataForAuth{
  });
 
  static Future<NecessaryDataForAuth> getData() async{
+   if(_necessaryDataForAuth != null)
+     return _necessaryDataForAuth;
    String device_id = await DeviceId.getID;
    SharedPreferences prefs = await SharedPreferences.getInstance();
    String phone_number = prefs.getString('phone_number');
@@ -30,19 +33,20 @@ class NecessaryDataForAuth{
    if(!(await refreshToken(refresh_token))){
      result.refresh_token = null;
    }else{
-     saveData(phone_number, authCodeData.refresh_token, name);
+     saveData();
    }
+   _necessaryDataForAuth = result;
    return result;
  }
 
- static Future<NecessaryDataForAuth> saveData(String phone_number, String refresh_token, String name) async{
-   String device_id = await DeviceId.getID;
+ static Future saveData() async{
+   String phone_number = _necessaryDataForAuth.phone_number;
+   String refresh_token = _necessaryDataForAuth.refresh_token;
+   String name = _necessaryDataForAuth.name;
    SharedPreferences prefs = await SharedPreferences.getInstance();
    prefs.setString('phone_number', phone_number);
    prefs.setString('refresh_token',refresh_token);
    prefs.setString('name',name);
-   NecessaryDataForAuth result = new NecessaryDataForAuth(device_id: device_id, phone_number: phone_number, refresh_token: refresh_token, name: name);
-   return result;
  }
 
  static Future<bool> refreshToken(String refresh_token) async {

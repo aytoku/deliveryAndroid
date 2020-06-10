@@ -86,11 +86,13 @@ class _AddressScreenState extends State<AddressScreen> {
                           ),
                           child:Padding(
                             padding: EdgeInsets.only(right: 0),
-                            child: Image(
-                              width: 30,
-                              height: 30,
-                              image: AssetImage('assets/images/arr.png'),
-                            ),
+                            child: Container(
+                                width: 20,
+                                height: 20,
+                                child: Center(
+                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                )
+                            )
                           ),
                         ),
                       ),
@@ -278,7 +280,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
-                      onPressed: (){
+                      onPressed: () async {
                         CreateOrder createOrder = new CreateOrder(
                             address: destinationPointsKey.currentState.searchTextField.textField.controller.text,
                             office: office,
@@ -288,13 +290,22 @@ class _AddressScreenState extends State<AddressScreen> {
                             restaurant: restaurant,
                             payment_type: 'card'
                         );
-                        createOrder.sendData();
-                        Navigator.push(
+                        await createOrder.sendData();
+                        Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(
                             builder: (context) => new HomeScreen(),
                           ),
                         );
+//                        final snackBar = SnackBar(
+//                          content: Text('Yay! A SnackBar!'),
+//                          action: SnackBarAction(
+//                            label: 'Undo',
+//                            onPressed: () {
+//                              // Some code to undo the change.
+//                            },
+//                          ),
+//                        );
                       },
                     ),
                   ),

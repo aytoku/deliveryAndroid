@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:food_delivery/models/CreateModelTakeAway.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
 import 'package:food_delivery/models/ResponseData.dart';
@@ -82,11 +83,13 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                           ),
                           child:Padding(
                             padding: EdgeInsets.only(right: 0),
-                            child: Image(
-                              width: 30,
-                              height: 30,
-                              image: AssetImage('assets/images/arr.png'),
-                            ),
+                            child: Container(
+                                width: 20,
+                                height: 20,
+                                child: Center(
+                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                )
+                            )
                           ),
                         ),
                       ),

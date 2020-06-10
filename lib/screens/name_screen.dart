@@ -50,7 +50,13 @@ class NameScreenState extends State<NameScreen> {
                   alignment: Alignment.topLeft,
                   child: Padding(
                       padding: EdgeInsets.only(left: 15, top: 50),
-                      child: SvgPicture.asset('assets/svg_images/arrow_left.svg')
+                      child: Container(
+                          width: 20,
+                          height: 20,
+                          child: Center(
+                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                          )
+                      )
                   )
               ),
               onTap: () => Navigator.pop(
@@ -139,7 +145,7 @@ class NameScreenState extends State<NameScreen> {
                               ),
                               padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
                               onPressed: ()async {
-                                necessaryDataForAuth = await NecessaryDataForAuth.saveData(currentUser.phone, authCodeData.refresh_token,necessaryDataForAuth.name);
+                                NecessaryDataForAuth.saveData();
                                 print(necessaryDataForAuth.name);
                                 Navigator.pushReplacement(
                                   context,

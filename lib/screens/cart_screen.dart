@@ -6,6 +6,7 @@ import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/scopped_model/main_model.dart';
+import 'package:food_delivery/screens/restaurant_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'address_screen.dart';
@@ -43,11 +44,25 @@ class _CartScreenState extends State<CartScreen> {
         itemBuilder: (BuildContext context, int index) {
           if (index < currentUser.cartDataModel.cart.length) {
             Order order = currentUser.cartDataModel.cart[index];
-            return Container(
-              color: Colors.white,
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-              child: _buildCartItem(order),
+            return Dismissible(
+              key: Key(currentUser.cartDataModel.cart[index].food.uuid),
+              background: Container(
+                alignment: AlignmentDirectional.centerEnd,
+                color: Colors.red,
+                child: Icon(Icons.delete, color: Colors.white,),
+              ),
+              onDismissed: (direction){
+                setState(() {
+                  currentUser.cartDataModel.cart.removeAt(index);
+                });
+              },
+              direction: DismissDirection.endToStart,
+              child: Container(
+                color: Colors.white,
+                height: 60,
+                width: MediaQuery.of(context).size.width,
+                child: _buildCartItem(order),
+              ),
             );
           }
           return  Padding(
@@ -194,16 +209,23 @@ class _CartScreenState extends State<CartScreen> {
                        child: Padding(
                          padding: EdgeInsets.only(left: 5),
                          child: GestureDetector(
-                           onTap: () => Navigator.pop(
-                               context
-                           ),
+                           onTap: () {
+                             Navigator.pushReplacement(
+                               context,
+                               new MaterialPageRoute(
+                                 builder: (context) => new RestaurantScreen(restaurant: restaurant),
+                               ),
+                             );
+                           },
                            child:Padding(
                              padding: EdgeInsets.only(right: 0),
-                             child: Image(
-                               width: 30,
-                               height: 30,
-                               image: AssetImage('assets/images/arr.png'),
-                             ),
+                             child: Container(
+                                 width: 20,
+                                 height: 20,
+                                 child: Center(
+                                   child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                 )
+                             )
                            ),
                          ),
                        ),
@@ -391,7 +413,9 @@ class CounterState extends State<Counter>{
                 padding: EdgeInsets.only(left: 5),
                 child: GestureDetector(
                   onTap: () {
-                    _incrementCounter_minus();
+                    if(counter != 1){
+                      _incrementCounter_minus();
+                    }
                   },child: Text(
                   '-',
                   style: TextStyle(

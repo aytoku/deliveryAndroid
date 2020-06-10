@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/Auth.dart';
@@ -58,7 +59,13 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: GestureDetector(
-                      child: Image(image: AssetImage('assets/images/arrow_left.png'),),
+                      child: Container(
+                          width: 20,
+                          height: 20,
+                          child: Center(
+                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                          )
+                      ),
                       onTap: (){
                         Navigator.pop(context);
                       },

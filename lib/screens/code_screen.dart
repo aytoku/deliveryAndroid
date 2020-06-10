@@ -61,7 +61,13 @@ class _CodeScreenState extends State<CodeScreen> {
                       alignment: Alignment.topLeft,
                       child: Padding(
                         padding: EdgeInsets.only(left: 15, top: 50),
-                        child: SvgPicture.asset('assets/svg_images/arrow_left.svg')
+                        child: Container(
+                            width: 20,
+                            height: 20,
+                            child: Center(
+                              child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                            )
+                        )
                       )
                   ),
                   onTap: () => Navigator.pop(
@@ -210,7 +216,10 @@ class _CodeScreenState extends State<CodeScreen> {
                                   code4.controller.text;
                               authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, int.parse(temp));
                               if(authCodeData != null){
-                                necessaryDataForAuth = await NecessaryDataForAuth.saveData(currentUser.phone, authCodeData.refresh_token, '');
+                                necessaryDataForAuth.phone_number = currentUser.phone;
+                                necessaryDataForAuth.refresh_token = authCodeData.refresh_token;
+                                necessaryDataForAuth.name = '';
+                                NecessaryDataForAuth.saveData();
                                 Navigator.push(
                                   context,
                                   new MaterialPageRoute(

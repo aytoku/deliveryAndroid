@@ -12,6 +12,7 @@ import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/address_screen.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
+import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/screens/restaurant_screen.dart';
 import 'package:intl/intl.dart';
 
@@ -25,10 +26,13 @@ class ProfileScreen extends StatefulWidget {
 
 class ProfileScreenState extends State<ProfileScreen>{
 
+  TextEditingController nameField = new TextEditingController();
   @override
   Widget build(BuildContext context) {
+    nameField.text = necessaryDataForAuth.name;
     // TODO: implement build
     return Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: Column(
           children: <Widget>[
             Align(
@@ -42,11 +46,22 @@ class ProfileScreenState extends State<ProfileScreen>{
                         alignment: Alignment.topLeft,
                           child: Padding(
                               padding: EdgeInsets.only(),
-                              child: SvgPicture.asset('assets/svg_images/arrow_left.svg')
+                              child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  child: Center(
+                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                  )
+                              )
                           )
                       ),
                       onTap: (){
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => new HomeScreen(),
+                          ),
+                        );
                       },
                     ),
                     Align(
@@ -76,13 +91,19 @@ class ProfileScreenState extends State<ProfileScreen>{
             Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                  child: Text(
-                    necessaryDataForAuth.name,
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.black
+                  padding: EdgeInsets.only(left: 15, right: 15, bottom: 0),
+                  child: TextField(
+                    controller: nameField,
+                    textAlign: TextAlign.start,
+                    keyboardType: TextInputType.text,
+                    decoration: new InputDecoration(
+                      border: InputBorder.none,
+                      counterText: '',
                     ),
+                    onChanged: (value){
+                      necessaryDataForAuth.name = value;
+                      NecessaryDataForAuth.saveData();
+                    },
                   ),
                 )
             ),

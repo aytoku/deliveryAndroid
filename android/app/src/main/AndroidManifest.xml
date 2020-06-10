@@ -11,7 +11,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Faem Delivery"
-        android:icon="@mipmap/faem_pict">
+        android:icon="@mipmap/faem">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

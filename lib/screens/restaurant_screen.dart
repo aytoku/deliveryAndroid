@@ -21,6 +21,7 @@ import 'package:food_delivery/screens/add_card_screen.dart';
 import 'package:food_delivery/screens/beverage_screen.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/desert_screen.dart';
+import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/screens/salad_screen.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -183,6 +184,27 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
           );
         });
   }
+  GlobalKey alertKey = new GlobalKey();
+  showAlertDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      key: alertKey,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))
+      ),
+      elevation: 20,
+      content: Text("Товар добавлен в коризну"),
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return alert;
+      },
+    );
+  }
 
   Column _buildBottomNavigationMenu(FoodRecords restaurantDataItems, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey){
     return Column(
@@ -283,6 +305,13 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                                     currentUser.cartDataModel.addItem(
                                         new Order(food: restaurantDataItems, quantity: counterKey.currentState.counter, restaurant: restaurant, date: DateTime.now().toString())
                                     );
+                                    if(alertKey.currentState != null){
+                                      alertKey.currentState.dispose();
+                                    }
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: 30),
+                                        child: showAlertDialog(context),
+                                      );
                                     cartItemsQuantityKey.currentState.refresh();
                                     buttonCounterKey.currentState.refresh();
                                     counterKey.currentState.refresh();
@@ -384,16 +413,23 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 15),
                                       child: GestureDetector(
-                                        onTap: () => Navigator.pop(
-                                            context
-                                        ),
+                                        onTap: () {
+                                          Navigator.pushReplacement(
+                                            context,
+                                            new MaterialPageRoute(
+                                              builder: (context) => new HomeScreen(),
+                                            ),
+                                          );
+                                        },
                                         child:Padding(
                                           padding: EdgeInsets.only(right: 0),
-                                          child: Image(
-                                            width: 30,
-                                            height: 30,
-                                            image: AssetImage('assets/images/arr.png'),
-                                          ),
+                                          child: Container(
+                                              width: 20,
+                                              height: 20,
+                                              child: Center(
+                                                child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                              )
+                                          )
                                         ),
                                       ),
                                     ),
@@ -452,11 +488,13 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                                           ),
                                           child:Padding(
                                             padding: EdgeInsets.only(right: 0),
-                                            child: Image(
-                                              width: 30,
-                                              height: 30,
-                                              image: AssetImage('assets/images/arr.png'),
-                                            ),
+                                            child: Container(
+                                                width: 20,
+                                                height: 20,
+                                                child: Center(
+                                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                                )
+                                            )
                                           ),
                                         ),
                                       ),
@@ -666,7 +704,9 @@ class CounterState extends State<Counter>{
                 padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
                 child: GestureDetector(
                   onTap: () {
-                    _incrementCounter_minus();
+                    if(counter != 1){
+                      _incrementCounter_minus();
+                    }
                   },child: SvgPicture.asset('assets/svg_images/minus.svg'),
                 ),
               ),

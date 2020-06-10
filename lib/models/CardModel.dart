@@ -3,7 +3,7 @@ import 'dart:convert' as convert;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CardModel{
-  static List<CardModel> _AddressesList;
+  static List<CardModel> _CardsList;
   String number;
   String expiration;
   String cvv;
@@ -18,27 +18,27 @@ class CardModel{
 
   static Future saveData() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('addresses_list', CardModel.toJson());
+    prefs.setString('cards_list', CardModel.toJson());
   }
 
-  static Future<List<CardModel>> getAddresses() async{
-    if(_AddressesList != null)
-      return _AddressesList;
+  static Future<List<CardModel>> getCards() async{
+    if(_CardsList != null)
+      return _CardsList;
 
-    _AddressesList = new List<CardModel>();
+    _CardsList = new List<CardModel>();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if(!prefs.containsKey('addresses_list'))
-      return _AddressesList;
-    var json_addresses = convert.jsonDecode(prefs.getString('addresses_list')) as List;
+    if(!prefs.containsKey('cards_list'))
+      return _CardsList;
+    var json_addresses = convert.jsonDecode(prefs.getString('cards_list')) as List;
 
-    _AddressesList = json_addresses.map((i) =>
+    _CardsList = json_addresses.map((i) =>
         CardModel.fromJson(i)).toList();
-    return _AddressesList;
+    return _CardsList;
   }
 
   static String toJson(){
     List<Map<String, dynamic>> list = new List<Map<String, dynamic>>();
-    _AddressesList.forEach((CardModel cardModel) {
+    _CardsList.forEach((CardModel cardModel) {
       Map<String, dynamic> item =
       {
         "number": cardModel.number,

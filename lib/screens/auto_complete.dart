@@ -52,6 +52,8 @@ class AutoCompleteDemoState extends State<AutoComplete> {
           child: Text(
             user.street + ', ' + user.house,
             style: TextStyle(fontSize: 16.0),
+            textAlign: TextAlign.start,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         SizedBox(
