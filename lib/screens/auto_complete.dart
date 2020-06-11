@@ -53,7 +53,6 @@ class AutoCompleteDemoState extends State<AutoComplete> {
             user.street + ', ' + user.house,
             style: TextStyle(fontSize: 16.0),
             textAlign: TextAlign.start,
-            overflow: TextOverflow.ellipsis,
           ),
         ),
         SizedBox(
@@ -92,7 +91,7 @@ class AutoCompleteDemoState extends State<AutoComplete> {
               },
               itemSubmitted: (item) {
                 setState(() {
-                  searchTextField.textField.controller.text = item.street + ',' + item.house;;
+                  searchTextField.textField.controller.text = item.street + ',' + item.house;
                 });
               },
               itemBuilder: (context, item) {
