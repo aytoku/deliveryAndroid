@@ -53,7 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _buildNearlyRestaurant() {
     List<Widget> restaurantList = [];
-    int i =0;
     records_items.forEach((Records restaurant) {
       restaurantList.add(
           GestureDetector(
@@ -133,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           )
       );
-      i++;});
+    });
 
     return Column(children: restaurantList);
   }
@@ -258,24 +257,36 @@ class _HomeScreenState extends State<HomeScreen> {
                   records_items.addAll(snapshot.data.records);
                   isLoading = false;
                 }
-                return ListView(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
-                      child:Row(
-                        children: <Widget>[
-                          Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 15),
-                              child: GestureDetector(
-                                child: SvgPicture.asset('assets/svg_images/menu.svg'),
-                                onTap: (){
-                                  _scaffoldKey.currentState.openDrawer();
-                                },
+                return NotificationListener<ScrollNotification>(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    if (!isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+                      if(snapshot.data.records_count - (page + 1) * limit > (-1) * limit){
+                        // snapshot = null;
+                        setState(() {
+                          isLoading = true;
+                          page++;
+                        });
+                      }
+                    }
+                  },
+                  child: ListView(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
+                        child:Row(
+                          children: <Widget>[
+                            Flexible(
+                              flex: 1,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 15),
+                                child: GestureDetector(
+                                  child: SvgPicture.asset('assets/svg_images/menu.svg'),
+                                  onTap: (){
+                                    _scaffoldKey.currentState.openDrawer();
+                                  },
+                                ),
                               ),
                             ),
-                          ),
 //                          Flexible(
 //                            flex: 5,
 //                            child: Padding(
@@ -301,9 +312,9 @@ class _HomeScreenState extends State<HomeScreen> {
 //                              ),
 //                            ),
 //                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
 //                    SizedBox(
 //                      height: 10,
 //                    ),
@@ -316,41 +327,32 @@ class _HomeScreenState extends State<HomeScreen> {
 //                      height: 10,
 //                    ),
 //                    Divider(height: 1.0, color: Color(0xEEEEEEEE)),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    OrderChecking(),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text(
-                              'Все рестораны',
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 1.2,
-                              )
+                      SizedBox(
+                        height: 10,
+                      ),
+                      OrderChecking(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Text(
+                                'Все рестораны',
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1.2,
+                                )
+                            ),
                           ),
-                        ),
-                        NotificationListener<ScrollNotification>(
-                            onNotification: (ScrollNotification scrollInfo) {
-                              if (!isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-                                setState(() {
-                                  isLoading = true;
-                                  page++;
-                                });
-                              }
-                            },
-                            child: _buildNearlyRestaurant()
-                        ),
-                      ],
-                    )
-                  ],
+                        ],
+                      ),
+                      _buildNearlyRestaurant()
+                    ],
+                  ),
                 );
               }
               else{
