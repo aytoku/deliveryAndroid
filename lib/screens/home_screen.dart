@@ -57,83 +57,83 @@ class _HomeScreenState extends State<HomeScreen> {
     records_items.forEach((Records restaurant) {
       restaurantList.add(
           GestureDetector(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 8.0, // soften the shadow
-                        spreadRadius: 3.0, //extend the shadow
-                      )
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15.0),
-                    border: Border.all(
-                        width: 1.0,
-                        color: Colors.grey[200]
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 8.0, // soften the shadow
+                      spreadRadius: 3.0, //extend the shadow
                     )
-                ),
-                child: Column(
-                  children: <Widget>[
-                    ClipRRect(
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
-                        child: Hero(
-                            tag: restaurant.uuid,
-                            child: Image.network(restaurant.image,
-                              height: 200.0,
-                              width: 450.0,
-                              fit: BoxFit.cover,
-                            )
-                        )
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 15.0, top: 12, bottom: 12),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              restaurant.name,
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.bold
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          SizedBox(height: 4.0,),
-                          Text(
-                            (restaurant.destination_points != null)? restaurant.destination_points[0].type: ' ',
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                  border: Border.all(
+                      width: 1.0,
+                      color: Colors.grey[200]
+                  )
+              ),
+              child: Column(
+                children: <Widget>[
+                  ClipRRect(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
+                      child: Hero(
+                          tag: restaurant.uuid,
+                          child: Image.network(restaurant.image,
+                            height: 200.0,
+                            width: 450.0,
+                            fit: BoxFit.cover,
+                          )
+                      )
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 15.0, top: 12, bottom: 12),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            restaurant.name,
                             style: TextStyle(
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w600
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(height: 4.0,),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                        ),
+                        SizedBox(height: 4.0,),
+                        Text(
+                          (restaurant.destination_points != null)? restaurant.destination_points[0].type: ' ',
+                          style: TextStyle(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w600
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 4.0,),
+                      ],
+                    ),
+                  )
+                ],
               ),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
+            ),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
                   builder: (_) {
                     if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
                       currentUser.cartDataModel.cart.clear();
                     }
                     return RestaurantScreen(restaurant: restaurant);
                   }
-                ),
               ),
+            ),
           )
       );
-    i++;});
+      i++;});
 
     return Column(children: restaurantList);
   }
@@ -418,7 +418,7 @@ class OrderCheckingState extends State<OrderChecking> {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Ваш заказ из ' + (snapshot.data.ordersStoryModelItems.length != 0 ? snapshot.data.ordersStoryModelItems[0].store.name : 'Пусто'),
+                                'Ваш заказ из ' + (snapshot.data.ordersStoryModelItems.length != 0 && snapshot.data.ordersStoryModelItems[0].products != null ? snapshot.data.ordersStoryModelItems[0].store.name : 'Пусто'),
                                 style: TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold
@@ -626,16 +626,16 @@ class OnMapState extends State<OnMap> with SingleTickerProviderStateMixin {
         child: Stack(
           children: <Widget>[
             Align(
-              alignment: Alignment.topLeft,
-              child: GestureDetector(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, top: 50),
-                  child: SvgPicture.asset('assets/svg_images/close.svg'),
-                ),
-                onTap: (){
-                  Navigator.pop(context);
-                },
-              )
+                alignment: Alignment.topLeft,
+                child: GestureDetector(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 15, top: 50),
+                    child: SvgPicture.asset('assets/svg_images/close.svg'),
+                  ),
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                )
             ),
             SizedBox.expand(
               child: SlideTransition(

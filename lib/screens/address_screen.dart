@@ -61,6 +61,9 @@ class _AddressScreenState extends State<AddressScreen> {
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
   final maxLines = 1;
+  TextEditingController commentField = new TextEditingController();
+  TextEditingController officeField = new TextEditingController();
+  TextEditingController floorField = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -175,27 +178,95 @@ class _AddressScreenState extends State<AddressScreen> {
                         padding: EdgeInsets.only(bottom: 20,),
                         child: AutoComplete(destinationPointsKey),
                       ),
+//                      Padding(
+//                        padding: EdgeInsets.only(left: 15, bottom: 20),
+//                        child: _buildTextFormField("Подъезд"),
+//                      ),Padding(
+//                        padding: EdgeInsets.only(left: 15, bottom: 20),
+//                        child: _buildTextFormField("Кв./офис"),
+//                      ),
                       Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 20),
-                        child: _buildTextFormField("Подъезд"),
-                      ),Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 20),
-                        child: _buildTextFormField("Кв./офис"),
-                      ),Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 20),
-                        child: _buildTextFormField("Комментарий к заказу"),
+                        padding: EdgeInsets.only(bottom: 5, left: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Text('Подъезд', style: TextStyle(color: Colors.grey, fontSize: 13),)
+                          ],
+                        ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 20),
-                        child: _buildTextFormField("Доставка"),
+                          padding: EdgeInsets.only(left: 15, bottom: 10),
+                          child: Container(
+                            height: 20,
+                            child: TextField(
+                              controller: commentField,
+                            ),
+                          )
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5, left: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Text('Кв./офис', style: TextStyle(color: Colors.grey, fontSize: 13),)
+                          ],
+                        ),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(left: 15, bottom: 10),
+                          child: Container(
+                            height: 20,
+                            child: TextField(
+                              controller: commentField,
+                            ),
+                          )
+                      ),
+//                      Padding(
+//                        padding: EdgeInsets.only(left: 15, bottom: 20),
+//                        child: _buildTextFormField("Комментарий к заказу"),
+//                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5, left: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Text('Комментарий к заказу', style: TextStyle(color: Colors.grey, fontSize: 13),)
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15, bottom: 10),
+                        child: Container(
+                          height: 20,
+                          child: TextField(
+                            controller: commentField,
+                          ),
+                        )
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5, left: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Text('Доставка', style: TextStyle(color: Colors.grey, fontSize: 13),)
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5, left: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Text('30 – 50 мин',style: TextStyle(color: Colors.black, fontSize: 13),)
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: Divider(height: 1.0, color: Colors.grey, thickness: 1,),
+                      )
                     ],
                   ),
                 ),
                 Row(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
+                      padding: EdgeInsets.only(top: 40, bottom: 10, left: 20),
                       child: Row(
                         children: <Widget>[
                           Text("Способ оплаты", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
@@ -285,10 +356,13 @@ class _AddressScreenState extends State<AddressScreen> {
                             address: destinationPointsKey.currentState.searchTextField.textField.controller.text,
                             office: office,
                             floor: floor,
-                            comment: comment,
+                            comment: commentField.text,
                             cartDataModel: currentUser.cartDataModel,
                             restaurant: restaurant,
                             payment_type: 'card'
+                        );
+                        Center(
+                          child: CircularProgressIndicator(),
                         );
                         await createOrder.sendData();
                         Navigator.pushReplacement(

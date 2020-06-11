@@ -184,15 +184,15 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
           );
         });
   }
-  GlobalKey alertKey = new GlobalKey();
   showAlertDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
-      key: alertKey,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20.0))
       ),
       elevation: 20,
-      content: Text("Товар добавлен в коризну"),
+      content: Center(
+        child: Text("Товар добавлен в коризну"),
+      )
     );
     // show the dialog
     showDialog(
@@ -201,7 +201,21 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
         Future.delayed(Duration(seconds: 1), () {
           Navigator.of(context).pop(true);
         });
-        return alert;
+        return Padding(
+          padding: EdgeInsets.only(bottom: 500),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Товар добавлен в коризну"),
+              ),
+            ),
+          ),
+        );
       },
     );
   }
@@ -305,11 +319,9 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                                     currentUser.cartDataModel.addItem(
                                         new Order(food: restaurantDataItems, quantity: counterKey.currentState.counter, restaurant: restaurant, date: DateTime.now().toString())
                                     );
-                                    if(alertKey.currentState != null){
-                                      alertKey.currentState.dispose();
-                                    }
+
                                       Padding(
-                                        padding: EdgeInsets.only(bottom: 30),
+                                        padding: EdgeInsets.only(bottom: 0),
                                         child: showAlertDialog(context),
                                       );
                                     cartItemsQuantityKey.currentState.refresh();
