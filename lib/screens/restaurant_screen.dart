@@ -319,11 +319,11 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                                     currentUser.cartDataModel.addItem(
                                         new Order(food: restaurantDataItems, quantity: counterKey.currentState.counter, restaurant: restaurant, date: DateTime.now().toString())
                                     );
-
-                                      Padding(
-                                        padding: EdgeInsets.only(bottom: 0),
-                                        child: showAlertDialog(context),
-                                      );
+                                    currentUser.cartDataModel.saveData();
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 0),
+                                      child: showAlertDialog(context),
+                                    );
                                     cartItemsQuantityKey.currentState.refresh();
                                     buttonCounterKey.currentState.refresh();
                                     counterKey.currentState.refresh();

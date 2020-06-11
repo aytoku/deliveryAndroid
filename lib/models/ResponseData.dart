@@ -53,6 +53,32 @@ class Records{
     this.created_at_unix,
   });
 
+  Map<String, dynamic> toJson(){
+    List<dynamic> dp;
+    if(destination_points != null && destination_points.length > 0) {
+      dp = new List<dynamic>();
+      dp.add(destination_points[0].toJson());
+    }
+
+
+    return
+    {
+      'uuid': this.uuid,
+      'name': this.name,
+      'comment': this.comment,
+      'own_delivery': this.own_delivery,
+      'image': this.image,
+      'available': this.available,
+      'work_schedule': null,
+      'type': this.type,
+      'product_category': null,
+      'destination_points': dp,
+      'destination_points_uuid': null,
+      'order_preparation_time_second': this.order_preparation_time_second,
+      'created_at_unix': this.created_at_unix,
+    };
+  }
+
   factory Records.fromJson(Map<String, dynamic> parsedJson){
 
     var work_schedule_list = parsedJson['work_schedule'] as List;
@@ -114,6 +140,16 @@ class WorkSchedule{
     this.work_beginning,
     this.work_ending,
   });
+
+  Map<String, dynamic> toJson(){
+    return
+      {
+        'week_day': this.week_day,
+        'day_off': this.day_off,
+        'work_beginning': this.work_beginning,
+        'work_ending': this.work_ending,
+      };
+  }
 
   factory WorkSchedule.fromJson(Map<String, dynamic> parsedJson){
     return WorkSchedule(

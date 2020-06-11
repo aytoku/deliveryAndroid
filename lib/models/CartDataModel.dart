@@ -1,9 +1,15 @@
+import 'package:flutter/foundation.dart';
+import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/order.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert' as convert;
 
 class CartDataModel {
   List<Order> cart = new List<Order>();
-
-  List<Map<String, dynamic>> toJson(){
+  CartDataModel( {
+    this.cart,
+  });
+  List<Map<String, dynamic>> toServerJSON(){
     List<Map<String, dynamic>> list = new List<Map<String, dynamic>>();
     cart.forEach((Order order) {
       Map<String, dynamic> item =
@@ -11,8 +17,26 @@ class CartDataModel {
             "uuid": order.food.uuid,
             "variat_uuid": null,
             "toppings_uuid": null,
-            "number": order.quantity
+            "number": order.quantity,
           };
+      list.add(item);
+    });
+    return list;
+  }
+
+  List<Map<String, dynamic>> toJson(){
+    List<Map<String, dynamic>> list = new List<Map<String, dynamic>>();
+    cart.forEach((Order order) {
+      Map<String, dynamic> item =
+      {
+        "uuid": order.food.uuid,
+        "name": order.food.name,
+        "variat_uuid": null,
+        "toppings_uuid": null,
+        "number": order.quantity,
+        "price": order.food.price,
+        "restaurant": order.restaurant.toJson()
+      };
       list.add(item);
     });
     return list;
@@ -29,5 +53,38 @@ class CartDataModel {
     if(!flag){
       cart.add(orderItem);
     }
+  }
+
+  Future saveData() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('cart', convert.jsonEncode(toJson()));
+    if(cart != null && cart.length > 0)
+      prefs.setString('restaurant', convert.jsonEncode(cart[0].restaurant.toJson()));
+  }
+
+   static Future<CartDataModel> getCart() async{
+    var temp_cart = new CartDataModel(cart: new List<Order>());
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(!prefs.containsKey('cart'))
+      return temp_cart;
+    var json_cart = convert.jsonDecode(prefs.getString('cart'));
+
+    temp_cart = await CartDataModel.fromJson(json_cart);
+    return temp_cart;
+  }
+
+   static Future<CartDataModel> fromJson(List<dynamic> parsedJson) async{
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+
+
+    List<Order> records = new List<Order>();
+    parsedJson.forEach((value) {
+      Order record = Order.fromJson(value);
+      records.add(record);
+    });
+
+    return new CartDataModel(
+      cart:records,
+    );
   }
 }

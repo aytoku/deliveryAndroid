@@ -4,6 +4,7 @@ import 'package:food_delivery/models/RestaurantDataItems.dart';
 import 'package:food_delivery/models/addCardScreen.dart';
 import 'package:food_delivery/models/Auth.dart';
 import 'package:food_delivery/models/AuthCode.dart';
+import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/models/user.dart';
 
 RestaurantDataItems restaurantDataItems = null;
@@ -17,7 +18,7 @@ final addCart = AddCart(
 
 // User
 final currentUser = User(
-  cartDataModel: new CartDataModel(),
+  cartDataModel: null,
   name: '',
   orders: [
   ],

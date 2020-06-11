@@ -175,7 +175,15 @@ class _AddressScreenState extends State<AddressScreen> {
 //                      ],
 //                    ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 20,),
+                        padding: EdgeInsets.only(bottom: 5, left: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Text('Адрес доставки', style: TextStyle(color: Colors.grey, fontSize: 13),)
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 0,),
                         child: AutoComplete(destinationPointsKey),
                       ),
 //                      Padding(
@@ -198,7 +206,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           child: Container(
                             height: 20,
                             child: TextField(
-                              controller: commentField,
+                              controller: officeField,
                             ),
                           )
                       ),
@@ -215,7 +223,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           child: Container(
                             height: 20,
                             child: TextField(
-                              controller: commentField,
+                              controller: floorField,
                             ),
                           )
                       ),
@@ -352,19 +360,21 @@ class _AddressScreenState extends State<AddressScreen> {
                       ),
                       padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
                       onPressed: () async {
+                        Center(
+                          child: CircularProgressIndicator(),
+                        );
                         CreateOrder createOrder = new CreateOrder(
                             address: destinationPointsKey.currentState.searchTextField.textField.controller.text,
-                            office: office,
-                            floor: floor,
+                            office: officeField.text,
+                            floor: floorField.text,
                             comment: commentField.text,
                             cartDataModel: currentUser.cartDataModel,
                             restaurant: restaurant,
                             payment_type: 'card'
                         );
-                        Center(
-                          child: CircularProgressIndicator(),
-                        );
                         await createOrder.sendData();
+                        currentUser.cartDataModel.cart.clear();
+                        currentUser.cartDataModel.saveData();
                         Navigator.pushReplacement(
                           context,
                           new MaterialPageRoute(

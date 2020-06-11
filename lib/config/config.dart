@@ -30,12 +30,12 @@ class NecessaryDataForAuth{
    String refresh_token = prefs.getString('refresh_token');
    String name = prefs.getString('name');
    NecessaryDataForAuth result = new NecessaryDataForAuth(device_id: device_id, phone_number: phone_number, refresh_token: refresh_token, name: name);
+   _necessaryDataForAuth = result;
    if(!(await refreshToken(refresh_token))){
      result.refresh_token = null;
    }else{
      saveData();
    }
-   _necessaryDataForAuth = result;
    return result;
  }
 

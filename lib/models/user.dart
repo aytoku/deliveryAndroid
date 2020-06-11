@@ -4,7 +4,7 @@ import 'package:food_delivery/models/order.dart';
 class User{
   String name;
   final List<Order> orders;
-  final CartDataModel cartDataModel;
+  CartDataModel cartDataModel;
   String phone;
 
   User({

@@ -60,7 +60,7 @@ class CreateOrder {
       "callback_phone": currentUser.phone,
       "increased_fare": 25,
       "comment": comment,
-      "products_input": cartDataModel.toJson(),
+      "products_input": cartDataModel.toServerJSON(),
       "routes": [
         restaurant.destination_points[0].toJson(),
         necessaryAddressData.destinationPoints[0].toJson()
