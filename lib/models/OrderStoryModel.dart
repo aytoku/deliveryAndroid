@@ -35,6 +35,7 @@ class OrdersStoryModelItem{
   int created_at_unix;
   String state_title;
   int price;
+  String state;
 
   OrdersStoryModelItem( {
     this.uuid,
@@ -44,7 +45,8 @@ class OrdersStoryModelItem{
     this.products,
     this.created_at_unix,
     this.price,
-    this.state_title
+    this.state_title,
+    this.state
   });
 
   factory OrdersStoryModelItem.fromJson(Map<String, dynamic> parsedJson){
@@ -77,6 +79,7 @@ class OrdersStoryModelItem{
       created_at_unix: parsedJson['created_at_unix'],
       price: parsedJson['tariff']['total_price'],
       state_title: parsedJson['state_title'],
+      state: parsedJson['state'],
     );
   }
 }

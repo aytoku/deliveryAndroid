@@ -32,10 +32,10 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
                       child: Align(
                           alignment: Alignment.topLeft,
                           child: Padding(
-                              padding: EdgeInsets.only(left: 15, top: 50),
+                              padding: EdgeInsets.only(left: 0, top: 40),
                               child: Container(
-                                  width: 20,
-                                  height: 20,
+                                  width: 40,
+                                  height: 40,
                                   child: Center(
                                     child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                                   )
@@ -138,7 +138,7 @@ class PaymentMethodSelectorState extends State<PaymentMethodSelector> {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      height: 250,
+      height: 200,
       child: ListView.builder(
         itemCount: cardModelList.length + 1,
         itemBuilder: (context, position) {

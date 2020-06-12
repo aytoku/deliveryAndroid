@@ -6,6 +6,7 @@ import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/scopped_model/main_model.dart';
+import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/screens/restaurant_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -98,7 +99,7 @@ class _CartScreenState extends State<CartScreen> {
           height: 1.0,
           color: Colors.grey,
         );
-      },
+       },
       ),
     );
   }
@@ -184,6 +185,90 @@ class _CartScreenState extends State<CartScreen> {
     ))]));
   }
 
+  showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: 0),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))
+            ),
+            child: Container(
+              height: 202,
+              width: 300,
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                    child: Text(
+                      'Вы действительно хотите\nотчистить корзину?',
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
+                      child: GestureDetector(
+                        child: Text(
+                          'Очистить',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        onTap: (){
+                          setState(() {
+                            currentUser.cartDataModel.cart.clear();
+                          });
+                          Navigator.pushReplacement(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => new EmptyCartScreen(restaurant: restaurant),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
+                      child: GestureDetector(
+                        child: Text(
+                          'Отмена',
+                          style: TextStyle(
+                            fontSize: 17,
+                          ),
+                        ),
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +278,7 @@ class _CartScreenState extends State<CartScreen> {
     Order bloc;
     return new Scaffold(
       key: _scaffoldStateKey,
-     body: Container(
+      body: Container(
        color: Colors.white,
        child: Column(
          children: <Widget>[
@@ -250,9 +335,7 @@ class _CartScreenState extends State<CartScreen> {
                                child: GestureDetector(
                                  child: SvgPicture.asset('assets/svg_images/delete.svg'),
                                  onTap: (){
-                                   setState(() {
-                                     currentUser.cartDataModel.cart.clear();
-                                   });
+                                   showAlertDialog(context);
                                  },
                                )
                            )
@@ -465,5 +548,149 @@ class CounterState extends State<Counter>{
     setState(() {
 
     });
+  }
+}
+
+class EmptyCartScreen extends StatefulWidget {
+  final Records restaurant;
+  EmptyCartScreen({Key key, this.restaurant}) : super(key: key);
+
+  @override
+  EmptyCartScreenState createState() {
+    return new EmptyCartScreenState(restaurant);
+  }
+}
+
+class EmptyCartScreenState extends State<EmptyCartScreen> {
+  final Records restaurant;
+
+  EmptyCartScreenState(this.restaurant);
+
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: Padding(
+          padding: EdgeInsets.only(top: 50),
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                    flex: 0,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 5),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => new RestaurantScreen(restaurant: restaurant),
+                            ),
+                          );
+                        },
+                        child:Padding(
+                            padding: EdgeInsets.only(right: 0),
+                            child: Container(
+                                width: 20,
+                                height: 20,
+                                child: Center(
+                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                )
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 0,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 0),
+                      child:  Text(restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 0,
+                    child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(5))
+                            ),
+                            child: GestureDetector(
+                              child: SvgPicture.asset('assets/svg_images/delete.svg'),
+                            )
+                        )
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 30),
+                child: Center(
+                  child: SvgPicture.asset('assets/svg_images/basket.svg'),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: Center(
+                    child: Text(
+                      'Корзина пуста',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17
+                      ),
+                    )
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10, bottom: 100),
+                child: Center(
+                  child: Text(
+                    'Перейдите в список мест, чтобы\nоформить заказ заново',
+                    style: TextStyle(
+                        color: Color(0xB0B0B0B0),
+                        fontSize: 15
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
+                  child: FlatButton(
+                    child: Text(
+                      'Вернуться на главную',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16
+                      ),
+                    ),
+                    color: Colors.redAccent,
+                    splashColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.only(left: 80, top: 20, right: 80, bottom: 20),
+                    onPressed: (){Navigator.pushReplacement(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new HomeScreen(),
+                      ),
+                    );},
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

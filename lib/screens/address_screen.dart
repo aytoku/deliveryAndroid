@@ -20,6 +20,7 @@ import 'package:food_delivery/screens/add_card_screen.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/screens/take_away_screen.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_delivery/sideBar/side_bar.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -53,7 +54,7 @@ class _AddressScreenState extends State<AddressScreen> {
     super.initState();
     _color = true;
   }
-
+  bool status1 = false;
   String title = 'Visa8744';
   String image = 'assets/images/card.png';
   String checkbox = 'assets/images/checkbox.png';
@@ -165,6 +166,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 Form(
                   key: _foodItemFormKey,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
 //                    Row(
 //                      children: <Widget>[
@@ -175,7 +177,7 @@ class _AddressScreenState extends State<AddressScreen> {
 //                      ],
 //                    ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 5, left: 15),
+                        padding: EdgeInsets.only(top: 15, left: 15),
                         child: Row(
                           children: <Widget>[
                             Text('Адрес доставки', style: TextStyle(color: Colors.grey, fontSize: 13),)
@@ -183,7 +185,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 0,),
+                        padding: EdgeInsets.only(top: 5,),
                         child: AutoComplete(destinationPointsKey),
                       ),
 //                      Padding(
@@ -194,7 +196,7 @@ class _AddressScreenState extends State<AddressScreen> {
 //                        child: _buildTextFormField("Кв./офис"),
 //                      ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 5, left: 15),
+                        padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
                         child: Row(
                           children: <Widget>[
                             Text('Подъезд', style: TextStyle(color: Colors.grey, fontSize: 13),)
@@ -202,7 +204,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         ),
                       ),
                       Padding(
-                          padding: EdgeInsets.only(left: 15, bottom: 10),
+                          padding: EdgeInsets.only(left: 15, bottom: 5),
                           child: Container(
                             height: 20,
                             child: TextField(
@@ -211,7 +213,7 @@ class _AddressScreenState extends State<AddressScreen> {
                           )
                       ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 5, left: 15),
+                        padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
                         child: Row(
                           children: <Widget>[
                             Text('Кв./офис', style: TextStyle(color: Colors.grey, fontSize: 13),)
@@ -219,7 +221,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         ),
                       ),
                       Padding(
-                          padding: EdgeInsets.only(left: 15, bottom: 10),
+                          padding: EdgeInsets.only(left: 15, bottom: 5),
                           child: Container(
                             height: 20,
                             child: TextField(
@@ -232,7 +234,7 @@ class _AddressScreenState extends State<AddressScreen> {
 //                        child: _buildTextFormField("Комментарий к заказу"),
 //                      ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 5, left: 15),
+                        padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
                         child: Row(
                           children: <Widget>[
                             Text('Комментарий к заказу', style: TextStyle(color: Colors.grey, fontSize: 13),)
@@ -240,7 +242,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 10),
+                        padding: EdgeInsets.only(left: 15, bottom: 5),
                         child: Container(
                           height: 20,
                           child: TextField(
@@ -249,7 +251,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         )
                       ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 5, left: 15),
+                        padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
                         child: Row(
                           children: <Widget>[
                             Text('Доставка', style: TextStyle(color: Colors.grey, fontSize: 13),)
@@ -257,24 +259,49 @@ class _AddressScreenState extends State<AddressScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 5, left: 15),
+                        padding: EdgeInsets.only(left: 15, bottom: 5),
                         child: Row(
                           children: <Widget>[
                             Text('30 – 50 мин',style: TextStyle(color: Colors.black, fontSize: 13),)
                           ],
                         ),
                       ),
+                      Container(
+                        height: 10,
+                        color: Color(0xFAFAFAFA),
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(left: 15),
-                        child: Divider(height: 1.0, color: Colors.grey, thickness: 1,),
-                      )
+                        padding: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text('Доставка до двери'),
+                            Padding(
+                              padding: EdgeInsets.only(right: 0),
+                              child: FlutterSwitch(
+                                width: 55.0,
+                                height: 25.0,
+                                inactiveColor: Color(0xD6D6D6D6),
+                                activeColor: Colors.red,
+                                valueFontSize: 12.0,
+                                toggleSize: 18.0,
+                                value: status1,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 25,
+                        color: Color(0xFAFAFAFA),
+                      ),
                     ],
                   ),
                 ),
                 Row(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 40, bottom: 10, left: 20),
+                      padding: EdgeInsets.only(top: 15, bottom: 5, left: 20),
                       child: Row(
                         children: <Widget>[
                           Text("Способ оплаты", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Color(0xB0B0B0B0)),),
@@ -287,7 +314,7 @@ class _AddressScreenState extends State<AddressScreen> {
                   children: <Widget>[
                     GestureDetector(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20,bottom: 15),
+                        padding: EdgeInsets.only(left: 20,bottom: 8),
                         child: Row(
                           children: <Widget>[
                             Image.asset(image),
@@ -309,7 +336,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 10),
+                    padding: EdgeInsets.only(bottom: 0, left: 20, right: 20, top: 0),
                     child: FlatButton(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

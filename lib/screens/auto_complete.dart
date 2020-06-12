@@ -45,63 +45,59 @@ class AutoCompleteDemoState extends State<AutoComplete> {
 
   Widget row(DestinationPoints user) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(left: 5),
-          child: Text(
-            user.street + ', ' + user.house,
-            style: TextStyle(fontSize: 16.0),
-            textAlign: TextAlign.start,
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+            child: Text(
+              user.street + ', ' + user.house,
+              style: TextStyle(fontSize: 16.0, decoration: TextDecoration.none),
+              textAlign: TextAlign.start,
+            ),
           ),
-        ),
-        SizedBox(
-          width: 15.0,
-          height: 50.0,
-        ),
+        )
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        new Theme(data: new ThemeData(hintColor: Color(0xF2F2F2F2)),
-          child: Padding(
-            padding: EdgeInsets.only(left: 15, right: 0, top: 10),
-            child:
-            searchTextField = AutoCompleteTextField<DestinationPoints>(
-              key: key,
-              clearOnSubmit: false,
-              suggestions: necessaryAddressDataItems,
-              style: TextStyle(color: Colors.black, fontSize: 16.0),
-              textChanged: (String value){
-                if(value.length > 0){
-                  getUsers(value);
-                }
-              },
-              itemFilter: (item, query){
-                return item.street
-                    .toLowerCase()
-                    .contains(query.toLowerCase());
-              },
-              itemSorter: (a, b) {
-                return a.street.compareTo(b.street);
-              },
-              itemSubmitted: (item) {
-                setState(() {
-                  searchTextField.textField.controller.text = item.street + ',' + item.house;
-                });
-              },
-              itemBuilder: (context, item) {
-                // ui for the autocomplete row
-                return row(item);
-              },
-            ),
+    return Container(
+      height: 30,
+      child: Theme(data: new ThemeData(hintColor: Color(0xF2F2F2F2)),
+        child: Padding(
+          padding: EdgeInsets.only(left: 15, right: 0, top: 10),
+          child:
+          searchTextField = AutoCompleteTextField<DestinationPoints>(
+            key: key,
+            clearOnSubmit: false,
+            suggestions: necessaryAddressDataItems,
+            style: TextStyle(color: Colors.black, fontSize: 16.0),
+            textChanged: (String value){
+              if(value.length > 0){
+                getUsers(value);
+              }
+            },
+            itemFilter: (item, query){
+              return item.street
+                  .toLowerCase()
+                  .contains(query.toLowerCase());
+            },
+            itemSorter: (a, b) {
+              return a.street.compareTo(b.street);
+            },
+            itemSubmitted: (item) {
+              setState(() {
+                searchTextField.textField.controller.text = item.street + ', ' + item.house;
+              });
+            },
+            itemBuilder: (context, item) {
+              // ui for the autocomplete row
+              return row(item);
+            },
           ),
         ),
-      ],
+      ),
     );
   }
 }

@@ -407,70 +407,65 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                 this.food_records_items.clear();
               }
               if(snapshot.data.records_count == 0){
-                return Container(
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Stack(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(top: 50),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Flexible(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 15),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushReplacement(
-                                            context,
-                                            new MaterialPageRoute(
-                                              builder: (context) => new HomeScreen(),
-                                            ),
-                                          );
-                                        },
-                                        child:Padding(
-                                          padding: EdgeInsets.only(right: 0),
-                                          child: Container(
-                                              width: 20,
-                                              height: 20,
-                                              child: Center(
-                                                child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                              )
-                                          )
-                                        ),
-                                      ),
+                return Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 50),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Flexible(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    new MaterialPageRoute(
+                                      builder: (context) => new HomeScreen(),
                                     ),
-                                  ),
-                                  Flexible(
-                                    flex: 10,
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(right: 0),
-                                        child:  Text(this.restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                                      ),
-                                    ),
-                                  )
-                                ],
+                                  );
+                                },
+                                child:Padding(
+                                    padding: EdgeInsets.only(right: 0),
+                                    child: Container(
+                                        width: 20,
+                                        height: 20,
+                                        child: Center(
+                                          child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                        )
+                                    )
+                                ),
                               ),
-                            )
-                          ],
+                            ),
+                          ),
+                          Flexible(
+                            flex: 10,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 0),
+                                child:  Text(this.restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    _buildFoodCategoryList(),
+                    Flexible(
+                      flex: 10,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Center(
+                          child: Text('Нет товаров данной категории'),
                         ),
-                        _buildFoodCategoryList(),
-                        Container(
-                            height: 500,
-                            child: Center(
-                              child: Text('Нет товаров данной категории'),
-                            )
-                        ),
-                        SizedBox(height: 10.0),
-                      ],
-                    )
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                  ],
                 );
               }
               if(snapshot.connectionState == ConnectionState.done){
@@ -597,12 +592,23 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                           borderRadius: BorderRadius.circular(8),
                         ),
                         padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
-                        onPressed: (){Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => new CartScreen(restaurant: restaurant),
-                          ),
-                        );},
+                        onPressed: (){
+                          if(currentUser.cartDataModel.cart.length == 0){
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                builder: (context) => new EmptyCartScreen(restaurant: restaurant),
+                              ),
+                            );
+                          }else{
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                builder: (context) => new CartScreen(restaurant: restaurant),
+                              ),
+                            );
+                          }
+                       },
                       ),
                     )
                   ],

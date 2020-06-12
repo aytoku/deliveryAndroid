@@ -319,14 +319,14 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                 return ListView(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 30, left: 15),
+                      padding: EdgeInsets.only(top: 20, bottom: 30, left: 0),
                       child: Row(
                         children: <Widget>[
                           GestureDetector(
                             child: Align(
                                 alignment: Alignment.topLeft,
                                 child: Padding(
-                                    padding: EdgeInsets.only(),
+                                    padding: EdgeInsets.only(left: 15, top: 0),
                                     child: Container(
                                         width: 20,
                                         height: 20,

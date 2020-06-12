@@ -192,9 +192,12 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 20),
-                        child: _buildTextFormField(""),
+                      Container(
+                        height: 20,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 15, bottom: 20),
+                          child: _buildTextFormField(""),
+                        ),
                       ),
                       Row(
                         children: <Widget>[
@@ -204,12 +207,19 @@ class _TakeAwayScreenState extends State<TakeAwayScreen> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 20),
-                        child: _buildTextFormField(""),
-                      ),
+                      Container(
+                        height: 20,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 15, bottom: 20),
+                          child: _buildTextFormField(""),
+                        ),
+                      )
                     ],
                   ),
+                ),
+                Container(
+                  color: Color(0xFAFAFAFA),
+                  height: 60,
                 ),
                 Row(
                   children: <Widget>[
