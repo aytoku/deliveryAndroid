@@ -52,7 +52,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(bottom: 20,right: 15),
+          padding: EdgeInsets.only(bottom: 0,right: 15, top: 10),
           child: AutoComplete(destinationPointsKey),
         ),
         Padding(

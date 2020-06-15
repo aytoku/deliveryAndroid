@@ -64,14 +64,6 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
                               ),
                             ),
                           ),
-                          onTap: (){
-                            Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                builder: (context) => new PaymentsMethodsDeleteScreen(),
-                              ),
-                            );
-                          },
                         )
                     ),
                   ],

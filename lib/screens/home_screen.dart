@@ -433,46 +433,50 @@ class OrderCheckingState extends State<OrderChecking> {
         children: <Widget>[
           Expanded(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Ваш заказ из ' + (ordersStoryModelItem.store != null ? ordersStoryModelItem.store.name : 'Пусто'),
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Align(
+                      child: Text(
+                        'Ваш заказ из ' + (ordersStoryModelItem.store != null ? ordersStoryModelItem.store.name : 'Пусто'),
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold
+                        ),
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: 5, left: 5),
-                  child: GestureDetector(
-                    child: Container(
-                      height: 30,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
-                          color: Color(0xF6F6F6F6)),
-                      child:  Padding(
-                          padding: EdgeInsets.only(left: 10, right: 10, top: 5,bottom: 0),
-                          child: Text('Заказ',
-                            style: TextStyle(color: Colors.black, fontSize: 15),)
-                      ),
-                    ),
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) {
-                              return OrdersDetailsScreen(ordersStoryModelItem: ordersStoryModelItem);
-                            }
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 5, left: 10, top: 20),
+                    child: GestureDetector(
+                      child: Container(
+                        height: 30,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                            color: Color(0xF6F6F6F6)),
+                        child:  Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10, top: 5,bottom: 0),
+                            child: Text('Заказ',
+                              style: TextStyle(color: Colors.black, fontSize: 15),)
                         ),
-                      );
-                    },
+                      ),
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) {
+                                return OrdersDetailsScreen(ordersStoryModelItem: ordersStoryModelItem);
+                              }
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 )
               ],

@@ -11,6 +11,7 @@ import 'package:food_delivery/screens/my_addresses_screen.dart';
 import 'package:food_delivery/screens/name_screen.dart';
 import 'package:food_delivery/screens/orders_details.dart';
 import 'package:food_delivery/screens/orders_story_screen.dart';
+import 'package:food_delivery/screens/partners_screen.dart';
 import 'package:food_delivery/screens/payments_methods_screen.dart';
 import 'package:food_delivery/screens/profile_screen.dart';
 import 'package:food_delivery/screens/service_screen.dart';
