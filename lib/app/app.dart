@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/scopped_model/main_model.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
@@ -25,6 +27,7 @@ import '../sticky.dart';
 
 class App extends StatelessWidget {
   final MainModel mainModel = MainModel();
+  FirebaseAnalytics analytics = FirebaseAnalytics();
   @override
   Widget build(BuildContext context) {
     return ScopedModel<MainModel>(
@@ -34,6 +37,9 @@ class App extends StatelessWidget {
         title: "Food Delivery App",
         theme: ThemeData(primaryColor: Colors.redAccent),
         home: DeviceIdScreen(),
+        navigatorObservers: [
+          FirebaseAnalyticsObserver(analytics: analytics),
+        ],
         // home: AddFoodItem(),
       ),
     );

@@ -1,18 +1,16 @@
 import 'dart:convert';
-import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/data/data.dart';
-import 'package:food_delivery/models/AuthCode.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
+import 'package:food_delivery/models/OrderStoryModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-Future sendFCMToken(String token) async {
 
-  var json_request = jsonEncode({
-    "token": token,
-  });
-  var url = 'https://client.apis.stage.faem.pro/api/v2/firebasetoken';
-  var response = await http.post(url, body: json_request, headers: <String, String>{
+Future<OrdersStoryModelItem> loadCurrentDataAboutOrder(String uuid) async {
+  await CreateOrder.sendRefreshToken();
+  OrdersStoryModelItem ordersStoryModel = null;
+  var url = 'https://client.apis.stage.faem.pro/api/v2/orders/' + uuid;
+  var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',
     'Source':'ios_client_app_1',
@@ -20,9 +18,10 @@ Future sendFCMToken(String token) async {
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);
+    ordersStoryModel = new OrdersStoryModelItem.fromJson(jsonResponse);
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
-  print(response.body);
-  return authCodeData;
+  print(ordersStoryModel);
+  return ordersStoryModel;
 }

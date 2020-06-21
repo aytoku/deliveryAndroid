@@ -13,6 +13,7 @@ import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/OrderStoryModel.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/RestaurantDataItems.dart';
+import 'package:food_delivery/models/firebase_notification_handler.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/models/restaurant.dart';
 import 'package:food_delivery/screens/infromation_screen.dart';
@@ -35,11 +36,11 @@ class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-
+class HomeScreenState extends State<HomeScreen> {
+  List<OrderChecking> orderList;
   int page = 1;
   int limit = 12;
   bool isLoading = true;
@@ -127,9 +128,9 @@ class _HomeScreenState extends State<HomeScreen> {
               context,
               MaterialPageRoute(
                   builder: (_) {
-                    if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
-                      currentUser.cartDataModel.cart.clear();
-                    }
+//                    if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
+//                      currentUser.cartDataModel.cart.clear();
+//                    }
                     return RestaurantScreen(restaurant: restaurant);
                   }
               ),
@@ -286,6 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: SvgPicture.asset('assets/svg_images/menu.svg'),
                                   onTap: (){
                                     _scaffoldKey.currentState.openDrawer();
+
                                   },
                                 ),
                               ),
@@ -318,6 +320,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
+//                      GestureDetector(
+//                        child: Container(
+//                          color: Colors.red,
+//                          height: 60,
+//                          width: 100,
+//                          child: Text('asdasd'),
+//                        ),
+//                        onTap: ()async {
+//                          await sendFCMToken(FCMToken);
+//                          print(authCodeData.token);
+//                        },
+//                      ),
                       SizedBox(
                         height: 10,
                       ),
@@ -325,6 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         future: OrderChecking.getActiveOrder(),
                         builder: (BuildContext context, AsyncSnapshot<List<OrderChecking>> snapshot) {
                           if(snapshot.connectionState == ConnectionState.done && snapshot.data != null){
+                            orderList = snapshot.data;
                             return Container(
                               height: 160,
                               child: ListView(
@@ -333,6 +348,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             );
                           }else{
+                            orderList = null;
                             return Center(
                               child: Container(),
                             );
@@ -394,9 +410,13 @@ class OrderChecking extends StatefulWidget {
   static Future<List<OrderChecking>> getActiveOrder() async{
     List<OrderChecking> activeOrderList = new List<OrderChecking>();
     OrdersStoryModel ordersStoryModel = await loadOrdersStoryModel();
+    orderCheckingStates.clear();
     ordersStoryModel.ordersStoryModelItems.forEach((OrdersStoryModelItem element) {
       if(true){
-        activeOrderList.add(new OrderChecking(ordersStoryModelItem: element));
+        print(element.uuid);
+        GlobalKey<OrderCheckingState> key = new GlobalKey<OrderCheckingState>();
+        orderCheckingStates[element.uuid] = key;
+        activeOrderList.add(new OrderChecking(ordersStoryModelItem: element, key: key,));
       }
     });
     return activeOrderList;
@@ -410,6 +430,10 @@ class OrderCheckingState extends State<OrderChecking> {
 
   @override
   Widget build(BuildContext context) {
+    var processing = ['waiting_for_confirmation'];
+    var cooking_state = ['cooking','offer_offered','smart_distribution', 'finding_driver', 'offer_rejected', 'order_start','on_place'];
+    var in_the_way = ['on_the_way'];
+    var take = ['order_payment'];
     //return Text('Ваш заказ из ' + (ordersStoryModelItem.store != null ? ordersStoryModelItem.store.name : 'Пусто'),);
     return  Container(
       height: 100,
@@ -493,17 +517,17 @@ class OrderCheckingState extends State<OrderChecking> {
                         height: 70,
                         width: 70,
                         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
-                            color: Color(0xF6F6F6F6)),
+                            color: (processing.contains(ordersStoryModelItem.state)) ? Colors.lightBlueAccent : Color(0xF6F6F6F6)),
                         child:  Column(
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(top: 10),
-                              child: SvgPicture.asset('assets/svg_images/clock.svg'),
+                              child: (processing.contains(ordersStoryModelItem.state)) ? SvgPicture.asset('assets/svg_images/white_clock.svg') : SvgPicture.asset('assets/svg_images/clock.svg'),
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 5),
                               child: Text('Обработка',
-                                style: TextStyle(color: Color(0x42424242), fontSize: 11),),
+                                style: (processing.contains(ordersStoryModelItem.state)) ? TextStyle(color: Colors.white, fontSize: 11) : TextStyle(color: Color(0x42424242), fontSize: 11)),
                             )
                           ],
                         ),
@@ -515,17 +539,17 @@ class OrderCheckingState extends State<OrderChecking> {
                       height: 70,
                       width: 70,
                       decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
-                          color: Color(0xF6F6F6F6)),
+                          color: (cooking_state.contains(ordersStoryModelItem.state)) ? Colors.green : Color(0xF6F6F6F6)),
                       child:  Column(
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(top: 10),
-                            child: SvgPicture.asset('assets/svg_images/bell.svg'),
+                            child: (cooking_state.contains(ordersStoryModelItem.state)) ? SvgPicture.asset('assets/svg_images/white_bell.svg') : SvgPicture.asset('assets/svg_images/bell.svg'),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                             child: Text('Готовится',
-                              style: TextStyle(color: Color(0x42424242), fontSize: 11),),
+                              style: (cooking_state.contains(ordersStoryModelItem.state)) ? TextStyle(color: Colors.white, fontSize: 11) : TextStyle(color: Color(0x42424242), fontSize: 11)),
                           )
                         ],
                       ),
@@ -542,13 +566,13 @@ class OrderCheckingState extends State<OrderChecking> {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(top: 15),
-                            child: SvgPicture.asset('assets/svg_images/car.svg'),
+                            child: (in_the_way.contains(ordersStoryModelItem.state)) ? SvgPicture.asset('assets/svg_images/light_car.svg') : SvgPicture.asset('assets/svg_images/car.svg'),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                             child: Text('В пути',
-                              style: TextStyle(color: Color(0x42424242), fontSize: 11),),
-                          )
+                              style: (in_the_way.contains(ordersStoryModelItem.state)) ? TextStyle(color: Colors.black, fontSize: 11) : TextStyle(color: Color(0x42424242), fontSize: 11)),
+                          ),
                         ],
                       ),
                     ),
@@ -559,17 +583,17 @@ class OrderCheckingState extends State<OrderChecking> {
                       height: 70,
                       width: 70,
                       decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
-                          color: Color(0xF6F6F6F6)),
+                          color: (take.contains(ordersStoryModelItem.state)) ? Colors.redAccent : Color(0xF6F6F6F6)),
                       child:  Column(
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(top: 10),
-                            child: SvgPicture.asset('assets/svg_images/ready.svg'),
+                            child: (take.contains(ordersStoryModelItem.state)) ? SvgPicture.asset('assets/svg_images/white_ready.svg') : SvgPicture.asset('assets/svg_images/ready.svg'),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                             child: Text('Заберите',
-                              style: TextStyle(color: Color(0x42424242), fontSize: 11),),
+                              style: (take.contains(ordersStoryModelItem.state)) ? TextStyle(color: Colors.white, fontSize: 11) : TextStyle(color: Color(0x42424242), fontSize: 11)),
                           )
                         ],
                       ),
@@ -578,7 +602,55 @@ class OrderCheckingState extends State<OrderChecking> {
                 ],
               ),
             ),
-          )
+          ),
+//          Align(
+//            alignment: Alignment.centerLeft,
+//            child: Padding(
+//              padding: EdgeInsets.only(top: 10, bottom: 10, right: 150),
+//              child: (in_the_way.contains(ordersStoryModelItem.state)) ? Container(
+//                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(11)),
+//                    border: Border.all(color: Colors.green),
+//                    color: Colors.white),
+//                child: Padding(
+//                  padding: EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
+//                  child: Row(
+//                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                    children: <Widget>[
+//                      SvgPicture.asset('assets/svg_images/phone.svg'),
+//                      Padding(
+//                        padding: EdgeInsets.only(left: 10),
+//                        child: Text(
+//                          'Позвонить',
+//                          style: TextStyle(
+//                              fontWeight: FontWeight.bold,
+//                              fontSize: 14
+//                          ),
+//                        ),
+//                      )
+//                    ],
+//                  ),
+//                ),
+//              ) : Container(),
+//            ),
+//          ),
+//          Container(
+//            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(11)),
+//                border: Border.all(color: Colors.green),
+//                color: Colors.white),
+//            child: Row(
+//              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//              children: <Widget>[
+//                SvgPicture.asset('assets/svg_images/phone.svg'),
+//                Text(
+//                  'Позвонить',
+//                  style: TextStyle(
+//                    fontWeight: FontWeight.bold,
+//                    fontSize: 14
+//                  ),
+//                )
+//              ],
+//            ),
+//          )
         ],
       )
     );

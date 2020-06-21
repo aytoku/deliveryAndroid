@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:food_delivery/PostData/auth_data_pass.dart';
+import 'package:food_delivery/PostData/fcm.dart';
 import 'package:food_delivery/PostData/necessary_address_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/data/data.dart';
@@ -38,13 +39,15 @@ class CreateOrder {
     var url = 'https://client.apis.stage.faem.pro/api/v2/auth/refresh';
     var response = await http.post(url, body: jsonEncode({"refresh": authCodeData.refresh_token}),
         headers: <String, String>{
-    'Content-Type': 'application/json; charset=UTF-8',
-    });
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+    print('ТУТ КЕФРЕЭ ' + authCodeData.refresh_token);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
       authCodeData = AuthCodeData.fromJson(jsonResponse);
       necessaryDataForAuth.refresh_token = authCodeData.refresh_token;
       NecessaryDataForAuth.saveData();
+      await sendFCMToken(FCMToken);
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }

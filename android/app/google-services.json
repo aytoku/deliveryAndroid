@@ -8,9 +8,38 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:642103147367:android:d321ae67060010e6108dc2",
+        "mobilesdk_app_id": "1:642103147367:android:0261505404604af9108dc2",
         "android_client_info": {
           "package_name": "com.example.food_delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "642103147367-i5qege7nk3i62gb0cl78g3bov19eq85l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkS4J2kmy1e5-pugH8kvTKcnPG2cjQopo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "642103147367-g4qi9si32jvkghurmuqp99so85iorpgd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642103147367:android:f1bd324f73b6769a108dc2",
+        "android_client_info": {
+          "package_name": "com.example.taxiapplication"
         }
       },
       "oauth_client": [

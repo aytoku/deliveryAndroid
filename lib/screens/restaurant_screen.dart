@@ -184,6 +184,7 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
           );
         });
   }
+
   showAlertDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
@@ -219,6 +220,96 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
       },
     );
   }
+
+  showCartClearDialog(BuildContext context, Order order, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Padding(
+        padding: EdgeInsets.only(bottom: 0),
+        child: Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))
+          ),
+          child: Container(
+              height: 222,
+              width: 300,
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                    child: Text(
+                      'Все ранее добавленные блюда из ресторна ${currentUser.cartDataModel.cart[0].restaurant.name} будут удалены из корзины',
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
+                      child: GestureDetector(
+                        child: Text(
+                          'Ок',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        onTap: (){
+                          if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
+                            currentUser.cartDataModel.cart.clear();
+                            currentUser.cartDataModel.addItem(
+                                order
+                            );
+                            currentUser.cartDataModel.saveData();
+                            cartItemsQuantityKey.currentState.refresh();
+                            buttonCounterKey.currentState.refresh();
+                            counterKey.currentState.refresh();
+                          }
+                          Navigator.pop(context);
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 0),
+                            child: showAlertDialog(context),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
+                      child: GestureDetector(
+                        child: Text(
+                          'Отмена',
+                          style: TextStyle(
+                            fontSize: 17,
+                          ),
+                        ),
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              )
+          ),
+        ),
+      );
+    },
+  );
+}
 
   Column _buildBottomNavigationMenu(FoodRecords restaurantDataItems, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey){
     return Column(
@@ -316,17 +407,30 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                                   padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
                                   onPressed: ()
                                   {
-                                    currentUser.cartDataModel.addItem(
-                                        new Order(food: restaurantDataItems, quantity: counterKey.currentState.counter, restaurant: restaurant, date: DateTime.now().toString())
-                                    );
-                                    currentUser.cartDataModel.saveData();
-                                    Padding(
-                                      padding: EdgeInsets.only(bottom: 0),
-                                      child: showAlertDialog(context),
-                                    );
-                                    cartItemsQuantityKey.currentState.refresh();
-                                    buttonCounterKey.currentState.refresh();
-                                    counterKey.currentState.refresh();
+                                    if(currentUser.cartDataModel.cart.length > 0 && restaurant.uuid != currentUser.cartDataModel.cart[0].restaurant.uuid){
+                                      showCartClearDialog(context, new Order(
+                                          food: restaurantDataItems,
+                                          quantity: counterKey.currentState.counter,
+                                          restaurant: restaurant,
+                                          date: DateTime.now().toString()
+                                      ), cartItemsQuantityKey);
+                                    }else{
+                                      currentUser.cartDataModel.addItem(
+                                          new Order(
+                                              food: restaurantDataItems,
+                                              quantity: counterKey.currentState.counter,
+                                              restaurant: restaurant,
+                                              date: DateTime.now().toString())
+                                      );
+                                      currentUser.cartDataModel.saveData();
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: 0),
+                                        child: showAlertDialog(context),
+                                      );
+                                      cartItemsQuantityKey.currentState.refresh();
+                                      buttonCounterKey.currentState.refresh();
+                                      counterKey.currentState.refresh();
+                                    }
                                   },
                                 ),
                               )
