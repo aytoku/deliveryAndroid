@@ -5,6 +5,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
 import 'package:food_delivery/models/OrderStoryModel.dart';
+import 'package:food_delivery/models/OwnersModel.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/RestaurantDataItems.dart';
 import 'package:food_delivery/models/order.dart';
@@ -15,13 +16,15 @@ import 'package:food_delivery/screens/restaurant_screen.dart';
 import 'package:intl/intl.dart';
 
 class PartnerScreen extends StatefulWidget {
-
+  final OwnersModel owner;
+  PartnerScreen({Key key, this.owner}) : super(key: key);
   @override
-  PartnerScreenState createState() => PartnerScreenState();
+  PartnerScreenState createState() => PartnerScreenState(owner);
 }
 
 class PartnerScreenState extends State<PartnerScreen>{
-
+  OwnersModel owner;
+  PartnerScreenState(this.owner);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -54,7 +57,7 @@ class PartnerScreenState extends State<PartnerScreen>{
                   Center(
                     child: Padding(
                       padding: EdgeInsets.only(right: 130),
-                      child: Text("Партнер 1", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
+                      child: Text(owner.name, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
                     ),
                   ),
                 ],
@@ -65,7 +68,7 @@ class PartnerScreenState extends State<PartnerScreen>{
               child: Padding(
                 padding: EdgeInsets.only(left: 15),
                 child: Text(
-                  '№ 1987456',
+                  '№ ' + owner.id.toString(),
                   style: TextStyle(
                       fontSize: 15,
                       color: Color(0x97979797)

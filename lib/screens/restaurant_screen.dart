@@ -492,7 +492,8 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
               _color = !_color;
             });
           },);
-        }),
+          }
+        ),
       ),
     );
   }

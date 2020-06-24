@@ -7,7 +7,7 @@ import 'package:food_delivery/screens/auth_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/sideBar/side_bar.dart';
 
-class DeviceIdScreen extends StatelessWidget {
+class   DeviceIdScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {

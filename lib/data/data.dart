@@ -10,12 +10,16 @@ import 'package:food_delivery/models/user.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 
 Map<String,GlobalKey<OrderCheckingState>> orderCheckingStates = new Map<String,GlobalKey<OrderCheckingState>>();
+Map<String,GlobalKey<ChatMessageScreenState>> chatMessagesStates = new Map<String,GlobalKey<ChatMessageScreenState>>();
+GlobalKey<HomeScreenState>homeScreenKey = new GlobalKey<HomeScreenState>();
 RestaurantDataItems restaurantDataItems = null;
+GlobalKey<ChatScreenState>chatKey = new GlobalKey<ChatScreenState>();
 AuthCodeData authCodeData = null;
 AuthData authData = null;
 String FCMToken = '';
 int code = 0;
 NecessaryDataForAuth necessaryDataForAuth = new NecessaryDataForAuth(phone_number: null, refresh_token: null, device_id: null, name: null);
+
 final addCart = AddCart(
   imageUrl: 'assets/images/restaurant1.jpg',
   name: 'Sandwich Street',);

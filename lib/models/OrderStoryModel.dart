@@ -36,6 +36,7 @@ class OrdersStoryModelItem{
   String state_title;
   int price;
   String state;
+  Driver driver;
 
   OrdersStoryModelItem( {
     this.uuid,
@@ -46,7 +47,8 @@ class OrdersStoryModelItem{
     this.created_at_unix,
     this.price,
     this.state_title,
-    this.state
+    this.state,
+    this.driver
   });
 
   factory OrdersStoryModelItem.fromJson(Map<String, dynamic> parsedJson){
@@ -60,6 +62,7 @@ class OrdersStoryModelItem{
       routesList = routes_list.map((i) =>
           DestinationPoints.fromJson(i)).toList();
     }
+
     if(parsedJson['products_data'] != null){
       store  = Records.fromJson(parsedJson['products_data']['store']);
       store.destination_points = routesList;
@@ -80,6 +83,7 @@ class OrdersStoryModelItem{
       price: parsedJson['tariff']['total_price'],
       state_title: parsedJson['state_title'],
       state: parsedJson['state'],
+      driver: Driver.fromJson(parsedJson['driver'])
     );
   }
 }
@@ -139,6 +143,21 @@ class FoodRecordsStory{
       store_uuid: parsedJson['store_uuid'],
       toppings: toppingsList,
       variants: variantsList,
+    );
+  }
+}
+
+class Driver{
+  String phone;
+
+  Driver( {
+    this.phone
+  });
+
+  factory Driver.fromJson(Map<String, dynamic> parsedJson){
+
+    return Driver(
+        phone: parsedJson['phone']
     );
   }
 }
