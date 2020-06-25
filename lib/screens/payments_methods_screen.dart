@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/CardModel.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
@@ -43,12 +44,9 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
                           )
                       ),
                       onTap: (){
-                        Navigator.pushReplacement(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => new HomeScreen(),
-                          ),
-                        );
+                        homeScreenKey = new GlobalKey<HomeScreenState>();
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                            HomeScreen()), (Route<dynamic> route) => false);
                       },
                     ),
                     Align(

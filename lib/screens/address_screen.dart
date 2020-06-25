@@ -292,7 +292,7 @@ class _AddressScreenState extends State<AddressScreen> {
                         ),
                       ),
                       Container(
-                        height: 25,
+                        height: 15,
                         color: Color(0xFAFAFAFA),
                       ),
                     ],
@@ -336,7 +336,7 @@ class _AddressScreenState extends State<AddressScreen> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 0, left: 20, right: 20, top: 0),
+                    padding: EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 0),
                     child: FlatButton(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -397,17 +397,14 @@ class _AddressScreenState extends State<AddressScreen> {
                             comment: commentField.text,
                             cartDataModel: currentUser.cartDataModel,
                             restaurant: restaurant,
-                            payment_type: 'card'
+                            payment_type: 'Наличными'
                         );
                         await createOrder.sendData();
                         currentUser.cartDataModel.cart.clear();
                         currentUser.cartDataModel.saveData();
-                        Navigator.pushReplacement(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => new HomeScreen(),
-                          ),
-                        );
+                        homeScreenKey = new GlobalKey<HomeScreenState>();
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                            HomeScreen()), (Route<dynamic> route) => false);
 //                        final snackBar = SnackBar(
 //                          content: Text('Yay! A SnackBar!'),
 //                          action: SnackBarAction(

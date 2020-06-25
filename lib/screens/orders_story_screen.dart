@@ -17,6 +17,7 @@ import 'package:food_delivery/widgets/recent_orders.dart';
 import 'package:intl/intl.dart';
 
 import 'cart_screen.dart';
+import 'home_screen.dart';
 
 class OrdersStoryScreen extends StatefulWidget {
   OrdersStoryScreen({Key key}) : super(key: key);
@@ -337,7 +338,9 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                                 )
                             ),
                             onTap: (){
-                              Navigator.pop(context);
+                              homeScreenKey = new GlobalKey<HomeScreenState>();
+                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                  HomeScreen()), (Route<dynamic> route) => false);
                             },
                           ),
                           Center(

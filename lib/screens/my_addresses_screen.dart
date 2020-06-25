@@ -5,6 +5,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_delivery/models/my_addresses_model.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/add_my_address_screen.dart';
+import 'package:food_delivery/data/data.dart';
 
 import 'auto_complete.dart';
 import 'home_screen.dart';
@@ -116,12 +117,9 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                           )
                       ),
                       onTap: (){
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => new HomeScreen(),
-                          ),
-                        );
+                        homeScreenKey = new GlobalKey<HomeScreenState>();
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                            HomeScreen()), (Route<dynamic> route) => false);
                       },
                     ),
                     GestureDetector(

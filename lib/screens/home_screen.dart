@@ -806,28 +806,47 @@ class ChatScreenState extends State<ChatScreen> {
       key: _scaffoldKey,
       body: Column(
         children: <Widget>[
-          GestureDetector(
-            child: Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                    padding: EdgeInsets.only(left: 0, top: 40),
-                    child: Container(
-                        width: 40,
-                        height: 40,
-                        child: Center(
-                          child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+          Row(
+            children: <Widget>[
+              GestureDetector(
+                child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 0, top: 40),
+                        child: Container(
+                            width: 40,
+                            height: 40,
+                            child: Center(
+                              child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                            )
                         )
                     )
-                )
-            ),
-            onTap: (){
-              Navigator.pushReplacement(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => new HomeScreen(),
                 ),
-              );
-            },
+                onTap: (){
+                  Navigator.pushReplacement(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new HomeScreen(),
+                    ),
+                  );
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 40, left: 90),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Center(
+                    child: Text(
+                      'Чат с водителем',
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                )
+              )
+            ]
           ),
           Flexible(
             flex: 10,
@@ -846,25 +865,28 @@ class ChatScreenState extends State<ChatScreen> {
           ),
           Flexible(
             flex: 1,
-            child: Container(
-              height: 20,
-              width: 300,
-              child: TextField(
-                controller: messageField,
-                decoration: InputDecoration(
-                  suffix: GestureDetector(
-                    child: SvgPicture.asset('assets/svg_images/send_message.svg'),
-                    onTap: () async {
-                      var message = await Chat.sendMessage(order_uuid, messageField.text, 'driver');
-                      chatMessagesStates.forEach((key, value) {
-                        print(key + ' ' + value.currentState.toString());
-                      });
+            child: Padding(
+              padding: EdgeInsets.only(top: 15, bottom: 10),
+              child: Container(
+                height: 40,
+                width: 320,
+                child: TextField(
+                  controller: messageField,
+                  decoration: InputDecoration(
+                    suffix: GestureDetector(
+                      child: SvgPicture.asset('assets/svg_images/send_message.svg'),
+                      onTap: () async {
+                        var message = await Chat.sendMessage(order_uuid, messageField.text, 'driver');
+                        chatMessagesStates.forEach((key, value) {
+                          print(key + ' ' + value.currentState.toString());
+                        });
                         setState(() {
                           GlobalKey<ChatMessageScreenState>chatMessageScreenStateKey = new GlobalKey<ChatMessageScreenState>();
                           chatMessagesStates[message.uuid] = chatMessageScreenStateKey;
                           chatMessageList.insert(0, new ChatMessageScreen(key : chatMessageScreenStateKey,chatMessage: message));
                         });
-                    },
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -926,25 +948,83 @@ class ChatMessageScreenState extends State<ChatMessageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        (chatMessage.to == 'client') ? Text(chatMessage.message,
-          textAlign: TextAlign.left,
-          style: TextStyle(
-              color:Colors.black,
-              fontSize: 13,
-              decoration: TextDecoration.none
+    return Padding(
+      padding: EdgeInsets.only(left: 15, right: 15),
+      child: Column(
+        children: <Widget>[
+          (chatMessage.to == 'client') ? Padding(
+            padding: EdgeInsets.only(right: 15),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.only(top: 10, bottom: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(17.0),
+                      border: Border.all(
+                          width: 1.0,
+                          color: Colors.grey
+                      )
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(chatMessage.message,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          color:Colors.black,
+                          fontSize: 15,
+                          decoration: TextDecoration.none
+                      ),
+                    ),
+                  )
+                ),
+              ),
+            ),
+          ): Padding(
+            padding: EdgeInsets.only(left: 15),
+            child: Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 10,bottom: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.redAccent,
+                        borderRadius: BorderRadius.circular(17.0),
+                        border: Border.all(
+                            width: 1.0,
+                            color: Colors.redAccent
+                        )
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(chatMessage.message,
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            color:Colors.white,
+                            fontSize: 13,
+                            decoration: TextDecoration.none
+                        ),
+                      ),
+                    )
+                  ),
+                )
+            ),
           ),
-        ): Text(chatMessage.message,
-          textAlign: TextAlign.right,
-          style: TextStyle(
-              color:Colors.black,
-              fontSize: 13,
-              decoration: TextDecoration.none
-          ),
-        ),
-        Text((chatMessage.ack) ? 'Прочитано' : 'Доставлено')
-      ],
+          Padding(
+            padding: EdgeInsets.only(left: 40),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Text((chatMessage.ack && chatMessage.to == 'client') ? 'Прочитано' : 'Доставлено',
+                style: TextStyle(
+                    fontSize: 11,
+                    color: Colors.grey
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -975,6 +1055,13 @@ class QuickMessageScreenState extends State<QuickMessageScreen> {
             padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
             child:Container(
               decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 5.0, // soften the shadow
+                      spreadRadius: 2.0, //extend the shadow
+                    )
+                  ],
                   color: (quickMessage.messages[index] != quickTextMessage) ? Colors.white : Colors.redAccent),
               child:  Padding(
                   padding: EdgeInsets.only(left: 15, right: 15, top: 5,),

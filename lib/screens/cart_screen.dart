@@ -678,12 +678,10 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: EdgeInsets.only(left: 80, top: 20, right: 80, bottom: 20),
-                    onPressed: (){Navigator.pushReplacement(
-                      context,
-                      new MaterialPageRoute(
-                        builder: (context) => new HomeScreen(),
-                      ),
-                    );},
+                    onPressed: (){
+                      homeScreenKey = new GlobalKey<HomeScreenState>();
+                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                          HomeScreen()), (Route<dynamic> route) => false);},
                   ),
                 ),
               ),

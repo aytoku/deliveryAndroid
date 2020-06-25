@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/TicketModel.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
+import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/screens/service_orders_story.dart';
 
 class ServiceScreen extends StatefulWidget {
@@ -36,7 +38,9 @@ class ServiceScreenState extends State<ServiceScreen>{
                     )
                 ),
                 onTap: (){
-                  Navigator.pop(context);
+                  homeScreenKey = new GlobalKey<HomeScreenState>();
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                      HomeScreen()), (Route<dynamic> route) => false);
                 },
               ),
               Center(

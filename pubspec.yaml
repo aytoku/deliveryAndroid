@@ -35,8 +35,8 @@ dependencies:
   flutter_svg: ^0.17.4
   flutter_sticky_header: ^0.4.2
   sticky_headers: ^0.1.8+1
-  firebase_auth: ^0.16.1
-  cloud_firestore: ^0.13.6
+  firebase_auth: ^0.15.3
+  cloud_firestore: ^0.13.0+1
   firebase_core: ^0.4.5
   firebase_messaging: ^6.0.16
   firebase_analytics: ^5.0.15

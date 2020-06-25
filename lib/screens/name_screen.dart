@@ -5,6 +5,7 @@ import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/Auth.dart';
 import 'package:food_delivery/models/AuthCode.dart';
+import 'package:food_delivery/models/firebase_notification_handler.dart';
 import 'package:food_delivery/sideBar/side_bar.dart';
 import 'package:food_delivery/test/api_test.dart';
 import 'address_screen.dart';
@@ -145,14 +146,12 @@ class NameScreenState extends State<NameScreen> {
                               ),
                               padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
                               onPressed: ()async {
-                                NecessaryDataForAuth.saveData();
+                                await NecessaryDataForAuth.saveData();
+                                await new FirebaseNotifications().setUpFirebase();
                                 print(necessaryDataForAuth.name);
-                                Navigator.pushReplacement(
-                                  context,
-                                  new MaterialPageRoute(
-                                    builder: (context) => new HomeScreen(),
-                                  ),
-                                );
+                                homeScreenKey = new GlobalKey<HomeScreenState>();
+                                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                    HomeScreen()), (Route<dynamic> route) => false);
                               },
                             ),
                           ),

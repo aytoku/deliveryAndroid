@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/about_app_screen.dart';
 import 'package:food_delivery/screens/partners_screen.dart';
+
+import 'home_screen.dart';
 
 class InformationScreen extends StatefulWidget {
   @override
@@ -36,7 +39,9 @@ class InformationScreenState extends State<InformationScreen>{
                     )
                 ),
                 onTap: (){
-                  Navigator.pop(context);
+                  homeScreenKey = new GlobalKey<HomeScreenState>();
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                      HomeScreen()), (Route<dynamic> route) => false);
                 },
               ),
             ],

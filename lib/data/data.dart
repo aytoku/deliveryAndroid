@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/CartDataModel.dart';
 import 'package:food_delivery/models/RestaurantDataItems.dart';
@@ -11,7 +12,10 @@ import 'package:food_delivery/screens/home_screen.dart';
 
 Map<String,GlobalKey<OrderCheckingState>> orderCheckingStates = new Map<String,GlobalKey<OrderCheckingState>>();
 Map<String,GlobalKey<ChatMessageScreenState>> chatMessagesStates = new Map<String,GlobalKey<ChatMessageScreenState>>();
-GlobalKey<HomeScreenState>homeScreenKey = new GlobalKey<HomeScreenState>();
+GlobalKey<HomeScreenState>homeScreenKey = new GlobalKey<HomeScreenState>(debugLabel: 'homeScreenKey');
+var home  = new MaterialPageRoute(
+  builder: (context) => new HomeScreen(),
+);
 RestaurantDataItems restaurantDataItems = null;
 GlobalKey<ChatScreenState>chatKey = new GlobalKey<ChatScreenState>();
 AuthCodeData authCodeData = null;

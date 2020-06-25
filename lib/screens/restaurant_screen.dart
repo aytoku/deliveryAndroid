@@ -526,12 +526,9 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                               padding: EdgeInsets.only(left: 15),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    new MaterialPageRoute(
-                                      builder: (context) => new HomeScreen(),
-                                    ),
-                                  );
+                                  homeScreenKey = new GlobalKey<HomeScreenState>();
+                                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                      HomeScreen()), (Route<dynamic> route) => false);
                                 },
                                 child:Padding(
                                     padding: EdgeInsets.only(right: 0),

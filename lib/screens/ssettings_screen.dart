@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/SettingsModel.dart';
+
+import 'home_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -38,7 +41,9 @@ class SettingsScreenState extends State<SettingsScreen>{
                       )
                   ),
                   onTap: (){
-                    Navigator.pop(context);
+                    homeScreenKey = new GlobalKey<HomeScreenState>();
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                        HomeScreen()), (Route<dynamic> route) => false);
                   },
                 ),
                 Align(
