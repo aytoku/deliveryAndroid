@@ -23,6 +23,7 @@ class CreateOrder {
   CartDataModel cartDataModel;
   Records restaurant;
   String payment_type;
+  bool door_to_door;
 
   CreateOrder( {
     this.address,
@@ -32,7 +33,8 @@ class CreateOrder {
     this.delivery,
     this.cartDataModel,
     this.restaurant,
-    this.payment_type
+    this.payment_type,
+    this.door_to_door
   });
 
   static sendRefreshToken() async{
@@ -63,6 +65,7 @@ class CreateOrder {
       "callback_phone": currentUser.phone,
       "increased_fare": 25,
       "comment": comment,
+      "door_to_door": door_to_door,
       "products_input": cartDataModel.toServerJSON(),
       "routes": [
         restaurant.destination_points[0].toJson(),

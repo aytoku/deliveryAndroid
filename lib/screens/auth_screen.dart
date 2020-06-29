@@ -130,7 +130,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                               );
                             }else{
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 new MaterialPageRoute(
                                   builder: (context) => new DeviceIdScreen(),

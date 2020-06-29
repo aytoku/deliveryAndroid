@@ -53,6 +53,7 @@ class HomeScreenState extends State<HomeScreen> {
   List<Records> records_items = new List<Records>();
   String category;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonState>();
   bool _color;
 
 
@@ -356,7 +357,9 @@ class HomeScreenState extends State<HomeScreen> {
                           }else{
                             orderList = null;
                             return Center(
-                              child: Container(),
+                              child: Container(
+                                height: 5,
+                              ),
                             );
                           }
                         },
@@ -386,7 +389,10 @@ class HomeScreenState extends State<HomeScreen> {
                             _buildNearlyRestaurant()
                           ],
                         ),
-                      )
+                      ),
+                      (currentUser.cartDataModel.cart != null && currentUser.cartDataModel.cart.length != 0) ?
+                      BasketButton(key: basketButtonStateKey, restaurant: currentUser.cartDataModel.cart[0].restaurant,):
+                          Container()
                     ],
                   ),
                 );

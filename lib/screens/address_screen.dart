@@ -396,7 +396,8 @@ class _AddressScreenState extends State<AddressScreen> {
                             comment: commentField.text,
                             cartDataModel: currentUser.cartDataModel,
                             restaurant: restaurant,
-                            payment_type: 'Наличными'
+                            payment_type: 'Наличными',
+                            door_to_door: status1,
                         );
                         await createOrder.sendData();
                         currentUser.cartDataModel.cart.clear();

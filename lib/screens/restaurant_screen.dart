@@ -41,8 +41,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 final Records restaurant;
   String category;
 
-GlobalKey<ButtonCounterState> buttonCounterKey = new GlobalKey();
 GlobalKey<CounterState> counterKey = new GlobalKey();
+GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonState>();
 
   bool isLoading = true;
 
@@ -271,96 +271,11 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                                 order
                             );
                             currentUser.cartDataModel.saveData();
+                            basketButtonStateKey.currentState.refresh();
                             cartItemsQuantityKey.currentState.refresh();
-                            buttonCounterKey.currentState.refresh();
                             counterKey.currentState.refresh();
                           }
                           Navigator.pop(context);
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 0),
-                            child: showAlertDialog(context),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
-                    color: Colors.grey,
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 20),
-                      child: GestureDetector(
-                        child: Text(
-                          'Отмена',
-                          style: TextStyle(
-                            fontSize: 17,
-                          ),
-                        ),
-                        onTap: (){
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  )
-                ],
-              )
-          ),
-        ),
-      );
-    },
-  );
-}
-  showCartClearDialog1(BuildContext context, Order order, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return Padding(
-        padding: EdgeInsets.only(bottom: 0),
-        child: Dialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(15.0))
-          ),
-          child: Container(
-              height: 222,
-              width: 300,
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
-                    child: Text(
-                      'Все ранее добавленные блюда из ресторна ${currentUser.cartDataModel.cart[0].restaurant.name} будут удалены из корзины',
-                      style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
-                    color: Colors.grey,
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 20),
-                      child: GestureDetector(
-                        child: Text(
-                          'Ок',
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        onTap: (){
-                          if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
-                            currentUser.cartDataModel.cart.clear();
-                            currentUser.cartDataModel.saveData();
-                            cartItemsQuantityKey.currentState.refresh();
-                            buttonCounterKey.currentState.refresh();
-                            counterKey.currentState.refresh();
-                          }
                           Navigator.pop(context);
                           Padding(
                             padding: EdgeInsets.only(bottom: 0),
@@ -466,41 +381,36 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Form(
-                          key: _foodItemFormKey,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 15),
-                                  child: Text(
-                                    restaurantDataItems.name,
-                                    style: TextStyle(
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.bold
-                                    ),
-                                    textAlign: TextAlign.start,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Text(
+                                restaurantDataItems.name,
+                                style: TextStyle(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                            SizedBox(height: 4.0,),
+                            Align(
+                              alignment: AlignmentDirectional.centerEnd,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 10),
+                                child: Text(
+                                  '${restaurantDataItems.price}',
+                                  style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w600
                                   ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              SizedBox(height: 4.0,),
-                              Align(
-                                alignment: AlignmentDirectional.centerEnd,
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 10),
-                                  child: Text(
-                                    '${restaurantDataItems.price}',
-                                    style: TextStyle(
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w600
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                            )
+                          ],
                         ),
                         SizedBox(height: 4.0,),
                         Padding(
@@ -546,8 +456,8 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                                         padding: EdgeInsets.only(bottom: 0),
                                         child: showAlertDialog(context),
                                       );
+                                      basketButtonStateKey.currentState.refresh();
                                       cartItemsQuantityKey.currentState.refresh();
-                                      buttonCounterKey.currentState.refresh();
                                       counterKey.currentState.refresh();
                                     }
                                   },
@@ -713,9 +623,7 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                                       child: Padding(
                                         padding: EdgeInsets.only(left: 15),
                                         child: GestureDetector(
-                                          onTap: () => Navigator.pop(
-                                              context
-                                          ),
+                                          onTap: () => Navigator.pop(context),
                                           child:Padding(
                                             padding: EdgeInsets.only(right: 0),
                                             child: Container(
@@ -772,106 +680,18 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                       ),
                     ),
                     SizedBox(height: 10.0),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),
-                      child: FlatButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Flexible(
-                              flex: 1,
-                              child: Text(
-                                '30 – 50 мин',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ),),
-                            ),
-                            Flexible(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    right: 30,
-                                  ),
-                                  child: Text(
-                                      'Корзина',
-                                      style: TextStyle(
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white
-                                      )
-                                  ),
-                                )
-                            ),
-                            new ButtonCounter(
-                              key: buttonCounterKey,
-                            )
-                          ],
-                        ),
-                        color: Colors.redAccent,
-                        splashColor: Colors.red,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
-                        onPressed: (){
-//                          if(currentUser.cartDataModel.cart.length > 0 && restaurant.uuid != currentUser.cartDataModel.cart[0].restaurant.uuid){
-//                            showCartClearDialog(context, new Order(
-//                                food: restaurantDataItems,
-//                                //quantity: counterKey.currentState.counter,
-//                                restaurant: restaurant,
-//                                date: DateTime.now().toString()
-//                            ), cartItemsQuantityKey);
-//                            Navigator.pop(context);
-//                          }else{
-//
-//                          }
-                          if(currentUser.cartDataModel.cart.length == 0){
-                            Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                builder: (context) => new EmptyCartScreen(restaurant: restaurant),
-                              ),
-                            );
-                          }else{
-                            Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                builder: (context) => new CartScreen(restaurant: restaurant),
-                              ),
-                            );
-                          }
-                       },
-                      ),
-                    )
+                    BasketButton(key: basketButtonStateKey, restaurant: restaurant)
                   ],
                 ),
               );
             }
             else{
               return Center(
-                child: CircularProgressIndicator(
-
-                ),
+                child: CircularProgressIndicator(),
               );
             }
           }
       ),
-//      CustomScrollView(
-//        slivers: <Widget>[
-//          SliverAppBar(
-//            title: Text(this.restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),),
-//            backgroundColor: Colors.white,
-//            expandedHeight: 100.0,
-//            pinned: true,
-//            floating: true,
-//          ),
-//          SliverFillRemaining(
-//            child:
-//          )
-//        ],
-//      )
     );
   }
 }
@@ -1004,7 +824,6 @@ class ButtonCounter extends StatefulWidget {
   ButtonCounterState createState() {
     return new ButtonCounterState();
   }
-
 }
 
 class ButtonCounterState extends State<ButtonCounter> {
@@ -1053,6 +872,10 @@ class BasketButtonState extends State<BasketButton>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    if(currentUser.cartDataModel.cart != null &&
+        (currentUser.cartDataModel.cart.length == 0 || currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid)){
+      return Container();
+    }
     return Padding(
       padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),
       child: FlatButton(
@@ -1115,5 +938,12 @@ class BasketButtonState extends State<BasketButton>{
         },
       ),
     );
+  }
+
+  void refresh(){
+    print('yua is arone');
+    //buttonCounterKey.currentState.refresh();
+    setState(() {
+    });
   }
 }

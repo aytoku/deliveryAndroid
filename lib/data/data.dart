@@ -9,6 +9,7 @@ import 'package:food_delivery/models/AuthCode.dart';
 import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/models/user.dart';
 import 'package:food_delivery/screens/home_screen.dart';
+import 'package:food_delivery/screens/restaurant_screen.dart';
 
 Map<String,GlobalKey<OrderCheckingState>> orderCheckingStates = new Map<String,GlobalKey<OrderCheckingState>>();
 Map<String,GlobalKey<ChatMessageScreenState>> chatMessagesStates = new Map<String,GlobalKey<ChatMessageScreenState>>();
