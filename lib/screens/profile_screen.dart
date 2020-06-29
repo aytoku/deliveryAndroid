@@ -12,6 +12,7 @@ import 'package:food_delivery/models/order.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/address_screen.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
+import 'package:food_delivery/screens/device_id_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/screens/restaurant_screen.dart';
 import 'package:intl/intl.dart';
@@ -125,13 +126,23 @@ class ProfileScreenState extends State<ProfileScreen>{
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                  child: Text(
-                    necessaryDataForAuth.phone_number,
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.black
+                  child: GestureDetector(
+                    child: Text(
+                      necessaryDataForAuth.phone_number,
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.black
+                      ),
                     ),
-                  ),
+                    onTap: (){
+                      Navigator.pushReplacement(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new AuthScreen(),
+                        ),
+                      );
+                    },
+                  )
                 )
             ),
             Divider(height: 1.0, color: Colors.grey),

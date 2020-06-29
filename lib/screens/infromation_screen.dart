@@ -53,32 +53,32 @@ class InformationScreenState extends State<InformationScreen>{
               child: Text('Информация',style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold)),
             ),
           ),
-          Divider(height: 1.0, color: Colors.grey),
-          GestureDetector(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                  padding: EdgeInsets.only(top: 20, left: 30, bottom: 20, right: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('Партнеры'),
-                      GestureDetector(
-                        child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                      )
-                    ],
-                  )
-              ),
-            ),
-            onTap: (){
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => new PartnersScreen(),
-                ),
-              );
-            },
-          ),
+//          Divider(height: 1.0, color: Colors.grey),
+//          GestureDetector(
+//            child: Align(
+//              alignment: Alignment.centerLeft,
+//              child: Padding(
+//                  padding: EdgeInsets.only(top: 20, left: 30, bottom: 20, right: 15),
+//                  child: Row(
+//                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                    children: <Widget>[
+//                      Text('Партнеры'),
+//                      GestureDetector(
+//                        child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+//                      )
+//                    ],
+//                  )
+//              ),
+//            ),
+//            onTap: (){
+//              Navigator.push(
+//                context,
+//                new MaterialPageRoute(
+//                  builder: (context) => new PartnersScreen(),
+//                ),
+//              );
+//            },
+//          ),
           Divider(height: 1.0, color: Colors.grey),
           GestureDetector(
             child: Align(

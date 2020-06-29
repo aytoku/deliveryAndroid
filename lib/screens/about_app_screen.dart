@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
@@ -86,7 +87,7 @@ class AboutAppScreenState extends State<AboutAppScreen>{
               alignment: Alignment.centerLeft,
               child: Padding(
                   padding: EdgeInsets.only(top: 20, left: 15, bottom: 20, right: 15),
-                  child: GestureDetector(
+                  child: InkWell(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -96,7 +97,12 @@ class AboutAppScreenState extends State<AboutAppScreen>{
                         )
                       ],
                     ),
-                  )
+                    onTap: () async {
+                      if (await canLaunch("https://faem.ru/")) {
+                        await launch("https://faem.ru/");
+                      }
+                    },
+                  ),
               ),
             ),
             Divider(height: 1.0, color: Colors.grey),
@@ -104,7 +110,7 @@ class AboutAppScreenState extends State<AboutAppScreen>{
               alignment: Alignment.centerLeft,
               child: Padding(
                   padding: EdgeInsets.only(top: 20, left: 15, bottom: 20, right: 15),
-                  child: GestureDetector(
+                  child: InkWell(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -114,7 +120,12 @@ class AboutAppScreenState extends State<AboutAppScreen>{
                         )
                       ],
                     ),
-                  )
+                    onTap: () async {
+                      if (await canLaunch("https://faem.ru/privacy")) {
+                        await launch("https://faem.ru/privacy");
+                      }
+                    },
+                  ),
               ),
             ),
             Divider(height: 1.0, color: Colors.grey),

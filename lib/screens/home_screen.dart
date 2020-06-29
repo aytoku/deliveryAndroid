@@ -180,17 +180,17 @@ class HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              ListTile(
-                title: Text('Способы оплаты'),
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new PaymentsMethodsScreen(),
-                    ),
-                  );
-                },
-              ),
+//              ListTile(
+//                title: Text('Способы оплаты'),
+//                onTap: (){
+//                  Navigator.push(
+//                    context,
+//                    new MaterialPageRoute(
+//                      builder: (context) => new PaymentsMethodsScreen(),
+//                    ),
+//                  );
+//                },
+//              ),
               ListTile(
                 title: Text('История заказов'),
                 onTap: (){
@@ -213,17 +213,17 @@ class HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
-              ListTile(
-                title: Text('Настройки'),
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new SettingsScreen(),
-                    ),
-                  );
-                },
-              ),
+//              ListTile(
+//                title: Text('Настройки'),
+//                onTap: (){
+//                  Navigator.push(
+//                    context,
+//                    new MaterialPageRoute(
+//                      builder: (context) => new SettingsScreen(),
+//                    ),
+//                  );
+//                },
+//              ),
               ListTile(
                 title: Text('Инфоромация'),
                 onTap: (){

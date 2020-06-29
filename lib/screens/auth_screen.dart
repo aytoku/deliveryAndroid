@@ -5,8 +5,8 @@ import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/Auth.dart';
 import 'package:food_delivery/models/AuthCode.dart';
 import 'package:food_delivery/screens/code_screen.dart';
+import 'package:food_delivery/screens/device_id_screen.dart';
 import 'address_screen.dart';
-import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/buttons/button.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/food_list.dart';
@@ -102,7 +102,48 @@ class _AuthScreenState extends State<AuthScreen> {
                     alignment: Alignment.bottomCenter,
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 10),
-                      child: FlatButton(
+                      child: (controller.text.length > 0) ? FlatButton(
+                        child: Text(
+                            'Далее',
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white
+                            )
+                        ),
+                        color: Colors.red,
+                        splashColor: Colors.redAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
+                        onPressed: () async {
+                          if(validateMobile(currentUser.phone)== null){
+                            if(currentUser.phone[0] != '+'){
+                              currentUser.phone = '+' + currentUser.phone;
+                            }
+                            if(currentUser.phone != necessaryDataForAuth.phone_number){
+                              Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                  builder: (context) => new CodeScreen(),
+                                ),
+                              );
+                            }else{
+                              Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                  builder: (context) => new DeviceIdScreen(),
+                                ),
+                              );
+                            }
+                          }else{
+                            setState(() {
+                              error = 'Указан неверный номер';
+                            });
+                          }
+                        },
+                      ): FlatButton(
                         child: Text(
                             'Далее',
                             style: TextStyle(
@@ -122,12 +163,21 @@ class _AuthScreenState extends State<AuthScreen> {
                             if(currentUser.phone[0] != '+'){
                               currentUser.phone = '+' + currentUser.phone;
                             }
-                            Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                builder: (context) => new CodeScreen(),
-                              ),
-                            );
+                            if(currentUser.phone != necessaryDataForAuth.phone_number){
+                              Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                  builder: (context) => new CodeScreen(),
+                                ),
+                              );
+                            }else{
+                              Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                  builder: (context) => new DeviceIdScreen(),
+                                ),
+                              );
+                            }
                           }else{
                             setState(() {
                               error = 'Указан неверный номер';
@@ -143,6 +193,80 @@ class _AuthScreenState extends State<AuthScreen> {
           )
         ],
       )
+    );
+  }
+
+  String validateMobile(String value) {
+    String pattern = r'(^(?:[+]?7)[0-9]{10}$)';
+    RegExp regExp = new RegExp(pattern);
+    if (value.length == 0) {
+      return 'Укажите норер';
+    }
+    else if (!regExp.hasMatch(value)) {
+      return 'Указан неверный номер';
+    }
+    return null;
+  }
+}
+
+class Button extends StatefulWidget{
+  Color color;
+  Button({Key key, this.color}) : super(key: key);
+
+  @override
+  ButtonState createState() {
+    return new ButtonState(color);
+  }
+}
+
+class ButtonState extends State<Button>{
+  String error = '';
+  Color color;
+  ButtonState(this.color);
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return FlatButton(
+      child: Text(
+          'Далее',
+          style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w600,
+              color: Colors.white
+          )
+      ),
+      color: Colors.red,
+      splashColor: Colors.redAccent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50),
+      ),
+      padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
+      onPressed: () async {
+        if(validateMobile(currentUser.phone)== null){
+          if(currentUser.phone[0] != '+'){
+            currentUser.phone = '+' + currentUser.phone;
+          }
+          if(currentUser.phone != necessaryDataForAuth.phone_number){
+            Navigator.push(
+              context,
+              new MaterialPageRoute(
+                builder: (context) => new CodeScreen(),
+              ),
+            );
+          }else{
+            Navigator.push(
+              context,
+              new MaterialPageRoute(
+                builder: (context) => new DeviceIdScreen(),
+              ),
+            );
+          }
+        }else{
+          setState(() {
+            error = 'Указан неверный номер';
+          });
+        }
+      },
     );
   }
 

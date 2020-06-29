@@ -2,9 +2,8 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_delivery/PostData/necessary_address_data_pass.dart';
+import 'package:food_delivery/screens/auto_complete.dart';
 import 'AttachCardScreen.dart';
-import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/screens/auto_complete.dart';
-import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/buttons/button.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
 import 'package:food_delivery/models/ResponseData.dart';
@@ -355,10 +354,10 @@ class _AddressScreenState extends State<AddressScreen> {
                               flex: 1,
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                  right: 30,
+                                  right: 20,
                                 ),
                                 child: Text(
-                                    'Оплатить',
+                                    'Оформить',
                                     style: TextStyle(
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.w600,
@@ -430,7 +429,7 @@ class _AddressScreenState extends State<AddressScreen> {
         builder: (context){
           return Container(
             color: Color(0xFF737373),
-            height: 240,
+            height: 100,
             child: Container(
               child: _buildBottomNavigationMenu(),
               decoration: BoxDecoration(
@@ -450,40 +449,20 @@ class _AddressScreenState extends State<AddressScreen> {
     return Column(
       children: <Widget>[
         ListTile(
-          leading: SvgPicture.asset('assets/svg_images/visa.svg'),
-          title: Text("Visa8744", style: TextStyle(color: Colors.black),),
+          leading: SvgPicture.asset('assets/svg_images/dollar_bills.svg'),
+          title: Text("Наличными", style: TextStyle(color: Colors.black),),
           trailing: SvgPicture.asset('assets/svg_images/circle.svg'),
-          onTap: ()=>_selectItem("Visa8744",'assets/svg_images/circle.svg'),
-        ),
-        ListTile(
-          leading: SvgPicture.asset('assets/svg_images/visa.svg'),
-          title: Text("Visa8744", style: TextStyle(color: Colors.black),),
-          trailing: SvgPicture.asset('assets/svg_images/circle.svg'),
-          onTap: ()=>_selectItem("Visa8744",'assets/svg_images/circle.svg'),
-        ),
-        ListTile(
-          leading: SvgPicture.asset('assets/svg_images/visa.svg'),
-          title: Text("Apple Pay", style: TextStyle(color: Colors.black),),
-          trailing: SvgPicture.asset('assets/svg_images/circle.svg'),
-          onTap: ()=>_selectItem("Apple Pay",'assets/svg_images/circle.svg'),
-        ),
-        ListTile(
-          title: Text("Привязать Карту", style: TextStyle(color: Colors.black),),
-          trailing: Image(image: AssetImage('assets/images/arrow_right.png'),),
-//          onTap: (){
-//            Navigator.push(context, new MaterialPageRoute(builder:
-//            (context)=> new AttachCardScreen()));
-//          }
+          onTap: ()=>_selectItem("Наличными"),
         ),
       ],
     );
   }
 
-  void _selectItem(String name, String image_name){
+  void _selectItem(String name){
     Navigator.pop(context);
     setState(() {
       title = name;
-      image = image_name;
+      //image = image_name;
     });
   }
 

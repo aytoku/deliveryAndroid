@@ -7,7 +7,6 @@ import 'package:food_delivery/screens/auto_complete.dart';
 import 'package:food_delivery/sideBar/side_bar.dart';
 import 'AttachCardScreen.dart';
 import 'address_screen.dart';
-import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/buttons/button.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/food.dart';
 import 'package:food_delivery/models/food_list.dart';

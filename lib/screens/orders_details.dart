@@ -225,22 +225,22 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Padding(
-                  padding: EdgeInsets.only(left: 20, bottom: 20),
-                  child: GestureDetector(
-                    child: Container(
-                        height: 50,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          color: Color(0xF3F3F3F3),
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        child: Center(
-                          child: Text('Чек', style: TextStyle(color: Color(0x69696969), fontSize: 15),),
-                        )
-                    ),
-                  )
-              ),
+//              Padding(
+//                  padding: EdgeInsets.only(left: 20, bottom: 20),
+//                  child: GestureDetector(
+//                    child: Container(
+//                        height: 50,
+//                        width: 100,
+//                        decoration: BoxDecoration(
+//                          color: Color(0xF3F3F3F3),
+//                          borderRadius: BorderRadius.circular(50.0),
+//                        ),
+//                        child: Center(
+//                          child: Text('Чек', style: TextStyle(color: Color(0x69696969), fontSize: 15),),
+//                        )
+//                    ),
+//                  )
+//              ),
               Padding(
                   padding: EdgeInsets.only(left: 15, bottom: 20, right: 20),
                   child: GestureDetector(

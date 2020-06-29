@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_delivery/PostData/restaurant_items_data_pass.dart';
-import 'file:///C:/Users/GEOR/AndroidStudioProjects/newDesign/lib/buttons/bottm_button.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/RestaurantDataItems.dart';
@@ -61,6 +60,9 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
 
   String name;
   double price;
+
+  int _radioValue1 = -1;
+  int correctScore = 0;
 
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
@@ -310,9 +312,95 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
     },
   );
 }
+  showCartClearDialog1(BuildContext context, Order order, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Padding(
+        padding: EdgeInsets.only(bottom: 0),
+        child: Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))
+          ),
+          child: Container(
+              height: 222,
+              width: 300,
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                    child: Text(
+                      'Все ранее добавленные блюда из ресторна ${currentUser.cartDataModel.cart[0].restaurant.name} будут удалены из корзины',
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
+                      child: GestureDetector(
+                        child: Text(
+                          'Ок',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        onTap: (){
+                          if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
+                            currentUser.cartDataModel.cart.clear();
+                            currentUser.cartDataModel.saveData();
+                            cartItemsQuantityKey.currentState.refresh();
+                            buttonCounterKey.currentState.refresh();
+                            counterKey.currentState.refresh();
+                          }
+                          Navigator.pop(context);
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 0),
+                            child: showAlertDialog(context),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Divider(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
+                      child: GestureDetector(
+                        child: Text(
+                          'Отмена',
+                          style: TextStyle(
+                            fontSize: 17,
+                          ),
+                        ),
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              )
+          ),
+        ),
+      );
+    },
+  );
+}
 
-  Column _buildBottomNavigationMenu(FoodRecords restaurantDataItems, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey){
-    return Column(
+   _buildBottomNavigationMenu(FoodRecords restaurantDataItems, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey){
+    return ListView(
       children: <Widget>[
         Align(
           child: Padding(
@@ -335,13 +423,43 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                     color: Color(0xFAFAFAFA),
                     height: 60,
                     child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 15),
-                        child: Text(restaurantDataItems.comment, style: TextStyle(color: Color(0xB0B0B0B0), fontSize: 13),),
-                      )
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 15),
+                          child: Text(restaurantDataItems.comment, style: TextStyle(color: Color(0xB0B0B0B0), fontSize: 13),),
+                        )
                     ),
                   ),
+                  Container(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                          padding: EdgeInsets.only(left: 15),
+                          child: Expanded(
+                            child: Row(
+                              children: <Widget>[
+                                (restaurantDataItems.variants != null) ? Text(restaurantDataItems.variants[0].name) : Container(),
+                              ],
+                            ),
+                          )
+                      ),
+                    ),
+                  ),
+//                  Container(
+//                    child: Expanded(
+//                      child: ListView(
+//                        scrollDirection: Axis.vertical,
+//                        children: List.generate(food_records_items.length, (index){
+//                          return Row(
+//                            children: <Widget>[
+//                              (restaurantDataItems.variants != null) ? Text(restaurantDataItems.variants[index].name) : Container(),
+//                            ],
+//                          );
+//                         },
+//                        ),
+//                      ),
+//                    ),
+//                  ),
                   Container(
                     margin: EdgeInsets.only(right: 0.0, top: 10, bottom: 12),
                     child: Column(
@@ -423,6 +541,7 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                                               date: DateTime.now().toString())
                                       );
                                       currentUser.cartDataModel.saveData();
+                                      Navigator.pop(context);
                                       Padding(
                                         padding: EdgeInsets.only(bottom: 0),
                                         child: showAlertDialog(context),
@@ -500,6 +619,8 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    FoodRecords restaurantDataItems;
+    GlobalKey<CartItemsQuantityState> cartItemsQuantityKey;
     return Scaffold(
       key : _scaffoldStateKey,
       body:FutureBuilder<RestaurantDataItems>(
@@ -695,6 +816,17 @@ GlobalKey<CounterState> counterKey = new GlobalKey();
                         ),
                         padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
                         onPressed: (){
+//                          if(currentUser.cartDataModel.cart.length > 0 && restaurant.uuid != currentUser.cartDataModel.cart[0].restaurant.uuid){
+//                            showCartClearDialog(context, new Order(
+//                                food: restaurantDataItems,
+//                                //quantity: counterKey.currentState.counter,
+//                                restaurant: restaurant,
+//                                date: DateTime.now().toString()
+//                            ), cartItemsQuantityKey);
+//                            Navigator.pop(context);
+//                          }else{
+//
+//                          }
                           if(currentUser.cartDataModel.cart.length == 0){
                             Navigator.push(
                               context,
@@ -899,5 +1031,89 @@ class ButtonCounterState extends State<ButtonCounter> {
     setState(() {
 
     });
+  }
+}
+
+class BasketButton extends StatefulWidget{
+  final Records restaurant;
+  BasketButton({Key key, this.restaurant}) : super(key: key);
+
+  @override
+  BasketButtonState createState() {
+    return new BasketButtonState(restaurant);
+  }
+}
+
+class BasketButtonState extends State<BasketButton>{
+
+  GlobalKey<ButtonCounterState> buttonCounterKey = new GlobalKey();
+  final Records restaurant;
+  BasketButtonState(this.restaurant);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Padding(
+      padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),
+      child: FlatButton(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Flexible(
+              flex: 1,
+              child: Text(
+                '30 – 50 мин',
+                style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),),
+            ),
+            Flexible(
+                flex: 1,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    right: 30,
+                  ),
+                  child: Text(
+                      'Корзина',
+                      style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white
+                      )
+                  ),
+                )
+            ),
+            new ButtonCounter(
+              key: buttonCounterKey,
+            )
+          ],
+        ),
+        color: Colors.redAccent,
+        splashColor: Colors.red,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
+        onPressed: (){
+          if(currentUser.cartDataModel.cart.length == 0){
+            Navigator.push(
+              context,
+              new MaterialPageRoute(
+                builder: (context) => new EmptyCartScreen(restaurant: restaurant),
+              ),
+            );
+          }else{
+            Navigator.push(
+              context,
+              new MaterialPageRoute(
+                builder: (context) => new CartScreen(restaurant: restaurant),
+              ),
+            );
+          }
+        },
+      ),
+    );
   }
 }
