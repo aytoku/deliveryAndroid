@@ -37,7 +37,7 @@ class NameScreen extends StatefulWidget {
 }
 
 class NameScreenState extends State<NameScreen> {
-
+  GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +105,15 @@ class NameScreenState extends State<NameScreen> {
                                     ),
                                     onChanged: (String value)async {
                                       necessaryDataForAuth.name = value;
-                                      print(necessaryDataForAuth.name);
+                                      if(value.length > 0 && buttonStateKey.currentState.color != Color(0xFFFE534F)){
+                                        buttonStateKey.currentState.setState(() {
+                                          buttonStateKey.currentState.color = Color(0xFFFE534F);
+                                        });
+                                      }else if(value.length == 0 && buttonStateKey.currentState.color != Color(0xFFF3F3F3)){
+                                        buttonStateKey.currentState.setState(() {
+                                          buttonStateKey.currentState.color = Color(0xFFF3F3F3);
+                                        });
+                                      }
                                     },
                                   ),
                                 )
@@ -129,7 +137,7 @@ class NameScreenState extends State<NameScreen> {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 0),
-                            child: Button(),
+                            child: Button(key: buttonStateKey,color: Color(0xFFF3F3F3),),
                           ),
                         ],
                       )
@@ -172,8 +180,7 @@ class ButtonState extends State<Button>{
               color: Colors.white
           )
       ),
-      color: Color(0xFFFE534F),
-      splashColor: Colors.redAccent,
+      color: color,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
       ),

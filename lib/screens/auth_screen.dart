@@ -69,6 +69,15 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 onChanged: (String value)async {
                   currentUser.phone = value;
+                  if(value.length > 0 && buttonStateKey.currentState.color != Color(0xFFFE534F)){
+                    buttonStateKey.currentState.setState(() {
+                      buttonStateKey.currentState.color = Color(0xFFFE534F);
+                    });
+                  }else if(value.length == 0 && buttonStateKey.currentState.color != Color(0xFFF3F3F3)){
+                    buttonStateKey.currentState.setState(() {
+                      buttonStateKey.currentState.color = Color(0xFFF3F3F3);
+                    });
+                  }
                 },
               ),
             ),
@@ -152,8 +161,7 @@ class ButtonState extends State<Button>{
               color: Colors.white
           )
       ),
-      color: Color(0xFFFE534F),
-      splashColor: Colors.redAccent,
+      color: color,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
       ),

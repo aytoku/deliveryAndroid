@@ -2,6 +2,7 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_delivery/PostData/necessary_address_data_pass.dart';
+import 'package:food_delivery/models/my_addresses_model.dart';
 import 'package:food_delivery/screens/auto_complete.dart';
 import 'AttachCardScreen.dart';
 import 'package:food_delivery/data/data.dart';
@@ -25,6 +26,7 @@ import 'package:food_delivery/sideBar/side_bar.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import 'add_my_address_screen.dart';
 import 'food_bottom_sheet_screen.dart';
 
 class PageScreen extends StatefulWidget {
@@ -82,6 +84,7 @@ class _AddressScreenState extends State<AddressScreen> {
 
   bool _color;
 
+
   _AddressScreenState(this.restaurant);
   @override
   void initState() {
@@ -99,6 +102,44 @@ class _AddressScreenState extends State<AddressScreen> {
   TextEditingController commentField = new TextEditingController();
   TextEditingController officeField = new TextEditingController();
   TextEditingController floorField = new TextEditingController();
+
+  MyAddressesModel myAddressesModel;
+
+  Column _buildDeleteBottomNavigationMenu(MyAddressesModel myAddressesModel){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(bottom: 0,right: 15, top: 10),
+          child: AutoComplete(destinationPointsKey),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.only(left: 30, top: 370),
+            child: FlatButton(
+              child: Text("Далее", style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
+              color: Color(0xFFFE534F),
+              splashColor: Colors.redAccent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) {
+                      }
+                  ),
+                );
+              },
+            ),
+          ),
+        )
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

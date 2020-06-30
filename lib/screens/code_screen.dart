@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_delivery/PostData/auth_code_data_pass.dart';
@@ -43,6 +44,24 @@ class _CodeScreenState extends State<CodeScreen> {
   TextField code3;
   TextField code4;
   String error = '';
+  GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
+
+
+  void buttonColor(){
+    String code = code1.controller.text +
+        code2.controller.text +
+        code3.controller.text +
+        code4.controller.text;
+    if(code.length > 0 && buttonStateKey.currentState.color != Color(0xFFFE534F)){
+      buttonStateKey.currentState.setState(() {
+        buttonStateKey.currentState.color = Color(0xFFFE534F);
+      });
+    }else if(code.length == 0 && buttonStateKey.currentState.color != Color(0xFFF3F3F3)){
+      buttonStateKey.currentState.setState(() {
+        buttonStateKey.currentState.color = Color(0xFFF3F3F3);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +125,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                   if(value != ''){
                                     code2.focusNode.requestFocus();
                                   }
+                                  buttonColor();
                                 }
                             ),
                           ),
@@ -128,6 +148,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                   if(value != ''){
                                     code3.focusNode.requestFocus();
                                   }
+                                  buttonColor();
                                 }
                             ),
                           ),
@@ -150,6 +171,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                   if(value != ''){
                                     code4.focusNode.requestFocus();
                                   }
+                                  buttonColor();
                                 }
                             ),
                           ),
@@ -192,46 +214,30 @@ class _CodeScreenState extends State<CodeScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 10),
-                          child: FlatButton(
-                            child: Text(
-                                'Далее',
-                                style: TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white
-                                )
-                            ),
-                            color: Color(0xFFFE534F),
-                            splashColor: Colors.redAccent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
-                            onPressed: ()async {
-                              String temp = '';
-                              temp = code1.controller.text +
-                                  code2.controller.text +
-                                  code3.controller.text +
-                                  code4.controller.text;
-                              authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, int.parse(temp));
-                              if(authCodeData != null){
-                                necessaryDataForAuth.phone_number = currentUser.phone;
-                                necessaryDataForAuth.refresh_token = authCodeData.refresh_token;
-                                necessaryDataForAuth.name = '';
-                                NecessaryDataForAuth.saveData();
-                                Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                    builder: (context) => new NameScreen(),
-                                  ),
-                                );
-                              }else{
-                                setState(() {
-                                  error = 'Вы ввели неверный смс код';
-                                });
-                              }
-                            },
-                          ),
+                          child: Button(key: buttonStateKey, color: Color(0xFFF3F3F3),onTap:() async {
+                            String temp = '';
+                            temp = code1.controller.text +
+                                code2.controller.text +
+                                code3.controller.text +
+                                code4.controller.text;
+                            authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, int.parse(temp));
+                            if(authCodeData != null){
+                              necessaryDataForAuth.phone_number = currentUser.phone;
+                              necessaryDataForAuth.refresh_token = authCodeData.refresh_token;
+                              necessaryDataForAuth.name = '';
+                              NecessaryDataForAuth.saveData();
+                              Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                  builder: (context) => new NameScreen(),
+                                ),
+                              );
+                            }else{
+                              setState(() {
+                                error = 'Вы ввели неверный смс код';
+                              });
+                            }
+                          },),
                         ),
                       ],
                     )
@@ -314,11 +320,12 @@ class TimerCountDownState extends State<TimerCountDown> {
 
 class Button extends StatefulWidget{
   Color color;
-  Button({Key key, this.color}) : super(key: key);
+  final AsyncCallback onTap;
+  Button({Key key, this.color, this.onTap}) : super(key: key);
 
   @override
   ButtonState createState() {
-    return new ButtonState(color);
+    return new ButtonState(color, onTap);
   }
 }
 
@@ -329,7 +336,8 @@ class ButtonState extends State<Button>{
   TextField code3;
   TextField code4;
   Color color;
-  ButtonState(this.color);
+  final AsyncCallback onTap;
+  ButtonState(this.color, this.onTap);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -345,35 +353,14 @@ class ButtonState extends State<Button>{
               color: Colors.white
           )
       ),
-      color: Colors.grey,
+      color: color,
       splashColor: Colors.grey,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
       ),
       padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
       onPressed: ()async {
-        String temp = '';
-        temp = code1.controller.text +
-            code2.controller.text +
-            code3.controller.text +
-            code4.controller.text;
-        authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, int.parse(temp));
-        if(authCodeData != null){
-          necessaryDataForAuth.phone_number = currentUser.phone;
-          necessaryDataForAuth.refresh_token = authCodeData.refresh_token;
-          necessaryDataForAuth.name = '';
-          NecessaryDataForAuth.saveData();
-          Navigator.push(
-            context,
-            new MaterialPageRoute(
-              builder: (context) => new NameScreen(),
-            ),
-          );
-        }else{
-          setState(() {
-            error = 'Вы ввели неверный смс код';
-          });
-        }
+        await onTap();
       },
     );
   }
