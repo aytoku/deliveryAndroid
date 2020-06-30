@@ -38,7 +38,7 @@ class ProfileScreenState extends State<ProfileScreen>{
           children: <Widget>[
             Align(
               child: Padding(
-                padding: EdgeInsets.only(top: 40, bottom: 30, left: 15),
+                padding: EdgeInsets.only(top: 40, bottom: 30, left: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -50,21 +50,18 @@ class ProfileScreenState extends State<ProfileScreen>{
                             child: Padding(
                                 padding: EdgeInsets.only(),
                                 child: Container(
-                                    width: 20,
-                                    height: 20,
-                                    child: Center(
-                                      child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                    )
+                                  width: 40,
+                                  height: 40,
+                                  child: Center(
+                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                  ),
                                 )
                             )
                         ),
                         onTap: (){
-                          Navigator.pushReplacement(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) => new HomeScreen(),
-                            ),
-                          );
+                          homeScreenKey = new GlobalKey<HomeScreenState>();
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                              HomeScreen()), (Route<dynamic> route) => false);
                         },
                       ),
                     ),
@@ -162,7 +159,7 @@ class ProfileScreenState extends State<ProfileScreen>{
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: EdgeInsets.only(left: 15, top: 340),
+                padding: EdgeInsets.only(left: 15, top: 330),
                 child: GestureDetector(
                   child: Text('Выход', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
                   onTap: (){

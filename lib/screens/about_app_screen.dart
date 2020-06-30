@@ -39,11 +39,11 @@ class AboutAppScreenState extends State<AboutAppScreen>{
                         child: Padding(
                             padding: EdgeInsets.only(),
                             child: Container(
-                              width: 20,
-                              height: 20,
+                              width: 40,
+                              height: 40,
                               child: Center(
                                 child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                              )
+                              ),
                             )
                         )
                     ),

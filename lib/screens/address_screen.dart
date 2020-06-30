@@ -112,7 +112,7 @@ class _AddressScreenState extends State<AddressScreen> {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 50, bottom: 10),
+                  padding: EdgeInsets.only(top: 30, bottom: 10),
                   child: Row(
                     children: <Widget>[
                       Flexible(
@@ -126,11 +126,11 @@ class _AddressScreenState extends State<AddressScreen> {
                             child:Padding(
                                 padding: EdgeInsets.only(right: 0),
                                 child: Container(
-                                    width: 20,
-                                    height: 20,
-                                    child: Center(
-                                      child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                    )
+                                  width: 40,
+                                  height: 40,
+                                  child: Center(
+                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                  ),
                                 )
                             ),
                           ),

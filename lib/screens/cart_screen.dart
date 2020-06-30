@@ -308,11 +308,11 @@ class _CartScreenState extends State<CartScreen> {
                            child:Padding(
                              padding: EdgeInsets.only(right: 0),
                              child: Container(
-                                 width: 20,
-                                 height: 20,
-                                 child: Center(
-                                   child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                 )
+                               width: 40,
+                               height: 40,
+                               child: Center(
+                                 child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                               ),
                              )
                            ),
                          ),

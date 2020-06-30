@@ -30,11 +30,11 @@ class InformationScreenState extends State<InformationScreen>{
                     child: Padding(
                       padding: EdgeInsets.only(left: 15, top: 50),
                       child: Container(
-                          width: 20,
-                          height: 20,
-                          child: Center(
-                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                          )
+                        width: 40,
+                        height: 40,
+                        child: Center(
+                          child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                        ),
                       )
                     )
                 ),

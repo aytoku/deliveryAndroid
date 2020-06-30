@@ -614,7 +614,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                           Stack(
                             children: <Widget>[
                               Padding(
-                                padding: EdgeInsets.only(top: 50),
+                                padding: EdgeInsets.only(top: 40),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -627,7 +627,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                                           onTap: () => Navigator.pop(context),
                                           child:Container(
                                             width: 40,
-                                            height: 30,
+                                            height: 40,
                                             child: Center(
                                               child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                                             ),
@@ -652,7 +652,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                           ),
                     _buildFoodCategoryList(),
                     Flexible(
-                      flex: 10,
+                      flex: 8,
                       child: NotificationListener<ScrollNotification>(
                           onNotification: (ScrollNotification scrollInfo) {
                             if (!isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
