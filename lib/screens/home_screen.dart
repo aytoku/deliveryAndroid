@@ -32,6 +32,7 @@ import 'package:food_delivery/screens/ssettings_screen.dart';
 import 'package:food_delivery/sideBar/side_bar.dart';
 import 'package:food_delivery/widgets/rating_starts.dart';
 import 'package:food_delivery/widgets/recent_orders.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'auth_screen.dart';
@@ -57,6 +58,7 @@ class HomeScreenState extends State<HomeScreen> {
   bool _color;
 
 
+
   @override
   void initState() {
     super.initState();
@@ -64,6 +66,10 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   _buildNearlyRestaurant() {
+    var format = new DateFormat('HH:mm');
+    var date = new DateTime.fromMicrosecondsSinceEpoch(records_items[0].order_preparation_time_second * 1000);
+    var time = '';
+    time = format.format(date);
     List<Widget> restaurantList = [];
     records_items.forEach((Records restaurant) {
       restaurantList.add(
@@ -109,20 +115,34 @@ class HomeScreenState extends State<HomeScreen> {
                           child: Text(
                             restaurant.name,
                             style: TextStyle(
-                                fontSize: 18.0,
+                                fontSize: 21.0,
+                                color: Color(0xFF3F3F3F),
                                 fontWeight: FontWeight.bold
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         SizedBox(height: 4.0,),
-                        Text(
-                          (restaurant.destination_points != null)? restaurant.destination_points[0].type: ' ',
-                          style: TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w600
-                          ),
-                          overflow: TextOverflow.ellipsis,
+                        Row(
+                          children: <Widget>[
+//                            Text(
+//                              (restaurant.destination_points != null)? '~' + time : '',
+//                              style: TextStyle(
+//                                  fontSize: 12.0,
+//                                  fontWeight: FontWeight.w600
+//                              ),
+//                              overflow: TextOverflow.ellipsis,
+//                            ),
+                            Text(
+                              (restaurant.destination_points != null)? restaurant.destination_points[0].type: ' ',
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF3F3F3F),
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
                         SizedBox(height: 4.0,),
                       ],
@@ -154,33 +174,31 @@ class HomeScreenState extends State<HomeScreen> {
     return Container(
       child: Scaffold(
         key: _scaffoldKey,
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: ListTile(
-                  title: Text(necessaryDataForAuth.name, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 5),
-                child: ListTile(
-                  title: Text(necessaryDataForAuth.phone_number, style: TextStyle(color: Color(0x9B9B9B9B), fontSize: 14),),
-                  trailing: GestureDetector(
-                    child: SvgPicture.asset('assets/svg_images/pencil.svg'),
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => new ProfileScreen(),
-                        ),
-                      );
-                    },
+        drawer: ClipRRect(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(35), bottomRight: Radius.circular(15)),
+          child: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 60),
+                  child: ListTile(
+                    title: Text(necessaryDataForAuth.name, style: TextStyle(color: Color(0xFF424242), fontWeight: FontWeight.bold, fontSize: 17),),
+                    subtitle: Text(necessaryDataForAuth.phone_number, style: TextStyle(color: Color(0x9B9B9B9B), fontSize: 14),),
+                    trailing: GestureDetector(
+                      child: SvgPicture.asset('assets/svg_images/pencil.svg'),
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => new ProfileScreen(),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
 //              ListTile(
 //                title: Text('Способы оплаты'),
 //                onTap: (){
@@ -192,28 +210,46 @@ class HomeScreenState extends State<HomeScreen> {
 //                  );
 //                },
 //              ),
-              ListTile(
-                title: Text('История заказов'),
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new OrdersStoryScreen(),
+                ListTile(
+                  title: Padding(
+                    padding: EdgeInsets.only(top: 30),
+                    child: Text('История заказов',
+                      style: TextStyle(
+                        fontSize: 17,
+                          color: Color(0xFF424242),
+                          letterSpacing: 0.45
+                      ),
                     ),
-                  );
-                },
-              ),
-              ListTile(
-                title: Text('Мои адреса'),
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new MyAddressesScreen(),
+                  ),
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new OrdersStoryScreen(),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Padding(
+                    padding: EdgeInsets.only(top: 30),
+                    child: Text('Мои адреса',
+                      style: TextStyle(
+                        fontSize: 17,
+                          color: Color(0xFF424242),
+                          letterSpacing: 0.45
+                      ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new MyAddressesScreen(),
+                      ),
+                    );
+                  },
+                ),
 //              ListTile(
 //                title: Text('Настройки'),
 //                onTap: (){
@@ -225,29 +261,48 @@ class HomeScreenState extends State<HomeScreen> {
 //                  );
 //                },
 //              ),
-              ListTile(
-                title: Text('Инфоромация'),
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new InformationScreen(),
+                ListTile(
+                  title: Padding(
+                    padding: EdgeInsets.only(top: 30),
+                    child: Text('Инфоромация',
+                      style: TextStyle(
+                        fontSize: 17,
+                          color: Color(0xFF424242),
+                          letterSpacing: 0.45
+                      ),
                     ),
-                  );
-                },
-              ),
-              ListTile(
-                title: Text('Служба поддержки'),
-                onTap: (){
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new ServiceScreen(),
+                  ),
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new InformationScreen(),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Padding(
+                    padding: EdgeInsets.only(top: 30),
+                    child: Text('Служба поддержки',
+                      style: TextStyle(
+                        fontSize: 17,
+                        color: Color(0xFF424242),
+                        letterSpacing: 0.45
+                      ),
                     ),
-                  );
-                },
-              ),
-            ],
+                  ),
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new ServiceScreen(),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
         body:  FutureBuilder<DeliveryResponseData>(
@@ -283,13 +338,13 @@ class HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: 40, bottom: 10, left: 5),
+                        padding: EdgeInsets.only(top: 36, bottom: 10, left: 14),
                         child:Row(
                           children: <Widget>[
                             Flexible(
                               flex: 1,
                               child: Padding(
-                                padding: EdgeInsets.only(left: 15),
+                                padding: EdgeInsets.only(left: 0),
                                 child: GestureDetector(
                                   child: SvgPicture.asset('assets/svg_images/menu.svg'),
                                   onTap: (){
@@ -342,34 +397,34 @@ class HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                      FutureBuilder<List<OrderChecking>>(
-                        future: OrderChecking.getActiveOrder(),
-                        builder: (BuildContext context, AsyncSnapshot<List<OrderChecking>> snapshot) {
-                          if(snapshot.connectionState == ConnectionState.done && snapshot.data != null){
-                            orderList = snapshot.data;
-                            return Container(
-                              height: 200,
-                              child: ListView(
-                                children: snapshot.data,
-                                scrollDirection: Axis.horizontal,
-                              ),
-                            );
-                          }else{
-                            orderList = null;
-                            return Center(
-                              child: Container(
-                                height: 5,
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
                       Expanded(
                         child: ListView(
                           children: <Widget>[
+                            FutureBuilder<List<OrderChecking>>(
+                              future: OrderChecking.getActiveOrder(),
+                              builder: (BuildContext context, AsyncSnapshot<List<OrderChecking>> snapshot) {
+                                if(snapshot.connectionState == ConnectionState.done && snapshot.data != null){
+                                  orderList = snapshot.data;
+                                  return Container(
+                                    height: 180,
+                                    child: ListView(
+                                      children: snapshot.data,
+                                      scrollDirection: Axis.horizontal,
+                                    ),
+                                  );
+                                }else{
+                                  orderList = null;
+                                  return Center(
+                                    child: Container(
+                                      height: 5,
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -378,8 +433,9 @@ class HomeScreenState extends State<HomeScreen> {
                                   child: Text(
                                       'Все рестораны',
                                       style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontWeight: FontWeight.w600,
+                                        fontSize: 18.0,
+                                        color: Color(0xFF3F3F3F),
+                                        fontWeight: FontWeight.bold,
                                         letterSpacing: 1.2,
                                       )
                                   ),
@@ -463,7 +519,6 @@ class OrderCheckingState extends State<OrderChecking> {
       return Container();
     }
     return  Container(
-      height: 100,
       margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       decoration: BoxDecoration(
           boxShadow: [
@@ -509,12 +564,12 @@ class OrderCheckingState extends State<OrderChecking> {
                     child: GestureDetector(
                       child: Container(
                         height: 30,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(44)),
                             color: Color(0xF6F6F6F6)),
                         child:  Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10, top: 5,bottom: 0),
+                            padding: EdgeInsets.only(left: 10, right: 10, top: 7,bottom: 0),
                             child: Text('Заказ',
-                              style: TextStyle(color: Colors.black, fontSize: 15),)
+                              style: TextStyle(color: Colors.black, fontSize: 13),)
                         ),
                       ),
                       onTap: (){
@@ -544,7 +599,7 @@ class OrderCheckingState extends State<OrderChecking> {
                         height: 70,
                         width: 70,
                         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
-                            color: (processing.contains(ordersStoryModelItem.state)) ? Colors.lightBlueAccent : Color(0xF6F6F6F6)),
+                            color: (processing.contains(ordersStoryModelItem.state)) ? Color(0xFF4DC3E9) : Color(0xF6F6F6F6)),
                         child:  Column(
                           children: <Widget>[
                             Padding(
@@ -554,7 +609,7 @@ class OrderCheckingState extends State<OrderChecking> {
                             Padding(
                               padding: EdgeInsets.only(top: 5),
                               child: Text('Обработка',
-                                style: (processing.contains(ordersStoryModelItem.state)) ? TextStyle(color: Colors.white, fontSize: 11) : TextStyle(color: Color(0x42424242), fontSize: 11)),
+                                style: (processing.contains(ordersStoryModelItem.state)) ? TextStyle(color: Colors.white, fontSize: 10) : TextStyle(color: Color(0x42424242), fontSize: 10)),
                             )
                           ],
                         ),
@@ -566,7 +621,7 @@ class OrderCheckingState extends State<OrderChecking> {
                       height: 70,
                       width: 70,
                       decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
-                          color: (cooking_state.contains(ordersStoryModelItem.state)) ? Colors.green : Color(0xF6F6F6F6)),
+                          color: (cooking_state.contains(ordersStoryModelItem.state)) ? Color(0xFF51ca64) : Color(0xF6F6F6F6)),
                       child:  Column(
                         children: <Widget>[
                           Padding(
@@ -576,7 +631,7 @@ class OrderCheckingState extends State<OrderChecking> {
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                             child: Text('Готовится',
-                              style: (cooking_state.contains(ordersStoryModelItem.state)) ? TextStyle(color: Colors.white, fontSize: 11) : TextStyle(color: Color(0x42424242), fontSize: 11)),
+                              style: (cooking_state.contains(ordersStoryModelItem.state)) ? TextStyle(color: Colors.white, fontSize: 10) : TextStyle(color: Color(0x42424242), fontSize: 10)),
                           )
                         ],
                       ),
@@ -598,7 +653,7 @@ class OrderCheckingState extends State<OrderChecking> {
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                             child: Text('В пути',
-                              style: (in_the_way.contains(ordersStoryModelItem.state)) ? TextStyle(color: Colors.black, fontSize: 11) : TextStyle(color: Color(0x42424242), fontSize: 11)),
+                              style: (in_the_way.contains(ordersStoryModelItem.state)) ? TextStyle(color: Colors.black, fontSize: 10) : TextStyle(color: Color(0x42424242), fontSize: 10)),
                           ),
                         ],
                       ),
@@ -610,7 +665,7 @@ class OrderCheckingState extends State<OrderChecking> {
                       height: 70,
                       width: 70,
                       decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(60)),
-                          color: (take.contains(ordersStoryModelItem.state)) ? Colors.redAccent : Color(0xF6F6F6F6)),
+                          color: (take.contains(ordersStoryModelItem.state)) ? Color(0xFFFE534F) : Color(0xF6F6F6F6)),
                       child:  Column(
                         children: <Widget>[
                           Padding(
@@ -620,7 +675,7 @@ class OrderCheckingState extends State<OrderChecking> {
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                             child: Text('Заберите',
-                              style: (take.contains(ordersStoryModelItem.state)) ? TextStyle(color: Colors.white, fontSize: 11) : TextStyle(color: Color(0x42424242), fontSize: 11)),
+                              style: (take.contains(ordersStoryModelItem.state)) ? TextStyle(color: Colors.white, fontSize: 10) : TextStyle(color: Color(0x42424242), fontSize: 10)),
                           )
                         ],
                       ),

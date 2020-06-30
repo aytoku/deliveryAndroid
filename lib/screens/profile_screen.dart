@@ -42,34 +42,40 @@ class ProfileScreenState extends State<ProfileScreen>{
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    GestureDetector(
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                          child: Padding(
-                              padding: EdgeInsets.only(),
-                              child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  child: Center(
-                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                  )
-                              )
-                          )
+                    Flexible(
+                      flex: 1,
+                      child: GestureDetector(
+                        child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                                padding: EdgeInsets.only(),
+                                child: Container(
+                                    width: 20,
+                                    height: 20,
+                                    child: Center(
+                                      child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                    )
+                                )
+                            )
+                        ),
+                        onTap: (){
+                          Navigator.pushReplacement(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => new HomeScreen(),
+                            ),
+                          );
+                        },
                       ),
-                      onTap: (){
-                        Navigator.pushReplacement(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => new HomeScreen(),
-                          ),
-                        );
-                      },
                     ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 140),
-                        child: Text("Ваши данные", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
+                    Flexible(
+                      flex: 10,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 30),
+                          child: Text("Ваши данные", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
+                        ),
                       ),
                     )
                   ],
@@ -84,27 +90,34 @@ class ProfileScreenState extends State<ProfileScreen>{
                   'Ваше имя',
                   style: TextStyle(
                       fontSize: 13,
-                      color: Color(0x8A8A8A8A)
+                      color: Color(0xFF8A8A8A)
                   ),
                 ),
               )
             ),
             Align(
                 alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, bottom: 0),
-                  child: TextField(
-                    controller: nameField,
-                    textAlign: TextAlign.start,
-                    keyboardType: TextInputType.text,
-                    decoration: new InputDecoration(
-                      border: InputBorder.none,
-                      counterText: '',
+                child: Container(
+                  height: 30,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 0),
+                    child: TextField(
+                      style: TextStyle(
+                        color: Color(0xFF515151),
+                        fontSize: 17
+                      ),
+                      controller: nameField,
+                      textAlign: TextAlign.start,
+                      keyboardType: TextInputType.text,
+                      decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        counterText: '',
+                      ),
+                      onChanged: (value){
+                        necessaryDataForAuth.name = value;
+                        NecessaryDataForAuth.saveData();
+                      },
                     ),
-                    onChanged: (value){
-                      necessaryDataForAuth.name = value;
-                      NecessaryDataForAuth.saveData();
-                    },
                   ),
                 )
             ),
@@ -117,7 +130,7 @@ class ProfileScreenState extends State<ProfileScreen>{
                   'Номер телефона',
                   style: TextStyle(
                       fontSize: 13,
-                      color: Color(0x8A8A8A8A)
+                      color: Color(0xFF8A8A8A)
                   ),
                 ),
               )
@@ -130,8 +143,8 @@ class ProfileScreenState extends State<ProfileScreen>{
                     child: Text(
                       necessaryDataForAuth.phone_number,
                       style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.black
+                          fontSize: 17,
+                          color: Color(0xFF515151)
                       ),
                     ),
                     onTap: (){
@@ -151,7 +164,7 @@ class ProfileScreenState extends State<ProfileScreen>{
               child: Padding(
                 padding: EdgeInsets.only(left: 15, top: 340),
                 child: GestureDetector(
-                  child: Text('Выход', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
+                  child: Text('Выход', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
                   onTap: (){
                     NecessaryDataForAuth.clear().then((value){
                       Navigator.push(

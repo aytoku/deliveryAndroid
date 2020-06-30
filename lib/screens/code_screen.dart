@@ -201,8 +201,8 @@ class _CodeScreenState extends State<CodeScreen> {
                                     color: Colors.white
                                 )
                             ),
-                            color: Colors.grey,
-                            splashColor: Colors.grey,
+                            color: Color(0xFFFE534F),
+                            splashColor: Colors.redAccent,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
                             ),
@@ -309,5 +309,84 @@ class TimerCountDownState extends State<TimerCountDown> {
         });
       },
     );
+  }
+}
+
+class Button extends StatefulWidget{
+  Color color;
+  Button({Key key, this.color}) : super(key: key);
+
+  @override
+  ButtonState createState() {
+    return new ButtonState(color);
+  }
+}
+
+class ButtonState extends State<Button>{
+  String error = '';
+  TextField code1;
+  TextField code2;
+  TextField code3;
+  TextField code4;
+  Color color;
+  ButtonState(this.color);
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+//    if(){
+//
+//    }
+    return FlatButton(
+      child: Text(
+          'Далее',
+          style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w600,
+              color: Colors.white
+          )
+      ),
+      color: Colors.grey,
+      splashColor: Colors.grey,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50),
+      ),
+      padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
+      onPressed: ()async {
+        String temp = '';
+        temp = code1.controller.text +
+            code2.controller.text +
+            code3.controller.text +
+            code4.controller.text;
+        authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, int.parse(temp));
+        if(authCodeData != null){
+          necessaryDataForAuth.phone_number = currentUser.phone;
+          necessaryDataForAuth.refresh_token = authCodeData.refresh_token;
+          necessaryDataForAuth.name = '';
+          NecessaryDataForAuth.saveData();
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (context) => new NameScreen(),
+            ),
+          );
+        }else{
+          setState(() {
+            error = 'Вы ввели неверный смс код';
+          });
+        }
+      },
+    );
+  }
+
+  String validateMobile(String value) {
+    String pattern = r'(^(?:[+]?7)[0-9]{10}$)';
+    RegExp regExp = new RegExp(pattern);
+    if (value.length == 0) {
+      return 'Укажите норер';
+    }
+    else if (!regExp.hasMatch(value)) {
+      return 'Указан неверный номер';
+    }
+    return null;
   }
 }

@@ -77,15 +77,16 @@ class _CartScreenState extends State<CartScreen> {
                     Text(
                       'Итого',
                       style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w600
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF000000)
                       ),),
                     Text(
                         '${totalPrice.toStringAsFixed(0)} \Р',
                         style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF000000)
                         )
                     ),
                   ],
@@ -129,14 +130,14 @@ class _CartScreenState extends State<CartScreen> {
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 14.0,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF000000)
                         ),
                       ),
                     ): Counter(key: counterKey,initial_counter: order.quantity,),
                     Padding(
                       padding: EdgeInsets.only(left: 10, top: 15,bottom: 15),
-                      child: Image(image: AssetImage('assets/images/cross.png'),),
+                      child: SvgPicture.asset('assets/svg_images/cross.svg'),
                     ),
                     Expanded(
                       child: Padding(
@@ -147,7 +148,7 @@ class _CartScreenState extends State<CartScreen> {
                               decoration: TextDecoration.none,
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black
+                              color: Color(0xFF000000)
                           ),
                           textAlign: TextAlign.start,
                         ),
@@ -166,7 +167,7 @@ class _CartScreenState extends State<CartScreen> {
                           decoration: TextDecoration.none,
                           fontSize: 14.0,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xB0B0B0B0)
+                          color: Color(0xFFB0B0B0)
                       )
                   ),
                 )
@@ -206,7 +207,8 @@ class _CartScreenState extends State<CartScreen> {
                       'Вы действительно хотите\nотчистить корзину?',
                       style: TextStyle(
                           fontSize: 17,
-                          fontWeight: FontWeight.bold
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF424242)
                       ),
                     ),
                   ),
@@ -221,7 +223,7 @@ class _CartScreenState extends State<CartScreen> {
                         child: Text(
                           'Очистить',
                           style: TextStyle(
-                              color: Colors.red,
+                              color: Color(0xFFFF0600),
                               fontSize: 17,
                               fontWeight: FontWeight.bold
                           ),
@@ -252,6 +254,7 @@ class _CartScreenState extends State<CartScreen> {
                           'Отмена',
                           style: TextStyle(
                             fontSize: 17,
+                            color: Color(0xFF424242)
                           ),
                         ),
                         onTap: (){
@@ -319,7 +322,7 @@ class _CartScreenState extends State<CartScreen> {
                        flex: 0,
                        child: Padding(
                          padding: EdgeInsets.only(left: 0),
-                         child:  Text(restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                         child:  Text(restaurant.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
                        ),
                      ),
                      Flexible(
@@ -346,39 +349,45 @@ class _CartScreenState extends State<CartScreen> {
                  Padding(
                    padding: EdgeInsets.only(top: 10, bottom: 5),
                    child: Container(
-                     color: Color(0xF5F5F5F5),
+                     color: Color(0xFFF5F5F5),
                      height: 10,
                      width: 700,
                    ),
                  ),
                  Container(
-                   child: Row(
+                   child: Column(
+                     mainAxisAlignment: MainAxisAlignment.start,
+                     crossAxisAlignment: CrossAxisAlignment.start,
                      children: <Widget>[
-                       Column(
-                         mainAxisAlignment: MainAxisAlignment.start,
-                         crossAxisAlignment: CrossAxisAlignment.start,
+                       Padding(
+                         padding: EdgeInsets.only(left: 15, top: 5, bottom: 5),
+                         child:
+                         Text("Доставка еды", style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF000000), fontSize: 14),),
+                       ),
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          children: <Widget>[
                            Padding(
                              padding: EdgeInsets.only(left: 15, top: 5, bottom: 5),
                              child:
-                             Text("Доставка еды", style: TextStyle(fontWeight: FontWeight.bold),),
+                             Text("Закажите еще на 1000 Р. для бесплатной\nдоставки",
+                               style: TextStyle(
+                                   color: Color(0xFF000000),
+                                   fontSize: 12
+                               ),
+                             ),
                            ),
                            Padding(
-                             padding: EdgeInsets.only(left: 15, top: 5, bottom: 5),
-                             child:
-                             Text("Закажите еще на 1000 Р. для бесплатной\nдоставки"),
+                             padding: EdgeInsets.only(right: 15, bottom: 10),
+                             child: Text("134 Р", style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 14),),
                            ),
                          ],
-                       ),
-                       Padding(
-                         padding: EdgeInsets.only(left: 20),
-                         child: Text("134 Р", style: TextStyle(color: Colors.grey),),
                        ),
                      ],
                    ),
                  ),
                  Container(
-                   color: Color(0xF5F5F5F5),
+                   color: Color(0xFFF5F5F5),
                    height: 10,
                    width: 600,
                  ),
@@ -433,8 +442,8 @@ class _CartScreenState extends State<CartScreen> {
                      )
                    ],
                  ),
-                 color: Colors.redAccent,
-                 splashColor: Colors.red,
+                 color: Color(0xFFFE534F),
+                 splashColor: Colors.redAccent,
                  shape: RoundedRectangleBorder(
                    borderRadius: BorderRadius.circular(8),
                  ),
@@ -442,7 +451,7 @@ class _CartScreenState extends State<CartScreen> {
                  onPressed: (){Navigator.push(
                    context,
                    new MaterialPageRoute(
-                     builder: (context) => new AddressScreen(restaurant: restaurant),
+                     builder: (context) => new AddressScreen(restaurant: restaurant)
                    ),
                  );},
                ),
@@ -608,7 +617,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                     flex: 0,
                     child: Padding(
                       padding: EdgeInsets.only(left: 0),
-                      child:  Text(restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                      child:  Text('Корзина', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF000000)),),
                     ),
                   ),
                   Flexible(
@@ -642,7 +651,8 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                       'Корзина пуста',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 17
+                          fontSize: 17,
+                          color:  Color(0xFF424242)
                       ),
                     )
                 ),
@@ -653,7 +663,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                   child: Text(
                     'Перейдите в список мест, чтобы\nоформить заказ заново',
                     style: TextStyle(
-                        color: Color(0xB0B0B0B0),
+                        color: Color(0xFFB0B0B0),
                         fontSize: 15
                     ),
                     textAlign: TextAlign.center,
@@ -672,8 +682,8 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                           fontSize: 16
                       ),
                     ),
-                    color: Colors.redAccent,
-                    splashColor: Colors.red,
+                    color: Color(0xFFFE534F),
+                    splashColor: Colors.redAccent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

@@ -44,28 +44,34 @@ class CostErrorScreenState extends State<CostErrorScreen>{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  GestureDetector(
-                    child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                            padding: EdgeInsets.only(),
-                            child: Container(
-                                width: 20,
-                                height: 20,
-                                child: Center(
-                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                )
-                            )
-                        )
+                  Flexible(
+                    flex: 1,
+                    child: GestureDetector(
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                              padding: EdgeInsets.only(),
+                              child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  child: Center(
+                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                  )
+                              )
+                          )
+                      ),
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
                     ),
-                    onTap: (){
-                      Navigator.pop(context);
-                    },
                   ),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 100),
-                      child: Text("Ошибка стоимости", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
+                  Flexible(
+                    flex: 10,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: Text("Ошибка стоимости", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
+                      ),
                     ),
                   )
                 ],
@@ -76,12 +82,43 @@ class CostErrorScreenState extends State<CostErrorScreen>{
               child: Padding(
                 padding: EdgeInsets.only(left: 15, top: 20),
                 child: Text(
-                  'Вы можете написать подробный комментарий\nо доставке или сообщить какую-либо\nинформацию о заказе'
+                  'Вы можете написать подробный комментарий\nо доставке или сообщить какую-либо\nинформацию о заказе',
+                  style: TextStyle(
+                    color: Color(0xFF424242),
+                    fontSize: 14
+                  ),
                 ),
               ),
             ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Row(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 15, top: 20),
+                    child: Text(
+                      '*',
+                      style: TextStyle(
+                          color: Color(0xFFFC5B58),
+                          fontSize: 14
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 5, top: 20),
+                    child: Text(
+                      'Комментарий',
+                      style: TextStyle(
+                          color: Color(0xFFB0B0B0),
+                          fontSize: 14
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Padding(
-              padding: EdgeInsets.only(top: 20),
+              padding: EdgeInsets.only(top: 10),
               child: Container(
                 height: 345,
                 width: 320,
@@ -105,11 +142,11 @@ class CostErrorScreenState extends State<CostErrorScreen>{
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 0, top: 30),
+              padding: EdgeInsets.only(left: 0, top: 20, bottom: 10),
               child: FlatButton(
                 child: Text("Отправить", style: TextStyle(color: Colors.white, fontSize: 15),),
-                color: Colors.redAccent,
-                splashColor: Colors.red,
+                color: Color(0xFFFC5B58),
+                splashColor: Colors.redAccent,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7),
                 ),

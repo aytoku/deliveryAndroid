@@ -50,7 +50,7 @@ class InformationScreenState extends State<InformationScreen>{
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(top: 20, left: 30, bottom: 20, right: 15),
-              child: Text('Информация',style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold)),
+              child: Text('Информация',style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: Color(0xFF424242))),
             ),
           ),
 //          Divider(height: 1.0, color: Colors.grey),
@@ -88,7 +88,12 @@ class InformationScreenState extends State<InformationScreen>{
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('О приложении'),
+                      Text('О приложении',
+                      style: TextStyle(
+                        color: Color(0xFF424242),
+                        fontSize: 17
+                       ),
+                      ),
                       GestureDetector(
                         child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
                       ),

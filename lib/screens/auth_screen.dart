@@ -35,6 +35,7 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   String error = '';
   var controller = new MaskedTextController(mask: '+70000000000');
+  GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,96 +98,9 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Container(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 10),
-                      child: (controller.text.length > 0) ? FlatButton(
-                        child: Text(
-                            'Далее',
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            )
-                        ),
-                        color: Colors.red,
-                        splashColor: Colors.redAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
-                        onPressed: () async {
-                          if(validateMobile(currentUser.phone)== null){
-                            if(currentUser.phone[0] != '+'){
-                              currentUser.phone = '+' + currentUser.phone;
-                            }
-                            if(currentUser.phone != necessaryDataForAuth.phone_number){
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new CodeScreen(),
-                                ),
-                              );
-                            }else{
-                              Navigator.pushReplacement(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new DeviceIdScreen(),
-                                ),
-                              );
-                            }
-                          }else{
-                            setState(() {
-                              error = 'Указан неверный номер';
-                            });
-                          }
-                        },
-                      ): FlatButton(
-                        child: Text(
-                            'Далее',
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            )
-                        ),
-                        color: Colors.grey,
-                        splashColor: Colors.grey,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
-                        onPressed: () async {
-                          if(validateMobile(currentUser.phone)== null){
-                            if(currentUser.phone[0] != '+'){
-                              currentUser.phone = '+' + currentUser.phone;
-                            }
-                            if(currentUser.phone != necessaryDataForAuth.phone_number){
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new CodeScreen(),
-                                ),
-                              );
-                            }else{
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new DeviceIdScreen(),
-                                ),
-                              );
-                            }
-                          }else{
-                            setState(() {
-                              error = 'Указан неверный номер';
-                            });
-                          }
-                        },
-                      ),
-                    ),
-                  ),
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Button(key: buttonStateKey)
                 ),
               )
             ],
@@ -226,6 +140,9 @@ class ButtonState extends State<Button>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+//    if(){
+//
+//    }
     return FlatButton(
       child: Text(
           'Далее',
@@ -235,7 +152,7 @@ class ButtonState extends State<Button>{
               color: Colors.white
           )
       ),
-      color: Colors.red,
+      color: Color(0xFFFE534F),
       splashColor: Colors.redAccent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),

@@ -48,28 +48,34 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
             padding: EdgeInsets.only(top: 40, bottom: 30, left: 15),
             child: Row(
               children: <Widget>[
-                GestureDetector(
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                          padding: EdgeInsets.only(),
-                          child: Container(
-                              width: 20,
-                              height: 20,
-                              child: Center(
-                                child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                              )
-                          )
-                      )
+                Flexible(
+                  flex: 1,
+                  child: GestureDetector(
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                            padding: EdgeInsets.only(),
+                            child: Container(
+                                width: 20,
+                                height: 20,
+                                child: Center(
+                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                )
+                            )
+                        )
+                    ),
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
                   ),
-                  onTap: (){
-                    Navigator.pop(context);
-                  },
                 ),
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 100),
-                    child: Text("Детали заказа", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
+                Flexible(
+                  flex: 8,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Text("Детали заказа", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
+                    ),
                   ),
                 )
               ],
@@ -84,18 +90,18 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                 child: Column(
                   children: <Widget>[
                     Align(
-                      alignment: Alignment.topLeft,
+                      alignment: Alignment.centerLeft,
                       child: Padding(
                         padding: EdgeInsets.only(left: 15, top: 15, right: 0 ),
                         child: Text((ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].value : 'Пусто',
-                          style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),),
+                          style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),),
                       ),
                     ),
                     Align(
-                      alignment: Alignment.topLeft,
+                      alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 0, top: 5, right: 20),
-                        child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xB0B0B0B0)),),
+                        padding: EdgeInsets.only(left: 15, top: 5, right: 0),
+                        child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
                       ),
                     )
                   ],
@@ -106,26 +112,38 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                 child: Column(
                   children: <Widget>[
                     Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20, top: 40),
-                        child: Text('Статус заказа:', style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 15, top: 0),
-                        child: Text(ordersStoryModelItem.state_title, style: TextStyle(fontSize: 14, color: Colors.red, fontWeight: FontWeight.bold),),
+                      alignment: Alignment.centerRight,
+                      child:  Row(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 15, top: 0),
+                              child: Text('Статус заказа:', style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 30, top: 5),
-                        child: Text('Заберу с собой', style: TextStyle(fontSize: 12, color: Color(0xB0B0B0B0)),),
+                          padding: EdgeInsets.only(right: 15, top: 0),
+                          child: Flexible(
+                            child: Text(ordersStoryModelItem.state_title, style: TextStyle(fontSize: 14, color: Color(0xFFFE534F), fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.start,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          )
                       ),
-                    )
+                    ),
+//                    Align(
+//                      alignment: Alignment.bottomRight,
+//                      child: Padding(
+//                        padding: EdgeInsets.only(right: 15, top: 5),
+//                        child: Text('Заберу с собой', style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
+//                      ),
+//                    )
                   ],
                 ),
               )
@@ -135,7 +153,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(left: 15, top: 10),
-              child: Text('Адрес заведения', style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.bold),),
+              child: Text('Адрес заведения', style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),),
             ),
           ),
           Align(
@@ -143,7 +161,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
             child: Padding(
               padding: EdgeInsets.only(left: 15, top: 5, bottom: 10),
               child: Text((ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].street + ordersStoryModelItem.routes[0].house : 'Пусто',
-                style: TextStyle(fontSize: 12, color: Color(0xB0B0B0B0)),),
+                style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
             ),
           ),
           Container(
@@ -167,7 +185,12 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                                   Padding(
                                     padding: EdgeInsets.only(left: 15),
                                     child:
-                                    Text('${ordersStoryModelItem.products[index].number}'),
+                                    Text('${ordersStoryModelItem.products[index].number}',
+                                      style: TextStyle(
+                                        color: Color(0xFF000000),
+                                        fontSize: 14
+                                      ),
+                                    ),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(left: 15, right: 15),
@@ -175,14 +198,20 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(left: 15),
-                                    child: Text(ordersStoryModelItem.products[index].name),
-                                  ),
+                                    child: Text(ordersStoryModelItem.products[index].name,
+                                      style: TextStyle(
+                                          color: Color(0xFF000000),
+                                          fontSize: 14
+                                    ),),
+                                  )
                                 ],
                               ),
                               Padding(
                                 padding: EdgeInsets.only(right: 15),
                                 child:
-                                Text('${ordersStoryModelItem.products[index].price} \Р', style: TextStyle(color: Color(0xB0B0B0D0)),),
+                                Text('${ordersStoryModelItem.products[index].price} \Р',
+                                  style: TextStyle(color: Color(0xFFB0B0D0), fontSize: 14),
+                                ),
                               ),
                             ],
                           ),
@@ -195,7 +224,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                     )
                   );
                 }),
-              )
+              ),
           ),
 //          Row(
 //            mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -241,44 +270,49 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
 //                    ),
 //                  )
 //              ),
-              Padding(
-                  padding: EdgeInsets.only(left: 15, bottom: 20, right: 20),
-                  child: GestureDetector(
-                    child: Container(
-                        height: 50,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(50.0),
+              Center(
+                child: Padding(
+                    padding: EdgeInsets.only(left: 90, bottom: 20, right: 0),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: GestureDetector(
+                        child: Container(
+                            height: 50,
+                            width: 200,
+                            decoration: BoxDecoration(
+                              color: Color(0xFFFE534F),
+                              borderRadius: BorderRadius.circular(50.0),
+                            ),
+                            child: Center(
+                              child: Text('Повторить заказ', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
+                            )
                         ),
-                        child: Center(
-                          child: Text('Повторить заказ', style: TextStyle(color: Colors.white, fontSize: 15),),
-                        )
-                    ),
-                    onTap: () async {
-                      Records restaurant = ordersStoryModelItem.store;
-                      currentUser.cartDataModel.cart.clear();
-                      ordersStoryModelItem.products.forEach((FoodRecordsStory element) {
-                        FoodRecords foodItem = FoodRecords.fromFoodRecordsStory(element);
-                        Order order = new Order(
-                            restaurant: restaurant,
-                            food:  foodItem,
-                            date: DateTime.now().toString(),
-                            quantity: element.number,
-                            isSelected: false
-                        );
-                        currentUser.cartDataModel.cart.add(order);
-                      });
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) {
-                            return new CartScreen(restaurant:restaurant);
-                          }
-                        ),
-                      );
-                    },
-                  )
+                        onTap: () async {
+                          Records restaurant = ordersStoryModelItem.store;
+                          currentUser.cartDataModel.cart.clear();
+                          ordersStoryModelItem.products.forEach((FoodRecordsStory element) {
+                            FoodRecords foodItem = FoodRecords.fromFoodRecordsStory(element);
+                            Order order = new Order(
+                                restaurant: restaurant,
+                                food:  foodItem,
+                                date: DateTime.now().toString(),
+                                quantity: element.number,
+                                isSelected: false
+                            );
+                            currentUser.cartDataModel.cart.add(order);
+                          });
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) {
+                                  return new CartScreen(restaurant:restaurant);
+                                }
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                ),
               )
             ],
           )

@@ -23,30 +23,36 @@ class ServiceScreenState extends State<ServiceScreen>{
         children: <Widget>[
           Row(
             children: <Widget>[
-              GestureDetector(
-                child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 15, top: 50),
-                      child: Container(
-                          width: 20,
-                          height: 20,
-                          child: Center(
-                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+              Flexible(
+                flex: 1,
+                child: GestureDetector(
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                          padding: EdgeInsets.only(left: 15, top: 50),
+                          child: Container(
+                              width: 20,
+                              height: 20,
+                              child: Center(
+                                child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                              )
                           )
                       )
-                    )
+                  ),
+                  onTap: (){
+                    homeScreenKey = new GlobalKey<HomeScreenState>();
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                        HomeScreen()), (Route<dynamic> route) => false);
+                  },
                 ),
-                onTap: (){
-                  homeScreenKey = new GlobalKey<HomeScreenState>();
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                      HomeScreen()), (Route<dynamic> route) => false);
-                },
               ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 100, top: 50),
-                  child: Text("Служба поддержки", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
+              Flexible(
+                flex: 10,
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 0, top: 50),
+                    child: Text("Служба поддержки", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
+                  ),
                 ),
               )
             ],
@@ -55,7 +61,7 @@ class ServiceScreenState extends State<ServiceScreen>{
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(top: 30, left: 20, bottom: 10),
-              child: Text('Ваши вопросы',style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xB9B9B9B9))),
+              child: Text('Ваши вопросы',style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFFB9B9B9))),
             ),
           ),
           Padding(
@@ -66,7 +72,7 @@ class ServiceScreenState extends State<ServiceScreen>{
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(top: 10, left: 15),
-                      child: Text('Ошибка в заказе', style: TextStyle(fontSize: 17),),
+                      child: Text('Ошибка в заказе', style: TextStyle(fontSize: 17, color: Color(0xFF424242)),),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 10, right: 15),
@@ -93,7 +99,7 @@ class ServiceScreenState extends State<ServiceScreen>{
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 10, left: 15),
-                    child: Text('Ошибка стоимости', style: TextStyle(fontSize: 17),),
+                    child: Text('Ошибка стоимости', style: TextStyle(fontSize: 17,color: Color(0xFF424242)),),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 10, right: 15),
@@ -120,7 +126,7 @@ class ServiceScreenState extends State<ServiceScreen>{
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(top: 10, left: 15),
-                      child: Text('Ошибка программмы', style: TextStyle(fontSize: 17),),
+                      child: Text('Ошибка программмы', style: TextStyle(fontSize: 17, color: Color(0xFF424242)),),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 10, right: 15),
@@ -147,7 +153,7 @@ class ServiceScreenState extends State<ServiceScreen>{
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(top: 10, left: 15),
-                      child: Text('Другая причина', style: TextStyle(fontSize: 17),),
+                      child: Text('Другая причина', style: TextStyle(fontSize: 17, color: Color(0xFF424242)),),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 10, right: 15),

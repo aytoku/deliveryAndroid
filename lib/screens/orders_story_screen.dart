@@ -34,12 +34,12 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
   List<OrdersStoryModelItem> records_items = new List<OrdersStoryModelItem>();
 
 
-  _buildNearlyRestaurant() {
+  _buildOrdersStoryItems() {
     List<Widget> restaurantList = [];
     int i =0;
     GlobalKey<CartItemsQuantityState> cartItemsQuantityKey = new GlobalKey();
     records_items.forEach((OrdersStoryModelItem ordersStoryModelItem) {
-        var format = new DateFormat('HH:mm');
+        var format = new DateFormat('HH:mm, dd-MM-yy');
         var date = new DateTime.fromMicrosecondsSinceEpoch(ordersStoryModelItem.created_at_unix * 1000);
         var time = '';
         time = format.format(date);
@@ -55,12 +55,12 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                         padding: EdgeInsets.only(top: 15, left: 15),
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child:  Text(ordersStoryModelItem.routes[0].value, style: TextStyle(fontSize: 14)),
+                          child:  Text(ordersStoryModelItem.routes[0].value, style: TextStyle(fontSize: 14, color: Color(0xFF000000))),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 15, top: 10, right: 15),
-                        child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xB0B0B0B0)),),
+                        child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
                       ),
                     ],
                   ),
@@ -72,7 +72,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                       padding: EdgeInsets.only(top: 5, left: 15, bottom: 15),
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child:  Text('${ordersStoryModelItem.price} \Р', style: TextStyle(fontSize: 14,color: Color(0xB0B0B0B0),),
+                        child:  Text('${ordersStoryModelItem.price} \Р', style: TextStyle(fontSize: 14,color: Color(0xFFB0B0B0),),
                         ),
                       ),
                     )],
@@ -323,30 +323,36 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                       padding: EdgeInsets.only(top: 20, bottom: 30, left: 0),
                       child: Row(
                         children: <Widget>[
-                          GestureDetector(
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Padding(
-                                    padding: EdgeInsets.only(left: 15, top: 0),
-                                    child: Container(
-                                        width: 20,
-                                        height: 20,
-                                        child: Center(
-                                          child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                        )
-                                    )
-                                )
+                          Flexible(
+                            flex: 1,
+                            child: GestureDetector(
+                              child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                      padding: EdgeInsets.only(left: 15, top: 0),
+                                      child: Container(
+                                          width: 20,
+                                          height: 20,
+                                          child: Center(
+                                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                          )
+                                      )
+                                  )
+                              ),
+                              onTap: (){
+                                homeScreenKey = new GlobalKey<HomeScreenState>();
+                                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                    HomeScreen()), (Route<dynamic> route) => false);
+                              },
                             ),
-                            onTap: (){
-                              homeScreenKey = new GlobalKey<HomeScreenState>();
-                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                                  HomeScreen()), (Route<dynamic> route) => false);
-                            },
                           ),
-                          Center(
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 100),
-                              child: Text("История заказов", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
+                          Flexible(
+                            flex: 9,
+                            child: Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 0),
+                                child: Text("История заказов", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
+                              ),
                             ),
                           )
                         ],
@@ -364,7 +370,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                                 });
                               }
                             },
-                            child: _buildNearlyRestaurant()
+                            child: _buildOrdersStoryItems()
                         ),
                       ],
                     )

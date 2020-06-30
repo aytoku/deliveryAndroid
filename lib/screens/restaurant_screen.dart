@@ -124,7 +124,8 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                         Text(
                           restaurantDataItems.name,
                           style: TextStyle(
-                            fontSize: 18.0,
+                            fontSize: 15.0,
+                            color: Color(0xFF3F3F3F)
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -138,7 +139,8 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                               '${restaurantDataItems.price}',
                               style: TextStyle(
                                   fontSize: 12.0,
-                                  fontWeight: FontWeight.w600
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF6EC292)
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -335,13 +337,13 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                       )
                   ),
                   Container(
-                    color: Color(0xFAFAFAFA),
+                    color: Color(0xFFFAFAFA),
                     height: 60,
                     child: Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
                           padding: EdgeInsets.only(left: 15),
-                          child: Text(restaurantDataItems.comment, style: TextStyle(color: Color(0xB0B0B0B0), fontSize: 13),),
+                          child: Text(restaurantDataItems.comment, style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),),
                         )
                     ),
                   ),
@@ -390,7 +392,8 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                                 restaurantDataItems.name,
                                 style: TextStyle(
                                     fontSize: 15.0,
-                                    fontWeight: FontWeight.bold
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF000000)
                                 ),
                                 textAlign: TextAlign.start,
                               ),
@@ -404,7 +407,8 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                                   '${restaurantDataItems.price}',
                                   style: TextStyle(
                                       fontSize: 12.0,
-                                      fontWeight: FontWeight.w600
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFFB0B0B0)
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -424,13 +428,13 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.only(left: 20, top: 0),
+                                padding: EdgeInsets.only(left: 15, right: 5),
                                 child: FlatButton(
-                                  child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 15),),
-                                  color: Colors.redAccent,
-                                  splashColor: Colors.red,
+                                  child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 16),),
+                                  color: Color(0xFFFE534F),
+                                  splashColor: Colors.redAccent,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                   padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
                                   onPressed: ()
@@ -505,12 +509,12 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
           return GestureDetector(child:Padding(
               padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
               child:Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
-                    color: (restaurant.product_category[index] != category) ? Colors.white : Colors.redAccent),
+                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(30)),
+                    color: (restaurant.product_category[index] != category) ? Color(0xFFF6F6F6) : Color(0xFFFE534F)),
                 child:  Padding(
                     padding: EdgeInsets.only(left: 15, right: 15, top: 5,),
                     child: Text(restaurant.product_category[index],
-                      style: TextStyle(color: (restaurant.product_category[index] != category) ? Color(0x99999999) : Colors.white, fontSize: 15),)
+                      style: TextStyle(color: (restaurant.product_category[index] != category) ? Color(0xFF424242) : Colors.white, fontSize: 15),)
                 ),
               )
           ), onTap: (){
@@ -561,16 +565,13 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                                   Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                                       HomeScreen()), (Route<dynamic> route) => false);
                                 },
-                                child:Padding(
-                                    padding: EdgeInsets.only(right: 0),
-                                    child: Container(
-                                        width: 20,
-                                        height: 20,
-                                        child: Center(
-                                          child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                        )
-                                    )
-                                ),
+                                child:Container(
+                                  width: 40,
+                                  height: 30,
+                                  child: Center(
+                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                  ),
+                                )
                               ),
                             ),
                           ),
@@ -580,7 +581,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                               alignment: Alignment.center,
                               child: Padding(
                                 padding: EdgeInsets.only(right: 0),
-                                child:  Text(this.restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                child:  Text(this.restaurant.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
                               ),
                             ),
                           )
@@ -624,16 +625,13 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                                         padding: EdgeInsets.only(left: 15),
                                         child: GestureDetector(
                                           onTap: () => Navigator.pop(context),
-                                          child:Padding(
-                                            padding: EdgeInsets.only(right: 0),
-                                            child: Container(
-                                                width: 20,
-                                                height: 20,
-                                                child: Center(
-                                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                                )
-                                            )
-                                          ),
+                                          child:Container(
+                                            width: 40,
+                                            height: 30,
+                                            child: Center(
+                                              child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                            ),
+                                          )
                                         ),
                                       ),
                                     ),
@@ -643,7 +641,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                                         alignment: Alignment.center,
                                         child: Padding(
                                           padding: EdgeInsets.only(right: 0),
-                                          child:  Text(this.restaurant.name, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                                          child:  Text(this.restaurant.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
                                         ),
                                       ),
                                     )
@@ -654,7 +652,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                           ),
                     _buildFoodCategoryList(),
                     Flexible(
-                      flex: 8,
+                      flex: 10,
                       child: NotificationListener<ScrollNotification>(
                           onNotification: (ScrollNotification scrollInfo) {
                             if (!isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
@@ -913,8 +911,8 @@ class BasketButtonState extends State<BasketButton>{
             )
           ],
         ),
-        color: Colors.redAccent,
-        splashColor: Colors.red,
+        color: Color(0xFFFE534F),
+        splashColor: Colors.redAccent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),

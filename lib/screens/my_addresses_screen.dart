@@ -56,28 +56,31 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
           padding: EdgeInsets.only(bottom: 0,right: 15, top: 10),
           child: AutoComplete(destinationPointsKey),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 30, top: 350),
-          child: FlatButton(
-            child: Text("Далее", style: TextStyle(color: Colors.white, fontSize: 15),),
-            color: Colors.redAccent,
-            splashColor: Colors.red,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: EdgeInsets.only(left: 30, top: 370),
+            child: FlatButton(
+              child: Text("Далее", style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
+              color: Color(0xFFFE534F),
+              splashColor: Colors.redAccent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) {
+                        myAddressesModel.type = MyAddressesType.home;
+                        myAddressesModel.address = destinationPointsKey.currentState.searchTextField.textField.controller.text;
+                        return new AddMyAddressScreen(myAddressesModel: myAddressesModel);
+                      }
+                  ),
+                );
+              },
             ),
-            padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
-            onPressed: (){
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) {
-                    myAddressesModel.type = MyAddressesType.home;
-                    myAddressesModel.address = destinationPointsKey.currentState.searchTextField.textField.controller.text;
-                    return new AddMyAddressScreen(myAddressesModel: myAddressesModel);
-                  }
-                ),
-              );
-            },
           ),
         )
       ],
@@ -142,7 +145,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: EdgeInsets.only(top: 20, left: 30, bottom: 20),
-                    child: Text('Мои адреса',style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold)),
+                    child: Text('Мои адреса',style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: Color(0xFF424242))),
                   ),
                 ),
                 Expanded(
@@ -168,7 +171,12 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                                                   ),
                                                   Padding(
                                                     padding: EdgeInsets.only(left: 20),
-                                                    child: Text('Добавить адрес дома'),
+                                                    child: Text('Добавить адрес дома',
+                                                    style: TextStyle(
+                                                      fontSize: 17,
+                                                      color: Color(0xFF424242)
+                                                    ),
+                                                    ),
                                                   )
                                                 ],
                                               ),

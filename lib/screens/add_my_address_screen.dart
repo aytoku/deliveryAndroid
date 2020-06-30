@@ -61,7 +61,8 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
                         'Удалить',
                         style: TextStyle(
                             fontSize: 15,
-                            fontWeight: FontWeight.bold
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF424242)
                         ),
                       ),
                     )
@@ -86,39 +87,42 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(top: 30, left: 20),
-              child: Text('Название',style: TextStyle(fontSize: 14, color: Color(0x9B9B9B9B))),
+              child: Text('Название',style: TextStyle(fontSize: 14, color: Color(0xFF9B9B9B))),
             ),
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: EdgeInsets.only(top: 30, left: 20, right: 20),
-              child:TextField(
-                controller: nameField,
+            child: Container(
+              height: 30,
+              child: Padding(
+                padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                child:TextField(
+                  controller: nameField,
+                ),
               ),
-            ),
+            )
           ),
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(top: 30, left: 20),
-              child: Text(myAddressesModel.address,style: TextStyle(fontSize: 17, color: Colors.black)),
+              child: Text(myAddressesModel.address,style: TextStyle(fontSize: 17, color: Color(0xFF424242))),
             ),
           ),
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(top: 10, left: 20, bottom: 20),
-              child: Text('г.Владикавказ, республика Северная Осетия-Алания, Россия',style: TextStyle(fontSize: 14, color: Color(0x9B9B9B9B))),
+              child: Text('г.Владикавказ, республика Северная Осетия-Алания, Россия',style: TextStyle(fontSize: 14, color: Color(0xFF9B9B9B))),
             ),
           ),
           Divider(height: 1.0, color: Colors.grey),
           Padding(
             padding: EdgeInsets.only(left: 30, top: 260),
             child: FlatButton(
-              child: Text("Сохранить", style: TextStyle(color: Colors.white, fontSize: 15),),
-              color: Colors.redAccent,
-              splashColor: Colors.red,
+              child: Text("Сохранить", style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
+              color: Color(0xFFFE534F),
+              splashColor: Colors.redAccent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),

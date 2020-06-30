@@ -129,30 +129,7 @@ class NameScreenState extends State<NameScreen> {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 0),
-                            child: FlatButton(
-                              child: Text(
-                                  'Далее',
-                                  style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white
-                                  )
-                              ),
-                              color: Colors.grey,
-                              splashColor: Colors.grey,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
-                              onPressed: ()async {
-                                await NecessaryDataForAuth.saveData();
-                                await new FirebaseNotifications().setUpFirebase();
-                                print(necessaryDataForAuth.name);
-                                homeScreenKey = new GlobalKey<HomeScreenState>();
-                                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                                    HomeScreen()), (Route<dynamic> route) => false);
-                              },
-                            ),
+                            child: Button(),
                           ),
                         ],
                       )
@@ -162,6 +139,53 @@ class NameScreenState extends State<NameScreen> {
             )
           ],
         )
+    );
+  }
+}
+
+class Button extends StatefulWidget{
+  Color color;
+  Button({Key key, this.color}) : super(key: key);
+
+  @override
+  ButtonState createState() {
+    return new ButtonState(color);
+  }
+}
+
+class ButtonState extends State<Button>{
+  String error = '';
+  Color color;
+  ButtonState(this.color);
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+//    if(){
+//
+//    }
+    return FlatButton(
+      child: Text(
+          'Далее',
+          style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w600,
+              color: Colors.white
+          )
+      ),
+      color: Color(0xFFFE534F),
+      splashColor: Colors.redAccent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50),
+      ),
+      padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
+      onPressed: ()async {
+        await NecessaryDataForAuth.saveData();
+        await new FirebaseNotifications().setUpFirebase();
+        print(necessaryDataForAuth.name);
+        homeScreenKey = new GlobalKey<HomeScreenState>();
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+            HomeScreen()), (Route<dynamic> route) => false);
+      },
     );
   }
 }
