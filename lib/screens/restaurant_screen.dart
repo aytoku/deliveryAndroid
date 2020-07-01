@@ -433,7 +433,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                           }
                           if(currentUser.cartDataModel.cart.length > 0 && restaurant.uuid != currentUser.cartDataModel.cart[0].restaurant.uuid){
                             showCartClearDialog(context, new Order(
-                                food: restaurantDataItems,
+                                food: foodOrder,
                                 quantity: counterKey.currentState.counter,
                                 restaurant: restaurant,
                                 date: DateTime.now().toString()
@@ -441,7 +441,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                           }else{
                             currentUser.cartDataModel.addItem(
                                 new Order(
-                                    food: restaurantDataItems,
+                                    food: foodOrder,
                                     quantity: counterKey.currentState.counter,
                                     restaurant: restaurant,
                                     date: DateTime.now().toString())
@@ -944,7 +944,7 @@ class VariantsSelector extends StatefulWidget {
 }
 
 class VariantsSelectorState extends State<VariantsSelector> {
-  Variants selectedVariant;
+  Variants selectedVariant = null;
   List<Variants> variantsList;
   VariantsSelectorState(this.variantsList);
   Widget build(BuildContext context) {

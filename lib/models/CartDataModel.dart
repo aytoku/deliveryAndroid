@@ -12,11 +12,18 @@ class CartDataModel {
   List<Map<String, dynamic>> toServerJSON(){
     List<Map<String, dynamic>> list = new List<Map<String, dynamic>>();
     cart.forEach((Order order) {
+      List<String> toppingsUuid = null;
+      if(order.food.toppings != null){
+        toppingsUuid = new List<String>();
+        order.food.toppings.forEach((element) {
+          toppingsUuid.add(element.uuid);
+        });
+      }
       Map<String, dynamic> item =
           {
             "uuid": order.food.uuid,
             "variat_uuid": order.food.variants[0].uuid,
-            "toppings_uuid": null,
+            "toppings_uuid": toppingsUuid,
             "number": order.quantity,
           };
       list.add(item);
@@ -27,12 +34,19 @@ class CartDataModel {
   List<Map<String, dynamic>> toJson(){
     List<Map<String, dynamic>> list = new List<Map<String, dynamic>>();
     cart.forEach((Order order) {
+      List<String> toppingsUuid = null;
+      if(order.food.toppings != null){
+        toppingsUuid = new List<String>();
+        order.food.toppings.forEach((element) {
+          toppingsUuid.add(element.uuid);
+        });
+      }
       Map<String, dynamic> item =
       {
         "uuid": order.food.uuid,
         "name": order.food.name,
         "variat_uuid": (order.food.variants != null) ? order.food.variants[0].uuid : null,
-        "toppings_uuid": null,
+        "toppings_uuid": toppingsUuid,
         "number": order.quantity,
         "price": order.food.price,
         "restaurant": order.restaurant.toJson()
