@@ -427,9 +427,14 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                         {
                           FoodRecords foodOrder = FoodRecords.fromFoodRecords(restaurantDataItems);
                           if(variantsSelectorStateKey.currentState != null){
-                            foodOrder.variants = [
-                              variantsSelectorStateKey.currentState.selectedVariant
-                            ];
+                            if(variantsSelectorStateKey.currentState.selectedVariant != null){
+                              foodOrder.variants = [
+                                variantsSelectorStateKey.currentState.selectedVariant
+                              ];
+                            }else{
+                              foodOrder.variants = null;
+                            }
+                            print(foodOrder.variants);
                           }
                           if(currentUser.cartDataModel.cart.length > 0 && restaurant.uuid != currentUser.cartDataModel.cart[0].restaurant.uuid){
                             showCartClearDialog(context, new Order(

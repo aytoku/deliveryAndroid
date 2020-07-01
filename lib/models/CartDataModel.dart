@@ -12,18 +12,18 @@ class CartDataModel {
   List<Map<String, dynamic>> toServerJSON(){
     List<Map<String, dynamic>> list = new List<Map<String, dynamic>>();
     cart.forEach((Order order) {
-      List<String> toppingsUuid = null;
-      if(order.food.toppings != null){
-        toppingsUuid = new List<String>();
-        order.food.toppings.forEach((element) {
-          toppingsUuid.add(element.uuid);
-        });
-      }
+//      List<String> toppingsUuid = null;
+//      if(order.food.toppings != null){
+//        toppingsUuid = new List<String>();
+//        order.food.toppings.forEach((element) {
+//          toppingsUuid.add(element.uuid);
+//        });
+//      }
       Map<String, dynamic> item =
           {
             "uuid": order.food.uuid,
-            "variat_uuid": order.food.variants[0].uuid,
-            "toppings_uuid": toppingsUuid,
+            "variant_uuid": (order.food.variants != null) ? order.food.variants[0].uuid : null,
+            "toppings_uuid": null,
             "number": order.quantity,
           };
       list.add(item);
@@ -34,19 +34,20 @@ class CartDataModel {
   List<Map<String, dynamic>> toJson(){
     List<Map<String, dynamic>> list = new List<Map<String, dynamic>>();
     cart.forEach((Order order) {
-      List<String> toppingsUuid = null;
-      if(order.food.toppings != null){
-        toppingsUuid = new List<String>();
-        order.food.toppings.forEach((element) {
-          toppingsUuid.add(element.uuid);
-        });
-      }
+//      List<String> toppingsUuid = null;
+//      if(order.food.toppings != null){
+//        toppingsUuid = new List<String>();
+//        order.food.toppings.forEach((element) {
+//          toppingsUuid.add(element.uuid);
+//        });
+//      }
       Map<String, dynamic> item =
       {
         "uuid": order.food.uuid,
         "name": order.food.name,
-        "variat_uuid": (order.food.variants != null) ? order.food.variants[0].uuid : null,
-        "toppings_uuid": toppingsUuid,
+        "variant_uuid": (order.food.variants != null) ? order.food.variants[0].uuid : null,
+        "variant_name": (order.food.variants != null) ? order.food.variants[0].name : '',
+        "toppings_uuid": null,
         "number": order.quantity,
         "price": order.food.price,
         "restaurant": order.restaurant.toJson()
@@ -88,8 +89,6 @@ class CartDataModel {
   }
 
    static Future<CartDataModel> fromJson(List<dynamic> parsedJson) async{
-    //SharedPreferences prefs = await SharedPreferences.getInstance();
-
 
     List<Order> records = new List<Order>();
     parsedJson.forEach((value) {
