@@ -317,43 +317,36 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
    _buildBottomNavigationMenu(FoodRecords restaurantDataItems, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey){
     return Column(
       children: <Widget>[
-        ClipRRect(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
-            child: Hero(
-                tag: restaurantDataItems.name,
-                child: Image.network(restaurantDataItems.image,
-                  fit: BoxFit.cover,
-                  height: 300.0,
-                  width: 600.0,
-                )
-            )
-        ),
-        Container(
-          color: Color(0xFFFAFAFA),
-          height: 60,
-          child: Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 15),
-                child: Text(restaurantDataItems.comment, style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),),
-              )
+        Expanded(
+          child: ListView(
+            children: <Widget>[
+              ClipRRect(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
+                  child: Hero(
+                      tag: restaurantDataItems.name,
+                      child: Image.network(restaurantDataItems.image,
+                        fit: BoxFit.cover,
+                        height: 300.0,
+                        width: 600.0,
+                      )
+                  )
+              ),
+              Container(
+                color: Color(0xFFFAFAFA),
+                height: 60,
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: Text(restaurantDataItems.comment, style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),),
+                    )
+                ),
+              ),
+              (restaurantDataItems.variants != null) ? Text(restaurantDataItems.variants[0].name) : Container(),
+            ],
           ),
         ),
-//                  Container(
-//                    child: Align(
-//                      alignment: Alignment.centerLeft,
-//                      child: Padding(
-//                          padding: EdgeInsets.only(left: 15),
-//                          child: Expanded(
-//                            child: Row(
-//                              children: <Widget>[
-//                                (restaurantDataItems.variants != null) ? Text(restaurantDataItems.variants[0].name) : Container(),
-//                              ],
-//                            ),
-//                          )
-//                      ),
-//                    ),
-//                  ),
+
 //          Expanded(
 //            child: ListView(
 //              scrollDirection: Axis.vertical,
