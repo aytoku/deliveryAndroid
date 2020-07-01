@@ -320,7 +320,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                 return ListView(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 30, left: 0),
+                      padding: EdgeInsets.only(top: 20, bottom: 10, left: 0),
                       child: Row(
                         children: <Widget>[
                           Flexible(
@@ -350,7 +350,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                             flex: 9,
                             child: Center(
                               child: Padding(
-                                padding: EdgeInsets.only(left: 0),
+                                padding: EdgeInsets.only(right: 20),
                                 child: Text("История заказов", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
                               ),
                             ),

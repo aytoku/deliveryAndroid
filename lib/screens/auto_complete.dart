@@ -4,6 +4,7 @@ import 'package:food_delivery/PostData/necessary_address_data_pass.dart';
 import 'package:food_delivery/models/NecessaryAddressModel.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/UserModel.dart';
+import 'package:food_delivery/models/my_addresses_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -62,6 +63,44 @@ class AutoCompleteDemoState extends State<AutoComplete> {
 
   @override
   Widget build(BuildContext context) {
+    MyAddressesModel myAddressesModel;
+    List<MyAddressesModel> myAddressesModelList;
+//    if(searchTextField.textField.controller.text == 0){
+//      return Container(
+//        child: ListView(
+//          children: List.generate(myAddressesModelList.length, (index){
+//            if(myAddressesModelList[index].type == MyAddressesType.empty){
+//              return Padding(
+//                padding: EdgeInsets.only(left: 30),
+//                child: Column(
+//                  children: <Widget>[
+//                    Align(
+//                      alignment: Alignment.centerLeft,
+//                      child: Padding(
+//                        padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+//                        child: Text(myAddressesModelList[index].name, style: TextStyle(fontWeight: FontWeight.bold),),
+//                      ),
+//                    ),
+//                    Align(
+//                      alignment: Alignment.centerLeft,
+//                      child: GestureDetector(
+//                        child: Padding(
+//                          padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+//                          child: Text(myAddressesModelList[index].address),
+//                        ),
+//                      ),
+//                    )
+//                  ],
+//                ),
+//              );
+//            }
+//            return Center(
+//              child: CircularProgressIndicator(),
+//            );
+//          }),
+//        ),
+//      );
+//    }
     return Container(
       height: 30,
       child: Theme(data: new ThemeData(hintColor: Color(0xF2F2F2F2)),

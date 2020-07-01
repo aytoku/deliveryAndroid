@@ -176,7 +176,7 @@ class HomeScreenState extends State<HomeScreen> {
         key: _scaffoldKey,
         drawer: ClipRRect(
           borderRadius: BorderRadius.only(
-              topRight: Radius.circular(35), bottomRight: Radius.circular(15)),
+              topRight: Radius.circular(15)),
           child: Drawer(
             child: ListView(
               padding: EdgeInsets.zero,

@@ -31,7 +31,7 @@ import 'food_bottom_sheet_screen.dart';
 
 class PageScreen extends StatefulWidget {
   final Records restaurant;
-  PageScreen({Key key, this.restaurant}) : super(key: key);
+  PageScreen({Key key, this.restaurant, }) : super(key: key);
 
   @override
   PageState createState() => PageState(restaurant);
@@ -64,12 +64,12 @@ class PageState extends State<PageScreen> {
 }
 
 class AddressScreen extends StatefulWidget {
-
-  AddressScreen({Key key, this.restaurant}) : super(key: key);
+  MyAddressesModel myAddressesModel;
+  AddressScreen({Key key, this.restaurant, this.myAddressesModel}) : super(key: key);
   final Records restaurant;
 
   @override
-  _AddressScreenState createState() => _AddressScreenState(restaurant);
+  _AddressScreenState createState() => _AddressScreenState(restaurant, myAddressesModel);
 }
 
 class _AddressScreenState extends State<AddressScreen> {
@@ -81,16 +81,16 @@ class _AddressScreenState extends State<AddressScreen> {
   final Records restaurant;
 
   GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
-
   bool _color;
 
 
-  _AddressScreenState(this.restaurant);
+  _AddressScreenState(this.restaurant, this.myAddressesModel);
   @override
   void initState() {
     super.initState();
     _color = true;
   }
+
   bool status1 = false;
   String title = 'Наличными';
   String image = 'assets/svg_images/dollar_bills.svg';
@@ -103,7 +103,39 @@ class _AddressScreenState extends State<AddressScreen> {
   TextEditingController officeField = new TextEditingController();
   TextEditingController floorField = new TextEditingController();
 
+  String addressName = '';
+
+  List<MyAddressesModel> myAddressesModelList;
   MyAddressesModel myAddressesModel;
+
+
+  void _deleteButton(MyAddressesModel myAddressesModel){
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(20),
+              topRight: const Radius.circular(20),
+            )
+        ),
+        context: context,
+        builder: (context){
+          return Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+              child:  Container(
+                child: _buildDeleteBottomNavigationMenu(myAddressesModel),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: const Radius.circular(20),
+                      topRight: const Radius.circular(20),
+                    )
+                ),
+              )
+          );
+        });
+  }
 
   Column _buildDeleteBottomNavigationMenu(MyAddressesModel myAddressesModel){
     return Column(
@@ -113,6 +145,85 @@ class _AddressScreenState extends State<AddressScreen> {
           padding: EdgeInsets.only(bottom: 0,right: 15, top: 10),
           child: AutoComplete(destinationPointsKey),
         ),
+//        ListView(
+//          children: List.generate(myAddressesModelList.length, (index){
+//            if(myAddressesModelList[index].type == MyAddressesType.empty){
+//              return Column(
+//                children: <Widget>[
+//                  GestureDetector(
+//                      child: Row(
+//                        children: <Widget>[
+//                          Align(
+//                            alignment: Alignment.centerLeft,
+//                            child: Padding(
+//                                padding: EdgeInsets.only(top: 20, left: 30, bottom: 20),
+//                                child: GestureDetector(
+//                                    child: Row(
+//                                      children: <Widget>[
+//                                        Image(
+//                                          image: AssetImage(
+//                                              'assets/images/plus_icon.png'
+//                                          ),
+//                                        ),
+//                                        Padding(
+//                                          padding: EdgeInsets.only(left: 20),
+//                                          child: Text('Добавить адрес дома',
+//                                            style: TextStyle(
+//                                                fontSize: 17,
+//                                                color: Color(0xFF424242)
+//                                            ),
+//                                          ),
+//                                        )
+//                                      ],
+//                                    ),
+//                                    onTap: (){
+//                                      _deleteButton(myAddressesModelList[index]);
+//                                    }
+//                                )
+//                            ),
+//                          ),
+//                          Divider(height: 1.0, color: Colors.grey),
+//                        ],
+//                      )
+//                  ),
+//                ],
+//              );
+//            }
+//            return Padding(
+//              padding: EdgeInsets.only(left: 30),
+//              child: Column(
+//                children: <Widget>[
+//                  Align(
+//                    alignment: Alignment.centerLeft,
+//                    child: Padding(
+//                      padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+//                      child: Text(myAddressesModelList[index].name, style: TextStyle(fontWeight: FontWeight.bold),),
+//                    ),
+//                  ),
+//                  Align(
+//                    alignment: Alignment.centerLeft,
+//                    child: GestureDetector(
+//                      child: Padding(
+//                        padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
+//                        child: Text(myAddressesModelList[index].address),
+//                      ),
+//                      onTap: (){
+//                        Navigator.push(
+//                          context,
+//                          new MaterialPageRoute(
+//                              builder: (context) {
+//                                return new AddMyAddressScreen(myAddressesModel: myAddressesModelList[index],);
+//                              }
+//                          ),
+//                        );
+//                      },
+//                    ),
+//                  )
+//                ],
+//              ),
+//            );
+//          }),
+//        ),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
@@ -130,6 +241,9 @@ class _AddressScreenState extends State<AddressScreen> {
                   context,
                   new MaterialPageRoute(
                       builder: (context) {
+                        myAddressesModel.type = MyAddressesType.home;
+                        myAddressesModel.address = destinationPointsKey.currentState.searchTextField.textField.controller.text;
+                        return new AddressScreen(myAddressesModel: myAddressesModel);
                       }
                   ),
                 );
@@ -266,8 +380,22 @@ class _AddressScreenState extends State<AddressScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 5,),
-                        child: AutoComplete(destinationPointsKey),
+                        child: AutoComplete(destinationPointsKey)
                       ),
+//                      Padding(
+//                        padding: EdgeInsets.only(top: 0),
+//                        child: GestureDetector(
+//                          child: Column(
+//                            children: <Widget>[
+//                              Text('sdfs', textAlign: TextAlign.start,),
+//                              Divider(height: 1, color: Color(0xFFF5F5F5),thickness: 2,)
+//                            ],
+//                          ),
+//                          onTap: (){
+//                            _deleteButton(myAddressesModel);
+//                          },
+//                        ),
+//                      ),
 //                      Padding(
 //                        padding: EdgeInsets.only(left: 15, bottom: 20),
 //                        child: _buildTextFormField("Подъезд"),
