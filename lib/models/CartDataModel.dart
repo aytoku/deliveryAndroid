@@ -15,7 +15,7 @@ class CartDataModel {
       Map<String, dynamic> item =
           {
             "uuid": order.food.uuid,
-            "variat_uuid": null,
+            "variat_uuid": order.food.variants[0].uuid,
             "toppings_uuid": null,
             "number": order.quantity,
           };
@@ -31,7 +31,7 @@ class CartDataModel {
       {
         "uuid": order.food.uuid,
         "name": order.food.name,
-        "variat_uuid": null,
+        "variat_uuid": (order.food.variants != null) ? order.food.variants[0].uuid : null,
         "toppings_uuid": null,
         "number": order.quantity,
         "price": order.food.price,
@@ -45,7 +45,7 @@ class CartDataModel {
   void addItem(Order orderItem){
     bool flag = false;
     cart.forEach((element) {
-      if(element.food.uuid == orderItem.food.uuid){
+      if(element.food.uuid == orderItem.food.uuid && element.food.variants == orderItem.food.variants){
         element.quantity += orderItem.quantity;
         flag = true;
       }

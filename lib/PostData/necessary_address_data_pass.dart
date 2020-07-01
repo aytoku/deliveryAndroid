@@ -7,6 +7,7 @@ import 'dart:convert' as convert;
 
 
 Future<NecessaryAddressData> loadNecessaryAddressData(String name) async {
+  print('он обещал работать');
   NecessaryAddressData necessaryAddressData = null;
   var json_request = jsonEncode({
     "name": name
@@ -21,5 +22,6 @@ Future<NecessaryAddressData> loadNecessaryAddressData(String name) async {
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
+  print(response.body);
   return necessaryAddressData;
 }

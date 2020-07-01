@@ -55,6 +55,23 @@ class FoodRecords{
     this.created_at_unix,
   });
 
+  factory FoodRecords.fromFoodRecords(FoodRecords foodRecords){
+    return FoodRecords(
+      uuid: foodRecords.uuid,
+      weight:foodRecords.weight,
+      name: foodRecords.name,
+      comment: foodRecords.comment,
+      available: foodRecords.available,
+      price: foodRecords.price,
+      image: foodRecords.image,
+      store_uuid: foodRecords.store_uuid,
+      toppings: foodRecords.toppings,
+      category: foodRecords.category,
+      variants: foodRecords.variants,
+      created_at_unix: foodRecords.created_at_unix,
+    );
+  }
+
   factory FoodRecords.fromFoodRecordsStory(FoodRecordsStory foodItem){
     return FoodRecords(
       uuid: foodItem.uuid,

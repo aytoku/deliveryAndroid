@@ -142,16 +142,30 @@ class _CartScreenState extends State<CartScreen> {
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.only(left: 10 ),
-                        child: Text(
-                          order.food.name,
-                          style: TextStyle(
-                              decoration: TextDecoration.none,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF000000)
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              order.food.name,
+                              style: TextStyle(
+                                  decoration: TextDecoration.none,
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF000000)
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                            (order.food.variants != null) ? Text(
+                              order.food.variants[0].name,
+                              style: TextStyle(
+                                  decoration: TextDecoration.none,
+                                  fontSize: 10.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF000000)
+                              ),
+                              textAlign: TextAlign.start,
+                            ) : Text(''),
+                          ],
+                        )
                       ),
                     )
                   ]

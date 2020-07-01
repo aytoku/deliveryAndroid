@@ -21,9 +21,25 @@ class AutoCompleteDemoState extends State<AutoComplete> {
   static List<DestinationPoints> necessaryAddressDataItems = new List<DestinationPoints>();
   bool loading = true;
 
+
   void getUsers(String name) async {
+    print('vah');
     try {
-      necessaryAddressDataItems = (await loadNecessaryAddressData(name)).destinationPoints;
+      if(name.length > 0){
+        necessaryAddressDataItems = (await loadNecessaryAddressData(name)).destinationPoints;
+      }else{
+        List<MyAddressesModel> temp = await MyAddressesModel.getAddresses();
+        necessaryAddressDataItems.clear();
+        for(int i = 0; i < temp.length; i++){
+          var element = temp[i];
+          NecessaryAddressData necessaryAddressData = await loadNecessaryAddressData(element.address);
+          if(necessaryAddressData.destinationPoints.length > 0){
+            necessaryAddressDataItems.add(necessaryAddressData.destinationPoints[0]);
+          }else{
+            necessaryAddressDataItems.add(new DestinationPoints(street: element.address, house: ''));
+          }
+        }
+      }
       print(necessaryAddressDataItems[0].unrestricted_value);
       if(loading){
         setState(() {
@@ -34,6 +50,7 @@ class AutoCompleteDemoState extends State<AutoComplete> {
         key.currentState.setState(() { });
       }
     } catch (e) {
+      print(e);
       print("Error getting users.");
     }
   }
@@ -63,44 +80,6 @@ class AutoCompleteDemoState extends State<AutoComplete> {
 
   @override
   Widget build(BuildContext context) {
-    MyAddressesModel myAddressesModel;
-    List<MyAddressesModel> myAddressesModelList;
-//    if(searchTextField.textField.controller.text == 0){
-//      return Container(
-//        child: ListView(
-//          children: List.generate(myAddressesModelList.length, (index){
-//            if(myAddressesModelList[index].type == MyAddressesType.empty){
-//              return Padding(
-//                padding: EdgeInsets.only(left: 30),
-//                child: Column(
-//                  children: <Widget>[
-//                    Align(
-//                      alignment: Alignment.centerLeft,
-//                      child: Padding(
-//                        padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-//                        child: Text(myAddressesModelList[index].name, style: TextStyle(fontWeight: FontWeight.bold),),
-//                      ),
-//                    ),
-//                    Align(
-//                      alignment: Alignment.centerLeft,
-//                      child: GestureDetector(
-//                        child: Padding(
-//                          padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-//                          child: Text(myAddressesModelList[index].address),
-//                        ),
-//                      ),
-//                    )
-//                  ],
-//                ),
-//              );
-//            }
-//            return Center(
-//              child: CircularProgressIndicator(),
-//            );
-//          }),
-//        ),
-//      );
-//    }
     return Container(
       height: 30,
       child: Theme(data: new ThemeData(hintColor: Color(0xF2F2F2F2)),
@@ -110,12 +89,12 @@ class AutoCompleteDemoState extends State<AutoComplete> {
           searchTextField = AutoCompleteTextField<DestinationPoints>(
             key: key,
             clearOnSubmit: false,
+            minLength: 0,
             suggestions: necessaryAddressDataItems,
             style: TextStyle(color: Colors.black, fontSize: 16.0),
-            textChanged: (String value){
-              if(value.length > 0){
-                getUsers(value);
-              }
+            textChanged: (String value) async {
+              await getUsers(value);
+              print(value.length);
             },
             itemFilter: (item, query){
               return item.street
@@ -132,6 +111,7 @@ class AutoCompleteDemoState extends State<AutoComplete> {
             },
             itemBuilder: (context, item) {
               // ui for the autocomplete row
+              print('vi zaebali menya ispolzovat postoyanno fagoti');
               return row(item);
             },
           ),

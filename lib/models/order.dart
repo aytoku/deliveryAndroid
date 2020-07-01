@@ -12,6 +12,7 @@ class Order {
   bool isSelected;
   final String date;
 
+
   Order({
     this.restaurant,
     this.food,
@@ -27,17 +28,5 @@ class Order {
       date: DateTime.now().toString(),
       restaurant: Records.fromJson(parsedJson['restaurant'])
     );
-  }
-
-
-  void increaseItemQuantity(Order foodItem) => foodItem.incrementQuantity();
-  void decreaseItemQuantity(Order foodItem) => foodItem.decrementQuantity();
-
-  void incrementQuantity() {
-    this.quantity = this.quantity + 1;
-  }
-
-  void decrementQuantity() {
-    this.quantity = this.quantity - 1;
   }
 }

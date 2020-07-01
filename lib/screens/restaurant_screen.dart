@@ -315,6 +315,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
 }
 
    _buildBottomNavigationMenu(FoodRecords restaurantDataItems, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey){
+    GlobalKey<VariantsSelectorState> variantsSelectorStateKey = GlobalKey<VariantsSelectorState>();
     return Column(
       children: <Widget>[
         Expanded(
@@ -342,11 +343,13 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                     )
                 ),
               ),
-              (restaurantDataItems.variants != null) ? Text(restaurantDataItems.variants[0].name) : Container(),
-            ],
+              (restaurantDataItems.variants != null) ? Text('Варианты') : Text(''),
+              (restaurantDataItems.variants != null) ? VariantsSelector(key: variantsSelectorStateKey, variantsList: restaurantDataItems.variants) : Container(),
+              (restaurantDataItems.toppings != null) ? Text('Топпинги') : Text(''),
+              (restaurantDataItems.toppings != null) ? ToppingsSelector(toppingsList: restaurantDataItems.toppings) : Container(),
+            ]
           ),
         ),
-
 //          Expanded(
 //            child: ListView(
 //              scrollDirection: Axis.vertical,
@@ -422,6 +425,12 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                         padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
                         onPressed: ()
                         {
+                          FoodRecords foodOrder = FoodRecords.fromFoodRecords(restaurantDataItems);
+                          if(variantsSelectorStateKey.currentState != null){
+                            foodOrder.variants = [
+                              variantsSelectorStateKey.currentState.selectedVariant
+                            ];
+                          }
                           if(currentUser.cartDataModel.cart.length > 0 && restaurant.uuid != currentUser.cartDataModel.cart[0].restaurant.uuid){
                             showCartClearDialog(context, new Order(
                                 food: restaurantDataItems,
@@ -923,5 +932,77 @@ class BasketButtonState extends State<BasketButton>{
     //buttonCounterKey.currentState.refresh();
     setState(() {
     });
+  }
+}
+
+class VariantsSelector extends StatefulWidget {
+  List<Variants> variantsList;
+  VariantsSelector({Key key, this.variantsList}) : super(key: key);
+
+  @override
+  VariantsSelectorState createState() => VariantsSelectorState(variantsList);
+}
+
+class VariantsSelectorState extends State<VariantsSelector> {
+  Variants selectedVariant;
+  List<Variants> variantsList;
+  VariantsSelectorState(this.variantsList);
+  Widget build(BuildContext context) {
+    List<Widget> widgetsList = new List<Widget>();
+    variantsList.forEach((element) {
+      widgetsList.add(
+        ListTile(
+          title: Text(element.name),
+          leading: Radio(
+            value: element,
+            groupValue: selectedVariant,
+            onChanged: (Variants value) {
+              setState(() {
+                selectedVariant = value;
+              });
+            },
+          ),
+       ),
+      );
+    });
+    return Column(
+      children: widgetsList,
+    );
+  }
+}
+
+class ToppingsSelector extends StatefulWidget {
+  List<Toppings> toppingsList;
+  ToppingsSelector({Key key, this.toppingsList}) : super(key: key);
+
+  @override
+  ToppingsSelectorState createState() => ToppingsSelectorState(toppingsList);
+}
+
+class ToppingsSelectorState extends State<ToppingsSelector> {
+  Toppings selectedTopping;
+  List<Toppings> toppingsList;
+  ToppingsSelectorState(this.toppingsList);
+  Widget build(BuildContext context) {
+    List<Widget> widgetsList = new List<Widget>();
+    toppingsList.forEach((element) {
+      widgetsList.add(
+        ListTile(
+          title: Text(element.name),
+          leading: Radio(
+            value: element,
+            groupValue: selectedTopping,
+            onChanged: (Toppings value) {
+              setState(() {
+                selectedTopping = value;
+              });
+            },
+          ),
+        ),
+      );
+    });
+    return Column(
+      children: widgetsList,
+    );
   }
 }
