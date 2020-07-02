@@ -4,6 +4,7 @@ import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/Auth.dart';
 import 'package:food_delivery/models/AuthCode.dart';
+import 'package:food_delivery/models/CreateOrderModel.dart';
 import 'package:food_delivery/screens/code_screen.dart';
 import 'package:food_delivery/screens/device_id_screen.dart';
 import 'address_screen.dart';
@@ -179,6 +180,9 @@ class ButtonState extends State<Button>{
               ),
             );
           }else{
+            if(!(authCodeData != null && authCodeData.refresh_token != null && await CreateOrder.sendRefreshToken())){
+              await NecessaryDataForAuth.clear();
+            }
             Navigator.push(
               context,
               new MaterialPageRoute(

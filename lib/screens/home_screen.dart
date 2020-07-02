@@ -66,10 +66,10 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   _buildNearlyRestaurant() {
-    var format = new DateFormat('HH:mm');
-    var date = new DateTime.fromMicrosecondsSinceEpoch(records_items[0].order_preparation_time_second * 1000);
-    var time = '';
-    time = format.format(date);
+//    var format = new DateFormat('HH:mm');
+//    var date = new DateTime.fromMicrosecondsSinceEpoch(records_items[0].order_preparation_time_second * 1000);
+//    var time = '';
+//    time = format.format(date);
     List<Widget> restaurantList = [];
     records_items.forEach((Records restaurant) {
       restaurantList.add(

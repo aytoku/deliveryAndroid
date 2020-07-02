@@ -25,7 +25,7 @@ class CreateOrder {
   String payment_type;
   bool door_to_door;
 
-  CreateOrder( {
+  CreateOrder({
     this.address,
     this.office,
     this.floor,
@@ -37,7 +37,8 @@ class CreateOrder {
     this.door_to_door
   });
 
-  static sendRefreshToken() async{
+  static Future<bool> sendRefreshToken() async{
+    bool isSuccess = false;
     var url = 'https://client.apis.stage.faem.pro/api/v2/auth/refresh';
     var response = await http.post(url, body: jsonEncode({"refresh": authCodeData.refresh_token}),
         headers: <String, String>{
@@ -45,6 +46,7 @@ class CreateOrder {
         });
     print('ТУТ КЕФРЕЭ ' + authCodeData.refresh_token);
     if (response.statusCode == 200) {
+      isSuccess = true;
       var jsonResponse = convert.jsonDecode(response.body);
       authCodeData = AuthCodeData.fromJson(jsonResponse);
       necessaryDataForAuth.refresh_token = authCodeData.refresh_token;
@@ -54,6 +56,7 @@ class CreateOrder {
       print('Request failed with status: ${response.statusCode}.');
     }
     print(response.body);
+    return isSuccess;
   }
 
   Future sendData() async {

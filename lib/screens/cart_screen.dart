@@ -312,12 +312,7 @@ class _CartScreenState extends State<CartScreen> {
                          padding: EdgeInsets.only(left: 5),
                          child: GestureDetector(
                            onTap: () {
-                             Navigator.pushReplacement(
-                               context,
-                               new MaterialPageRoute(
-                                 builder: (context) => new RestaurantScreen(restaurant: restaurant),
-                               ),
-                             );
+                             Navigator.pop(context);
                            },
                            child:Padding(
                              padding: EdgeInsets.only(right: 0),
@@ -465,7 +460,7 @@ class _CartScreenState extends State<CartScreen> {
                  onPressed: (){Navigator.push(
                    context,
                    new MaterialPageRoute(
-                     builder: (context) => new AddressScreen(restaurant: restaurant)
+                     builder: (context) => new PageScreen(restaurant: restaurant)
                    ),
                  );},
                ),

@@ -107,45 +107,30 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                   ],
                 ),
               ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Column(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child:  Row(
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 15, top: 0),
-                              child: Text('Статус заказа:', style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),),
-                            ),
-                          ),
-                        ],
+              Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 15, top: 0),
+                      child: Text('Статус заказа: ',
+                        style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                          padding: EdgeInsets.only(right: 15, top: 0),
-                          child: Flexible(
-                            child: Text(ordersStoryModelItem.state_title, style: TextStyle(fontSize: 14, color: Color(0xFFFE534F), fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.start,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          )
-                      ),
+                  ),
+                  Text(ordersStoryModelItem.state_title, style: TextStyle(fontSize: 14, color: Color(0xFFFE534F), fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.fade,
+                    maxLines: 1,
+                    softWrap: false,
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 15, top: 5),
+                      child: Text('Заберу с собой', style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
                     ),
-//                    Align(
-//                      alignment: Alignment.bottomRight,
-//                      child: Padding(
-//                        padding: EdgeInsets.only(right: 15, top: 5),
-//                        child: Text('Заберу с собой', style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
-//                      ),
-//                    )
-                  ],
-                ),
+                  )
+                ],
               )
             ],
           ),

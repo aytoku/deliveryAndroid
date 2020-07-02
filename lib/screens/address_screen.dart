@@ -56,20 +56,21 @@ class PageState extends State<PageScreen> {
       scrollDirection: Axis.horizontal,
       controller: _controller,
       children: [
-        AddressScreen(),
-        TakeAwayScreen()
+        AddressScreen(restaurant: restaurant, pageState: this),
+        TakeAway(restaurant: restaurant, pageState: this)
       ],
     );
   }
 }
 
 class AddressScreen extends StatefulWidget {
+  PageState pageState;
   MyAddressesModel myAddressesModel;
-  AddressScreen({Key key, this.restaurant, this.myAddressesModel}) : super(key: key);
+  AddressScreen({Key key, this.restaurant, this.myAddressesModel, this.pageState}) : super(key: key);
   final Records restaurant;
 
   @override
-  _AddressScreenState createState() => _AddressScreenState(restaurant, myAddressesModel);
+  _AddressScreenState createState() => _AddressScreenState(restaurant, myAddressesModel, pageState);
 }
 
 class _AddressScreenState extends State<AddressScreen> {
@@ -79,12 +80,13 @@ class _AddressScreenState extends State<AddressScreen> {
   String comment;
   String delivery;
   final Records restaurant;
+  PageState pageState;
 
   GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
   bool _color;
 
 
-  _AddressScreenState(this.restaurant, this.myAddressesModel);
+  _AddressScreenState(this.restaurant, this.myAddressesModel, this.pageState);
   @override
   void initState() {
     super.initState();
@@ -145,85 +147,6 @@ class _AddressScreenState extends State<AddressScreen> {
           padding: EdgeInsets.only(bottom: 0,right: 15, top: 10),
           child: AutoComplete(destinationPointsKey),
         ),
-//        ListView(
-//          children: List.generate(myAddressesModelList.length, (index){
-//            if(myAddressesModelList[index].type == MyAddressesType.empty){
-//              return Column(
-//                children: <Widget>[
-//                  GestureDetector(
-//                      child: Row(
-//                        children: <Widget>[
-//                          Align(
-//                            alignment: Alignment.centerLeft,
-//                            child: Padding(
-//                                padding: EdgeInsets.only(top: 20, left: 30, bottom: 20),
-//                                child: GestureDetector(
-//                                    child: Row(
-//                                      children: <Widget>[
-//                                        Image(
-//                                          image: AssetImage(
-//                                              'assets/images/plus_icon.png'
-//                                          ),
-//                                        ),
-//                                        Padding(
-//                                          padding: EdgeInsets.only(left: 20),
-//                                          child: Text('Добавить адрес дома',
-//                                            style: TextStyle(
-//                                                fontSize: 17,
-//                                                color: Color(0xFF424242)
-//                                            ),
-//                                          ),
-//                                        )
-//                                      ],
-//                                    ),
-//                                    onTap: (){
-//                                      _deleteButton(myAddressesModelList[index]);
-//                                    }
-//                                )
-//                            ),
-//                          ),
-//                          Divider(height: 1.0, color: Colors.grey),
-//                        ],
-//                      )
-//                  ),
-//                ],
-//              );
-//            }
-//            return Padding(
-//              padding: EdgeInsets.only(left: 30),
-//              child: Column(
-//                children: <Widget>[
-//                  Align(
-//                    alignment: Alignment.centerLeft,
-//                    child: Padding(
-//                      padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-//                      child: Text(myAddressesModelList[index].name, style: TextStyle(fontWeight: FontWeight.bold),),
-//                    ),
-//                  ),
-//                  Align(
-//                    alignment: Alignment.centerLeft,
-//                    child: GestureDetector(
-//                      child: Padding(
-//                        padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
-//                        child: Text(myAddressesModelList[index].address),
-//                      ),
-//                      onTap: (){
-//                        Navigator.push(
-//                          context,
-//                          new MaterialPageRoute(
-//                              builder: (context) {
-//                                return new AddMyAddressScreen(myAddressesModel: myAddressesModelList[index],);
-//                              }
-//                          ),
-//                        );
-//                      },
-//                    ),
-//                  )
-//                ],
-//              ),
-//            );
-//          }),
-//        ),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
@@ -341,13 +264,16 @@ class _AddressScreenState extends State<AddressScreen> {
                               ),
                             ),
                           ),
-                          onTap: (){{
-                            Navigator.pushReplacement(
-                              context,
-                              new MaterialPageRoute(
-                                builder: (context) => new TakeAway(restaurant: restaurant, name: restaurant.name),
-                              ),
-                            );}
+                          onTap: (){
+                            pageState._controller.animateToPage(1, duration: Duration(seconds: 1), curve: Curves.elasticOut);
+//                            {
+//                            Navigator.pushReplacement(
+//                              context,
+//                              new MaterialPageRoute(
+//                                builder: (context) => new TakeAway(restaurant: restaurant),
+//                              ),
+//                            );
+//                          }
                           setState(() {
                             _color = !_color;
                           });
@@ -740,12 +666,13 @@ class _AddressScreenState extends State<AddressScreen> {
 
 class TakeAway extends StatefulWidget {
 
-  TakeAway({Key key,  this.restaurant, this.name}) : super(key: key);
+  PageState pageState;
+  TakeAway({Key key,  this.restaurant, this.pageState}) : super(key: key);
   final Records restaurant;
   String name = '';
 
   @override
-  _TakeAwayState createState() => _TakeAwayState(restaurant, restaurant.name);
+  _TakeAwayState createState() => _TakeAwayState(restaurant, pageState);
 }
 
 class _TakeAwayState extends State<TakeAway> {
@@ -756,17 +683,17 @@ class _TakeAwayState extends State<TakeAway> {
   String delivery;
   final Records restaurant;
   String name = '';
-
+  PageState pageState;
   bool _color;
 
-  _TakeAwayState(this.restaurant, this.name);
+  _TakeAwayState(this.restaurant, this.pageState);
   @override
   void initState() {
     super.initState();
     _color = true;
   }
 
-  String title = 'Visa8744';
+  String title = 'Наличными';
   String image = 'assets/svg_images/dollar_bills.svg';
 
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
@@ -841,15 +768,17 @@ class _TakeAwayState extends State<TakeAway> {
                             ),
                           ),
                           onTap: (){
-                            setState(() {
-                              {
-                                Navigator.pushReplacement(
-                                  context,
-                                  new MaterialPageRoute(
-                                    builder: (context) => new AddressScreen(restaurant: restaurant),
-                                  ),
-                                );}
-                            });
+                            pageState._controller.animateToPage(0, duration: Duration(seconds: 1), curve: Curves.elasticOut);
+                            //pageState._controller.jumpToPage(0);
+//                            setState(() {
+//                              {
+//                                Navigator.pushReplacement(
+//                                  context,
+//                                  new MaterialPageRoute(
+//                                    builder: (context) => new AddressScreen(restaurant: restaurant),
+//                                  ),
+//                                );}
+//                            });
                           },
                         ),
                       ),
