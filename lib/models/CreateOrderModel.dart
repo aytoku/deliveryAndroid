@@ -68,7 +68,11 @@ class CreateOrder {
       "callback_phone": currentUser.phone,
       "increased_fare": 25,
       "comment": comment,
-      "door_to_door": door_to_door,
+      "features": [{
+        'tag': [
+          'deliver_2door'
+        ],
+      }],
       "products_input": cartDataModel.toServerJSON(),
       "routes": [
         restaurant.destination_points[0].toJson(),

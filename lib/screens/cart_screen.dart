@@ -164,6 +164,26 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                               textAlign: TextAlign.start,
                             ) : Text(''),
+                            (order.food.toppings != null) ?
+                            Expanded(
+                              child: ListView(
+                                children: List.generate(order.food.toppings.length, (index) =>
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 80),
+                                      child: Text(
+                                        order.food.toppings[index].name,
+                                        style: TextStyle(
+                                            decoration: TextDecoration.none,
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF000000)
+                                        ),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    )),
+                              ),
+                            )
+                                : Text(''),
                           ],
                         )
                       ),

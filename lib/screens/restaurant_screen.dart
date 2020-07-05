@@ -316,6 +316,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
 
    _buildBottomNavigationMenu(FoodRecords restaurantDataItems, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey){
     GlobalKey<VariantsSelectorState> variantsSelectorStateKey = GlobalKey<VariantsSelectorState>();
+    GlobalKey<ToppingsSelectorState> toppingsSelectorStateKey = new GlobalKey<ToppingsSelectorState>();
     return Column(
       children: <Widget>[
         Expanded(
@@ -346,7 +347,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
               (restaurantDataItems.variants != null) ? Text('Варианты') : Text(''),
               (restaurantDataItems.variants != null) ? VariantsSelector(key: variantsSelectorStateKey, variantsList: restaurantDataItems.variants) : Container(),
               (restaurantDataItems.toppings != null) ? Text('Топпинги') : Text(''),
-              (restaurantDataItems.toppings != null) ? ToppingsSelector(toppingsList: restaurantDataItems.toppings) : Container(),
+              (restaurantDataItems.toppings != null) ? ToppingsSelector(key: toppingsSelectorStateKey, toppingsList: restaurantDataItems.toppings) : Container(),
             ]
           ),
         ),
@@ -435,6 +436,17 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                               foodOrder.variants = null;
                             }
                             print(foodOrder.variants);
+                          }
+                          if(toppingsSelectorStateKey.currentState != null){
+                            List<Toppings> toppingsList = toppingsSelectorStateKey.currentState.getSelectedToppings();
+                            if(toppingsList.length != null){
+                              foodOrder.toppings = toppingsList;
+                            }else{
+                              foodOrder.toppings = null;
+                            }
+                            foodOrder.toppings.forEach((element) {
+                              print(element.name);
+                            });
                           }
                           if(currentUser.cartDataModel.cart.length > 0 && restaurant.uuid != currentUser.cartDataModel.cart[0].restaurant.uuid){
                             showCartClearDialog(context, new Order(
@@ -642,7 +654,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                               )
                             ],
                           ),
-                    _buildFoodCategoryList(),
+                   _buildFoodCategoryList(),
                     Flexible(
                       flex: 8,
                       child: NotificationListener<ScrollNotification>(
@@ -985,29 +997,58 @@ class ToppingsSelector extends StatefulWidget {
 }
 
 class ToppingsSelectorState extends State<ToppingsSelector> {
-  Toppings selectedTopping;
   List<Toppings> toppingsList;
+  List<MyCheckBox> widgetsList = new List<MyCheckBox>();
   ToppingsSelectorState(this.toppingsList);
   Widget build(BuildContext context) {
-    List<Widget> widgetsList = new List<Widget>();
     toppingsList.forEach((element) {
       widgetsList.add(
-        ListTile(
-          title: Text(element.name),
-          leading: Radio(
-            value: element,
-            groupValue: selectedTopping,
-            onChanged: (Toppings value) {
-              setState(() {
-                selectedTopping = value;
-              });
-            },
-          ),
-        ),
+        MyCheckBox(key: new GlobalKey<MyCheckBoxState>(),topping: element, title: element.name)
       );
     });
     return Column(
       children: widgetsList,
     );
+  }
+
+  List<Toppings> getSelectedToppings(){
+    List<Toppings> result = new List<Toppings>();
+    widgetsList.forEach((element) {
+      if(element.key.currentState != null && element.key.currentState.isSelected){
+        result.add(element.topping);
+      }
+    });
+    return result;
+  }
+}
+
+class MyCheckBox extends StatefulWidget{
+
+  Toppings topping;
+  String title;
+  GlobalKey<MyCheckBoxState> key;
+  MyCheckBox({this.key, this.topping, this.title}) : super(key: key);
+
+  @override
+  MyCheckBoxState createState() => MyCheckBoxState(topping, title);
+}
+
+class MyCheckBoxState extends State<MyCheckBox> {
+
+  Toppings topping;
+  String title;
+  bool isSelected = false;
+  MyCheckBoxState(this.topping, this.title);
+
+  Widget build(BuildContext context) {
+   return CheckboxListTile(
+       title: Text(title),
+    value: isSelected,
+    onChanged: (bool f){
+         setState(() {
+           isSelected = f;
+         });
+    },
+   );
   }
 }

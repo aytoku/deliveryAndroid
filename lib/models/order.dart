@@ -23,6 +23,12 @@ class Order {
 
   factory Order.fromJson(Map<String, dynamic> parsedJson){
   print(parsedJson);
+  var toppings_list = parsedJson['toppings'] as List;
+  List<Toppings> toppingsList = null;
+  if(toppings_list != null){
+    toppingsList = toppings_list.map((i) =>
+        Toppings.fromJson(i)).toList();
+  }
     return new Order(
       food: new FoodRecords(
           uuid: parsedJson['uuid'],
@@ -33,7 +39,8 @@ class Order {
                 uuid: parsedJson['variant_uuid'],
                 name: (parsedJson['variant_name'] != null) ? parsedJson['variant_name'] : ''
             )
-          ]
+          ],
+          toppings: toppingsList
       ),
       quantity: parsedJson['number'],
       date: DateTime.now().toString(),
