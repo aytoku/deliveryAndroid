@@ -30,31 +30,37 @@ class AboutAppScreenState extends State<AboutAppScreen>{
         body: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 40, bottom: 30, left: 15),
+              padding: EdgeInsets.only(top: 40, bottom: 30, left: 0),
               child: Row(
                 children: <Widget>[
-                  GestureDetector(
-                    child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                            padding: EdgeInsets.only(),
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              child: Center(
-                                child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                              ),
-                            )
-                        )
+                  Flexible(
+                    flex: 1,
+                    child: GestureDetector(
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                              padding: EdgeInsets.only(),
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                child: Center(
+                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                ),
+                              )
+                          )
+                      ),
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
                     ),
-                    onTap: (){
-                      Navigator.pop(context);
-                    },
                   ),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 100),
-                      child: Text("О приложении", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
+                  Flexible(
+                    flex: 8,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: Text("О приложении", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
+                      ),
                     ),
                   )
                 ],
@@ -130,7 +136,7 @@ class AboutAppScreenState extends State<AboutAppScreen>{
             ),
             Divider(height: 1.0, color: Colors.grey),
             Padding(
-              padding: EdgeInsets.only(top: 60),
+              padding: EdgeInsets.only(top: 50),
               child: Center(
                 child: Text(
                   'Таким образом новая модель организационной\nдеятельности представляет собой интересный\nэксперимент проверки. \n@ 2011-2019 ООО «Faem.Taxi»',

@@ -100,7 +100,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 15, top: 5, right: 0),
+                        padding: EdgeInsets.only(left: 10, top: 5, right: 0),
                         child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
                       ),
                     )
@@ -112,7 +112,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                   Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
-                      padding: EdgeInsets.only(right: 15, top: 0),
+                      padding: EdgeInsets.only(right: 15, top: 15),
                       child: Text('Статус заказа: ',
                         style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),
                       ),

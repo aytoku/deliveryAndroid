@@ -200,7 +200,7 @@ class _CodeScreenState extends State<CodeScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.only(top: 10),
+                    padding: EdgeInsets.only(top: 10, bottom: 80, left: 30),
                     child: Text(error,style: TextStyle(color: Colors.red, fontSize: 12),),
                   ),
                 ),

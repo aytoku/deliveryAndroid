@@ -329,7 +329,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                               child: Align(
                                   alignment: Alignment.topLeft,
                                   child: Padding(
-                                      padding: EdgeInsets.only(left: 15, top: 0),
+                                      padding: EdgeInsets.only(left: 0, top: 0),
                                       child: Container(
                                         width: 40,
                                         height: 40,

@@ -59,7 +59,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: EdgeInsets.only(left: 30, top: 370),
+            padding: EdgeInsets.only(left: 20, top: 390),
             child: FlatButton(
               child: Text("Далее", style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
               color: Color(0xFFFE534F),
@@ -109,7 +109,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                       child: Align(
                           alignment: Alignment.topLeft,
                           child: Padding(
-                              padding: EdgeInsets.only(left: 15, top: 50),
+                              padding: EdgeInsets.only(left: 0, top: 50),
                               child: Container(
                                 width: 40,
                                 height: 40,

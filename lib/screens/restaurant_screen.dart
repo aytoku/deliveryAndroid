@@ -344,9 +344,23 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                     )
                 ),
               ),
-              (restaurantDataItems.variants != null) ? Text('Варианты') : Text(''),
+              (restaurantDataItems.variants != null) ? Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Text('Варианты',
+                style: TextStyle(
+                  color: Color(0xFF424242)
+                 ),
+                ),
+              ) : Text(''),
               (restaurantDataItems.variants != null) ? VariantsSelector(key: variantsSelectorStateKey, variantsList: restaurantDataItems.variants) : Container(),
-              (restaurantDataItems.toppings != null) ? Text('Топпинги') : Text(''),
+              (restaurantDataItems.toppings != null) ? Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Text('Топпинги',
+                  style: TextStyle(
+                      color: Color(0xFF424242)
+                  ),
+                ),
+              ) : Text(''),
               (restaurantDataItems.toppings != null) ? ToppingsSelector(key: toppingsSelectorStateKey, toppingsList: restaurantDataItems.toppings) : Container(),
             ]
           ),
@@ -463,7 +477,7 @@ GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonSt
                                     restaurant: restaurant,
                                     date: DateTime.now().toString())
                             );
-                            currentUser.cartDataModel.saveData();
+                            currentUser.cartDataModel.  saveData();
                             Navigator.pop(context);
                             Padding(
                               padding: EdgeInsets.only(bottom: 0),
@@ -969,7 +983,11 @@ class VariantsSelectorState extends State<VariantsSelector> {
     variantsList.forEach((element) {
       widgetsList.add(
         ListTile(
-          title: Text(element.name),
+          title: Text(element.name,
+            style: TextStyle(
+              color: Color(0xFF424242)
+           ),
+          ),
           leading: Radio(
             value: element,
             groupValue: selectedVariant,
@@ -1042,7 +1060,11 @@ class MyCheckBoxState extends State<MyCheckBox> {
 
   Widget build(BuildContext context) {
    return CheckboxListTile(
-       title: Text(title),
+       title: Text(title,
+       style: TextStyle(
+          color: Color(0xff424242)
+        ),
+       ),
     value: isSelected,
     onChanged: (bool f){
          setState(() {
