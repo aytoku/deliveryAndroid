@@ -34,6 +34,48 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
   List<OrdersStoryModelItem> records_items = new List<OrdersStoryModelItem>();
 
 
+  Widget column(OrdersStoryModelItem ordersStoryModelItem){
+    var format = new DateFormat('HH:mm, dd-MM-yy');
+    var date = new DateTime.fromMicrosecondsSinceEpoch(ordersStoryModelItem.created_at_unix * 1000);
+    var time = '';
+    time = format.format(date);
+    return Column(
+      children: <Widget>[
+        InkWell(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 15, left: 15),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child:  Text(ordersStoryModelItem.routes[0].value, style: TextStyle(fontSize: 14, color: Color(0xFF000000))),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15, top: 10, right: 15),
+                child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
+              ),
+            ],
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 5, left: 15, bottom: 15),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child:  Text('${ordersStoryModelItem.price} \Р', style: TextStyle(fontSize: 14,color: Color(0xFFB0B0B0),),
+                ),
+              ),
+            )],
+        ),
+        Divider(height: 1.0, color: Colors.grey),
+      ],
+    );
+  }
+
   _buildOrdersStoryItems() {
     List<Widget> restaurantList = [];
     int i =0;
@@ -44,42 +86,8 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
         var time = '';
         time = format.format(date);
       restaurantList.add(
-        GestureDetector(
-            child: Column(
-              children: <Widget>[
-                GestureDetector(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 15, left: 15),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child:  Text(ordersStoryModelItem.routes[0].value, style: TextStyle(fontSize: 14, color: Color(0xFF000000))),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 15, top: 10, right: 15),
-                        child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 5, left: 15, bottom: 15),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child:  Text('${ordersStoryModelItem.price} \Р', style: TextStyle(fontSize: 14,color: Color(0xFFB0B0B0),),
-                        ),
-                      ),
-                    )],
-                ),
-                Divider(height: 1.0, color: Colors.grey),
-              ],
-            ),
+        InkWell(
+            child: column(ordersStoryModelItem),
             onTap: () {
               Navigator.push(
                 context,
@@ -320,7 +328,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                 return ListView(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 10, left: 0),
+                      padding: EdgeInsets.only(top:15, bottom: 15),
                       child: Row(
                         children: <Widget>[
                           Flexible(
@@ -331,11 +339,12 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                                   child: Padding(
                                       padding: EdgeInsets.only(left: 0, top: 0),
                                       child: Container(
-                                        width: 40,
-                                        height: 40,
-                                        child: Center(
-                                          child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                        ),
+                                          height: 40,
+                                          width: 40,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                          )
                                       )
                                   )
                               ),

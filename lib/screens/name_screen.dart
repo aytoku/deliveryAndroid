@@ -51,11 +51,12 @@ class NameScreenState extends State<NameScreen> {
                   child: Padding(
                       padding: EdgeInsets.only(left: 15, top: 50),
                       child: Container(
-                        width: 40,
-                        height: 40,
-                        child: Center(
-                          child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                        ),
+                          height: 40,
+                          width: 40,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                          )
                       )
                   )
               ),
@@ -96,10 +97,13 @@ class NameScreenState extends State<NameScreen> {
                                       )
                                   ),
                                   child: TextField(
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 28),
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                                     keyboardType: TextInputType.text,
                                     decoration: new InputDecoration(
+                                      hintText: 'Ваше имя',
+                                      contentPadding: EdgeInsets.only(left: 15),
+                                      hintStyle: TextStyle(color: Color(0xFFB5B5B5), fontSize: 13, fontWeight: FontWeight.bold),
                                       border: InputBorder.none,
                                       counterText: '',
                                     ),

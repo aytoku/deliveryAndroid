@@ -52,12 +52,15 @@ class PageState extends State<PageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('suka');
+    var addressScreen = AddressScreen(restaurant: restaurant, pageState: this);
+    var takeAwayScreen = TakeAway(restaurant: restaurant, pageState: this);
     return PageView(
       scrollDirection: Axis.horizontal,
       controller: _controller,
       children: [
-        AddressScreen(restaurant: restaurant, pageState: this),
-        TakeAway(restaurant: restaurant, pageState: this)
+        addressScreen,
+        takeAwayScreen
       ],
     );
   }
@@ -73,7 +76,8 @@ class AddressScreen extends StatefulWidget {
   _AddressScreenState createState() => _AddressScreenState(restaurant, myAddressesModel, pageState);
 }
 
-class _AddressScreenState extends State<AddressScreen> {
+class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveClientMixin {
+
   String address  = 'Адрес доставки';
   String office;
   String floor;
@@ -87,6 +91,8 @@ class _AddressScreenState extends State<AddressScreen> {
 
 
   _AddressScreenState(this.restaurant, this.myAddressesModel, this.pageState);
+  @override
+  bool get wantKeepAlive => true;
   @override
   void initState() {
     super.initState();
@@ -190,7 +196,7 @@ class _AddressScreenState extends State<AddressScreen> {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 30, bottom: 10),
+                  padding: EdgeInsets.only(top:30, bottom: 15),
                   child: Row(
                     children: <Widget>[
                       Flexible(
@@ -204,11 +210,12 @@ class _AddressScreenState extends State<AddressScreen> {
                             child:Padding(
                                 padding: EdgeInsets.only(right: 0),
                                 child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  child: Center(
-                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                  ),
+                                    height: 40,
+                                    width: 40,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 12, bottom: 12),
+                                      child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                    )
                                 )
                             ),
                           ),
@@ -224,48 +231,54 @@ class _AddressScreenState extends State<AddressScreen> {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Flexible(
-                      flex: 1,
-                      child: SizedBox(
-                        height: 40,
-                        child: GestureDetector(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 5, right: 5),
-                            child: Container(
-                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
-                                color: Color(0xFFFE534F),),
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                                child: Text('Доставка',
-                                  style: TextStyle(color: Colors.white, fontSize: 15),),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Divider(color: Color(0xFFF5F5F5), height: 1,),
+                ),
+                Flexible(
+                  flex: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Flexible(
+                        flex: 1,
+                        child: SizedBox(
+                          height: 40,
+                          child: GestureDetector(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              child: Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                                  color: Color(0xFFFE534F),),
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 40, right: 40, top: 10),
+                                  child: Text('Доставка',
+                                    style: TextStyle(color: Colors.white, fontSize: 15),),
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: SizedBox(
-                        height: 40,
-                        child: GestureDetector(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 5, right: 5),
-                            child: Container(
-                              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
-                                color: Colors.white,),
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                                child: Text('Заберу сам',
-                                  style: TextStyle(color: Color(0xFF999999), fontSize: 15),),
+                      Flexible(
+                        flex: 1,
+                        child: SizedBox(
+                          height: 40,
+                          child: GestureDetector(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              child: Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
+                                  color: Colors.white,),
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 40, right: 40, top: 10),
+                                  child: Text('Заберу сам',
+                                    style: TextStyle(color: Color(0xFF999999), fontSize: 15),),
+                                ),
                               ),
                             ),
-                          ),
-                          onTap: (){
-                            pageState._controller.animateToPage(1, duration: Duration(seconds: 1), curve: Curves.elasticOut);
+                            onTap: (){
+                              pageState._controller.animateToPage(1, duration: Duration(seconds: 1), curve: Curves.elasticOut);
 //                            {
 //                            Navigator.pushReplacement(
 //                              context,
@@ -274,20 +287,26 @@ class _AddressScreenState extends State<AddressScreen> {
 //                              ),
 //                            );
 //                          }
-                          setState(() {
-                            _color = !_color;
-                          });
-                          },
+                              setState(() {
+                                _color = !_color;
+                              });
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                Form(
-                  key: _foodItemFormKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
+                Flexible(
+                  flex: 0,
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Flexible(
+                          flex: 0,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
 //                    Row(
 //                      children: <Widget>[
 //                        Padding(
@@ -296,18 +315,22 @@ class _AddressScreenState extends State<AddressScreen> {
 //                        ),
 //                      ],
 //                    ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 15, left: 15),
-                        child: Row(
-                          children: <Widget>[
-                            Text('Адрес доставки', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 11),)
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5,),
-                        child: AutoComplete(destinationPointsKey)
-                      ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 15, left: 15),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('Адрес доставки', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 11),)
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(top: 5,),
+                                  child: AutoComplete(destinationPointsKey)
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15, right: 15),
+                                child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                              ),
 //                      Padding(
 //                        padding: EdgeInsets.only(top: 0),
 //                        child: GestureDetector(
@@ -329,231 +352,276 @@ class _AddressScreenState extends State<AddressScreen> {
 //                        padding: EdgeInsets.only(left: 15, bottom: 20),
 //                        child: _buildTextFormField("Кв./офис"),
 //                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
-                        child: Row(
-                          children: <Widget>[
-                            Text('Подъезд', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),)
-                          ],
-                        ),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(left: 15, bottom: 5),
-                          child: Container(
-                            height: 20,
-                            child: TextField(
-                              controller: officeField,
-                            ),
-                          )
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
-                        child: Row(
-                          children: <Widget>[
-                            Text('Кв./офис', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),)
-                          ],
-                        ),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(left: 15, bottom: 5),
-                          child: Container(
-                            height: 20,
-                            child: TextField(
-                              controller: floorField,
-                            ),
-                          )
-                      ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 15, left: 15, bottom: 5, right: 85),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('Подъезд', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),),
+                                    Text('Этаж', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),)
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 15, bottom: 5),
+                                  child: Container(
+                                    height: 20,
+                                    child: TextField(
+                                      controller: officeField,
+                                      decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        counterText: '',
+                                      ),
+                                    ),
+                                  )
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15, right: 15),
+                                child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 15, left: 15, bottom: 5, right: 60),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('Кв./офис', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),),
+                                    Text('Домофон', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),)
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 15, bottom: 5),
+                                  child: Container(
+                                    height: 20,
+                                    child: TextField(
+                                      controller: floorField,
+                                      decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        counterText: '',
+                                      ),
+                                    ),
+                                  )
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15, right: 15),
+                                child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                              ),
 //                      Padding(
 //                        padding: EdgeInsets.only(left: 15, bottom: 20),
 //                        child: _buildTextFormField("Комментарий к заказу"),
 //                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
-                        child: Row(
-                          children: <Widget>[
-                            Text('Комментарий к заказу', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),)
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 5),
-                        child: Container(
-                          height: 20,
-                          child: TextField(
-                            controller: commentField,
+                              Padding(
+                                padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('Комментарий к заказу', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),)
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 15, bottom: 5),
+                                  child: Container(
+                                    height: 20,
+                                    child: TextField(
+                                      controller: commentField,
+                                      decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        counterText: '',
+                                      ),
+                                    ),
+                                  )
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15, right: 15),
+                                child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('Доставка', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),)
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15, bottom: 5),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('30 – 50 мин',style: TextStyle(color: Colors.black, fontSize: 13),)
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 10,
+                                color: Color(0xFAFAFAFA),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('Доставка до двери',
+                                      style: TextStyle(
+                                          color: Color(0xFF3F3F3F),
+                                          fontSize: 15
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 0),
+                                      child: FlutterSwitch(
+                                        width: 55.0,
+                                        height: 25.0,
+                                        inactiveColor: Color(0xD6D6D6D6),
+                                        activeColor: Colors.red,
+                                        valueFontSize: 12.0,
+                                        toggleSize: 18.0,
+                                        value: status1,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 10,
+                                color: Color(0xFAFAFAFA),
+                              ),
+                            ],
                           ),
-                        )
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
-                        child: Row(
-                          children: <Widget>[
-                            Text('Доставка', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),)
-                          ],
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 15, bottom: 5),
-                        child: Row(
-                          children: <Widget>[
-                            Text('30 – 50 мин',style: TextStyle(color: Colors.black, fontSize: 13),)
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 10,
-                        color: Color(0xFAFAFAFA),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text('Доставка до двери',
-                              style: TextStyle(
-                                color: Color(0xFF3F3F3F),
-                                fontSize: 15
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 0),
-                              child: FlutterSwitch(
-                                width: 55.0,
-                                height: 25.0,
-                                inactiveColor: Color(0xD6D6D6D6),
-                                activeColor: Colors.red,
-                                valueFontSize: 12.0,
-                                toggleSize: 18.0,
-                                value: status1,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 15,
-                        color: Color(0xFAFAFAFA),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 15, bottom: 5, left: 20),
-                      child: Row(
-                        children: <Widget>[
-                          Text("Способ оплаты", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Color(0xFFB0B0B0)),),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    GestureDetector(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20,bottom: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
+                        Flexible(
+                          flex: 0,
+                          child: Container(
+                            child: Column(
                               children: <Widget>[
-                                SvgPicture.asset(image),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 15),
-                                  child: Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),),
+                                Row(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 10, bottom: 5, left: 20),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text("Способ оплаты", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Color(0xFFB0B0B0)),),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    GestureDetector(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 20,bottom: 20),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Row(
+                                              children: <Widget>[
+                                                SvgPicture.asset(image),
+                                                Padding(
+                                                  padding: EdgeInsets.only(left: 15),
+                                                  child: Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),),
+                                                ),
+                                              ],
+                                            ),
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(left: 180),
+                                                child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      onTap: _onPress,
+                                    )
+                                  ],
                                 ),
                               ],
                             ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 180),
-                                child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Flexible(
+                  flex: 0,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 0),
+                      child: FlatButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Flexible(
+                              flex: 1,
+                              child: Text(
+                                '30 – 50 мин',
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),),
+                            ),
+                            Flexible(
+                                flex: 1,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    right: 20,
+                                  ),
+                                  child: Text(
+                                      'Оформить',
+                                      style: TextStyle(
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white
+                                      )
+                                  ),
+                                )
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Text(
+                                  '${totalPrice.toStringAsFixed(0)}',
+                                  style: TextStyle(
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white
+                                  )
                               ),
                             )
                           ],
                         ),
-                      ),
-                      onTap: _onPress,
-                    )
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 0),
-                    child: FlatButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Flexible(
-                            flex: 1,
-                            child: Text(
-                              '30 – 50 мин',
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),),
-                          ),
-                          Flexible(
-                              flex: 1,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  right: 20,
-                                ),
-                                child: Text(
-                                    'Оформить',
-                                    style: TextStyle(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white
-                                    )
-                                ),
-                              )
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: Text(
-                                '${totalPrice.toStringAsFixed(0)}',
-                                style: TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white
-                                )
-                            ),
-                          )
-                        ],
-                      ),
-                      color: Color(0xFFFE534F),
-                      splashColor: Colors.redAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
-                      onPressed: () async {
-                        Center(
-                          child: CircularProgressIndicator(),
-                        );
-                        CreateOrder createOrder = new CreateOrder(
-                            address: destinationPointsKey.currentState.searchTextField.textField.controller.text,
-                            office: officeField.text,
-                            floor: floorField.text,
-                            comment: commentField.text,
-                            cartDataModel: currentUser.cartDataModel,
-                            restaurant: restaurant,
-                            payment_type: 'Наличными',
-                            door_to_door: status1,
-                        );
-                        await createOrder.sendData();
-                        currentUser.cartDataModel.cart.clear();
-                        currentUser.cartDataModel.saveData();
-                        homeScreenKey = new GlobalKey<HomeScreenState>();
-                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                            HomeScreen()), (Route<dynamic> route) => false);
+                        color: Color(0xFFFE534F),
+                        splashColor: Colors.redAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
+                        onPressed: () async {
+                          if(destinationPointsKey.currentState.searchTextField.textField.controller.text.length > 0){
+                            Center(
+                              child: CircularProgressIndicator(),
+                            );
+                            CreateOrder createOrder = new CreateOrder(
+                              address: destinationPointsKey.currentState.searchTextField.textField.controller.text,
+                              office: officeField.text,
+                              floor: floorField.text,
+                              comment: commentField.text,
+                              cartDataModel: currentUser.cartDataModel,
+                              restaurant: restaurant,
+                              payment_type: 'Наличными',
+                              door_to_door: status1,
+                            );
+                            await createOrder.sendData();
+                            currentUser.cartDataModel.cart.clear();
+                            currentUser.cartDataModel.saveData();
+                            homeScreenKey = new GlobalKey<HomeScreenState>();
+                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                HomeScreen()), (Route<dynamic> route) => false);
+                          }
 //                        final snackBar = SnackBar(
 //                          content: Text('Yay! A SnackBar!'),
 //                          action: SnackBarAction(
@@ -563,10 +631,11 @@ class _AddressScreenState extends State<AddressScreen> {
 //                            },
 //                          ),
 //                        );
-                      },
+                        },
+                      ),
                     ),
                   ),
-                ),
+                )
               ],
             )
         )
@@ -675,7 +744,9 @@ class TakeAway extends StatefulWidget {
   _TakeAwayState createState() => _TakeAwayState(restaurant, pageState);
 }
 
-class _TakeAwayState extends State<TakeAway> {
+class _TakeAwayState extends State<TakeAway> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   String address  = 'Адрес доставки';
   String office;
   String floor;
@@ -713,7 +784,7 @@ class _TakeAwayState extends State<TakeAway> {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 50, bottom: 10),
+                  padding: EdgeInsets.only(top:25, bottom: 25),
                   child:Row(
                     children: <Widget>[
                       Flexible(
@@ -727,9 +798,10 @@ class _TakeAwayState extends State<TakeAway> {
                             child:Padding(
                                 padding: EdgeInsets.only(right: 0),
                                 child: Container(
-                                    width: 20,
-                                    height: 20,
-                                    child: Center(
+                                    height: 40,
+                                    width: 40,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 12, bottom: 12),
                                       child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                                     )
                                 )
@@ -812,7 +884,7 @@ class _TakeAwayState extends State<TakeAway> {
                       Row(
                         children: <Widget>[
                           Padding(
-                              padding: EdgeInsets.only(bottom: 10, top: 20, left: 15),
+                              padding: EdgeInsets.only(bottom: 10, top: 15, left: 15),
                               child: Text('Адрес заведения', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 11),)
                           ),
                         ],

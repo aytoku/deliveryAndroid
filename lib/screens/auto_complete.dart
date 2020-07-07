@@ -23,24 +23,26 @@ class AutoCompleteDemoState extends State<AutoComplete> {
 
 
   void getUsers(String name) async {
-    print('vah');
+    print(name);
     try {
       if(name.length > 0){
         necessaryAddressDataItems = (await loadNecessaryAddressData(name)).destinationPoints;
       }else{
         List<MyAddressesModel> temp = await MyAddressesModel.getAddresses();
-        necessaryAddressDataItems.clear();
+        necessaryAddressDataItems = new List<DestinationPoints>();
         for(int i = 0; i < temp.length; i++){
           var element = temp[i];
           NecessaryAddressData necessaryAddressData = await loadNecessaryAddressData(element.address);
           if(necessaryAddressData.destinationPoints.length > 0){
+            necessaryAddressData.destinationPoints[0].comment = temp[i].comment;
             necessaryAddressDataItems.add(necessaryAddressData.destinationPoints[0]);
           }else{
-            necessaryAddressDataItems.add(new DestinationPoints(street: element.address, house: ''));
+            necessaryAddressDataItems.add(new DestinationPoints(street: element.address, house: '', comment: temp[i].comment));
           }
         }
       }
       print(necessaryAddressDataItems[0].unrestricted_value);
+      print('dick lenght '+necessaryAddressDataItems.length.toString());
       if(loading){
         setState(() {
           loading = false;
@@ -50,7 +52,6 @@ class AutoCompleteDemoState extends State<AutoComplete> {
         key.currentState.setState(() { });
       }
     } catch (e) {
-      print(e);
       print("Error getting users.");
     }
   }
@@ -91,6 +92,10 @@ class AutoCompleteDemoState extends State<AutoComplete> {
             clearOnSubmit: false,
             minLength: 0,
             suggestions: necessaryAddressDataItems,
+            decoration: new InputDecoration(
+              border: InputBorder.none,
+              counterText: '',
+            ),
             style: TextStyle(color: Colors.black, fontSize: 16.0),
             textChanged: (String value) async {
               await getUsers(value);

@@ -29,13 +29,14 @@ class ServiceScreenState extends State<ServiceScreen>{
                   child: Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
-                          padding: EdgeInsets.only(left: 15, top: 50),
+                          padding: EdgeInsets.only(top:25, bottom: 25),
                           child: Container(
-                            width: 40,
-                            height: 40,
-                            child: Center(
-                              child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                            ),
+                              height: 40,
+                              width: 40,
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 12, bottom: 12),
+                                child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                              )
                           )
                       )
                   ),
@@ -50,7 +51,7 @@ class ServiceScreenState extends State<ServiceScreen>{
                 flex: 10,
                 child: Center(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 0, top: 50),
+                    padding: EdgeInsets.only(left: 0, top: 0),
                     child: Text("Служба поддержки", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
                   ),
                 ),

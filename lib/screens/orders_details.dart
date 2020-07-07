@@ -45,7 +45,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
       body: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(top: 40, bottom: 10, left: 0),
+            padding: EdgeInsets.only(top:40, bottom: 20),
             child: Row(
               children: <Widget>[
                 Flexible(
@@ -56,11 +56,12 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                         child: Padding(
                             padding: EdgeInsets.only(),
                             child: Container(
-                              width: 40,
-                              height: 40,
-                              child: Center(
-                                child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                              ),
+                                height: 40,
+                                width: 40,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 12, bottom: 12),
+                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                )
                             )
                         )
                     ),
@@ -73,7 +74,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                   flex: 8,
                   child: Center(
                     child: Padding(
-                      padding: EdgeInsets.only(right: 20),
+                      padding: EdgeInsets.only(right: 30),
                       child: Text("Детали заказа", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
                     ),
                   ),

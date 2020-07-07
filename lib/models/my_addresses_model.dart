@@ -8,11 +8,13 @@ class MyAddressesModel{
   MyAddressesType type;
   String address;
   String name;
+  String comment;
 
   MyAddressesModel( {
     this.type,
     this.address,
     this.name,
+    this.comment
   });
 
   static Future saveData() async{
@@ -43,6 +45,7 @@ class MyAddressesModel{
         "name": address.name,
         "address": address.address,
         "type": address.type.index,
+        "comment": address.comment,
       };
       list.add(item);
     });
@@ -55,7 +58,8 @@ class MyAddressesModel{
     return new MyAddressesModel(
         type:type,
         address:parsedJson['address'],
-        name: parsedJson['name']
+        name: parsedJson['name'],
+        comment:parsedJson['comment'],
     );
   }
 }

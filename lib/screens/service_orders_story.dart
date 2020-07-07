@@ -325,7 +325,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                 return ListView(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 30, left: 0),
+                      padding: EdgeInsets.only(top:25, bottom: 25),
                       child: Row(
                         children: <Widget>[
                           Flexible(
@@ -336,11 +336,12 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                                   child: Padding(
                                       padding: EdgeInsets.only(left: 15, top: 0),
                                       child: Container(
-                                        width: 40,
-                                        height: 40,
-                                        child: Center(
-                                          child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                        ),
+                                          height: 40,
+                                          width: 40,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                          )
                                       )
                                   )
                               ),

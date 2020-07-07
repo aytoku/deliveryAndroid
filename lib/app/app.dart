@@ -3,8 +3,10 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/scopped_model/main_model.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
+import 'package:food_delivery/screens/about_app_screen.dart';
 import 'package:food_delivery/screens/address_screen.dart';
 import 'package:food_delivery/screens/auth_screen.dart';
+import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/code_screen.dart';
 import 'package:food_delivery/screens/device_id_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
@@ -35,7 +37,10 @@ class App extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Food Delivery App",
-        theme: ThemeData(primaryColor: Colors.redAccent),
+        theme: ThemeData(
+            primaryColor: Color(0xFFFD6F6D),
+            cursorColor: Color(0xFFFD6F6D),
+        ),
         home: DeviceIdScreen(),
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: analytics),

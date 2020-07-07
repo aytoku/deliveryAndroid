@@ -38,7 +38,7 @@ class ProfileScreenState extends State<ProfileScreen>{
           children: <Widget>[
             Align(
               child: Padding(
-                padding: EdgeInsets.only(top: 40, bottom: 30, left: 10),
+                padding: EdgeInsets.only(top:30, bottom: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -50,11 +50,12 @@ class ProfileScreenState extends State<ProfileScreen>{
                             child: Padding(
                                 padding: EdgeInsets.only(),
                                 child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  child: Center(
-                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                  ),
+                                    height: 40,
+                                    width: 40,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 12, bottom: 12),
+                                      child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                    )
                                 )
                             )
                         ),
@@ -70,7 +71,7 @@ class ProfileScreenState extends State<ProfileScreen>{
                       child: Align(
                         alignment: Alignment.topCenter,
                         child: Padding(
-                          padding: EdgeInsets.only(right: 30),
+                          padding: EdgeInsets.only(right: 25),
                           child: Text("Ваши данные", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
                         ),
                       ),
@@ -79,101 +80,119 @@ class ProfileScreenState extends State<ProfileScreen>{
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
-                child: Text(
-                  'Ваше имя',
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: Color(0xFF8A8A8A)
-                  ),
+            Flexible(
+              flex: 3,
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 30, top: 0, bottom: 10),
+                          child: Text(
+                            'Ваше имя',
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: Color(0xFF8A8A8A)
+                            ),
+                          ),
+                        )
+                    ),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          height: 30,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 30, right: 0, bottom: 10),
+                            child: TextField(
+                              style: TextStyle(
+                                  color: Color(0xFF515151),
+                                  fontSize: 17
+                              ),
+                              controller: nameField,
+                              textAlign: TextAlign.start,
+                              keyboardType: TextInputType.text,
+                              decoration: new InputDecoration(
+                                border: InputBorder.none,
+                                counterText: '',
+                              ),
+                              onChanged: (value){
+                                necessaryDataForAuth.name = value;
+                                NecessaryDataForAuth.saveData();
+                              },
+                            ),
+                          ),
+                        )
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                    ),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 30, top: 20, bottom: 15),
+                          child: Text(
+                            'Номер телефона',
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: Color(0xFF8A8A8A)
+                            ),
+                          ),
+                        )
+                    ),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                            padding: EdgeInsets.only(left: 30, right: 0, bottom: 10),
+                            child: GestureDetector(
+                              child: Text(
+                                necessaryDataForAuth.phone_number,
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    color: Color(0xFF515151)
+                                ),
+                              ),
+                              onTap: (){
+                                Navigator.pushReplacement(
+                                  context,
+                                  new MaterialPageRoute(
+                                    builder: (context) => new AuthScreen(),
+                                  ),
+                                );
+                              },
+                            )
+                        )
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                    ),
+                  ],
                 ),
-              )
+              ),
             ),
-            Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  height: 30,
+            Flexible(
+              flex: 1,
+              child: Align(
+                  alignment: Alignment.bottomLeft,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 0),
-                    child: TextField(
-                      style: TextStyle(
-                        color: Color(0xFF515151),
-                        fontSize: 17
-                      ),
-                      controller: nameField,
-                      textAlign: TextAlign.start,
-                      keyboardType: TextInputType.text,
-                      decoration: new InputDecoration(
-                        border: InputBorder.none,
-                        counterText: '',
-                      ),
-                      onChanged: (value){
-                        necessaryDataForAuth.name = value;
-                        NecessaryDataForAuth.saveData();
+                    padding: EdgeInsets.only(left: 30, bottom: 30),
+                    child: GestureDetector(
+                      child: Text('Выход', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
+                      onTap: (){
+                        NecessaryDataForAuth.clear().then((value){
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => new DeviceIdScreen(),
+                            ),
+                          );
+                        });
                       },
                     ),
-                  ),
-                )
-            ),
-            Divider(height: 1.0, color: Colors.grey),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 15, top: 20, bottom: 15),
-                child: Text(
-                  'Номер телефона',
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: Color(0xFF8A8A8A)
-                  ),
-                ),
-              )
-            ),
-            Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                  child: GestureDetector(
-                    child: Text(
-                      necessaryDataForAuth.phone_number,
-                      style: TextStyle(
-                          fontSize: 17,
-                          color: Color(0xFF515151)
-                      ),
-                    ),
-                    onTap: (){
-                      Navigator.pushReplacement(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => new AuthScreen(),
-                        ),
-                      );
-                    },
                   )
-                )
-            ),
-            Divider(height: 1.0, color: Colors.grey),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 15, top: 330),
-                child: GestureDetector(
-                  child: Text('Выход', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
-                  onTap: (){
-                    NecessaryDataForAuth.clear().then((value){
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => new AuthScreen(),
-                        ),
-                      );
-                    });
-                  },
-                ),
-              )
+              ),
             )
           ],
         )

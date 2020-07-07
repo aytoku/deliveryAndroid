@@ -40,7 +40,7 @@ class CostErrorScreenState extends State<CostErrorScreen>{
         body: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 40, bottom: 30, left: 15),
+              padding: EdgeInsets.only(top:25, bottom: 25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -52,11 +52,12 @@ class CostErrorScreenState extends State<CostErrorScreen>{
                           child: Padding(
                               padding: EdgeInsets.only(),
                               child: Container(
-                                width: 40,
-                                height: 40,
-                                child: Center(
-                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                ),
+                                  height: 40,
+                                  width: 40,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 12, bottom: 12),
+                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                  )
                               )
                           )
                       ),

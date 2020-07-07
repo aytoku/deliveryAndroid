@@ -30,7 +30,7 @@ class AboutAppScreenState extends State<AboutAppScreen>{
         body: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 40, bottom: 30, left: 0),
+              padding: EdgeInsets.only(top:25, bottom: 25),
               child: Row(
                 children: <Widget>[
                   Flexible(
@@ -41,11 +41,12 @@ class AboutAppScreenState extends State<AboutAppScreen>{
                           child: Padding(
                               padding: EdgeInsets.only(),
                               child: Container(
-                                width: 40,
-                                height: 40,
-                                child: Center(
-                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                ),
+                                  height: 40,
+                                  width: 40,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 12, bottom: 12),
+                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                  )
                               )
                           )
                       ),
@@ -104,8 +105,8 @@ class AboutAppScreenState extends State<AboutAppScreen>{
                       ],
                     ),
                     onTap: () async {
-                      if (await canLaunch("https://faem.ru/")) {
-                        await launch("https://faem.ru/");
+                      if (await canLaunch("https://faem.ru/legal/agreement")) {
+                        await launch("https://faem.ru/legal/agreement");
                       }
                     },
                   ),

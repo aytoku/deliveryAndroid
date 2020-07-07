@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/PostData/chat.dart';
 import 'package:food_delivery/PostData/fcm.dart';
 import 'package:food_delivery/PostData/orders_story_data.dart';
@@ -151,22 +152,54 @@ class HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) {
+            onTap: () async {
+              if(await Internet.checkConnection()){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) {
 //                    if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
 //                      currentUser.cartDataModel.cart.clear();
 //                    }
-                    return RestaurantScreen(restaurant: restaurant);
-                  }
-              ),
-            ),
+                        return RestaurantScreen(restaurant: restaurant);
+                      }
+                  ),
+                );
+              }else{
+                showAlertDialog(context);
+              }
+              print(await Internet.checkConnection());
+            }
           )
       );
     });
 
     return Column(children: restaurantList);
+  }
+
+  showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -212,7 +245,7 @@ class HomeScreenState extends State<HomeScreen> {
 //              ),
                 ListTile(
                   title: Padding(
-                    padding: EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.only(top: 20, bottom: 20),
                     child: Text('История заказов',
                       style: TextStyle(
                         fontSize: 17,
@@ -232,7 +265,7 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
                 ListTile(
                   title: Padding(
-                    padding: EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.only(top: 20, bottom: 20),
                     child: Text('Мои адреса',
                       style: TextStyle(
                         fontSize: 17,
@@ -263,7 +296,7 @@ class HomeScreenState extends State<HomeScreen> {
 //              ),
                 ListTile(
                   title: Padding(
-                    padding: EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.only(top: 20, bottom: 20),
                     child: Text('Инфоромация',
                       style: TextStyle(
                         fontSize: 17,
@@ -283,7 +316,7 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
                 ListTile(
                   title: Padding(
-                    padding: EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.only(top: 20, bottom: 20),
                     child: Text('Служба поддержки',
                       style: TextStyle(
                         fontSize: 17,
@@ -403,7 +436,7 @@ class HomeScreenState extends State<HomeScreen> {
                             FutureBuilder<List<OrderChecking>>(
                               future: OrderChecking.getActiveOrder(),
                               builder: (BuildContext context, AsyncSnapshot<List<OrderChecking>> snapshot) {
-                                if(snapshot.connectionState == ConnectionState.done && snapshot.data != null){
+                                if(snapshot.connectionState == ConnectionState.done && snapshot.data != null && snapshot.data.length > 0){
                                   orderList = snapshot.data;
                                   return Container(
                                     height: 180,
@@ -416,7 +449,7 @@ class HomeScreenState extends State<HomeScreen> {
                                   orderList = null;
                                   return Center(
                                     child: Container(
-                                      height: 5,
+                                      height: 0,
                                     ),
                                   );
                                 }

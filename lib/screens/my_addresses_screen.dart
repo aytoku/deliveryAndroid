@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_delivery/models/my_addresses_model.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/add_my_address_screen.dart';
 import 'package:food_delivery/data/data.dart';
+import 'package:latlong/latlong.dart';
 
 import 'auto_complete.dart';
 import 'home_screen.dart';
@@ -56,18 +60,37 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
           padding: EdgeInsets.only(bottom: 0,right: 15, top: 10),
           child: AutoComplete(destinationPointsKey),
         ),
+        Divider(color: Color(0xFFEDEDED), height: 1, thickness: 1,),
+//        Row(
+//          children: <Widget>[
+//            SvgPicture.asset('assets/svg_images/home.svg'),
+//            GestureDetector(
+//              child: Text('Карта'),
+//              onTap: (){
+//                Navigator.push(
+//                  context,
+//                  new MaterialPageRoute(
+//                      builder: (context) {
+//                        return new MyMap();
+//                      }
+//                  ),
+//                );
+//              },
+//            )
+//          ],
+//        ),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: EdgeInsets.only(left: 20, top: 390),
+            padding: EdgeInsets.only(left: 20, top: 300),
             child: FlatButton(
               child: Text("Далее", style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
               color: Color(0xFFFE534F),
               splashColor: Colors.redAccent,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(50),
               ),
-              padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
+              padding: EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
               onPressed: (){
                 Navigator.push(
                   context,
@@ -102,44 +125,48 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
             }
             return Column(
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    GestureDetector(
-                      child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                              padding: EdgeInsets.only(left: 0, top: 50),
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                child: Center(
-                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                ),
-                              )
-                          )
+                Padding(
+                  padding: EdgeInsets.only(top: 25, bottom: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      GestureDetector(
+                        child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Padding(
+                                padding: EdgeInsets.only(top:0, bottom: 0),
+                                child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 12, bottom: 12),
+                                      child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                    )
+                                )
+                            )
+                        ),
+                        onTap: (){
+                          homeScreenKey = new GlobalKey<HomeScreenState>();
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                              HomeScreen()), (Route<dynamic> route) => false);
+                        },
                       ),
-                      onTap: (){
-                        homeScreenKey = new GlobalKey<HomeScreenState>();
-                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                            HomeScreen()), (Route<dynamic> route) => false);
-                      },
-                    ),
-                    GestureDetector(
-                      child: Align(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 15, top: 50),
-                            child: SvgPicture.asset('assets/svg_images/plus.svg'),
-                          )
+                      GestureDetector(
+                        child: Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 15, top: 0),
+                              child: SvgPicture.asset('assets/svg_images/plus.svg'),
+                            )
+                        ),
+                        onTap: (){
+                          myAddressesModelList.add(new MyAddressesModel(type: MyAddressesType.empty));
+                          MyAddressesModel.saveData().then((value) => setState(() {
+                          }));
+                        },
                       ),
-                      onTap: (){
-                        myAddressesModelList.add(new MyAddressesModel(type: MyAddressesType.empty));
-                        MyAddressesModel.saveData().then((value) => setState(() {
-                        }));
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,

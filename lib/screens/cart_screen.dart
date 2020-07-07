@@ -328,7 +328,7 @@ class _CartScreenState extends State<CartScreen> {
        child: Column(
          children: <Widget>[
            Padding(
-             padding: EdgeInsets.only(top:50),
+             padding: EdgeInsets.only(top:25, bottom: 25),
              child: Column(
                children: <Widget>[
                  Row(
@@ -616,122 +616,140 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
   Widget build(BuildContext context) {
     return  Scaffold(
       body: Container(
-        color: Colors.white,
         child: Padding(
-          padding: EdgeInsets.only(top: 50),
+          padding: EdgeInsets.only(top: 0),
           child: Column(
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 0,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 5),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) => new RestaurantScreen(restaurant: restaurant),
+              Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsets.only(top:25, bottom: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Flexible(
+                        flex: 0,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 5),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                context,
+                                new MaterialPageRoute(
+                                  builder: (context) => new RestaurantScreen(restaurant: restaurant),
+                                ),
+                              );
+                            },
+                            child:Padding(
+                                padding: EdgeInsets.only(right: 0),
+                                child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 12, bottom: 12),
+                                      child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                    )
+                                )
                             ),
-                          );
-                        },
-                        child:Padding(
-                            padding: EdgeInsets.only(right: 0),
+                          ),
+                        ),
+                      ),
+                      Flexible(
+                        flex: 0,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 0),
+                          child:  Text('Корзина', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF000000)),),
+                        ),
+                      ),
+                      Flexible(
+                        flex: 0,
+                        child: Padding(
+                            padding: EdgeInsets.only(right: 10),
                             child: Container(
-                                width: 20,
-                                height: 20,
-                                child: Center(
-                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                height: 30,
+                                width: 30,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(5))
+                                ),
+                                child: GestureDetector(
+                                  child: SvgPicture.asset('assets/svg_images/delete.svg'),
                                 )
                             )
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                  Flexible(
-                    flex: 0,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 0),
-                      child:  Text('Корзина', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF000000)),),
+                ),
+              ),
+              Container(
+                color: Color(0xFFFAFAFA),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 30),
+                      child: Center(
+                          child: Image(
+                            image: AssetImage('assets/images/food_basket.png'),
+                          )
+                      ),
                     ),
-                  ),
-                  Flexible(
-                    flex: 0,
-                    child: Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(5))
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Center(
+                          child: Text(
+                            'Корзина пуста',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                                color:  Color(0xFF424242)
                             ),
-                            child: GestureDetector(
-                              child: SvgPicture.asset('assets/svg_images/delete.svg'),
-                            )
-                        )
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 30),
-                child: Center(
-                  child: SvgPicture.asset('assets/svg_images/basket.svg'),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: Center(
-                    child: Text(
-                      'Корзина пуста',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                          color:  Color(0xFF424242)
-                      ),
-                    )
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 100),
-                child: Center(
-                  child: Text(
-                    'Перейдите в список мест, чтобы\nоформить заказ заново',
-                    style: TextStyle(
-                        color: Color(0xFFB0B0B0),
-                        fontSize: 15
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
-                  child: FlatButton(
-                    child: Text(
-                      'Вернуться на главную',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16
+                          )
                       ),
                     ),
-                    color: Color(0xFFFE534F),
-                    splashColor: Colors.redAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 100),
+                      child: Center(
+                        child: Text(
+                          'Перейдите в список мест, чтобы\nоформить заказ заново',
+                          style: TextStyle(
+                              color: Color(0xFFB0B0B0),
+                              fontSize: 15
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
-                    padding: EdgeInsets.only(left: 80, top: 20, right: 80, bottom: 20),
-                    onPressed: (){
-                      homeScreenKey = new GlobalKey<HomeScreenState>();
-                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                          HomeScreen()), (Route<dynamic> route) => false);},
-                  ),
+                  ],
                 ),
               ),
+              Container(
+                color: Colors.white,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
+                    child: FlatButton(
+                      child: Text(
+                        'Вернуться на главную',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16
+                        ),
+                      ),
+                      color: Color(0xFFFE534F),
+                      splashColor: Colors.redAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.only(left: 80, top: 20, right: 80, bottom: 20),
+                      onPressed: (){
+                        homeScreenKey = new GlobalKey<HomeScreenState>();
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                            HomeScreen()), (Route<dynamic> route) => false);},
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),

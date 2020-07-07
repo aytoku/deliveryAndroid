@@ -28,13 +28,14 @@ class InformationScreenState extends State<InformationScreen>{
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 0, top: 50),
+                      padding: EdgeInsets.only(top:25, bottom: 25),
                       child: Container(
-                        width: 40,
-                        height: 40,
-                        child: Center(
-                          child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                        ),
+                          height: 40,
+                          width: 40,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                          )
                       )
                     )
                 ),
@@ -80,25 +81,12 @@ class InformationScreenState extends State<InformationScreen>{
 //            },
 //          ),
           Divider(height: 1.0, color: Colors.grey),
-          GestureDetector(
+          InkWell(
             child: Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                   padding: EdgeInsets.only(top: 20, left: 30, bottom: 20, right: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('О приложении',
-                      style: TextStyle(
-                        color: Color(0xFF424242),
-                        fontSize: 17
-                       ),
-                      ),
-                      GestureDetector(
-                        child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                      ),
-                    ],
-                  )
+                  child: row()
               ),
             ),
             onTap: (){
@@ -113,6 +101,23 @@ class InformationScreenState extends State<InformationScreen>{
           Divider(height: 1.0, color: Colors.grey),
         ],
       ),
+    );
+  }
+
+  Widget row(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text('О приложении',
+          style: TextStyle(
+              color: Color(0xFF424242),
+              fontSize: 17
+          ),
+        ),
+        GestureDetector(
+          child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+        ),
+      ],
     );
   }
 }

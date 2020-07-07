@@ -78,5 +78,7 @@ class NecessaryDataForAuth{
   static Future clear() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
+    _necessaryDataForAuth = null;
+    necessaryDataForAuth = null;
   }
 }
