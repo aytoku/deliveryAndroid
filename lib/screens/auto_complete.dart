@@ -9,13 +9,17 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class AutoComplete extends StatefulWidget {
-  AutoComplete(Key key) : super(key: key);
+  String hint;
+  AutoComplete(Key key, this.hint) : super(key: key);
 
   @override
-  AutoCompleteDemoState createState() => AutoCompleteDemoState();
+  AutoCompleteDemoState createState() => AutoCompleteDemoState(hint);
 }
 
 class AutoCompleteDemoState extends State<AutoComplete> {
+  String hint;
+  AutoCompleteDemoState(this.hint);
+
   AutoCompleteTextField searchTextField;
   GlobalKey<AutoCompleteTextFieldState<DestinationPoints>> key = new GlobalKey();
   static List<DestinationPoints> necessaryAddressDataItems = new List<DestinationPoints>();
@@ -93,6 +97,8 @@ class AutoCompleteDemoState extends State<AutoComplete> {
             minLength: 0,
             suggestions: necessaryAddressDataItems,
             decoration: new InputDecoration(
+              hintText: hint,
+              hintStyle: TextStyle(color: Color(0xFFD4D4D4), fontSize: 17),
               border: InputBorder.none,
               counterText: '',
             ),

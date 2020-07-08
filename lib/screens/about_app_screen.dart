@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_delivery/data/data.dart';
@@ -22,6 +23,31 @@ class AboutAppScreen extends StatefulWidget {
 }
 
 class AboutAppScreenState extends State<AboutAppScreen>{
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,8 +131,12 @@ class AboutAppScreenState extends State<AboutAppScreen>{
                       ],
                     ),
                     onTap: () async {
-                      if (await canLaunch("https://faem.ru/legal/agreement")) {
-                        await launch("https://faem.ru/legal/agreement");
+                      if(await Internet.checkConnection()){
+                        if (await canLaunch("https://faem.ru/legal/agreement")) {
+                          await launch("https://faem.ru/legal/agreement");
+                        }
+                      }else{
+                        noConnection(context);
                       }
                     },
                   ),
@@ -128,8 +158,12 @@ class AboutAppScreenState extends State<AboutAppScreen>{
                       ],
                     ),
                     onTap: () async {
-                      if (await canLaunch("https://faem.ru/privacy")) {
-                        await launch("https://faem.ru/privacy");
+                      if(await Internet.checkConnection()){
+                        if (await canLaunch("https://faem.ru/privacy")) {
+                          await launch("https://faem.ru/privacy");
+                        }
+                      }else{
+                        noConnection(context);
                       }
                     },
                   ),

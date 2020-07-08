@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/models/my_addresses_model.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/add_my_address_screen.dart';
@@ -23,6 +24,31 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
   List<MyAddressesModel> myAddressesModelList;
   GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
 
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   void _deleteButton(MyAddressesModel myAddressesModel){
     showModalBottomSheet(
@@ -57,32 +83,60 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(bottom: 0,right: 15, top: 10),
-          child: AutoComplete(destinationPointsKey),
+          padding: EdgeInsets.only(top: 7),
+          child: Center(
+            child: Container(
+              width: 67,
+              height: 7,
+              decoration: BoxDecoration(
+                  color: Color(0xFFEBEAEF),
+                  borderRadius: BorderRadius.all(Radius.circular(11)
+                  )
+              ),
+            ),
+          ),
         ),
-        Divider(color: Color(0xFFEDEDED), height: 1, thickness: 1,),
-//        Row(
-//          children: <Widget>[
-//            SvgPicture.asset('assets/svg_images/home.svg'),
-//            GestureDetector(
-//              child: Text('Карта'),
-//              onTap: (){
-//                Navigator.push(
-//                  context,
-//                  new MaterialPageRoute(
-//                      builder: (context) {
-//                        return new MyMap();
-//                      }
-//                  ),
-//                );
-//              },
-//            )
-//          ],
-//        ),
+        Padding(
+          padding: EdgeInsets.only(bottom: 0,right: 15),
+          child: Stack(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 15, top: 30, bottom: 20,),
+                child: SvgPicture.asset('assets/svg_images/home.svg'),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 30, left: 20, bottom: 20,),
+                child: AutoComplete(destinationPointsKey, 'Введите адрес дома'),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 80, top: 20, bottom: 20,),
+                  child: Container(
+                    width: 1,
+                    height: 30,
+                    color: Color(0xFFEBEAEF),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 15, top: 30, bottom: 20,),
+                  child: Text('Карта'),
+                ),
+              )
+            ],
+          )
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 0),
+          child: Divider(color: Color(0xFFEDEDED), height: 1, thickness: 1,),
+        ),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: EdgeInsets.only(left: 20, top: 300),
+            padding: EdgeInsets.only(left: 10, top: 330),
             child: FlatButton(
               child: Text("Далее", style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
               color: Color(0xFFFE534F),
@@ -91,17 +145,21 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                 borderRadius: BorderRadius.circular(50),
               ),
               padding: EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
-              onPressed: (){
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) {
-                        myAddressesModel.type = MyAddressesType.home;
-                        myAddressesModel.address = destinationPointsKey.currentState.searchTextField.textField.controller.text;
-                        return new AddMyAddressScreen(myAddressesModel: myAddressesModel);
-                      }
-                  ),
-                );
+              onPressed: () async{
+                if(await Internet.checkConnection()){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) {
+                          myAddressesModel.type = MyAddressesType.home;
+                          myAddressesModel.address = destinationPointsKey.currentState.searchTextField.textField.controller.text;
+                          return new AddMyAddressScreen(myAddressesModel: myAddressesModel);
+                        }
+                    ),
+                  );
+                }else{
+                  noConnection(context);
+                }
               },
             ),
           ),
@@ -137,7 +195,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                                 padding: EdgeInsets.only(top:0, bottom: 0),
                                 child: Container(
                                     height: 40,
-                                    width: 40,
+                                    width: 50,
                                     child: Padding(
                                       padding: EdgeInsets.only(top: 12, bottom: 12),
                                       child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
@@ -159,10 +217,14 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                               child: SvgPicture.asset('assets/svg_images/plus.svg'),
                             )
                         ),
-                        onTap: (){
-                          myAddressesModelList.add(new MyAddressesModel(type: MyAddressesType.empty));
-                          MyAddressesModel.saveData().then((value) => setState(() {
-                          }));
+                        onTap: () async {
+                          if(await Internet.checkConnection()){
+                            myAddressesModelList.add(new MyAddressesModel(type: MyAddressesType.empty));
+                            MyAddressesModel.saveData().then((value) => setState(() {
+                            }));
+                          }else{
+                            noConnection(context);
+                          }
                         },
                       ),
                     ],
@@ -207,16 +269,20 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                                                   )
                                                 ],
                                               ),
-                                              onTap: (){
-                                                _deleteButton(myAddressesModelList[index]);
+                                              onTap: () async {
+                                                if(await Internet.checkConnection()){
+                                                  _deleteButton(myAddressesModelList[index]);
+                                                }else{
+                                                  noConnection(context);
+                                                }
                                               }
                                           )
                                       ),
                                     ),
-                                    Divider(height: 1.0, color: Colors.grey),
                                   ],
                                 )
                             ),
+                            Divider(height: 1.0, color: Color(0xFFEDEDED)),
                           ],
                         );
                       }
@@ -238,15 +304,19 @@ class MyAddressesScreenState extends State<MyAddressesScreen>{
                                   padding: EdgeInsets.only(left: 0, top: 10, bottom: 10),
                                   child: Text(myAddressesModelList[index].address),
                                 ),
-                                onTap: (){
-                                  Navigator.push(
-                                    context,
-                                    new MaterialPageRoute(
-                                        builder: (context) {
-                                          return new AddMyAddressScreen(myAddressesModel: myAddressesModelList[index],);
-                                        }
-                                    ),
-                                  );
+                                onTap: () async {
+                                  if(await Internet.checkConnection()){
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) {
+                                            return new AddMyAddressScreen(myAddressesModel: myAddressesModelList[index],);
+                                          }
+                                      ),
+                                    );
+                                  }else{
+                                    noConnection(context);
+                                  }
                                 },
                               ),
                             )

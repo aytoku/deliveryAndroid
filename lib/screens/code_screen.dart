@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/PostData/auth_code_data_pass.dart';
 import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
@@ -46,6 +47,30 @@ class _CodeScreenState extends State<CodeScreen> {
   String error = '';
   GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
 
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   void buttonColor(){
     String code = code1.controller.text +
@@ -241,27 +266,31 @@ class _CodeScreenState extends State<CodeScreen> {
                           Padding(
                             padding: EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 10),
                             child: Button(key: buttonStateKey, color: Color(0xFFF3F3F3),onTap:() async {
-                              String temp = '';
-                              temp = code1.controller.text +
-                                  code2.controller.text +
-                                  code3.controller.text +
-                                  code4.controller.text;
-                              authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, int.parse(temp));
-                              if(authCodeData != null){
-                                necessaryDataForAuth.phone_number = currentUser.phone;
-                                necessaryDataForAuth.refresh_token = authCodeData.refresh_token;
-                                necessaryDataForAuth.name = '';
-                                NecessaryDataForAuth.saveData();
-                                Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                    builder: (context) => new NameScreen(),
-                                  ),
-                                );
+                              if(await Internet.checkConnection()){
+                                String temp = '';
+                                temp = code1.controller.text +
+                                    code2.controller.text +
+                                    code3.controller.text +
+                                    code4.controller.text;
+                                authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, int.parse(temp));
+                                if(authCodeData != null){
+                                  necessaryDataForAuth.phone_number = currentUser.phone;
+                                  necessaryDataForAuth.refresh_token = authCodeData.refresh_token;
+                                  necessaryDataForAuth.name = '';
+                                  NecessaryDataForAuth.saveData();
+                                  Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                      builder: (context) => new NameScreen(),
+                                    ),
+                                  );
+                                }else{
+                                  setState(() {
+                                    error = 'Вы ввели неверный смс код';
+                                  });
+                                }
                               }else{
-                                setState(() {
-                                  error = 'Вы ввели неверный смс код';
-                                });
+                                noConnection(context);
                               }
                             },),
                           ),
@@ -365,6 +394,32 @@ class ButtonState extends State<Button>{
   Color color;
   final AsyncCallback onTap;
   ButtonState(this.color, this.onTap);
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -387,7 +442,11 @@ class ButtonState extends State<Button>{
       ),
       padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
       onPressed: ()async {
-        await onTap();
+        if(await Internet.checkConnection()){
+          await onTap();
+        }else{
+          noConnection(context);
+        }
       },
     );
   }

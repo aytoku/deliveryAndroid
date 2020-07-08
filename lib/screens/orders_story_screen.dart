@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/PostData/orders_story_data.dart';
 import 'package:food_delivery/PostData/restaurant_data_pass.dart';
 import 'package:food_delivery/PostData/restaurant_items_data_pass.dart';
@@ -33,6 +34,30 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
   bool isLoading = true;
   List<OrdersStoryModelItem> records_items = new List<OrdersStoryModelItem>();
 
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   Widget column(OrdersStoryModelItem ordersStoryModelItem){
     var format = new DateFormat('HH:mm, dd-MM-yy');
@@ -88,15 +113,19 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
       restaurantList.add(
         InkWell(
             child: column(ordersStoryModelItem),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) {
-                      return OrdersDetailsScreen(ordersStoryModelItem: ordersStoryModelItem);
-                    }
-                ),
-              );
+            onTap: () async {
+              if(await Internet.checkConnection()){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) {
+                        return OrdersDetailsScreen(ordersStoryModelItem: ordersStoryModelItem);
+                      }
+                  ),
+                );
+              }else{
+                noConnection(context);
+              }
             }
         ),
       );
@@ -348,10 +377,14 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                                       )
                                   )
                               ),
-                              onTap: (){
-                                homeScreenKey = new GlobalKey<HomeScreenState>();
-                                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                                    HomeScreen()), (Route<dynamic> route) => false);
+                              onTap: () async {
+                                if(await Internet.checkConnection()){
+                                  homeScreenKey = new GlobalKey<HomeScreenState>();
+                                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                      HomeScreen()), (Route<dynamic> route) => false);
+                                }else{
+                                  noConnection(context);
+                                }
                               },
                             ),
                           ),

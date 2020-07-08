@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
@@ -28,6 +29,31 @@ class ProfileScreen extends StatefulWidget {
 class ProfileScreenState extends State<ProfileScreen>{
 
   TextEditingController nameField = new TextEditingController();
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     nameField.text = necessaryDataForAuth.name;
@@ -59,10 +85,14 @@ class ProfileScreenState extends State<ProfileScreen>{
                                 )
                             )
                         ),
-                        onTap: (){
-                          homeScreenKey = new GlobalKey<HomeScreenState>();
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                              HomeScreen()), (Route<dynamic> route) => false);
+                        onTap: () async {
+                         if(await Internet.checkConnection()){
+                           homeScreenKey = new GlobalKey<HomeScreenState>();
+                           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                               HomeScreen()), (Route<dynamic> route) => false);
+                         }else{
+                           noConnection(context);
+                         }
                         },
                       ),
                     ),
@@ -180,15 +210,19 @@ class ProfileScreenState extends State<ProfileScreen>{
                     padding: EdgeInsets.only(left: 30, bottom: 30),
                     child: GestureDetector(
                       child: Text('Выход', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
-                      onTap: (){
-                        NecessaryDataForAuth.clear().then((value){
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) => new DeviceIdScreen(),
-                            ),
-                          );
-                        });
+                      onTap: () async {
+                        if(await Internet.checkConnection()){
+                          NecessaryDataForAuth.clear().then((value){
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                builder: (context) => new DeviceIdScreen(),
+                              ),
+                            );
+                          });
+                        }else{
+                          noConnection(context);
+                        }
                       },
                     ),
                   )

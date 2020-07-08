@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/PostData/orders_story_data.dart';
 import 'package:food_delivery/PostData/restaurant_data_pass.dart';
 import 'package:food_delivery/PostData/restaurant_items_data_pass.dart';
@@ -37,6 +38,72 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
   final TicketModel ticketModel;
   ServiceOrdersStoryScreenState({this.ticketModel});
 
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  column(OrdersStoryModelItem ordersStoryModelItem){
+    var format = new DateFormat('HH:mm, dd-MM-yy');
+    var date = new DateTime.fromMicrosecondsSinceEpoch(ordersStoryModelItem.created_at_unix * 1000);
+    var time = '';
+    time = format.format(date);
+    return Column(
+      children: <Widget>[
+        GestureDetector(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 15, left: 15),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child:  Text(ordersStoryModelItem.routes[0].value, style: TextStyle(fontSize: 14, color: Color(0xFF000000))),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15, top: 10, right: 15),
+                child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
+              ),
+            ],
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 5, left: 15, bottom: 15),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child:  Text('${ordersStoryModelItem.price} \Р', style: TextStyle(fontSize: 14,color: Color(0xFFB0B0B0),),
+                ),
+              ),
+            )],
+        ),
+        Divider(height: 1.0, color: Colors.grey),
+      ],
+    );
+  }
 
   _buildOrdersStoryItems() {
     List<Widget> restaurantList = [];
@@ -48,52 +115,22 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
       var time = '';
       time = format.format(date);
       restaurantList.add(
-        GestureDetector(
-            child: Column(
-              children: <Widget>[
-                GestureDetector(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 15, left: 15),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child:  Text(ordersStoryModelItem.routes[0].value, style: TextStyle(fontSize: 14, color: Color(0xFF000000))),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 15, top: 10, right: 15),
-                        child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
-                      ),
-                    ],
+        InkWell(
+            child: column(ordersStoryModelItem),
+            onTap: () async {
+              if(await Internet.checkConnection()){
+                ticketModel.uuid = ordersStoryModelItem.uuid;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) {
+                        return CostErrorScreen(ticketModel: ticketModel);
+                      }
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 5, left: 15, bottom: 15),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child:  Text('${ordersStoryModelItem.price} \Р', style: TextStyle(fontSize: 14,color: Color(0xFFB0B0B0),),
-                        ),
-                      ),
-                    )],
-                ),
-                Divider(height: 1.0, color: Colors.grey),
-              ],
-            ),
-            onTap: () {
-              ticketModel.uuid = ordersStoryModelItem.uuid;
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) {
-                      return CostErrorScreen(ticketModel: ticketModel);
-                    }
-                ),
-              );
+                );
+              }else{
+                noConnection(context);
+              }
             }
         ),
       );

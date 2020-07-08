@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/Auth.dart';
@@ -40,6 +41,32 @@ class _AuthScreenState extends State<AuthScreen> {
   String error = '';
   var controller = new MaskedTextController(mask: '+7 000 000-00-00');
   GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,9 +92,6 @@ class _AuthScreenState extends State<AuthScreen> {
                                   )
                               )
                           )
-                      ),
-                      onTap: () => Navigator.pop(
-                          context
                       ),
                     ),
                     Align(
@@ -103,15 +127,15 @@ class _AuthScreenState extends State<AuthScreen> {
                               borderSide: BorderSide(color: Color(0xFFFD6F6D)),
                             ),
                           ),
-                          onChanged: (String value)async {
+                          onChanged: (String value) {
                             currentUser.phone = value;
                             if(value.length > 0 && buttonStateKey.currentState.color != Color(0xFFFE534F)){
                               buttonStateKey.currentState.setState(() {
                                 buttonStateKey.currentState.color = Color(0xFFFE534F);
                               });
-                            }else if(value.length == 0 && buttonStateKey.currentState.color != Color(0xFFF3F3F3)){
+                            }else if(value.length == 0 && buttonStateKey.currentState.color != Color(0xF3F3F3F3)){
                               buttonStateKey.currentState.setState(() {
-                                buttonStateKey.currentState.color = Color(0xFFF3F3F3);
+                                buttonStateKey.currentState.color = Color(0xF3F3F3F3);
                               });
                             }
                           },
@@ -151,8 +175,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () async {
-                                    if (await canLaunch("https://faem.ru/legal/agreement")) {
-                                    await launch("https://faem.ru/legal/agreement");
+                                    if(await Internet.checkConnection()){
+                                      if (await canLaunch("https://faem.ru/legal/agreement")) {
+                                        await launch("https://faem.ru/legal/agreement");
+                                      }
+                                    }else{
+                                      noConnection(context);
                                     }
                                   }
                               ),
@@ -166,8 +194,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
-                                      if (await canLaunch("https://faem.ru/privacy")) {
-                                        await launch("https://faem.ru/privacy");
+                                      if(await Internet.checkConnection()){
+                                        if (await canLaunch("https://faem.ru/privacy")) {
+                                          await launch("https://faem.ru/privacy");
+                                        }
+                                      }else{
+                                        noConnection(context);
                                       }
                                     }
                               ),
@@ -217,8 +249,33 @@ class Button extends StatefulWidget{
 
 class ButtonState extends State<Button>{
   String error = '';
-  Color color;
+  Color color = Color(0xFFF3F3F3);
   ButtonState(this.color);
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -235,40 +292,45 @@ class ButtonState extends State<Button>{
           )
       ),
       color: color,
+      splashColor: Colors.grey,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
       ),
       padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
       onPressed: () async {
-        currentUser.phone = currentUser.phone.replaceAll('-', '');
-        currentUser.phone = currentUser.phone.replaceAll(' ', '');
-        print(currentUser.phone);
-        if(validateMobile(currentUser.phone)== null){
-          if(currentUser.phone[0] != '+'){
-            currentUser.phone = '+' + currentUser.phone;
-          }
-          if(currentUser.phone != necessaryDataForAuth.phone_number){
-            Navigator.push(
-              context,
-              new MaterialPageRoute(
-                builder: (context) => new CodeScreen(),
-              ),
-            );
-          }else{
-            if(!(authCodeData != null && authCodeData.refresh_token != null && await CreateOrder.sendRefreshToken())){
-              await NecessaryDataForAuth.clear();
+        if(await Internet.checkConnection()){
+          currentUser.phone = currentUser.phone.replaceAll('-', '');
+          currentUser.phone = currentUser.phone.replaceAll(' ', '');
+          print(currentUser.phone);
+          if(validateMobile(currentUser.phone)== null){
+            if(currentUser.phone[0] != '+'){
+              currentUser.phone = '+' + currentUser.phone;
             }
-            Navigator.push(
-              context,
-              new MaterialPageRoute(
-                builder: (context) => new DeviceIdScreen(),
-              ),
-            );
+            if(currentUser.phone != necessaryDataForAuth.phone_number){
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => new CodeScreen(),
+                ),
+              );
+            }else{
+              if(!(authCodeData != null && authCodeData.refresh_token != null && await CreateOrder.sendRefreshToken())){
+                await NecessaryDataForAuth.clear();
+              }
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => new DeviceIdScreen(),
+                ),
+              );
+            }
+          }else{
+            setState(() {
+              error = 'Указан неверный номер';
+            });
           }
         }else{
-          setState(() {
-            error = 'Указан неверный номер';
-          });
+          noConnection(context);
         }
       },
     );

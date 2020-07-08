@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/PostData/service_data_pass.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
@@ -31,6 +32,31 @@ class CostErrorScreenState extends State<CostErrorScreen>{
   CostErrorScreenState({this.ticketModel});
   TextEditingController descField = new TextEditingController();
 
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     descField.text = ticketModel.description;
@@ -53,7 +79,7 @@ class CostErrorScreenState extends State<CostErrorScreen>{
                               padding: EdgeInsets.only(),
                               child: Container(
                                   height: 40,
-                                  width: 40,
+                                  width: 50,
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 12, bottom: 12),
                                     child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
@@ -153,14 +179,18 @@ class CostErrorScreenState extends State<CostErrorScreen>{
                 ),
                 padding: EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
                 onPressed: () async {
-                  ticketModel.description = descField.text;
-                  await loadServiceData(ticketModel);
-                  Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new HomeScreen(),
-                    ),
-                  );
+                  if(await Internet.checkConnection()){
+                    ticketModel.description = descField.text;
+                    await loadServiceData(ticketModel);
+                    Navigator.pushReplacement(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new HomeScreen(),
+                      ),
+                    );
+                  }else{
+                    noConnection(context);
+                  }
                 },
               ),
             )

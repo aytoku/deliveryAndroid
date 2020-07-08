@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/PostData/auth_code_data_pass.dart';
 import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
@@ -38,6 +39,31 @@ class NameScreen extends StatefulWidget {
 
 class NameScreenState extends State<NameScreen> {
   GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,15 +134,19 @@ class NameScreenState extends State<NameScreen> {
                                       counterText: '',
                                     ),
                                     onChanged: (String value)async {
-                                      necessaryDataForAuth.name = value;
-                                      if(value.length > 0 && buttonStateKey.currentState.color != Color(0xFFFE534F)){
-                                        buttonStateKey.currentState.setState(() {
-                                          buttonStateKey.currentState.color = Color(0xFFFE534F);
-                                        });
-                                      }else if(value.length == 0 && buttonStateKey.currentState.color != Color(0xFFF3F3F3)){
-                                        buttonStateKey.currentState.setState(() {
-                                          buttonStateKey.currentState.color = Color(0xFFF3F3F3);
-                                        });
+                                      if(await Internet.checkConnection()){
+                                        necessaryDataForAuth.name = value;
+                                        if(value.length > 0 && buttonStateKey.currentState.color != Color(0xFFFE534F)){
+                                          buttonStateKey.currentState.setState(() {
+                                            buttonStateKey.currentState.color = Color(0xFFFE534F);
+                                          });
+                                        }else if(value.length == 0 && buttonStateKey.currentState.color != Color(0xFFF3F3F3)){
+                                          buttonStateKey.currentState.setState(() {
+                                            buttonStateKey.currentState.color = Color(0xFFF3F3F3);
+                                          });
+                                        }
+                                      }else{
+                                        noConnection(context);
                                       }
                                     },
                                   ),
@@ -169,6 +199,31 @@ class ButtonState extends State<Button>{
   String error = '';
   Color color;
   ButtonState(this.color);
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -190,12 +245,16 @@ class ButtonState extends State<Button>{
       ),
       padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
       onPressed: ()async {
-        await NecessaryDataForAuth.saveData();
-        await new FirebaseNotifications().setUpFirebase();
-        print(necessaryDataForAuth.name);
-        homeScreenKey = new GlobalKey<HomeScreenState>();
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-            HomeScreen()), (Route<dynamic> route) => false);
+        if(await Internet.checkConnection()){
+          await NecessaryDataForAuth.saveData();
+          await new FirebaseNotifications().setUpFirebase();
+          print(necessaryDataForAuth.name);
+          homeScreenKey = new GlobalKey<HomeScreenState>();
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+              HomeScreen()), (Route<dynamic> route) => false);
+        }else{
+          noConnection(context);
+        }
       },
     );
   }

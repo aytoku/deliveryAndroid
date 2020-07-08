@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/PostData/necessary_address_data_pass.dart';
 import 'package:food_delivery/models/my_addresses_model.dart';
 import 'package:food_delivery/screens/auto_complete.dart';
@@ -117,6 +120,31 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
   MyAddressesModel myAddressesModel;
 
 
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void _deleteButton(MyAddressesModel myAddressesModel){
     showModalBottomSheet(
         isScrollControlled: true,
@@ -151,7 +179,7 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(bottom: 0,right: 15, top: 10),
-          child: AutoComplete(destinationPointsKey),
+          child: AutoComplete(destinationPointsKey, ''),
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -165,17 +193,21 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
                 borderRadius: BorderRadius.circular(20),
               ),
               padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
-              onPressed: (){
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) {
-                        myAddressesModel.type = MyAddressesType.home;
-                        myAddressesModel.address = destinationPointsKey.currentState.searchTextField.textField.controller.text;
-                        return new AddressScreen(myAddressesModel: myAddressesModel);
-                      }
-                  ),
-                );
+              onPressed: () async {
+                if(await Internet.checkConnection()){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) {
+                          myAddressesModel.type = MyAddressesType.home;
+                          myAddressesModel.address = destinationPointsKey.currentState.searchTextField.textField.controller.text;
+                          return new AddressScreen(myAddressesModel: myAddressesModel);
+                        }
+                    ),
+                  );
+                }else{
+                  noConnection(context);
+                }
               },
             ),
           ),
@@ -277,8 +309,9 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
                                 ),
                               ),
                             ),
-                            onTap: (){
-                              pageState._controller.animateToPage(1, duration: Duration(seconds: 1), curve: Curves.elasticOut);
+                            onTap: () async {
+                              if(await Internet.checkConnection()){
+                                pageState._controller.animateToPage(1, duration: Duration(seconds: 1), curve: Curves.elasticOut);
 //                            {
 //                            Navigator.pushReplacement(
 //                              context,
@@ -287,9 +320,12 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
 //                              ),
 //                            );
 //                          }
-                              setState(() {
-                                _color = !_color;
-                              });
+                                setState(() {
+                                  _color = !_color;
+                                });
+                              }else{
+                               noConnection(context);
+                              }
                             },
                           ),
                         ),
@@ -325,7 +361,7 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
                               ),
                               Padding(
                                   padding: EdgeInsets.only(top: 5,),
-                                  child: AutoComplete(destinationPointsKey)
+                                  child: AutoComplete(destinationPointsKey, '')
                               ),
                               Padding(
                                 padding: EdgeInsets.only(left: 15, right: 15),
@@ -601,26 +637,30 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
                         ),
                         padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
                         onPressed: () async {
-                          if(destinationPointsKey.currentState.searchTextField.textField.controller.text.length > 0){
-                            Center(
-                              child: CircularProgressIndicator(),
-                            );
-                            CreateOrder createOrder = new CreateOrder(
-                              address: destinationPointsKey.currentState.searchTextField.textField.controller.text,
-                              office: officeField.text,
-                              floor: floorField.text,
-                              comment: commentField.text,
-                              cartDataModel: currentUser.cartDataModel,
-                              restaurant: restaurant,
-                              payment_type: 'Наличными',
-                              door_to_door: status1,
-                            );
-                            await createOrder.sendData();
-                            currentUser.cartDataModel.cart.clear();
-                            currentUser.cartDataModel.saveData();
-                            homeScreenKey = new GlobalKey<HomeScreenState>();
-                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                                HomeScreen()), (Route<dynamic> route) => false);
+                          if(await Internet.checkConnection()){
+                            if(destinationPointsKey.currentState.searchTextField.textField.controller.text.length > 0){
+                              Center(
+                                child: CircularProgressIndicator(),
+                              );
+                              CreateOrder createOrder = new CreateOrder(
+                                address: destinationPointsKey.currentState.searchTextField.textField.controller.text,
+                                office: officeField.text,
+                                floor: floorField.text,
+                                comment: commentField.text,
+                                cartDataModel: currentUser.cartDataModel,
+                                restaurant: restaurant,
+                                payment_type: 'Наличными',
+                                door_to_door: status1,
+                              );
+                              await createOrder.sendData();
+                              currentUser.cartDataModel.cart.clear();
+                              currentUser.cartDataModel.saveData();
+                              homeScreenKey = new GlobalKey<HomeScreenState>();
+                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                  HomeScreen()), (Route<dynamic> route) => false);
+                            }
+                          }else{
+                            noConnection(context);
                           }
 //                        final snackBar = SnackBar(
 //                          content: Text('Yay! A SnackBar!'),
@@ -757,6 +797,31 @@ class _TakeAwayState extends State<TakeAway> with AutomaticKeepAliveClientMixin 
   PageState pageState;
   bool _color;
 
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   _TakeAwayState(this.restaurant, this.pageState);
   @override
   void initState() {
@@ -770,6 +835,7 @@ class _TakeAwayState extends State<TakeAway> with AutomaticKeepAliveClientMixin 
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
   GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
+  TextEditingController commentField = new TextEditingController();
   final maxLines = 1;
 
   @override
@@ -784,7 +850,7 @@ class _TakeAwayState extends State<TakeAway> with AutomaticKeepAliveClientMixin 
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top:25, bottom: 25),
+                  padding: EdgeInsets.only(top:30, bottom: 10),
                   child:Row(
                     children: <Widget>[
                       Flexible(
@@ -796,7 +862,7 @@ class _TakeAwayState extends State<TakeAway> with AutomaticKeepAliveClientMixin 
                                 context
                             ),
                             child:Padding(
-                                padding: EdgeInsets.only(right: 0),
+                                padding: EdgeInsets.only(top: 0),
                                 child: Container(
                                     height: 40,
                                     width: 40,
@@ -819,6 +885,10 @@ class _TakeAwayState extends State<TakeAway> with AutomaticKeepAliveClientMixin 
                     ],
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Divider(height: 1, color: Color(0xFFF5F5F5),),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -833,15 +903,16 @@ class _TakeAwayState extends State<TakeAway> with AutomaticKeepAliveClientMixin 
                               decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
                                 color: Colors.white,),
                               child: Padding(
-                                padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                                padding: EdgeInsets.only(left: 40, right: 40, top: 10),
                                 child: Text('Доставка',
                                   style: TextStyle(color: Color(0xFF999999), fontSize: 15),),
                               ),
                             ),
                           ),
-                          onTap: (){
-                            pageState._controller.animateToPage(0, duration: Duration(seconds: 1), curve: Curves.elasticOut);
-                            //pageState._controller.jumpToPage(0);
+                          onTap: () async {
+                            if(await Internet.checkConnection()){
+                              pageState._controller.animateToPage(0, duration: Duration(seconds: 1), curve: Curves.elasticOut);
+                              //pageState._controller.jumpToPage(0);
 //                            setState(() {
 //                              {
 //                                Navigator.pushReplacement(
@@ -851,6 +922,9 @@ class _TakeAwayState extends State<TakeAway> with AutomaticKeepAliveClientMixin 
 //                                  ),
 //                                );}
 //                            });
+                            }else{
+                              noConnection(context);
+                            }
                           },
                         ),
                       ),
@@ -866,7 +940,7 @@ class _TakeAwayState extends State<TakeAway> with AutomaticKeepAliveClientMixin 
                               decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(40)),
                                 color:  Color(0xFFFE534F),),
                               child: Padding(
-                                padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                                padding: EdgeInsets.only(left: 40, right: 40, top: 10),
                                 child: Text('Заберу сам',
                                   style: TextStyle(color: Colors.white, fontSize: 15),),
                               ),
@@ -905,47 +979,66 @@ class _TakeAwayState extends State<TakeAway> with AutomaticKeepAliveClientMixin 
                           ),
                         ],
                       ),
-                      Row(
-                        children: <Widget>[
-                          Padding(
-                              padding: EdgeInsets.only(bottom: 5, top: 20, left: 15,),
-                              child: Text('Комментарий к заказу', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),)
-                          ),
-                        ],
+                      Padding(
+                        padding: EdgeInsets.only(top: 5, bottom: 5),
+                        child: Divider(height: 1, color: Color(0xFFF5F5F5),),
                       ),
-                      Container(
-                        height: 20,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 15, bottom: 20),
-                          child: _buildTextFormField(""),
+                      Padding(
+                        padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
+                        child: Row(
+                          children: <Widget>[
+                            Text('Комментарий к заказу', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),)
+                          ],
                         ),
                       ),
-                      Row(
-                        children: <Widget>[
-                          Padding(
-                              padding: EdgeInsets.only(bottom: 5, top: 20, left: 15,),
-                              child: Text('Время ожидания', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),)
-                          ),
-                        ],
+                      Padding(
+                          padding: EdgeInsets.only(left: 15, bottom: 5),
+                          child: Container(
+                            height: 20,
+                            child: TextField(
+                              controller: commentField,
+                              decoration: new InputDecoration(
+                                border: InputBorder.none,
+                                counterText: '',
+                              ),
+                            ),
+                          )
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15, right: 15),
+                        child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
+                        child: Row(
+                          children: <Widget>[
+                            Text('Время ожидания', style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),)
+                          ],
+                        ),
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(left: 15, bottom: 5),
+                          child: Container(
+                            height: 20,
+                            child: TextField(
+                              decoration: new InputDecoration(
+                                border: InputBorder.none,
+                                counterText: '',
+                              ),
+                            ),
+                          )
                       ),
                       Container(
-                        height: 20,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 15, bottom: 20),
-                          child: _buildTextFormField(""),
-                        ),
-                      )
+                        height: 130,
+                        color: Color(0xFAFAFAFA),
+                      ),
                     ],
                   ),
-                ),
-                Container(
-                  color: Color(0xFFFAFAFA),
-                  height: 120,
                 ),
                 Row(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 40, bottom: 10, left: 20),
+                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
                       child: Row(
                         children: <Widget>[
                           Text("Способ оплаты", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Color(0xFFB0B0B0)),),
@@ -1040,19 +1133,24 @@ class _TakeAwayState extends State<TakeAway> with AutomaticKeepAliveClientMixin 
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
-                      onPressed: (){
-                        CreateOrderTakeAway createOrderTakeAway = new CreateOrderTakeAway(
-                            comment: comment,
-                            cartDataModel: currentUser.cartDataModel,
-                            restaurant: restaurant
-                        );
-                        createOrderTakeAway.sendData();
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => new HomeScreen(),
-                          ),
-                        );},
+                      onPressed: () async {
+                        if(await Internet.checkConnection()){
+                          CreateOrderTakeAway createOrderTakeAway = new CreateOrderTakeAway(
+                              comment: comment,
+                              cartDataModel: currentUser.cartDataModel,
+                              restaurant: restaurant
+                          );
+                          createOrderTakeAway.sendData();
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => new HomeScreen(),
+                            ),
+                          );
+                        }else{
+                          noConnection(context);
+                        }
+                      },
                     ),
                   ),
                 ),

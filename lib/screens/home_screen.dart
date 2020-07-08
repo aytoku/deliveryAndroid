@@ -166,7 +166,7 @@ class HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               }else{
-                showAlertDialog(context);
+                noConnection(context);
               }
               print(await Internet.checkConnection());
             }
@@ -177,7 +177,7 @@ class HomeScreenState extends State<HomeScreen> {
     return Column(children: restaurantList);
   }
 
-  showAlertDialog(BuildContext context) {
+  noConnection(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -221,13 +221,17 @@ class HomeScreenState extends State<HomeScreen> {
                     subtitle: Text(necessaryDataForAuth.phone_number, style: TextStyle(color: Color(0x9B9B9B9B), fontSize: 14),),
                     trailing: GestureDetector(
                       child: SvgPicture.asset('assets/svg_images/pencil.svg'),
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => new ProfileScreen(),
-                          ),
-                        );
+                      onTap: () async {
+                        if(await Internet.checkConnection()){
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                              builder: (context) => new ProfileScreen(),
+                            ),
+                          );
+                        }else{
+                          noConnection(context);
+                        }
                       },
                     ),
                   ),
@@ -254,13 +258,17 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                        builder: (context) => new OrdersStoryScreen(),
-                      ),
-                    );
+                  onTap: () async {
+                    if(await Internet.checkConnection()){
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new OrdersStoryScreen(),
+                        ),
+                      );
+                    }else{
+                      noConnection(context);
+                    }
                   },
                 ),
                 ListTile(
@@ -274,13 +282,17 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                        builder: (context) => new MyAddressesScreen(),
-                      ),
-                    );
+                  onTap: () async {
+                    if(await Internet.checkConnection()){
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new MyAddressesScreen(),
+                        ),
+                      );
+                    }else{
+                    noConnection(context);
+                    }
                   },
                 ),
 //              ListTile(
@@ -305,13 +317,17 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                        builder: (context) => new InformationScreen(),
-                      ),
-                    );
+                  onTap: () async {
+                    if(await Internet.checkConnection()){
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new InformationScreen(),
+                        ),
+                      );
+                    }else{
+                      noConnection(context);
+                    }
                   },
                 ),
                 ListTile(
@@ -325,13 +341,17 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                        builder: (context) => new ServiceScreen(),
-                      ),
-                    );
+                  onTap: () async {
+                    if(await Internet.checkConnection()){
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new ServiceScreen(),
+                        ),
+                      );
+                    }else{
+                      noConnection(context);
+                    }
                   },
                 ),
               ],
@@ -382,7 +402,6 @@ class HomeScreenState extends State<HomeScreen> {
                                   child: SvgPicture.asset('assets/svg_images/menu.svg'),
                                   onTap: (){
                                     _scaffoldKey.currentState.openDrawer();
-
                                   },
                                 ),
                               ),
@@ -481,7 +500,10 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                       (currentUser.cartDataModel.cart != null && currentUser.cartDataModel.cart.length != 0) ?
                       BasketButton(key: basketButtonStateKey, restaurant: currentUser.cartDataModel.cart[0].restaurant,):
-                          Container()
+                          Visibility(
+                            child: Container(height: 80),
+                            visible: false,
+                          )
                     ],
                   ),
                 );
@@ -540,6 +562,31 @@ class OrderCheckingState extends State<OrderChecking> {
 
   final OrdersStoryModelItem ordersStoryModelItem;
   OrderCheckingState(this.ordersStoryModelItem);
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -879,11 +926,37 @@ class ChatScreen extends StatefulWidget {
 
 class ChatScreenState extends State<ChatScreen> {
 
+
   List<ChatMessageScreen>chatMessageList;
   String order_uuid;
   ChatScreenState(this.order_uuid);
   TextEditingController messageField = new TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   buildChat(){
     List<String> messagedUuid = new List<String>();
@@ -970,15 +1043,19 @@ class ChatScreenState extends State<ChatScreen> {
                     suffix: GestureDetector(
                       child: SvgPicture.asset('assets/svg_images/send_message.svg'),
                       onTap: () async {
-                        var message = await Chat.sendMessage(order_uuid, messageField.text, 'driver');
-                        chatMessagesStates.forEach((key, value) {
-                          print(key + ' ' + value.currentState.toString());
-                        });
-                        setState(() {
-                          GlobalKey<ChatMessageScreenState>chatMessageScreenStateKey = new GlobalKey<ChatMessageScreenState>();
-                          chatMessagesStates[message.uuid] = chatMessageScreenStateKey;
-                          chatMessageList.insert(0, new ChatMessageScreen(key : chatMessageScreenStateKey,chatMessage: message));
-                        });
+                        if(await Internet.checkConnection()){
+                          var message = await Chat.sendMessage(order_uuid, messageField.text, 'driver');
+                          chatMessagesStates.forEach((key, value) {
+                            print(key + ' ' + value.currentState.toString());
+                          });
+                          setState(() {
+                            GlobalKey<ChatMessageScreenState>chatMessageScreenStateKey = new GlobalKey<ChatMessageScreenState>();
+                            chatMessagesStates[message.uuid] = chatMessageScreenStateKey;
+                            chatMessageList.insert(0, new ChatMessageScreen(key : chatMessageScreenStateKey,chatMessage: message));
+                          });
+                        }else{
+                          noConnection(context);
+                        }
                       },
                     ),
                   ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/PostData/restaurant_items_data_pass.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/ResponseData.dart';
@@ -46,6 +47,31 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
   bool isLoading = true;
 
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initStateColor() {
     super.initState();
@@ -77,8 +103,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     );
     return Center(
         child: GestureDetector(
-          onTap: (){
-            _onPressedButton(restaurantDataItems, cartItemsQuantityKey);
+          onTap: () async {
+            if(await Internet.checkConnection()){
+              _onPressedButton(restaurantDataItems, cartItemsQuantityKey);
+            }else{
+              noConnection(context);
+            }
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,23 +294,27 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                 fontWeight: FontWeight.bold
                             ),
                           ),
-                          onTap: (){
-                            if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
-                              currentUser.cartDataModel.cart.clear();
-                              currentUser.cartDataModel.addItem(
-                                  order
+                          onTap: () async {
+                            if(await Internet.checkConnection()){
+                              if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
+                                currentUser.cartDataModel.cart.clear();
+                                currentUser.cartDataModel.addItem(
+                                    order
+                                );
+                                currentUser.cartDataModel.saveData();
+                                basketButtonStateKey.currentState.refresh();
+                                cartItemsQuantityKey.currentState.refresh();
+                                counterKey.currentState.refresh();
+                              }
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 0),
+                                child: showAlertDialog(context),
                               );
-                              currentUser.cartDataModel.saveData();
-                              basketButtonStateKey.currentState.refresh();
-                              cartItemsQuantityKey.currentState.refresh();
-                              counterKey.currentState.refresh();
+                            }else{
+                              noConnection(context);
                             }
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 0),
-                              child: showAlertDialog(context),
-                            );
                           },
                         ),
                       ),
@@ -454,54 +488,57 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
-                        onPressed: ()
-                        {
-                          FoodRecords foodOrder = FoodRecords.fromFoodRecords(restaurantDataItems);
-                          if(variantsSelectorStateKey.currentState != null){
-                            if(variantsSelectorStateKey.currentState.selectedVariant != null){
-                              foodOrder.variants = [
-                                variantsSelectorStateKey.currentState.selectedVariant
-                              ];
-                            }else{
-                              foodOrder.variants = null;
+                        onPressed: () async {
+                          if(await Internet.checkConnection()){
+                            FoodRecords foodOrder = FoodRecords.fromFoodRecords(restaurantDataItems);
+                            if(variantsSelectorStateKey.currentState != null){
+                              if(variantsSelectorStateKey.currentState.selectedVariant != null){
+                                foodOrder.variants = [
+                                  variantsSelectorStateKey.currentState.selectedVariant
+                                ];
+                              }else{
+                                foodOrder.variants = null;
+                              }
+                              print(foodOrder.variants);
                             }
-                            print(foodOrder.variants);
-                          }
-                          if(toppingsSelectorStateKey.currentState != null){
-                            List<Toppings> toppingsList = toppingsSelectorStateKey.currentState.getSelectedToppings();
-                            if(toppingsList.length != null){
-                              foodOrder.toppings = toppingsList;
-                            }else{
-                              foodOrder.toppings = null;
+                            if(toppingsSelectorStateKey.currentState != null){
+                              List<Toppings> toppingsList = toppingsSelectorStateKey.currentState.getSelectedToppings();
+                              if(toppingsList.length != null){
+                                foodOrder.toppings = toppingsList;
+                              }else{
+                                foodOrder.toppings = null;
+                              }
+                              foodOrder.toppings.forEach((element) {
+                                print(element.name);
+                              });
                             }
-                            foodOrder.toppings.forEach((element) {
-                              print(element.name);
-                            });
-                          }
-                          if(currentUser.cartDataModel.cart.length > 0 && restaurant.uuid != currentUser.cartDataModel.cart[0].restaurant.uuid){
-                            showCartClearDialog(context, new Order(
-                                food: foodOrder,
-                                quantity: counterKey.currentState.counter,
-                                restaurant: restaurant,
-                                date: DateTime.now().toString()
-                            ), cartItemsQuantityKey);
+                            if(currentUser.cartDataModel.cart.length > 0 && restaurant.uuid != currentUser.cartDataModel.cart[0].restaurant.uuid){
+                              showCartClearDialog(context, new Order(
+                                  food: foodOrder,
+                                  quantity: counterKey.currentState.counter,
+                                  restaurant: restaurant,
+                                  date: DateTime.now().toString()
+                              ), cartItemsQuantityKey);
+                            }else{
+                              currentUser.cartDataModel.addItem(
+                                  new Order(
+                                      food: foodOrder,
+                                      quantity: counterKey.currentState.counter,
+                                      restaurant: restaurant,
+                                      date: DateTime.now().toString())
+                              );
+                              currentUser.cartDataModel.  saveData();
+                              Navigator.pop(context);
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 0),
+                                child: showAlertDialog(context),
+                              );
+                              basketButtonStateKey.currentState.refresh();
+                              cartItemsQuantityKey.currentState.refresh();
+                              counterKey.currentState.refresh();
+                            }
                           }else{
-                            currentUser.cartDataModel.addItem(
-                                new Order(
-                                    food: foodOrder,
-                                    quantity: counterKey.currentState.counter,
-                                    restaurant: restaurant,
-                                    date: DateTime.now().toString())
-                            );
-                            currentUser.cartDataModel.  saveData();
-                            Navigator.pop(context);
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 0),
-                              child: showAlertDialog(context),
-                            );
-                            basketButtonStateKey.currentState.refresh();
-                            cartItemsQuantityKey.currentState.refresh();
-                            counterKey.currentState.refresh();
+                            noConnection(context);
                           }
                         },
                       ),
@@ -540,23 +577,29 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         scrollDirection: Axis.horizontal,
         children: List.generate(restaurant.product_category.length, (index){
           return GestureDetector(child:Padding(
-              padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 15),
+              padding: EdgeInsets.only(left: 5, right: 5, top: 0, bottom: 10),
               child:Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(30)),
                     color: (restaurant.product_category[index] != category) ? Color(0xFFF6F6F6) : Color(0xFFFE534F)),
                 child:  Padding(
-                    padding: EdgeInsets.only(left: 15, right: 15, top: 10,),
-                    child: Text(restaurant.product_category[index],
-                      style: TextStyle(color: (restaurant.product_category[index] != category) ? Color(0xFF424242) : Colors.white, fontSize: 15),)
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    child: Center(
+                      child: Text(restaurant.product_category[index],
+                        style: TextStyle(color: (restaurant.product_category[index] != category) ? Color(0xFF424242) : Colors.white, fontSize: 15),),
+                    )
                 ),
               )
-          ), onTap: (){
-            setState(() {
-              isLoading = true;
-              page = 1;
-              category = restaurant.product_category[index];
-              _color = !_color;
-            });
+          ), onTap: () async {
+            if(await Internet.checkConnection()){
+              setState(() {
+                isLoading = true;
+                page = 1;
+                category = restaurant.product_category[index];
+                _color = !_color;
+              });
+            }else{
+              noConnection(context);
+            }
           },);
         }
         ),
@@ -610,7 +653,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             ),
                           ),
                           Flexible(
-                            flex: 7,
+                            flex: 10,
                             child: Align(
                               alignment: Alignment.center,
                               child: Padding(
@@ -624,7 +667,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     ),
                     _buildFoodCategoryList(),
                     Flexible(
-                      flex: 8,
+                      flex: 10,
                       child: Align(
                         alignment: Alignment.center,
                         child: Center(
@@ -687,7 +730,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     ),
                     _buildFoodCategoryList(),
                     Flexible(
-                      flex: 8,
+                      flex: 10,
                       child: NotificationListener<ScrollNotification>(
                         // ignore: missing_return
                           onNotification: (ScrollNotification scrollInfo) {
@@ -714,7 +757,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                           )
                       ),
                     ),
-                    SizedBox(height: 10.0),
                     BasketButton(key: basketButtonStateKey, restaurant: restaurant)
                   ],
                 ),
@@ -796,6 +838,31 @@ class CounterState extends State<Counter>{
     });
   }
 
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget build(BuildContext context){
     return  Padding(
       padding: EdgeInsets.only(top: 5, left: 15),
@@ -831,10 +898,14 @@ class CounterState extends State<Counter>{
               Padding(
                 padding: EdgeInsets.only(right: 15, top: 15, bottom: 15),
                 child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _incrementCounter_plus();
-                    });
+                  onTap: () async {
+                    if(await Internet.checkConnection()){
+                      setState(() {
+                        _incrementCounter_plus();
+                      });
+                    }else{
+                      noConnection(context);
+                    }
                   },
                   child: SvgPicture.asset('assets/svg_images/plus_counter.svg'),
                 ),
@@ -904,12 +975,45 @@ class BasketButtonState extends State<BasketButton>{
   final Records restaurant;
   BasketButtonState(this.restaurant);
 
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     if(currentUser.cartDataModel.cart != null &&
         (currentUser.cartDataModel.cart.length == 0 || currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid)){
-      return Container();
+      return Visibility(
+        child: Container(
+          height: 60,
+        ),
+        maintainSize: true,
+        maintainAnimation: true,
+        maintainState: true,
+        visible: false,
+      );
     }
     return Padding(
       padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),
@@ -954,21 +1058,25 @@ class BasketButtonState extends State<BasketButton>{
           borderRadius: BorderRadius.circular(8),
         ),
         padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
-        onPressed: (){
-          if(currentUser.cartDataModel.cart.length == 0){
-            Navigator.push(
-              context,
-              new MaterialPageRoute(
-                builder: (context) => new EmptyCartScreen(restaurant: restaurant),
-              ),
-            );
+        onPressed: () async {
+          if(await Internet.checkConnection()){
+            if(currentUser.cartDataModel.cart.length == 0){
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => new EmptyCartScreen(restaurant: restaurant),
+                ),
+              );
+            }else{
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => new CartScreen(restaurant: restaurant),
+                ),
+              );
+            }
           }else{
-            Navigator.push(
-              context,
-              new MaterialPageRoute(
-                builder: (context) => new CartScreen(restaurant: restaurant),
-              ),
-            );
+            noConnection(context);
           }
         },
       ),

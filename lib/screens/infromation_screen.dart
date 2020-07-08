@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/about_app_screen.dart';
@@ -16,6 +17,31 @@ class InformationScreen extends StatefulWidget {
 
 class InformationScreenState extends State<InformationScreen>{
   bool status1 = false;
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -39,10 +65,14 @@ class InformationScreenState extends State<InformationScreen>{
                       )
                     )
                 ),
-                onTap: (){
-                  homeScreenKey = new GlobalKey<HomeScreenState>();
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                      HomeScreen()), (Route<dynamic> route) => false);
+                onTap: () async {
+                  if(await Internet.checkConnection()){
+                    homeScreenKey = new GlobalKey<HomeScreenState>();
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                        HomeScreen()), (Route<dynamic> route) => false);
+                  }else{
+                    noConnection(context);
+                  }
                 },
               ),
             ],
@@ -89,13 +119,17 @@ class InformationScreenState extends State<InformationScreen>{
                   child: row()
               ),
             ),
-            onTap: (){
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => new AboutAppScreen(),
-                ),
-              );
+            onTap: () async {
+              if(await Internet.checkConnection()){
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new AboutAppScreen(),
+                  ),
+                );
+              }else{
+                noConnection(context);
+              }
             },
           ),
           Divider(height: 1.0, color: Colors.grey),

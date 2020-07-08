@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
 import 'package:food_delivery/models/OrderStoryModel.dart';
@@ -30,6 +31,31 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
 
   OrdersDetailsScreenState(this.ordersStoryModelItem);
   GlobalKey<CartItemsQuantityState> cartItemsQuantityKey = new GlobalKey();
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   bool status1 = false;
   @override
@@ -274,27 +300,31 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                             )
                         ),
                         onTap: () async {
-                          Records restaurant = ordersStoryModelItem.store;
-                          currentUser.cartDataModel.cart.clear();
-                          ordersStoryModelItem.products.forEach((FoodRecordsStory element) {
-                            FoodRecords foodItem = FoodRecords.fromFoodRecordsStory(element);
-                            Order order = new Order(
-                                restaurant: restaurant,
-                                food:  foodItem,
-                                date: DateTime.now().toString(),
-                                quantity: element.number,
-                                isSelected: false
+                          if(await Internet.checkConnection()){
+                            Records restaurant = ordersStoryModelItem.store;
+                            currentUser.cartDataModel.cart.clear();
+                            ordersStoryModelItem.products.forEach((FoodRecordsStory element) {
+                              FoodRecords foodItem = FoodRecords.fromFoodRecordsStory(element);
+                              Order order = new Order(
+                                  restaurant: restaurant,
+                                  food:  foodItem,
+                                  date: DateTime.now().toString(),
+                                  quantity: element.number,
+                                  isSelected: false
+                              );
+                              currentUser.cartDataModel.cart.add(order);
+                            });
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) {
+                                    return new CartScreen(restaurant:restaurant);
+                                  }
+                              ),
                             );
-                            currentUser.cartDataModel.cart.add(order);
-                          });
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) {
-                                  return new CartScreen(restaurant:restaurant);
-                                }
-                            ),
-                          );
+                          }else{
+                            noConnection(context);
+                          }
                         },
                       ),
                     )

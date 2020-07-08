@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/models/my_addresses_model.dart';
 import 'package:food_delivery/screens/AttachCardScreen.dart';
 import 'package:food_delivery/screens/my_addresses_screen.dart';
@@ -24,6 +25,31 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
   TextEditingController nameField = new TextEditingController();
   TextEditingController commentField = new TextEditingController();
 
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     nameField.text = myAddressesModel.name;
@@ -40,7 +66,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                        padding: EdgeInsets.only(top:25, bottom: 25),
+                        padding: EdgeInsets.only(top:30, bottom: 25),
                         child: Container(
                             height: 40,
                             width: 40,
@@ -71,6 +97,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
                     )
                 ),
                 onTap: () async {
+                  if(await Internet.checkConnection()){
                     List<MyAddressesModel> list = await MyAddressesModel.getAddresses();
                     list.remove(myAddressesModel);
                     await MyAddressesModel.saveData();
@@ -82,6 +109,9 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
                           }
                       ),
                     );
+                  }else{
+                    noConnection(context);
+                  }
                 },
               )
             ],
@@ -126,7 +156,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
           ),
           Divider(height: 1.0, color: Color(0xFFEDEDED)),
           Padding(
-            padding: EdgeInsets.only(left: 15, top: 10),
+            padding: EdgeInsets.only(left: 20, top: 10),
             child: TextField(
               controller: commentField,
               decoration: new InputDecoration(
@@ -147,19 +177,23 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
                 borderRadius: BorderRadius.circular(50),
               ),
               padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
-              onPressed: (){
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) {
-                        myAddressesModel.type = MyAddressesType.home;
-                        myAddressesModel.name = nameField.text;
-                        myAddressesModel.comment = commentField.text;
-                        MyAddressesModel.saveData();
-                        return new MyAddressesScreen();
-                      }
-                  ),
-                );
+              onPressed: () async {
+                if(await Internet.checkConnection()){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) {
+                          myAddressesModel.type = MyAddressesType.home;
+                          myAddressesModel.name = nameField.text;
+                          myAddressesModel.comment = commentField.text;
+                          MyAddressesModel.saveData();
+                          return new MyAddressesScreen();
+                        }
+                    ),
+                  );
+                }else{
+                  noConnection(context);
+                }
               },
             ),
           )

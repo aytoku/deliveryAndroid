@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/food.dart';
@@ -35,6 +36,31 @@ class _CartScreenState extends State<CartScreen> {
   bool delete = false;
 
   _CartScreenState(this.restaurant);
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   _buildList(){
     double totalPrice = 0;
@@ -91,7 +117,6 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 80.0)
               ],
             )
           );
@@ -107,125 +132,118 @@ class _CartScreenState extends State<CartScreen> {
 
   _buildCartItem(Order order){
     GlobalKey<CounterState> counterKey = new GlobalKey();
-    return Container(
-      padding: EdgeInsets.all(5.0),
+    return InkWell(
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-      Expanded(
-      child: Container(
-      child: GestureDetector(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Flexible(
-              flex: 3,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    !order.isSelected ?
-                    Padding(
-                      padding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
-                      child: Text(
-                        '${order.quantity.toStringAsFixed(0)}',
-                        style: TextStyle(
-                            decoration: TextDecoration.none,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF000000)
-                        ),
-                      ),
-                    ): Counter(key: counterKey,initial_counter: order.quantity,),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10, top: 15,bottom: 15),
-                      child: SvgPicture.asset('assets/svg_images/cross.svg'),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Center(
-                          child: Column(
-                            children: <Widget>[
-                              Center(
-                                child: Text(
-                                  order.food.name,
-                                  style: TextStyle(
-                                      decoration: TextDecoration.none,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF000000)
-                                  ),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                              (order.food.variants != null) ? Center(
-                                child: Text(
-                                  order.food.variants[0].name,
-                                  style: TextStyle(
-                                      decoration: TextDecoration.none,
-                                      fontSize: 10.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF000000)
-                                  ),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ) : Text(''),
-                              (order.food.toppings != null) ?
-                              Expanded(
-                                child: ListView(
-                                  children: List.generate(order.food.toppings.length, (index) =>
-                                      Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: 0),
-                                          child: Text(
-                                            order.food.toppings[index].name,
-                                            style: TextStyle(
-                                                decoration: TextDecoration.none,
-                                                fontSize: 10.0,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color(0xFF000000)
-                                            ),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                        ),
-                                      )),
-                                ),
-                              )
-                                  : Text(''),
-                            ],
-                          ),
-                        )
-                      ),
-                    )
-                  ]
-              ),
-            ),
-            Flexible(
-                flex: 1,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 15),
-                  child: Text(
-                      '${order.quantity * order.food.price} \Р',
+          Flexible(
+            flex: 3,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  !order.isSelected ?
+                  Padding(
+                    padding: EdgeInsets.only(top: 0,bottom: 25,left: 10),
+                    child: Text(
+                      '${order.quantity.toStringAsFixed(0)}',
                       style: TextStyle(
                           decoration: TextDecoration.none,
                           fontSize: 14.0,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFFB0B0B0)
-                      )
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF000000)
+                      ),
+                    ),
+                  ): Counter(key: counterKey,initial_counter: order.quantity,),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, top: 0,bottom: 20),
+                    child: SvgPicture.asset('assets/svg_images/cross.svg'),
                   ),
-                )
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, left: 20),
+                    child: Column(
+                      children: <Widget>[
+                        Center(
+                          child: Text(
+                            order.food.name,
+                            style: TextStyle(
+                                decoration: TextDecoration.none,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF000000)
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        (order.food.variants != null) ? Center(
+                          child: Text(
+                            order.food.variants[0].name,
+                            style: TextStyle(
+                                decoration: TextDecoration.none,
+                                fontSize: 10.0,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF000000)
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ) : Text(''),
+                        (order.food.toppings != null) ?
+                        Expanded(
+                          child: ListView(
+                            children: List.generate(order.food.toppings.length, (index) =>
+                                Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 0),
+                                    child: Text(
+                                      order.food.toppings[index].name,
+                                      style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF000000)
+                                      ),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ),
+                                )),
+                          ),
+                        )
+                            : Text(''),
+                      ],
+                    ),
+                  )
+                ]
             ),
-          ],
-        ),
-        onTap: (){
-            setState(() {
-              if(order.isSelected){
-                order.quantity = counterKey.currentState.counter;
-              }
-              order.isSelected = !order.isSelected;
-            });
-        },
-      )
-    ))]));
+          ),
+          Flexible(
+              flex: 1,
+              child: Padding(
+                padding: EdgeInsets.only(right: 15, bottom: 20, top: 0),
+                child: Text(
+                    '${order.quantity * order.food.price} \Р',
+                    style: TextStyle(
+                        decoration: TextDecoration.none,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFFB0B0B0)
+                    )
+                ),
+              )
+          ),
+        ],
+      ),
+      onTap: () async {
+        if(await Internet.checkConnection()){
+          setState(() {
+            if(order.isSelected){
+              order.quantity = counterKey.currentState.counter;
+            }
+            order.isSelected = !order.isSelected;
+          });
+        }else{
+          noConnection(context);
+        }
+      },
+    );
   }
 
   showAlertDialog(BuildContext context) {
@@ -270,16 +288,20 @@ class _CartScreenState extends State<CartScreen> {
                               fontWeight: FontWeight.bold
                           ),
                         ),
-                        onTap: (){
-                          setState(() {
-                            currentUser.cartDataModel.cart.clear();
-                          });
-                          Navigator.pushReplacement(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) => new EmptyCartScreen(restaurant: restaurant),
-                            ),
-                          );
+                        onTap: () async {
+                          if(await Internet.checkConnection()){
+                            setState(() {
+                              currentUser.cartDataModel.cart.clear();
+                            });
+                            Navigator.pushReplacement(
+                              context,
+                              new MaterialPageRoute(
+                                builder: (context) => new EmptyCartScreen(restaurant: restaurant),
+                              ),
+                            );
+                          }else{
+                            noConnection(context);
+                          }
                         },
                       ),
                     ),
@@ -331,57 +353,65 @@ class _CartScreenState extends State<CartScreen> {
              padding: EdgeInsets.only(top:25, bottom: 25),
              child: Column(
                children: <Widget>[
-                 Row(
-                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                   children: <Widget>[
-                     Flexible(
-                       flex: 0,
-                       child: Padding(
-                         padding: EdgeInsets.only(left: 5),
-                         child: GestureDetector(
-                           onTap: () {
-                             Navigator.pop(context);
-                           },
-                           child:Padding(
-                             padding: EdgeInsets.only(right: 0),
-                             child: Container(
-                               width: 40,
-                               height: 40,
-                               child: Center(
-                                 child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                               ),
-                             )
+                 Padding(
+                   padding: EdgeInsets.only(top: 10),
+                   child: Row(
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: <Widget>[
+                       Flexible(
+                         flex: 0,
+                         child: Padding(
+                           padding: EdgeInsets.only(left: 5),
+                           child: GestureDetector(
+                             onTap: () {
+                               Navigator.pop(context);
+                             },
+                             child:Padding(
+                                 padding: EdgeInsets.only(right: 0),
+                                 child: Container(
+                                     height: 40,
+                                     width: 40,
+                                     child: Padding(
+                                       padding: EdgeInsets.only(top: 12, bottom: 12),
+                                       child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                     )
+                                 )
+                             ),
                            ),
                          ),
                        ),
-                     ),
-                     Flexible(
-                       flex: 0,
-                       child: Padding(
-                         padding: EdgeInsets.only(left: 0),
-                         child:  Text(restaurant.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
+                       Flexible(
+                         flex: 0,
+                         child: Padding(
+                           padding: EdgeInsets.only(left: 0),
+                           child:  Text(restaurant.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
+                         ),
                        ),
-                     ),
-                     Flexible(
-                       flex: 0,
-                       child: Padding(
-                           padding: EdgeInsets.only(right: 10),
-                           child: Container(
-                               height: 30,
-                               width: 30,
-                               decoration: BoxDecoration(
-                                   borderRadius: BorderRadius.all(Radius.circular(5))
-                               ),
-                               child: GestureDetector(
-                                 child: SvgPicture.asset('assets/svg_images/delete.svg'),
-                                 onTap: (){
-                                   showAlertDialog(context);
-                                 },
-                               )
-                           )
+                       Flexible(
+                         flex: 0,
+                         child: Padding(
+                             padding: EdgeInsets.only(right: 10),
+                             child: Container(
+                                 height: 30,
+                                 width: 30,
+                                 decoration: BoxDecoration(
+                                     borderRadius: BorderRadius.all(Radius.circular(5))
+                                 ),
+                                 child: GestureDetector(
+                                   child: SvgPicture.asset('assets/svg_images/delete.svg'),
+                                   onTap: () async {
+                                     if(await Internet.checkConnection()){
+                                       showAlertDialog(context);
+                                     }else{
+                                       noConnection(context);
+                                     }
+                                   },
+                                 )
+                             )
+                         ),
                        ),
-                     ),
-                   ],
+                     ],
+                   ),
                  ),
                  Padding(
                    padding: EdgeInsets.only(top: 10, bottom: 5),
@@ -485,12 +515,18 @@ class _CartScreenState extends State<CartScreen> {
                    borderRadius: BorderRadius.circular(8),
                  ),
                  padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
-                 onPressed: (){Navigator.push(
-                   context,
-                   new MaterialPageRoute(
-                     builder: (context) => new PageScreen(restaurant: restaurant)
-                   ),
-                 );},
+                 onPressed: () async {
+                   if(await Internet.checkConnection()){
+                     Navigator.push(
+                       context,
+                       new MaterialPageRoute(
+                           builder: (context) => new PageScreen(restaurant: restaurant)
+                       ),
+                     );
+                   }else{
+                     noConnection(context);
+                   }
+                },
                ),
              ),
            ),
@@ -611,6 +647,31 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
   final Records restaurant;
 
   EmptyCartScreenState(this.restaurant);
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -742,10 +803,15 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       padding: EdgeInsets.only(left: 80, top: 20, right: 80, bottom: 20),
-                      onPressed: (){
-                        homeScreenKey = new GlobalKey<HomeScreenState>();
-                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                            HomeScreen()), (Route<dynamic> route) => false);},
+                      onPressed: ()async {
+                        if(await Internet.checkConnection()){
+                          homeScreenKey = new GlobalKey<HomeScreenState>();
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                              HomeScreen()), (Route<dynamic> route) => false);
+                        }else{
+                          noConnection(context);
+                        }
+                      },
                     ),
                   ),
                 ),
