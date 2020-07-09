@@ -362,7 +362,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                 return ListView(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top:25, bottom: 25),
+                      padding: EdgeInsets.only(top:10, bottom: 10),
                       child: Row(
                         children: <Widget>[
                           Flexible(
@@ -371,7 +371,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                               child: Align(
                                   alignment: Alignment.topLeft,
                                   child: Padding(
-                                      padding: EdgeInsets.only(left: 15, top: 0),
+                                      padding: EdgeInsets.only(left: 0, top: 0),
                                       child: Container(
                                           height: 40,
                                           width: 40,

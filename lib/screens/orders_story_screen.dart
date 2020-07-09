@@ -357,7 +357,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                 return ListView(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top:15, bottom: 15),
+                      padding: EdgeInsets.only(top:10, bottom: 10),
                       child: Row(
                         children: <Widget>[
                           Flexible(

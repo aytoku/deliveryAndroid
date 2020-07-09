@@ -246,6 +246,7 @@ class ButtonState extends State<Button>{
       padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
       onPressed: ()async {
         if(await Internet.checkConnection()){
+          currentUser.isLoggedIn = true;
           await NecessaryDataForAuth.saveData();
           await new FirebaseNotifications().setUpFirebase();
           print(necessaryDataForAuth.name);

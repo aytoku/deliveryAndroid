@@ -18,8 +18,9 @@ class   DeviceIdScreen extends StatelessWidget {
         if(snapshot.connectionState == ConnectionState.done){
           CartDataModel.getCart().then((value) { currentUser.cartDataModel = value; print('Cnjbn');});
           necessaryDataForAuth = snapshot.data;
-          if(necessaryDataForAuth.refresh_token == null){
-            return AuthScreen();
+          if(necessaryDataForAuth.refresh_token == null || necessaryDataForAuth.phone_number == null || necessaryDataForAuth.name == null){
+            currentUser.isLoggedIn = false;
+            return HomeScreen();
           }
           print(necessaryDataForAuth.refresh_token);
           return HomeScreen();

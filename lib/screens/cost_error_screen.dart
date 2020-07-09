@@ -157,11 +157,14 @@ class CostErrorScreenState extends State<CostErrorScreen>{
                     )
                 ),
                 child: TextField(
+                  minLines: 1,
+                  maxLines: 100,
                   controller: descField,
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.start,
                   style: TextStyle(fontSize: 14),
                   keyboardType: TextInputType.text,
                   decoration: new InputDecoration(
+                    contentPadding: EdgeInsets.all(15),
                     border: InputBorder.none,
                     counterText: '',
                   ),

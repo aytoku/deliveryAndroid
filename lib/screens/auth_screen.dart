@@ -93,6 +93,9 @@ class _AuthScreenState extends State<AuthScreen> {
                               )
                           )
                       ),
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
                     ),
                     Align(
                         alignment: Alignment.topLeft,

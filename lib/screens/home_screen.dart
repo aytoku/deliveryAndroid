@@ -202,40 +202,84 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        key: _scaffoldKey,
-        drawer: ClipRRect(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(15)),
-          child: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 60),
-                  child: ListTile(
-                    title: Text(necessaryDataForAuth.name, style: TextStyle(color: Color(0xFF424242), fontWeight: FontWeight.bold, fontSize: 17),),
-                    subtitle: Text(necessaryDataForAuth.phone_number, style: TextStyle(color: Color(0x9B9B9B9B), fontSize: 14),),
-                    trailing: GestureDetector(
-                      child: SvgPicture.asset('assets/svg_images/pencil.svg'),
-                      onTap: () async {
-                        if(await Internet.checkConnection()){
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) => new ProfileScreen(),
-                            ),
-                          );
-                        }else{
-                          noConnection(context);
-                        }
-                      },
-                    ),
-                  ),
+  List<Widget> getSideBarItems(bool isLogged){
+
+    List<Widget> allSideBarItems = [
+      ListTile(
+        title: Padding(
+          padding: EdgeInsets.only(top: 20, bottom: 20),
+          child: Text('Инфоромация',
+            style: TextStyle(
+                fontSize: 17,
+                color: Color(0xFF424242),
+                letterSpacing: 0.45
+            ),
+          ),
+        ),
+        onTap: () async {
+          if(await Internet.checkConnection()){
+            Navigator.push(
+              context,
+              new MaterialPageRoute(
+                builder: (context) => new InformationScreen(),
+              ),
+            );
+          }else{
+            noConnection(context);
+          }
+        },
+      ),
+      ListTile(
+        title: Padding(
+          padding: EdgeInsets.only(top: 20, bottom: 20),
+          child: Text('Служба поддержки',
+            style: TextStyle(
+                fontSize: 17,
+                color: Color(0xFF424242),
+                letterSpacing: 0.45
+            ),
+          ),
+        ),
+        onTap: () async {
+          if(await Internet.checkConnection()){
+            Navigator.push(
+              context,
+              new MaterialPageRoute(
+                builder: (context) => new ServiceScreen(),
+              ),
+            );
+          }else{
+            noConnection(context);
+          }
+        },
+      ),
+    ];
+
+    if(isLogged){
+      allSideBarItems.insertAll(0,
+          [
+            Padding(
+              padding: EdgeInsets.only(top: 60),
+              child: ListTile(
+                title: Text(necessaryDataForAuth.name ?? ' ', style: TextStyle(color: Color(0xFF424242), fontWeight: FontWeight.bold, fontSize: 17),),
+                subtitle: Text(necessaryDataForAuth.phone_number ?? ' ', style: TextStyle(color: Color(0x9B9B9B9B), fontSize: 14),),
+                trailing: GestureDetector(
+                  child: SvgPicture.asset('assets/svg_images/pencil.svg'),
+                  onTap: () async {
+                    if(await Internet.checkConnection()){
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new ProfileScreen(),
+                        ),
+                      );
+                    }else{
+                      noConnection(context);
+                    }
+                  },
                 ),
+              ),
+            ),
 //              ListTile(
 //                title: Text('Способы оплаты'),
 //                onTap: (){
@@ -247,54 +291,54 @@ class HomeScreenState extends State<HomeScreen> {
 //                  );
 //                },
 //              ),
-                ListTile(
-                  title: Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 20),
-                    child: Text('История заказов',
-                      style: TextStyle(
-                        fontSize: 17,
-                          color: Color(0xFF424242),
-                          letterSpacing: 0.45
-                      ),
-                    ),
+            ListTile(
+              title: Padding(
+                padding: EdgeInsets.only(top: 20, bottom: 20),
+                child: Text('История заказов',
+                  style: TextStyle(
+                      fontSize: 17,
+                      color: Color(0xFF424242),
+                      letterSpacing: 0.45
                   ),
-                  onTap: () async {
-                    if(await Internet.checkConnection()){
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => new OrdersStoryScreen(),
-                        ),
-                      );
-                    }else{
-                      noConnection(context);
-                    }
-                  },
                 ),
-                ListTile(
-                  title: Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 20),
-                    child: Text('Мои адреса',
-                      style: TextStyle(
-                        fontSize: 17,
-                          color: Color(0xFF424242),
-                          letterSpacing: 0.45
-                      ),
+              ),
+              onTap: () async {
+                if(await Internet.checkConnection()){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new OrdersStoryScreen(),
                     ),
+                  );
+                }else{
+                  noConnection(context);
+                }
+              },
+            ),
+            ListTile(
+              title: Padding(
+                padding: EdgeInsets.only(top: 20, bottom: 20),
+                child: Text('Мои адреса',
+                  style: TextStyle(
+                      fontSize: 17,
+                      color: Color(0xFF424242),
+                      letterSpacing: 0.45
                   ),
-                  onTap: () async {
-                    if(await Internet.checkConnection()){
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => new MyAddressesScreen(),
-                        ),
-                      );
-                    }else{
-                    noConnection(context);
-                    }
-                  },
                 ),
+              ),
+              onTap: () async {
+                if(await Internet.checkConnection()){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new MyAddressesScreen(),
+                    ),
+                  );
+                }else{
+                  noConnection(context);
+                }
+              },
+            ),
 //              ListTile(
 //                title: Text('Настройки'),
 //                onTap: (){
@@ -306,55 +350,52 @@ class HomeScreenState extends State<HomeScreen> {
 //                  );
 //                },
 //              ),
-                ListTile(
-                  title: Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 20),
-                    child: Text('Инфоромация',
-                      style: TextStyle(
-                        fontSize: 17,
-                          color: Color(0xFF424242),
-                          letterSpacing: 0.45
-                      ),
-                    ),
-                  ),
-                  onTap: () async {
-                    if(await Internet.checkConnection()){
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => new InformationScreen(),
-                        ),
-                      );
-                    }else{
-                      noConnection(context);
-                    }
-                  },
+          ]
+      );
+    }else{
+      allSideBarItems.insert(0, Padding(
+        padding: EdgeInsets.only(top: 60),
+        child: ListTile(
+            title: GestureDetector(
+              child: Text('Авторизоваться',
+                style: TextStyle(
+                    fontSize: 17,
+                    color: Color(0xFF424242),
+                    letterSpacing: 0.45
                 ),
-                ListTile(
-                  title: Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 20),
-                    child: Text('Служба поддержки',
-                      style: TextStyle(
-                        fontSize: 17,
-                        color: Color(0xFF424242),
-                        letterSpacing: 0.45
-                      ),
+              ),
+              onTap: () async {
+                if(await Internet.checkConnection()){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new AuthScreen(),
                     ),
-                  ),
-                  onTap: () async {
-                    if(await Internet.checkConnection()){
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => new ServiceScreen(),
-                        ),
-                      );
-                    }else{
-                      noConnection(context);
-                    }
-                  },
-                ),
-              ],
+                  );
+                }else{
+                  noConnection(context);
+                }
+              },
+            )
+        ),
+      ));
+    }
+    return allSideBarItems;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //print(currentUser.isLoggedIn);
+    return Container(
+      child: Scaffold(
+        key: _scaffoldKey,
+        drawer: ClipRRect(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(15)),
+          child: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: getSideBarItems(currentUser.isLoggedIn),
             ),
           ),
         ),
@@ -457,13 +498,13 @@ class HomeScreenState extends State<HomeScreen> {
                               builder: (BuildContext context, AsyncSnapshot<List<OrderChecking>> snapshot) {
                                 if(snapshot.connectionState == ConnectionState.done && snapshot.data != null && snapshot.data.length > 0){
                                   orderList = snapshot.data;
-                                  return Container(
+                                  return (currentUser.isLoggedIn) ? Container(
                                     height: 180,
                                     child: ListView(
                                       children: snapshot.data,
                                       scrollDirection: Axis.horizontal,
                                     ),
-                                  );
+                                  ) : Container();
                                 }else{
                                   orderList = null;
                                   return Center(
@@ -619,6 +660,7 @@ class OrderCheckingState extends State<OrderChecking> {
         children: <Widget>[
           Expanded(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Align(
                   alignment: Alignment.topLeft,
@@ -640,7 +682,7 @@ class OrderCheckingState extends State<OrderChecking> {
                 Align(
                   alignment: Alignment.topRight,
                   child: Padding(
-                    padding: EdgeInsets.only(right: 5, left: 10, top: 20),
+                    padding: EdgeInsets.only(right: 10, left: 10, top: 20),
                     child: GestureDetector(
                       child: Container(
                         height: 30,

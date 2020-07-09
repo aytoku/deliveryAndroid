@@ -573,35 +573,38 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   _buildFoodCategoryList(){
     return Flexible(
       flex: 1,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: List.generate(restaurant.product_category.length, (index){
-          return GestureDetector(child:Padding(
-              padding: EdgeInsets.only(left: 5, right: 5, top: 0, bottom: 10),
-              child:Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(30)),
-                    color: (restaurant.product_category[index] != category) ? Color(0xFFF6F6F6) : Color(0xFFFE534F)),
-                child:  Padding(
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    child: Center(
-                      child: Text(restaurant.product_category[index],
-                        style: TextStyle(color: (restaurant.product_category[index] != category) ? Color(0xFF424242) : Colors.white, fontSize: 15),),
-                    )
-                ),
-              )
-          ), onTap: () async {
-            if(await Internet.checkConnection()){
-              setState(() {
-                isLoading = true;
-                page = 1;
-                category = restaurant.product_category[index];
-                _color = !_color;
-              });
-            }else{
-              noConnection(context);
-            }
-          },);
-        }
+      child: Container(
+        height: 50,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: List.generate(restaurant.product_category.length, (index){
+            return GestureDetector(child:Padding(
+                padding: EdgeInsets.only(left: 5, right: 5, top: 0, bottom: 10),
+                child:Container(
+                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(30)),
+                      color: (restaurant.product_category[index] != category) ? Color(0xFFF6F6F6) : Color(0xFFFE534F)),
+                  child:  Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Center(
+                        child: Text(restaurant.product_category[index],
+                          style: TextStyle(color: (restaurant.product_category[index] != category) ? Color(0xFF424242) : Colors.white, fontSize: 15),),
+                      )
+                  ),
+                )
+            ), onTap: () async {
+              if(await Internet.checkConnection()){
+                setState(() {
+                  isLoading = true;
+                  page = 1;
+                  category = restaurant.product_category[index];
+                  _color = !_color;
+                });
+              }else{
+                noConnection(context);
+              }
+            },);
+          }
+          ),
         ),
       ),
     );
@@ -653,7 +656,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             ),
                           ),
                           Flexible(
-                            flex: 10,
+                            flex: 8,
                             child: Align(
                               alignment: Alignment.center,
                               child: Padding(
@@ -667,7 +670,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     ),
                     _buildFoodCategoryList(),
                     Flexible(
-                      flex: 10,
+                      flex: 8,
                       child: Align(
                         alignment: Alignment.center,
                         child: Center(
@@ -730,7 +733,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     ),
                     _buildFoodCategoryList(),
                     Flexible(
-                      flex: 10,
+                      flex: 8,
                       child: NotificationListener<ScrollNotification>(
                         // ignore: missing_return
                           onNotification: (ScrollNotification scrollInfo) {
@@ -1005,15 +1008,7 @@ class BasketButtonState extends State<BasketButton>{
     // TODO: implement build
     if(currentUser.cartDataModel.cart != null &&
         (currentUser.cartDataModel.cart.length == 0 || currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid)){
-      return Visibility(
-        child: Container(
-          height: 60,
-        ),
-        maintainSize: true,
-        maintainAnimation: true,
-        maintainState: true,
-        visible: false,
-      );
+      return Container();
     }
     return Padding(
       padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),

@@ -62,18 +62,12 @@ class AboutAppScreenState extends State<AboutAppScreen>{
                   Flexible(
                     flex: 1,
                     child: GestureDetector(
-                      child: Align(
-                          alignment: Alignment.topLeft,
+                      child: Container(
+                          height: 40,
+                          width: 40,
                           child: Padding(
-                              padding: EdgeInsets.only(),
-                              child: Container(
-                                  height: 40,
-                                  width: 40,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 12, bottom: 12),
-                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                  )
-                              )
+                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                           )
                       ),
                       onTap: (){

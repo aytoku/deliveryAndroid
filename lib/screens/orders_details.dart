@@ -79,15 +79,12 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                   child: GestureDetector(
                     child: Align(
                         alignment: Alignment.topLeft,
-                        child: Padding(
-                            padding: EdgeInsets.only(),
-                            child: Container(
-                                height: 40,
-                                width: 40,
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 12, bottom: 12),
-                                  child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                )
+                        child: Container(
+                            height: 40,
+                            width: 40,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 12, bottom: 12),
+                              child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                             )
                         )
                     ),
@@ -109,72 +106,70 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
             ),
           ),
           Divider(height: 1.0, color: Colors.grey),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Stack(
             children: <Widget>[
               Align(
-                alignment: Alignment.topLeft,
-                child: Column(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, top: 15, right: 0 ),
+                  child: Text((ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].value : 'Пусто',
+                    style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, top: 35),
+                  child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Row(
                   children: <Widget>[
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 15, top: 15, right: 0 ),
-                        child: Text((ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].value : 'Пусто',
-                          style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),),
+                    Padding(
+                      padding: EdgeInsets.only(left: 170, top: 15),
+                      child: Text('Статус заказа: ',
+                        style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10, top: 5, right: 0),
-                        child: Text(time, style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
+                    Flexible(
+                      child: Container(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 15, left: 5, right: 5),
+                          child: Text(ordersStoryModelItem.state_title, style: TextStyle(fontSize: 14, color: Color(0xFFFE534F), fontWeight: FontWeight.bold),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
                       ),
                     )
                   ],
                 ),
               ),
-              Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 15, top: 15),
-                      child: Text('Статус заказа: ',
-                        style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  Text(ordersStoryModelItem.state_title, style: TextStyle(fontSize: 14, color: Color(0xFFFE534F), fontWeight: FontWeight.bold),
-                    overflow: TextOverflow.fade,
-                    maxLines: 1,
-                    softWrap: false,
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 15, top: 5),
-                      child: Text('Заберу с собой', style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
-                    ),
-                  )
-                ],
-              )
+              Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 105, top: 35),
+                  child: Text('Заберу с собой', style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, top: 70),
+                  child: Text('Адрес заведения', style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, top: 90, bottom: 10),
+                  child: Text((ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].street + ordersStoryModelItem.routes[0].house : 'Пусто',
+                    style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
+                ),
+              ),
             ],
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: EdgeInsets.only(left: 15, top: 10),
-              child: Text('Адрес заведения', style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),),
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: EdgeInsets.only(left: 15, top: 5, bottom: 10),
-              child: Text((ordersStoryModelItem.store != null) ? ordersStoryModelItem.routes[0].street + ordersStoryModelItem.routes[0].house : 'Пусто',
-                style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
-            ),
           ),
           Container(
             height: 30,

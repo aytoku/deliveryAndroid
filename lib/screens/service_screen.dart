@@ -59,7 +59,7 @@ class ServiceScreenState extends State<ServiceScreen>{
                           padding: EdgeInsets.only(top:25, bottom: 25),
                           child: Container(
                               height: 40,
-                              width: 40,
+                              width: 50,
                               child: Padding(
                                 padding: EdgeInsets.only(top: 12, bottom: 12),
                                 child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
@@ -79,10 +79,10 @@ class ServiceScreenState extends State<ServiceScreen>{
                 ),
               ),
               Flexible(
-                flex: 10,
+                flex: 8,
                 child: Center(
                   child: Padding(
-                    padding: EdgeInsets.only(left: 0, top: 0),
+                    padding: EdgeInsets.only(right: 10, top: 0),
                     child: Text("Служба поддержки", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
                   ),
                 ),

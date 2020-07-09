@@ -168,7 +168,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20, top: 240),
+            padding: EdgeInsets.only(left: 10, top: 220),
             child: FlatButton(
               child: Text("Сохранить", style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
               color: Color(0xFFFE534F),
@@ -176,7 +176,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),
               ),
-              padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
+              padding: EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
               onPressed: () async {
                 if(await Internet.checkConnection()){
                   Navigator.push(
