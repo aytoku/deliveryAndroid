@@ -1287,9 +1287,9 @@ class QuickMessageScreenState extends State<QuickMessageScreen> {
             quickTextMessage = quickMessage.messages[index];
             messageField.text = quickTextMessage;
           });
-        },
+         },
         );
-      }
+       }
       ),
     );
   }
