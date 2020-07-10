@@ -394,7 +394,6 @@ class HomeScreenState extends State<HomeScreen> {
               topRight: Radius.circular(15)),
           child: Drawer(
             child: ListView(
-              padding: EdgeInsets.zero,
               children: getSideBarItems(currentUser.isLoggedIn),
             ),
           ),
@@ -432,15 +431,22 @@ class HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(top: 36, bottom: 10, left: 14),
+                        padding: EdgeInsets.only(top: 30, bottom: 0, left: 0),
                         child:Row(
                           children: <Widget>[
                             Flexible(
-                              flex: 1,
+                              flex: 0,
                               child: Padding(
                                 padding: EdgeInsets.only(left: 0),
-                                child: GestureDetector(
-                                  child: SvgPicture.asset('assets/svg_images/menu.svg'),
+                                child: InkWell(
+                                  child: Container(
+                                      height: 40,
+                                      width: 60,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(top: 12, bottom: 12, right: 0),
+                                        child: SvgPicture.asset('assets/svg_images/menu.svg'),
+                                      )
+                                  ),
                                   onTap: (){
                                     _scaffoldKey.currentState.openDrawer();
                                   },
@@ -487,9 +493,6 @@ class HomeScreenState extends State<HomeScreen> {
 //                          //launch("tel://+79187072154");
 //                        },
 //                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
                       Expanded(
                         child: ListView(
                           children: <Widget>[

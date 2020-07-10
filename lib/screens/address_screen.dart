@@ -657,6 +657,7 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
                                 payment_type: 'Наличными',
                                 door_to_door: status1,
                               );
+                              showAlertDialog(context);
                               await createOrder.sendData();
                               currentUser.cartDataModel.cart.clear();
                               currentUser.cartDataModel.saveData();
@@ -773,6 +774,41 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
         if (hint == "Доставка") {
           delivery = value;
         }
+      },
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: 0),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))
+            ),
+            child: Container(
+                height: 100,
+                width: 300,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                      child: Text(
+                        'Идет оплата',
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF424242)
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+            ),
+          ),
+        );
       },
     );
   }
