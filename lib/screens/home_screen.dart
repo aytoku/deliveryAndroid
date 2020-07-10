@@ -1017,15 +1017,16 @@ class ChatScreenState extends State<ChatScreen> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              GestureDetector(
+              InkWell(
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
                         padding: EdgeInsets.only(left: 0, top: 40),
                         child: Container(
-                            width: 40,
                             height: 40,
-                            child: Center(
+                            width: 60,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 12, bottom: 12, right: 10),
                               child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                             )
                         )

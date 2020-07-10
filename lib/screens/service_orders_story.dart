@@ -391,7 +391,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                             flex: 7,
                             child: Center(
                               child: Padding(
-                                padding: EdgeInsets.only(left: 0),
+                                padding: EdgeInsets.only(right: 30),
                                 child: Text("История заказов", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
                               ),
                             ),

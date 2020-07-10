@@ -48,51 +48,51 @@ class ServiceScreenState extends State<ServiceScreen>{
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Flexible(
-                flex: 1,
-                child: InkWell(
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                          padding: EdgeInsets.only(top:25, bottom: 25),
-                          child: Container(
-                              height: 40,
-                              width: 60,
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 12, bottom: 12, right: 10),
-                                child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                              )
-                          )
-                      )
-                  ),
-                  onTap: () async {
-                    if(await Internet.checkConnection()){
-                      homeScreenKey = new GlobalKey<HomeScreenState>();
-                      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                          HomeScreen()), (Route<dynamic> route) => false);
-                    }else{
-                      noConnection(context);
-                    }
-                  },
-                ),
-              ),
-              Flexible(
-                flex: 6,
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 20, top: 0),
-                    child: Text("Служба поддержки", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
+          Padding(
+            padding: EdgeInsets.only(top: 30),
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  flex: 1,
+                  child: InkWell(
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Container(
+                            height: 50,
+                            width: 60,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 17, bottom: 17, right: 10),
+                              child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                            )
+                        )
+                    ),
+                    onTap: () async {
+                      if(await Internet.checkConnection()){
+                        homeScreenKey = new GlobalKey<HomeScreenState>();
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                            HomeScreen()), (Route<dynamic> route) => false);
+                      }else{
+                        noConnection(context);
+                      }
+                    },
                   ),
                 ),
-              )
-            ],
+                Flexible(
+                  flex: 6,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 20, top: 0),
+                      child: Text("Служба поддержки", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: EdgeInsets.only(top: 30, left: 20, bottom: 10),
+              padding: EdgeInsets.only(top: 30, left: 16, bottom: 10),
               child: Text('Ваши вопросы',style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFFB9B9B9))),
             ),
           ),

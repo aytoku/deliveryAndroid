@@ -71,7 +71,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
       body: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(top:40, bottom: 20),
+            padding: EdgeInsets.only(top:30, bottom: 0),
             child: Row(
               children: <Widget>[
                 Flexible(
@@ -279,7 +279,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
 //              ),
               Center(
                 child: Padding(
-                    padding: EdgeInsets.only(left: 90, bottom: 20, right: 0),
+                    padding: EdgeInsets.only(left: 80, bottom: 20, right: 0),
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(

@@ -241,52 +241,56 @@ class _CartScreenState extends State<CartScreen> {
                       height: 1,
                       color: Colors.grey,
                     ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 20, bottom: 20),
-                        child: GestureDetector(
-                          child: Text(
-                            'Очистить',
-                            style: TextStyle(
-                                color: Color(0xFFFF0600),
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          onTap: (){
-                            setState(() {
-                              currentUser.cartDataModel.cart.clear();
-                            });
-                            Navigator.pushReplacement(
-                              context,
-                              new MaterialPageRoute(
-                                builder: (context) => new EmptyCartScreen(restaurant: restaurant),
+                    InkWell(
+                      child: Container(
+                        child: Padding(
+                            padding: EdgeInsets.only(top: 20, bottom: 20),
+                            child: Center(
+                              child: Text(
+                                'Очистить',
+                                style: TextStyle(
+                                    color: Color(0xFFFF0600),
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold
+                                ),
                               ),
-                            );
-                          },
+                            )
                         ),
                       ),
+                      onTap: (){
+                        setState(() {
+                          currentUser.cartDataModel.cart.clear();
+                        });
+                        Navigator.pushReplacement(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => new EmptyCartScreen(restaurant: restaurant),
+                          ),
+                        );
+                      },
                     ),
                     Divider(
                       height: 1,
                       color: Colors.grey,
                     ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 20, bottom: 20),
-                        child: GestureDetector(
-                          child: Text(
-                            'Отмена',
-                            style: TextStyle(
-                                fontSize: 17,
-                                color: Color(0xFF424242)
+                    InkWell(
+                      child: Container(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 20, bottom: 20),
+                          child: Center(
+                            child: Text(
+                              'Отмена',
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: Color(0xFF424242)
+                              ),
                             ),
-                          ),
-                          onTap: (){
-                            Navigator.pop(context);
-                          },
+                          )
                         ),
                       ),
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
                     )
                   ],
                 )

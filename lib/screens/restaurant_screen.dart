@@ -282,63 +282,69 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       height: 1,
                       color: Colors.grey,
                     ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 20, bottom: 20),
-                        child: GestureDetector(
-                          child: Text(
-                            'Ок',
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold
+                    InkWell(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 20, bottom: 20),
+                          child: Center(
+                            child: Text(
+                              'Ок',
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold
+                              ),
                             ),
                           ),
-                          onTap: () async {
-                            if(await Internet.checkConnection()){
-                              if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
-                                currentUser.cartDataModel.cart.clear();
-                                currentUser.cartDataModel.addItem(
-                                    order
-                                );
-                                currentUser.cartDataModel.saveData();
-                                basketButtonStateKey.currentState.refresh();
-                                cartItemsQuantityKey.currentState.refresh();
-                                counterKey.currentState.refresh();
-                              }
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 0),
-                                child: showAlertDialog(context),
-                              );
-                            }else{
-                              noConnection(context);
-                            }
-                          },
                         ),
                       ),
+                      onTap: () async {
+                        if(await Internet.checkConnection()){
+                          if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
+                            currentUser.cartDataModel.cart.clear();
+                            currentUser.cartDataModel.addItem(
+                                order
+                            );
+                            currentUser.cartDataModel.saveData();
+                            basketButtonStateKey.currentState.refresh();
+                            cartItemsQuantityKey.currentState.refresh();
+                            counterKey.currentState.refresh();
+                          }
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 0),
+                            child: showAlertDialog(context),
+                          );
+                        }else{
+                          noConnection(context);
+                        }
+                      },
                     ),
                     Divider(
                       height: 1,
                       color: Colors.grey,
                     ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 20, bottom: 20),
-                        child: GestureDetector(
-                          child: Text(
-                            'Отмена',
-                            style: TextStyle(
-                              fontSize: 17,
+                    InkWell(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 20, bottom: 20),
+                          child: Center(
+                            child: Text(
+                              'Отмена',
+                              style: TextStyle(
+                                fontSize: 17,
+                              ),
                             ),
                           ),
-                          onTap: (){
-                            Navigator.pop(context);
-                          },
                         ),
                       ),
-                    )
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                    ),
                   ],
                 )
             ),
@@ -637,8 +643,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                           Flexible(
                             flex: 1,
                             child: Padding(
-                              padding: EdgeInsets.only(left: 15),
-                              child: GestureDetector(
+                              padding: EdgeInsets.only(left: 0),
+                              child: InkWell(
                                   onTap: () {
                                     homeScreenKey = new GlobalKey<HomeScreenState>();
                                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
@@ -646,9 +652,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                   },
                                   child: Container(
                                       height: 40,
-                                      width: 40,
+                                      width: 60,
                                       child: Padding(
-                                        padding: EdgeInsets.only(top: 12, bottom: 12),
+                                        padding: EdgeInsets.only(top: 12, bottom: 12, right: 10),
                                         child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                                       )
                                   )
@@ -656,7 +662,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             ),
                           ),
                           Flexible(
-                            flex: 8,
+                            flex: 6,
                             child: Align(
                               alignment: Alignment.center,
                               child: Padding(

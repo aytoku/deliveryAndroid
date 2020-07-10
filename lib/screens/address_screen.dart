@@ -541,6 +541,11 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
                                     ),
                                   ],
                                 ),
+//                                ListTile(
+//                                  leading: SvgPicture.asset('assets/svg_images/dollar_bills.svg'),
+//                                  title: Text("Наличными", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),),
+//                                  trailing: SvgPicture.asset('assets/svg_images/circle.svg'),
+//                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
