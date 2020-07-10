@@ -56,30 +56,28 @@ class AboutAppScreenState extends State<AboutAppScreen>{
         body: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top:25, bottom: 25),
+              padding: EdgeInsets.only(top:30, bottom: 20),
               child: Row(
                 children: <Widget>[
                   Flexible(
                     flex: 1,
-                    child: GestureDetector(
-                      child: Container(
-                          height: 40,
-                          width: 40,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 12, bottom: 12),
-                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                          )
-                      ),
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
+                    child: InkWell(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                            height: 40,
+                            width: 60,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 12, bottom: 12, right: 20),
+                              child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                            )
+                        )
                     ),
                   ),
                   Flexible(
-                    flex: 8,
+                    flex: 6,
                     child: Center(
                       child: Padding(
-                        padding: EdgeInsets.only(right: 20),
+                        padding: EdgeInsets.only(right: 30),
                         child: Text("О приложении", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
                       ),
                     ),

@@ -362,16 +362,16 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                         children: <Widget>[
                           Flexible(
                             flex: 1,
-                            child: GestureDetector(
+                            child: InkWell(
                               child: Align(
                                   alignment: Alignment.topLeft,
                                   child: Padding(
                                       padding: EdgeInsets.only(left: 0, top: 0),
                                       child: Container(
                                           height: 40,
-                                          width: 40,
+                                          width: 60,
                                           child: Padding(
-                                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                                            padding: EdgeInsets.only(top: 12, bottom: 12, right: 10),
                                             child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                                           )
                                       )
@@ -389,10 +389,10 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                             ),
                           ),
                           Flexible(
-                            flex: 9,
+                            flex: 7,
                             child: Center(
                               child: Padding(
-                                padding: EdgeInsets.only(right: 20),
+                                padding: EdgeInsets.only(right: 40),
                                 child: Text("История заказов", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
                               ),
                             ),

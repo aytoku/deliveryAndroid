@@ -309,7 +309,7 @@ class _CartScreenState extends State<CartScreen> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top:50),
+                padding: EdgeInsets.only(top:30),
                 child: Column(
                   children: <Widget>[
                     Row(
@@ -318,28 +318,24 @@ class _CartScreenState extends State<CartScreen> {
                         Flexible(
                           flex: 0,
                           child: Padding(
-                            padding: EdgeInsets.only(left: 5),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child:Padding(
-                                  padding: EdgeInsets.only(right: 0),
-                                  child: Container(
-                                    width: 40,
+                            padding: EdgeInsets.only(left: 0),
+                            child: InkWell(
+                                onTap: () => Navigator.pop(context),
+                                child: Container(
                                     height: 40,
-                                    child: Center(
+                                    width: 60,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(top: 12, bottom: 12, right: 25),
                                       child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                    ),
-                                  )
-                              ),
+                                    )
+                                )
                             ),
                           ),
                         ),
                         Flexible(
                           flex: 0,
                           child: Padding(
-                            padding: EdgeInsets.only(left: 0),
+                            padding: EdgeInsets.only(right: 20),
                             child:  Text(restaurant.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
                           ),
                         ),

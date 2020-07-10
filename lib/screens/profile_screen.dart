@@ -70,16 +70,16 @@ class ProfileScreenState extends State<ProfileScreen>{
                   children: <Widget>[
                     Flexible(
                       flex: 1,
-                      child: GestureDetector(
+                      child: InkWell(
                         child: Align(
                             alignment: Alignment.topLeft,
                             child: Padding(
                                 padding: EdgeInsets.only(),
                                 child: Container(
                                     height: 40,
-                                    width: 40,
+                                    width: 60,
                                     child: Padding(
-                                      padding: EdgeInsets.only(top: 12, bottom: 12),
+                                      padding: EdgeInsets.only(top: 12, bottom: 12, right: 0),
                                       child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                                     )
                                 )
@@ -97,7 +97,7 @@ class ProfileScreenState extends State<ProfileScreen>{
                       ),
                     ),
                     Flexible(
-                      flex: 10,
+                      flex: 8,
                       child: Align(
                         alignment: Alignment.topCenter,
                         child: Padding(

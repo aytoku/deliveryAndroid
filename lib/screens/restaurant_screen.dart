@@ -694,7 +694,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     Stack(
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(top:40, bottom: 10),
+                          padding: EdgeInsets.only(top:30, bottom: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -707,9 +707,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                     onTap: () => Navigator.pop(context),
                                     child: Container(
                                         height: 40,
-                                        width: 40,
+                                        width: 60,
                                         child: Padding(
-                                          padding: EdgeInsets.only(top: 12, bottom: 12),
+                                          padding: EdgeInsets.only(top: 12, bottom: 12, right: 20),
                                           child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                                         )
                                     )
@@ -717,11 +717,11 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                 )
                               ),
                               Flexible(
-                                flex: 10,
+                                flex: 6,
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: Padding(
-                                    padding: EdgeInsets.only(right: 0),
+                                    padding: EdgeInsets.only(right: 20),
                                     child:  Text(this.restaurant.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
                                   ),
                                 ),

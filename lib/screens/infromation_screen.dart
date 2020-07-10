@@ -50,16 +50,16 @@ class InformationScreenState extends State<InformationScreen>{
         children: <Widget>[
           Row(
             children: <Widget>[
-              GestureDetector(
+              InkWell(
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(top:25, bottom: 25),
+                      padding: EdgeInsets.only(top:30, bottom: 20),
                       child: Container(
                           height: 40,
-                          width: 40,
+                          width: 60,
                           child: Padding(
-                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                            padding: EdgeInsets.only(top: 12, bottom: 12, right: 20),
                             child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                           )
                       )

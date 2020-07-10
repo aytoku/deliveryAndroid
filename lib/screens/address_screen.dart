@@ -235,7 +235,7 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
                         flex: 1,
                         child: Padding(
                           padding: EdgeInsets.only(left: 15),
-                          child: GestureDetector(
+                          child: InkWell(
                             onTap: () => Navigator.pop(
                                 context
                             ),
@@ -243,9 +243,9 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
                                 padding: EdgeInsets.only(right: 0),
                                 child: Container(
                                     height: 40,
-                                    width: 40,
+                                    width: 60,
                                     child: Padding(
-                                      padding: EdgeInsets.only(top: 12, bottom: 12),
+                                      padding: EdgeInsets.only(top: 12, bottom: 12, right: 20),
                                       child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                                     )
                                 )
@@ -254,9 +254,9 @@ class _AddressScreenState extends State<AddressScreen> with AutomaticKeepAliveCl
                         ),
                       ),
                       Flexible(
-                        flex: 10,
+                        flex: 6,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 80),
+                          padding: EdgeInsets.only(left: 60),
                           child:  Text("Оформление заказа", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF000000)),),
                         ),
                       )

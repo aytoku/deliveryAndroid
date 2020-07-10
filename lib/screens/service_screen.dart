@@ -52,16 +52,16 @@ class ServiceScreenState extends State<ServiceScreen>{
             children: <Widget>[
               Flexible(
                 flex: 1,
-                child: GestureDetector(
+                child: InkWell(
                   child: Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
                           padding: EdgeInsets.only(top:25, bottom: 25),
                           child: Container(
                               height: 40,
-                              width: 50,
+                              width: 60,
                               child: Padding(
-                                padding: EdgeInsets.only(top: 12, bottom: 12),
+                                padding: EdgeInsets.only(top: 12, bottom: 12, right: 10),
                                 child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                               )
                           )
@@ -79,10 +79,10 @@ class ServiceScreenState extends State<ServiceScreen>{
                 ),
               ),
               Flexible(
-                flex: 8,
+                flex: 6,
                 child: Center(
                   child: Padding(
-                    padding: EdgeInsets.only(right: 10, top: 0),
+                    padding: EdgeInsets.only(right: 20, top: 0),
                     child: Text("Служба поддержки", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
                   ),
                 ),

@@ -71,16 +71,16 @@ class NameScreenState extends State<NameScreen> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            GestureDetector(
+            InkWell(
               child: Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                      padding: EdgeInsets.only(left: 15, top: 50),
+                      padding: EdgeInsets.only(left: 15, top: 40),
                       child: Container(
                           height: 40,
-                          width: 40,
+                          width: 60,
                           child: Padding(
-                            padding: EdgeInsets.only(top: 12, bottom: 12),
+                            padding: EdgeInsets.only(top: 12, bottom: 12, right: 30),
                             child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
                           )
                       )
