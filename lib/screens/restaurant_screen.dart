@@ -357,70 +357,77 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   _buildBottomNavigationMenu(FoodRecords restaurantDataItems, GlobalKey<CartItemsQuantityState> cartItemsQuantityKey){
     GlobalKey<VariantsSelectorState> variantsSelectorStateKey = GlobalKey<VariantsSelectorState>();
     GlobalKey<ToppingsSelectorState> toppingsSelectorStateKey = new GlobalKey<ToppingsSelectorState>();
-    return Column(
-      children: <Widget>[
-        Expanded(
-          child: ListView(
-              children: <Widget>[
-                ClipRRect(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
-                    child: Stack(
-                      children: <Widget>[
-                        Hero(
-                            tag: restaurantDataItems.name,
-                            child: Image.network(restaurantDataItems.image,
-                              fit: BoxFit.cover,
-                              height: 300.0,
-                              width: 600.0,
-                            )
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 10, right: 15),
-                            child: GestureDetector(
-                              child: SvgPicture.asset('assets/svg_images/bottom_close.svg'),
-                              onTap: (){
-                                Navigator.pop(context);
-                              },
-                            ),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: const Radius.circular(12),
+          topRight: const Radius.circular(12),)
+      ),
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+                children: <Widget>[
+                  ClipRRect(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12), bottomLeft: Radius.circular(0), bottomRight: Radius.circular(0)),
+                      child: Stack(
+                        children: <Widget>[
+                          Hero(
+                              tag: restaurantDataItems.name,
+                              child: Image.network(restaurantDataItems.image,
+                                fit: BoxFit.cover,
+                                height: 300.0,
+                                width: 600.0,
+                              )
+                          ),
+                          Align(
+                              alignment: Alignment.topRight,
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 10, right: 15),
+                                child: GestureDetector(
+                                  child: SvgPicture.asset('assets/svg_images/bottom_close.svg'),
+                                  onTap: (){
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              )
                           )
-                        )
-                      ],
-                    )
-                ),
-                Container(
-                  color: Color(0xFFFAFAFA),
-                  height: 60,
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 15),
-                        child: Text(restaurantDataItems.comment, style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),),
+                        ],
                       )
                   ),
-                ),
-                (restaurantDataItems.variants != null) ? Padding(
-                  padding: EdgeInsets.only(left: 15),
-                  child: Text('Варианты',
-                    style: TextStyle(
-                        color: Color(0xFF424242)
+                  (restaurantDataItems.comment != "") ? Container(
+                    color: Color(0xFFFAFAFA),
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                          child: Text(restaurantDataItems.comment, style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 13),),
+                        )
                     ),
-                  ),
-                ) : Text(''),
-                (restaurantDataItems.variants != null) ? VariantsSelector(key: variantsSelectorStateKey, variantsList: restaurantDataItems.variants) : Container(),
-                (restaurantDataItems.toppings != null) ? Padding(
-                  padding: EdgeInsets.only(left: 15),
-                  child: Text('Топпинги',
-                    style: TextStyle(
-                        color: Color(0xFF424242)
+                  ) : Container(height: 0),
+                  (restaurantDataItems.variants != null) ? Padding(
+                    padding: EdgeInsets.only(left: 15, top: 10),
+                    child: Text('Варианты',
+                      style: TextStyle(
+                          color: Color(0xFF424242)
+                      ),
                     ),
-                  ),
-                ) : Text(''),
-                (restaurantDataItems.toppings != null) ? ToppingsSelector(key: toppingsSelectorStateKey, toppingsList: restaurantDataItems.toppings) : Container(),
-              ]
+                  ) : Text(''),
+                  (restaurantDataItems.variants != null) ? VariantsSelector(key: variantsSelectorStateKey, variantsList: restaurantDataItems.variants) : Container(height: 0),
+                  (restaurantDataItems.toppings != null) ? Padding(
+                    padding: EdgeInsets.only(left: 15),
+                    child: Text('Топпинги',
+                      style: TextStyle(
+                          color: Color(0xFF424242)
+                      ),
+                    ),
+                  ) : Text(''),
+                  (restaurantDataItems.toppings != null) ? ToppingsSelector(key: toppingsSelectorStateKey, toppingsList: restaurantDataItems.toppings) : Container(height: 0),
+                ]
+            ),
           ),
-        ),
 //          Expanded(
 //            child: ListView(
 //              scrollDirection: Axis.vertical,
@@ -434,128 +441,129 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 //              ),
 //            ),
 //          ),
-        Container(
-          margin: EdgeInsets.only(right: 0.0, top: 10, bottom: 12),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 15),
-                    child: Text(
-                      restaurantDataItems.name,
-                      style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF000000)
-                      ),
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  SizedBox(height: 4.0,),
-                  Align(
-                    alignment: AlignmentDirectional.centerEnd,
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Text(
-                        '${restaurantDataItems.price}',
-                        style: TextStyle(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFFB0B0B0)
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(height: 4.0,),
-              Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Row(
+          Container(
+            margin: EdgeInsets.only(right: 0.0, top: 10, bottom: 12),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(top: 0),
-                      child: Counter(
-                        key: counterKey,
+                      padding: EdgeInsets.only(left: 15),
+                      child: Text(
+                        restaurantDataItems.name,
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF000000)
+                        ),
+                        textAlign: TextAlign.start,
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 15, right: 5),
-                      child: FlatButton(
-                        child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 16),),
-                        color: Color(0xFFFE534F),
-                        splashColor: Colors.redAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                    SizedBox(height: 4.0,),
+                    Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Text(
+                          '${restaurantDataItems.price}',
+                          style: TextStyle(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFFB0B0B0)
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
-                        onPressed: () async {
-                          if(await Internet.checkConnection()){
-                            FoodRecords foodOrder = FoodRecords.fromFoodRecords(restaurantDataItems);
-                            if(variantsSelectorStateKey.currentState != null){
-                              if(variantsSelectorStateKey.currentState.selectedVariant != null){
-                                foodOrder.variants = [
-                                  variantsSelectorStateKey.currentState.selectedVariant
-                                ];
-                              }else{
-                                foodOrder.variants = null;
-                              }
-                              print(foodOrder.variants);
-                            }
-                            if(toppingsSelectorStateKey.currentState != null){
-                              List<Toppings> toppingsList = toppingsSelectorStateKey.currentState.getSelectedToppings();
-                              if(toppingsList.length != null){
-                                foodOrder.toppings = toppingsList;
-                              }else{
-                                foodOrder.toppings = null;
-                              }
-                              foodOrder.toppings.forEach((element) {
-                                print(element.name);
-                              });
-                            }
-                            if(currentUser.cartDataModel.cart.length > 0 && restaurant.uuid != currentUser.cartDataModel.cart[0].restaurant.uuid){
-                              showCartClearDialog(context, new Order(
-                                  food: foodOrder,
-                                  quantity: counterKey.currentState.counter,
-                                  restaurant: restaurant,
-                                  date: DateTime.now().toString()
-                              ), cartItemsQuantityKey);
-                            }else{
-                              currentUser.cartDataModel.addItem(
-                                  new Order(
-                                      food: foodOrder,
-                                      quantity: counterKey.currentState.counter,
-                                      restaurant: restaurant,
-                                      date: DateTime.now().toString())
-                              );
-                              currentUser.cartDataModel.  saveData();
-                              Navigator.pop(context);
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 0),
-                                child: showAlertDialog(context),
-                              );
-                              basketButtonStateKey.currentState.refresh();
-                              cartItemsQuantityKey.currentState.refresh();
-                              counterKey.currentState.refresh();
-                            }
-                          }else{
-                            noConnection(context);
-                          }
-                        },
                       ),
                     )
                   ],
                 ),
-              )
-            ],
-          ),
-        )
-      ],
+                SizedBox(height: 4.0,),
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(top: 0),
+                        child: Counter(
+                          key: counterKey,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15, right: 5),
+                        child: FlatButton(
+                          child: Text("Добавить", style: TextStyle(color: Colors.white, fontSize: 16),),
+                          color: Color(0xFFFE534F),
+                          splashColor: Colors.redAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
+                          onPressed: () async {
+                            if(await Internet.checkConnection()){
+                              FoodRecords foodOrder = FoodRecords.fromFoodRecords(restaurantDataItems);
+                              if(variantsSelectorStateKey.currentState != null){
+                                if(variantsSelectorStateKey.currentState.selectedVariant != null){
+                                  foodOrder.variants = [
+                                    variantsSelectorStateKey.currentState.selectedVariant
+                                  ];
+                                }else{
+                                  foodOrder.variants = null;
+                                }
+                                print(foodOrder.variants);
+                              }
+                              if(toppingsSelectorStateKey.currentState != null){
+                                List<Toppings> toppingsList = toppingsSelectorStateKey.currentState.getSelectedToppings();
+                                if(toppingsList.length != null){
+                                  foodOrder.toppings = toppingsList;
+                                }else{
+                                  foodOrder.toppings = null;
+                                }
+                                foodOrder.toppings.forEach((element) {
+                                  print(element.name);
+                                });
+                              }
+                              if(currentUser.cartDataModel.cart.length > 0 && restaurant.uuid != currentUser.cartDataModel.cart[0].restaurant.uuid){
+                                showCartClearDialog(context, new Order(
+                                    food: foodOrder,
+                                    quantity: counterKey.currentState.counter,
+                                    restaurant: restaurant,
+                                    date: DateTime.now().toString()
+                                ), cartItemsQuantityKey);
+                              }else{
+                                currentUser.cartDataModel.addItem(
+                                    new Order(
+                                        food: foodOrder,
+                                        quantity: counterKey.currentState.counter,
+                                        restaurant: restaurant,
+                                        date: DateTime.now().toString())
+                                );
+                                currentUser.cartDataModel.saveData();
+                                Navigator.pop(context);
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 0),
+                                  child: showAlertDialog(context),
+                                );
+                                basketButtonStateKey.currentState.refresh();
+                                cartItemsQuantityKey.currentState.refresh();
+                                counterKey.currentState.refresh();
+                              }
+                            }else{
+                              noConnection(context);
+                            }
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -662,7 +670,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             ),
                           ),
                           Flexible(
-                            flex: 6,
+                            flex: 7,
                             child: Align(
                               alignment: Alignment.center,
                               child: Padding(
@@ -723,11 +731,11 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                 )
                               ),
                               Flexible(
-                                flex: 6,
+                                flex: 7,
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: Padding(
-                                    padding: EdgeInsets.only(right: 20),
+                                    padding: EdgeInsets.only(right: 30),
                                     child:  Text(this.restaurant.name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
                                   ),
                                 ),
@@ -951,7 +959,7 @@ class ButtonCounterState extends State<ButtonCounter> {
     return  Flexible(
       flex: 1,
       child: Text(
-          '${totalPrice.toStringAsFixed(0)}',
+          '${totalPrice.toStringAsFixed(0)} \Р',
           style: TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.w600,
@@ -1017,26 +1025,35 @@ class BasketButtonState extends State<BasketButton>{
       return Container();
     }
     return Padding(
-      padding: EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 20),
+      padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 15),
       child: FlatButton(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Flexible(
               flex: 1,
-              child: Text(
-                '30 – 50 мин',
-                style: TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFFE32636),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Text(
+                    '30 – 50 мин',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),),
+                ),
+              )
             ),
             Flexible(
                 flex: 1,
                 child: Padding(
                   padding: EdgeInsets.only(
-                    right: 30,
+                    right: 15,
                   ),
                   child: Text(
                       'Корзина',
@@ -1048,8 +1065,17 @@ class BasketButtonState extends State<BasketButton>{
                   ),
                 )
             ),
-            new ButtonCounter(
-              key: buttonCounterKey,
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xFFE32636),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: new ButtonCounter(
+                  key: buttonCounterKey,
+                ),
+              )
             )
           ],
         ),
@@ -1058,7 +1084,7 @@ class BasketButtonState extends State<BasketButton>{
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
+        padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
         onPressed: () async {
           if(await Internet.checkConnection()){
             if(currentUser.cartDataModel.cart.length == 0){

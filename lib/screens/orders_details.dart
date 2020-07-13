@@ -71,7 +71,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
       body: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(top:30, bottom: 0),
+            padding: EdgeInsets.only(top:30, bottom: 10),
             child: Row(
               children: <Widget>[
                 Flexible(
@@ -125,35 +125,68 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
               ),
               Align(
                 alignment: Alignment.centerRight,
-                child: Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 170, top: 15),
-                      child: Text('Статус заказа: ',
-                        style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Flexible(
-                      child: Container(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 15, left: 5, right: 5),
-                          child: Text(ordersStoryModelItem.state_title, style: TextStyle(fontSize: 14, color: Color(0xFFFE534F), fontWeight: FontWeight.bold),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
                 child: Padding(
-                  padding: EdgeInsets.only(right: 105, top: 35),
-                  child: Text('Заберу с собой', style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
+                  padding: EdgeInsets.only(left: 170, top: 15),
+                  child: RichText(
+                    textAlign: TextAlign.start,
+                    maxLines: 2,
+                    text: TextSpan(
+                        text: 'Статус заказа: ',
+                        style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ordersStoryModelItem.state_title + '\n',
+                            style: TextStyle(fontSize: 14, color: Color(0xFFFE534F), fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                              text: 'Заберу с собой',
+                              style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0))
+                          )
+                        ]
+                    ),
+                  ),
                 ),
               ),
+//              Align(
+//                alignment: Alignment.centerRight,
+//                child: Container(
+//                  child: Row(
+//                    children: <Widget>[
+//                      Flexible(
+//                        child: Container(
+//                          child: Padding(
+//                            padding: EdgeInsets.only(left: 170, top: 15),
+//                            child: Text('Статус заказа: ' + ordersStoryModelItem.state_title,
+//                              style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),
+//                              textAlign: TextAlign.start,
+//                              maxLines: 2,
+//                            ),
+//                          ),
+//                        ),
+//                      )
+////                      Flexible(
+////                        child: Container(
+////                          child: Padding(
+////                            padding: EdgeInsets.only(top: 15, left: 5, right: 5),
+////                            child: Text(ordersStoryModelItem.state_title, style: TextStyle(fontSize: 14, color: Color(0xFFFE534F), fontWeight: FontWeight.bold),
+////                              //overflow: TextOverflow.ellipsis,
+////                              maxLines: 2,
+////                              textAlign: TextAlign.start,
+////                            ),
+////                          ),
+////                        ),
+////                      )
+//                    ],
+//                  ),
+//                )
+//              ),
+//              Align(
+//                alignment: Alignment.centerRight,
+//                child: Padding(
+//                  padding: EdgeInsets.only(right: 105, top: 35),
+//                  child: Text('Заберу с собой', style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
+//                ),
+//              ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
@@ -203,13 +236,18 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen>{
                                     padding: EdgeInsets.only(left: 15, right: 15),
                                     child: SvgPicture.asset('assets/svg_images/cross.svg'),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text(ordersStoryModelItem.products[index].name,
-                                      style: TextStyle(
-                                          color: Color(0xFF000000),
-                                          fontSize: 14
-                                    ),),
+                                  Flexible(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(left: 15),
+                                      child: Text(ordersStoryModelItem.products[index].name,
+                                        style: TextStyle(
+                                            color: Color(0xFF000000),
+                                            fontSize: 14
+                                        ),
+                                        textAlign: TextAlign.start,
+                                        maxLines: 2,
+                                      ),
+                                    ),
                                   )
                                 ],
                               ),

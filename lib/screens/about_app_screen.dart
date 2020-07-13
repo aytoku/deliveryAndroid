@@ -81,7 +81,7 @@ class AboutAppScreenState extends State<AboutAppScreen>{
                       flex: 6,
                       child: Center(
                         child: Padding(
-                          padding: EdgeInsets.only(right: 40),
+                          padding: EdgeInsets.only(right: 50),
                           child: Text("О приложении", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF3F3F3F)),),
                         ),
                       ),
@@ -120,7 +120,7 @@ class AboutAppScreenState extends State<AboutAppScreen>{
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text('Лицензионное соглашение'),
+                        Text('Лицензионное соглашение', style: TextStyle(fontSize: 17, color: Color(0xFF424242))),
                         GestureDetector(
                           child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
                         )
@@ -147,7 +147,7 @@ class AboutAppScreenState extends State<AboutAppScreen>{
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text('Политика конфиденцальности'),
+                        Text('Политика конфиденцальности', style: TextStyle(fontSize: 17, color: Color(0xFF424242))),
                         GestureDetector(
                           child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
                         )

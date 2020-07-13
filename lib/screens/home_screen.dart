@@ -229,30 +229,6 @@ class HomeScreenState extends State<HomeScreen> {
           }
         },
       ),
-      ListTile(
-        title: Padding(
-          padding: EdgeInsets.only(top: 20, bottom: 20),
-          child: Text('Служба поддержки',
-            style: TextStyle(
-                fontSize: 17,
-                color: Color(0xFF424242),
-                letterSpacing: 0.45
-            ),
-          ),
-        ),
-        onTap: () async {
-          if(await Internet.checkConnection()){
-            Navigator.push(
-              context,
-              new MaterialPageRoute(
-                builder: (context) => new ServiceScreen(),
-              ),
-            );
-          }else{
-            noConnection(context);
-          }
-        },
-      ),
     ];
 
     if(isLogged){
@@ -260,24 +236,26 @@ class HomeScreenState extends State<HomeScreen> {
           [
             Padding(
               padding: EdgeInsets.only(top: 60),
-              child: ListTile(
-                title: Text(necessaryDataForAuth.name ?? ' ', style: TextStyle(color: Color(0xFF424242), fontWeight: FontWeight.bold, fontSize: 17),),
-                subtitle: Text(necessaryDataForAuth.phone_number ?? ' ', style: TextStyle(color: Color(0x9B9B9B9B), fontSize: 14),),
-                trailing: GestureDetector(
-                  child: SvgPicture.asset('assets/svg_images/pencil.svg'),
-                  onTap: () async {
-                    if(await Internet.checkConnection()){
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => new ProfileScreen(),
-                        ),
-                      );
-                    }else{
-                      noConnection(context);
-                    }
-                  },
+              child: InkWell(
+                child: ListTile(
+                  title: Text(necessaryDataForAuth.name ?? ' ', style: TextStyle(color: Color(0xFF424242), fontWeight: FontWeight.bold, fontSize: 17),),
+                  subtitle: Text(necessaryDataForAuth.phone_number ?? ' ', style: TextStyle(color: Color(0x9B9B9B9B), fontSize: 14),),
+                  trailing: GestureDetector(
+                    child: SvgPicture.asset('assets/svg_images/pencil.svg'),
+                  ),
                 ),
+                onTap: () async {
+                  if(await Internet.checkConnection()){
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new ProfileScreen(),
+                      ),
+                    );
+                  }else{
+                    noConnection(context);
+                  }
+                },
               ),
             ),
 //              ListTile(
@@ -332,6 +310,30 @@ class HomeScreenState extends State<HomeScreen> {
                     context,
                     new MaterialPageRoute(
                       builder: (context) => new MyAddressesScreen(),
+                    ),
+                  );
+                }else{
+                  noConnection(context);
+                }
+              },
+            ),
+            ListTile(
+              title: Padding(
+                padding: EdgeInsets.only(top: 20, bottom: 20),
+                child: Text('Служба поддержки',
+                  style: TextStyle(
+                      fontSize: 17,
+                      color: Color(0xFF424242),
+                      letterSpacing: 0.45
+                  ),
+                ),
+              ),
+              onTap: () async {
+                if(await Internet.checkConnection()){
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new ServiceScreen(),
                     ),
                   );
                 }else{
@@ -495,6 +497,7 @@ class HomeScreenState extends State<HomeScreen> {
 //                      ),
                       Expanded(
                         child: ListView(
+                          padding: EdgeInsets.zero,
                           children: <Widget>[
                             FutureBuilder<List<OrderChecking>>(
                               future: OrderChecking.getActiveOrder(),
@@ -502,7 +505,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 if(snapshot.connectionState == ConnectionState.done && snapshot.data != null && snapshot.data.length > 0){
                                   orderList = snapshot.data;
                                   return (currentUser.isLoggedIn) ? Container(
-                                    height: 180,
+                                    height: 200,
                                     child: ListView(
                                       children: snapshot.data,
                                       scrollDirection: Axis.horizontal,
@@ -663,12 +666,11 @@ class OrderCheckingState extends State<OrderChecking> {
         children: <Widget>[
           Expanded(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Align(
-                  alignment: Alignment.topLeft,
+                  alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10),
+                    padding: EdgeInsets.only(left: 0),
                     child: Align(
                       child: Text(
                         'Ваш заказ из ' + (ordersStoryModelItem.store != null ? ordersStoryModelItem.store.name : 'Пусто'),
@@ -683,10 +685,10 @@ class OrderCheckingState extends State<OrderChecking> {
                   ),
                 ),
                 Align(
-                  alignment: Alignment.topRight,
+                  alignment: Alignment.centerRight,
                   child: Padding(
-                    padding: EdgeInsets.only(right: 10, left: 10, top: 20),
-                    child: GestureDetector(
+                    padding: EdgeInsets.only(right: 10, left: 20, top: 0),
+                    child: InkWell(
                       child: Container(
                         height: 30,
                         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(44)),
@@ -848,51 +850,51 @@ class OrderCheckingState extends State<OrderChecking> {
                     },
                   )
               ),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 10),
-                      child: (in_the_way.contains(ordersStoryModelItem.state)) ? Container(
-                        width: 130,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(11)),
-                            color: Colors.green),
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 25),
-                                child: SvgPicture.asset('assets/svg_images/chat.svg'),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(right: 25),
-                                child: Text(
-                                  'Чат',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                      color: Colors.white
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ) : Container(),
-                    ),
-                    onTap: (){
-                      Navigator.pushReplacement(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => new ChatScreen(order_uuid: ordersStoryModelItem.uuid, key: chatKey),
-                        ),
-                      );
-                    },
-                  )
-              ),
+//              Align(
+//                  alignment: Alignment.centerRight,
+//                  child: GestureDetector(
+//                    child: Padding(
+//                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 10),
+//                      child: (in_the_way.contains(ordersStoryModelItem.state)) ? Container(
+//                        width: 130,
+//                        decoration: BoxDecoration(
+//                            borderRadius: BorderRadius.all(Radius.circular(11)),
+//                            color: Colors.green),
+//                        child: Padding(
+//                          padding: EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
+//                          child: Row(
+//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                            children: <Widget>[
+//                              Padding(
+//                                padding: EdgeInsets.only(left: 25),
+//                                child: SvgPicture.asset('assets/svg_images/chat.svg'),
+//                              ),
+//                              Padding(
+//                                padding: EdgeInsets.only(right: 25),
+//                                child: Text(
+//                                  'Чат',
+//                                  style: TextStyle(
+//                                      fontWeight: FontWeight.bold,
+//                                      fontSize: 14,
+//                                      color: Colors.white
+//                                  ),
+//                                ),
+//                              )
+//                            ],
+//                          ),
+//                        ),
+//                      ) : Container(),
+//                    ),
+//                    onTap: (){
+//                      Navigator.pushReplacement(
+//                        context,
+//                        new MaterialPageRoute(
+//                          builder: (context) => new ChatScreen(order_uuid: ordersStoryModelItem.uuid, key: chatKey),
+//                        ),
+//                      );
+//                    },
+//                  )
+//              ),
             ],
           )
         ],

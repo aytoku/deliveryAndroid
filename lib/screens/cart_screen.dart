@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/ResponseData.dart';
 import 'package:food_delivery/models/food.dart';
@@ -34,6 +35,7 @@ class _CartScreenState extends State<CartScreen> {
     currentUser.cartDataModel.cart.forEach((Order order) => totalPrice += order.quantity * order.food.price);
     return Expanded(
       child: ListView.separated(
+        padding: EdgeInsets.zero,
         itemCount: currentUser.cartDataModel.cart.length + 1,
         itemBuilder: (BuildContext context, int index) {
           if (index < currentUser.cartDataModel.cart.length) {
@@ -93,7 +95,7 @@ class _CartScreenState extends State<CartScreen> {
           height: 1.0,
           color: Colors.grey,
         );
-      },
+       },
       ),
     );
   }
@@ -101,115 +103,118 @@ class _CartScreenState extends State<CartScreen> {
     GlobalKey<CounterState> counterKey = new GlobalKey();
     return Container(
         padding: EdgeInsets.all(5.0),
-        child: Row(
+        child: GestureDetector(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Expanded(
-                  child: Container(
-                      child: GestureDetector(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Flexible(
-                              flex: 3,
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    !order.isSelected ?
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
-                                      child: Text(
-                                        '${order.quantity.toStringAsFixed(0)}',
-                                        style: TextStyle(
-                                            decoration: TextDecoration.none,
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF000000)
-                                        ),
-                                      ),
-                                    ): Counter(key: counterKey,initial_counter: order.quantity,),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 10, top: 15,bottom: 15),
-                                      child: SvgPicture.asset('assets/svg_images/cross.svg'),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                          padding: EdgeInsets.only(left: 10 ),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Text(
-                                                order.food.name,
-                                                style: TextStyle(
-                                                    decoration: TextDecoration.none,
-                                                    fontSize: 14.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color(0xFF000000)
-                                                ),
-                                                textAlign: TextAlign.start,
-                                              ),
-                                              (order.food.variants != null) ? Text(
-                                                order.food.variants[0].name,
-                                                style: TextStyle(
-                                                    decoration: TextDecoration.none,
-                                                    fontSize: 10.0,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color(0xFF000000)
-                                                ),
-                                                textAlign: TextAlign.start,
-                                              ) : Text(''),
-                                              (order.food.toppings != null) ?
-                                              Expanded(
-                                                child: ListView(
-                                                  children: List.generate(order.food.toppings.length, (index) =>
-                                                      Padding(
-                                                        padding: EdgeInsets.only(left: 90),
-                                                        child: Text(
-                                                          order.food.toppings[index].name,
-                                                          style: TextStyle(
-                                                              decoration: TextDecoration.none,
-                                                              fontSize: 10.0,
-                                                              fontWeight: FontWeight.bold,
-                                                              color: Color(0xFF000000)
-                                                          ),
-                                                          textAlign: TextAlign.start,
-                                                        ),
-                                                      )),
-                                                ),
-                                              )
-                                                  : Text(''),
-                                            ],
-                                          )
-                                      ),
-                                    )
-                                  ]
-                              ),
-                            ),
-                            Flexible(
-                                flex: 1,
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 15),
+              Flexible(
+                flex: 3,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      !order.isSelected ?
+                      Padding(
+                        padding: EdgeInsets.only(top: 15,bottom: 15,left: 10),
+                        child: Text(
+                          '${order.quantity.toStringAsFixed(0)}',
+                          style: TextStyle(
+                              decoration: TextDecoration.none,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF000000)
+                          ),
+                        ),
+                      ): Counter(key: counterKey,initial_counter: order.quantity,),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, top: 15,bottom: 15),
+                        child: SvgPicture.asset('assets/svg_images/cross.svg'),
+                      ),
+                      Expanded(
+                        child: Padding(
+                            padding: EdgeInsets.only(left: 15, top: 15),
+                            child: ListView(
+                              padding: EdgeInsets.zero,
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(top: 0),
                                   child: Text(
-                                      '${order.quantity * order.food.price} \Р',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.none,
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(0xFFB0B0B0)
-                                      )
+                                    order.food.name,
+                                    style: TextStyle(
+                                        decoration: TextDecoration.none,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF000000)
+                                    ),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ),
+                                (order.food.variants != null) ? Text(
+                                  order.food.variants[0].name,
+                                  style: TextStyle(
+                                      decoration: TextDecoration.none,
+                                      fontSize: 10.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF000000)
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ) : Text(''),
+                                (order.food.toppings != null) ?
+                                Expanded(
+                                  child: ListView(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    children: List.generate(order.food.toppings.length, (index) =>
+                                        Padding(
+                                          padding: EdgeInsets.only(bottom: 5),
+                                          child: Text(
+                                            order.food.toppings[index].name,
+                                            style: TextStyle(
+                                                decoration: TextDecoration.none,
+                                                fontSize: 10.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF000000)
+                                            ),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        )),
                                   ),
                                 )
-                            ),
-                          ],
+                                    : Text(''),
+                              ],
+                            )
                         ),
-                        onTap: (){
-                          setState(() {
-                            if(order.isSelected){
-                              order.quantity = counterKey.currentState.counter;
-                            }
-                            order.isSelected = !order.isSelected;
-                          });
-                        },
                       )
-                  ))]));
+                    ]
+                ),
+              ),
+              Flexible(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 15),
+                    child: Text(
+                        '${order.quantity * order.food.price} \Р',
+                        style: TextStyle(
+                            decoration: TextDecoration.none,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFB0B0B0)
+                        )
+                    ),
+                  )
+              ),
+            ],
+          ),
+          onTap: (){
+            setState(() {
+              if(order.isSelected){
+                order.quantity = counterKey.currentState.counter;
+              }
+              order.isSelected = !order.isSelected;
+            });
+          },
+        )
+    );
   }
   showAlertDialog(BuildContext context) {
     showDialog(
@@ -416,26 +421,35 @@ class _CartScreenState extends State<CartScreen> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 10),
+                  padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 15),
                   child: FlatButton(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Flexible(
-                          flex: 1,
-                          child: Text(
-                            '30 – 50 мин',
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),),
+                            flex: 1,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xFFE32636),
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  '30 – 50 мин',
+                                  style: TextStyle(
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),),
+                              ),
+                            )
                         ),
                         Flexible(
                             flex: 1,
                             child: Padding(
                               padding: EdgeInsets.only(
-                                right: 30,
+                                right: 15,
                               ),
                               child: Text(
                                   'Далее',
@@ -448,16 +462,25 @@ class _CartScreenState extends State<CartScreen> {
                             )
                         ),
                         Flexible(
-                          flex: 1,
-                          child: Text(
-                              '${totalPrice.toStringAsFixed(0)}',
-                              style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white
-                              )
-                          ),
-                        )
+                            flex: 1,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xFFE32636),
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                    '${totalPrice.toStringAsFixed(0)} \Р',
+                                    style: TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white
+                                    )
+                                ),
+                              ),
+                            )
+                        ),
                       ],
                     ),
                     color: Color(0xFFFE534F),
@@ -465,23 +488,27 @@ class _CartScreenState extends State<CartScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    padding: EdgeInsets.only(left: 10, top: 20, right: 20, bottom: 20),
-                    onPressed: (){
-                      if(currentUser.isLoggedIn){
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new PageScreen(restaurant: restaurant)
-                          ),
-                        );
+                    padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+                    onPressed: () async {
+                      if(await Internet.checkConnection()){
+                        if(currentUser.isLoggedIn){
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => new PageScreen(restaurant: restaurant)
+                            ),
+                          );
+                        }else{
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => new AuthScreen()
+                            ),
+                          );
+                        }
                       }else{
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new AuthScreen()
-                          ),
-                        );
-                     }
+                        noConnection(context);
+                      }
                     },
                   ),
                 ),
@@ -489,6 +516,31 @@ class _CartScreenState extends State<CartScreen> {
             ],
           )
       ),
+    );
+  }
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))
+            ),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
