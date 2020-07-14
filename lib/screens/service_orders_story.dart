@@ -215,7 +215,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                       style: TextStyle(fontSize: 17),
                     ),
                   ),
-                  Row(
+                  Row( 
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Padding(
