@@ -30,7 +30,6 @@ import 'package:scoped_model/scoped_model.dart';
 import 'food_bottom_sheet_screen.dart';
 
 class AuthScreen extends StatefulWidget {
-
   AuthScreen({Key key}) : super(key: key);
 
   @override
@@ -52,8 +51,7 @@ class _AuthScreenState extends State<AuthScreen> {
         return Center(
           child: Dialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Container(
               height: 50,
               width: 100,
@@ -87,13 +85,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                   height: 40,
                                   width: 60,
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 12, bottom: 12, right: 10),
-                                    child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                  )
-                              )
-                          )
-                      ),
-                      onTap: (){
+                                    padding: EdgeInsets.only(
+                                        top: 12, bottom: 12, right: 10),
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/arrow_left.svg'),
+                                  )))),
+                      onTap: () {
                         Navigator.pop(context);
                       },
                     ),
@@ -102,14 +99,21 @@ class _AuthScreenState extends State<AuthScreen> {
                         child: Center(
                           child: Padding(
                             padding: EdgeInsets.only(top: 15),
-                            child: Text('Ваш номер телефона', style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),),
+                            child: Text(
+                              'Ваш номер телефона',
+                              style: TextStyle(
+                                  fontSize: 19, fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        )
-                    ),
+                        )),
                     Center(
                       child: Padding(
                         padding: EdgeInsets.only(top: 30),
-                        child: Text('Россия +7', style: TextStyle(fontSize: 17, color: Color(0xFF979797)),),
+                        child: Text(
+                          'Россия +7',
+                          style:
+                              TextStyle(fontSize: 17, color: Color(0xFF979797)),
+                        ),
                       ),
                     ),
                     Align(
@@ -132,13 +136,19 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                           onChanged: (String value) {
                             currentUser.phone = value;
-                            if(value.length > 0 && buttonStateKey.currentState.color != Color(0xFFFE534F)){
+                            if (value.length > 0 &&
+                                buttonStateKey.currentState.color !=
+                                    Color(0xFFFE534F)) {
                               buttonStateKey.currentState.setState(() {
-                                buttonStateKey.currentState.color = Color(0xFFFE534F);
+                                buttonStateKey.currentState.color =
+                                    Color(0xFFFE534F);
                               });
-                            }else if(value.length == 0 && buttonStateKey.currentState.color != Color(0xF3F3F3F3)){
+                            } else if (value.length == 0 &&
+                                buttonStateKey.currentState.color !=
+                                    Color(0xF3F3F3F3)) {
                               buttonStateKey.currentState.setState(() {
-                                buttonStateKey.currentState.color = Color(0xF3F3F3F3);
+                                buttonStateKey.currentState.color =
+                                    Color(0xF3F3F3F3);
                               });
                             }
                           },
@@ -148,7 +158,10 @@ class _AuthScreenState extends State<AuthScreen> {
                     Center(
                       child: Padding(
                         padding: EdgeInsets.only(top: 10),
-                        child: Text(error,style: TextStyle(color: Colors.red, fontSize: 12),),
+                        child: Text(
+                          error,
+                          style: TextStyle(color: Colors.red, fontSize: 12),
+                        ),
                       ),
                     ),
                   ],
@@ -165,49 +178,47 @@ class _AuthScreenState extends State<AuthScreen> {
                         padding: EdgeInsets.only(bottom: 10),
                         child: Text.rich(
                           TextSpan(
-                            text: 'Нажимая кнопку “Далее”, вы принимете условия\n',
-                            style: TextStyle(
-                                color: Color(0x97979797),
-                                fontSize: 13
-                            ),
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: 'Пользовательского соглашения',
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () async {
-                                    if(await Internet.checkConnection()){
-                                      if (await canLaunch("https://faem.ru/legal/agreement")) {
-                                        await launch("https://faem.ru/legal/agreement");
-                                      }
-                                    }else{
-                                      noConnection(context);
-                                    }
-                                  }
-                              ),
-                              TextSpan(
-                                text: ' и ',
-                              ),
-                              TextSpan(
-                                text: 'Политики\nконфиденцальности',
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline
-                                ),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () async {
-                                      if(await Internet.checkConnection()){
-                                        if (await canLaunch("https://faem.ru/privacy")) {
-                                          await launch("https://faem.ru/privacy");
+                              text:
+                                  'Нажимая кнопку “Далее”, вы принимете условия\n',
+                              style: TextStyle(
+                                  color: Color(0x97979797), fontSize: 13),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'Пользовательского соглашения',
+                                    style: TextStyle(
+                                        decoration: TextDecoration.underline),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () async {
+                                        if (await Internet.checkConnection()) {
+                                          if (await canLaunch(
+                                              "https://faem.ru/legal/agreement")) {
+                                            await launch(
+                                                "https://faem.ru/legal/agreement");
+                                          }
+                                        } else {
+                                          noConnection(context);
                                         }
-                                      }else{
-                                        noConnection(context);
-                                      }
-                                    }
-                              ),
-                            ]
-                          ),
+                                      }),
+                                TextSpan(
+                                  text: ' и ',
+                                ),
+                                TextSpan(
+                                    text: 'Политики\nконфиденцальности',
+                                    style: TextStyle(
+                                        decoration: TextDecoration.underline),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () async {
+                                        if (await Internet.checkConnection()) {
+                                          if (await canLaunch(
+                                              "https://faem.ru/privacy")) {
+                                            await launch(
+                                                "https://faem.ru/privacy");
+                                          }
+                                        } else {
+                                          noConnection(context);
+                                        }
+                                      }),
+                              ]),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -215,16 +226,14 @@ class _AuthScreenState extends State<AuthScreen> {
                     Align(
                       child: Padding(
                           padding: EdgeInsets.only(bottom: 10),
-                          child: Button(key: buttonStateKey)
-                      ),
+                          child: Button(key: buttonStateKey)),
                     )
                   ],
                 ),
               ),
             )
           ],
-        )
-    );
+        ));
   }
 
   String validateMobile(String value) {
@@ -232,16 +241,16 @@ class _AuthScreenState extends State<AuthScreen> {
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
       return 'Укажите норер';
-    }
-    else if (!regExp.hasMatch(value)) {
+    } else if (!regExp.hasMatch(value)) {
       return 'Указан неверный номер';
     }
     return null;
   }
 }
 
-class Button extends StatefulWidget{
+class Button extends StatefulWidget {
   Color color;
+
   Button({Key key, this.color}) : super(key: key);
 
   @override
@@ -250,9 +259,10 @@ class Button extends StatefulWidget{
   }
 }
 
-class ButtonState extends State<Button>{
+class ButtonState extends State<Button> {
   String error = '';
   Color color = Color(0xFFF3F3F3);
+
   ButtonState(this.color);
 
   noConnection(BuildContext context) {
@@ -265,8 +275,7 @@ class ButtonState extends State<Button>{
         return Center(
           child: Dialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Container(
               height: 50,
               width: 100,
@@ -279,6 +288,7 @@ class ButtonState extends State<Button>{
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -286,14 +296,11 @@ class ButtonState extends State<Button>{
 //
 //    }
     return FlatButton(
-      child: Text(
-          'Далее',
+      child: Text('Далее',
           style: TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.w600,
-              color: Colors.white
-          )
-      ),
+              color: Colors.white)),
       color: color,
       splashColor: Colors.grey,
       shape: RoundedRectangleBorder(
@@ -301,23 +308,25 @@ class ButtonState extends State<Button>{
       ),
       padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
       onPressed: () async {
-        if(await Internet.checkConnection()){
+        if (await Internet.checkConnection()) {
           currentUser.phone = currentUser.phone.replaceAll('-', '');
           currentUser.phone = currentUser.phone.replaceAll(' ', '');
           print(currentUser.phone);
-          if(validateMobile(currentUser.phone)== null){
-            if(currentUser.phone[0] != '+'){
+          if (validateMobile(currentUser.phone) == null) {
+            if (currentUser.phone[0] != '+') {
               currentUser.phone = '+' + currentUser.phone;
             }
-            if(currentUser.phone != necessaryDataForAuth.phone_number){
+            if (currentUser.phone != necessaryDataForAuth.phone_number) {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
                   builder: (context) => new CodeScreen(),
                 ),
               );
-            }else{
-              if(!(authCodeData != null && authCodeData.refresh_token != null && await CreateOrder.sendRefreshToken())){
+            } else {
+              if (!(authCodeData != null &&
+                  authCodeData.refresh_token != null &&
+                  await CreateOrder.sendRefreshToken())) {
                 await NecessaryDataForAuth.clear();
               }
               Navigator.push(
@@ -327,12 +336,12 @@ class ButtonState extends State<Button>{
                 ),
               );
             }
-          }else{
+          } else {
             setState(() {
               error = 'Указан неверный номер';
             });
           }
-        }else{
+        } else {
           noConnection(context);
         }
       },
@@ -344,8 +353,7 @@ class ButtonState extends State<Button>{
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
       return 'Укажите норер';
-    }
-    else if (!regExp.hasMatch(value)) {
+    } else if (!regExp.hasMatch(value)) {
       return 'Указан неверный номер';
     }
     return null;

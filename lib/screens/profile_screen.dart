@@ -21,13 +21,11 @@ import 'package:intl/intl.dart';
 import 'auth_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
-
   @override
   ProfileScreenState createState() => ProfileScreenState();
 }
 
-class ProfileScreenState extends State<ProfileScreen>{
-
+class ProfileScreenState extends State<ProfileScreen> {
   TextEditingController nameField = new TextEditingController();
 
   noConnection(BuildContext context) {
@@ -40,8 +38,7 @@ class ProfileScreenState extends State<ProfileScreen>{
         return Center(
           child: Dialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Container(
               height: 50,
               width: 100,
@@ -54,6 +51,7 @@ class ProfileScreenState extends State<ProfileScreen>{
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     nameField.text = necessaryDataForAuth.name;
@@ -64,7 +62,7 @@ class ProfileScreenState extends State<ProfileScreen>{
           children: <Widget>[
             Align(
               child: Padding(
-                padding: EdgeInsets.only(top:30, bottom: 25),
+                padding: EdgeInsets.only(top: 30, bottom: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -79,20 +77,21 @@ class ProfileScreenState extends State<ProfileScreen>{
                                     height: 40,
                                     width: 60,
                                     child: Padding(
-                                      padding: EdgeInsets.only(top: 12, bottom: 12, right: 0),
-                                      child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                                    )
-                                )
-                            )
-                        ),
+                                      padding: EdgeInsets.only(
+                                          top: 12, bottom: 12, right: 0),
+                                      child: SvgPicture.asset(
+                                          'assets/svg_images/arrow_left.svg'),
+                                    )))),
                         onTap: () async {
-                         if(await Internet.checkConnection()){
-                           homeScreenKey = new GlobalKey<HomeScreenState>();
-                           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                               HomeScreen()), (Route<dynamic> route) => false);
-                         }else{
-                           noConnection(context);
-                         }
+                          if (await Internet.checkConnection()) {
+                            homeScreenKey = new GlobalKey<HomeScreenState>();
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen()),
+                                (Route<dynamic> route) => false);
+                          } else {
+                            noConnection(context);
+                          }
                         },
                       ),
                     ),
@@ -102,7 +101,11 @@ class ProfileScreenState extends State<ProfileScreen>{
                         alignment: Alignment.topCenter,
                         child: Padding(
                           padding: EdgeInsets.only(right: 25),
-                          child: Text("Ваши данные", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold ),),
+                          child: Text(
+                            "Ваши данные",
+                            style: TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     )
@@ -118,27 +121,24 @@ class ProfileScreenState extends State<ProfileScreen>{
                     Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 30, top: 0, bottom: 10),
+                          padding:
+                              EdgeInsets.only(left: 30, top: 0, bottom: 10),
                           child: Text(
                             'Ваше имя',
                             style: TextStyle(
-                                fontSize: 13,
-                                color: Color(0xFF8A8A8A)
-                            ),
+                                fontSize: 13, color: Color(0xFF8A8A8A)),
                           ),
-                        )
-                    ),
+                        )),
                     Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
                           height: 30,
                           child: Padding(
-                            padding: EdgeInsets.only(left: 30, right: 0, bottom: 10),
+                            padding:
+                                EdgeInsets.only(left: 30, right: 0, bottom: 10),
                             child: TextField(
                               style: TextStyle(
-                                  color: Color(0xFF515151),
-                                  fontSize: 17
-                              ),
+                                  color: Color(0xFF515151), fontSize: 17),
                               controller: nameField,
                               textAlign: TextAlign.start,
                               keyboardType: TextInputType.text,
@@ -146,14 +146,13 @@ class ProfileScreenState extends State<ProfileScreen>{
                                 border: InputBorder.none,
                                 counterText: '',
                               ),
-                              onChanged: (value){
+                              onChanged: (value) {
                                 necessaryDataForAuth.name = value;
                                 NecessaryDataForAuth.saveData();
                               },
                             ),
                           ),
-                        )
-                    ),
+                        )),
                     Padding(
                       padding: EdgeInsets.only(left: 15, right: 15),
                       child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
@@ -161,29 +160,26 @@ class ProfileScreenState extends State<ProfileScreen>{
                     Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 30, top: 20, bottom: 15),
+                          padding:
+                              EdgeInsets.only(left: 30, top: 20, bottom: 15),
                           child: Text(
                             'Номер телефона',
                             style: TextStyle(
-                                fontSize: 13,
-                                color: Color(0xFF8A8A8A)
-                            ),
+                                fontSize: 13, color: Color(0xFF8A8A8A)),
                           ),
-                        )
-                    ),
+                        )),
                     Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                            padding: EdgeInsets.only(left: 30, right: 0, bottom: 10),
+                            padding:
+                                EdgeInsets.only(left: 30, right: 0, bottom: 10),
                             child: GestureDetector(
                               child: Text(
                                 necessaryDataForAuth.phone_number,
                                 style: TextStyle(
-                                    fontSize: 17,
-                                    color: Color(0xFF515151)
-                                ),
+                                    fontSize: 17, color: Color(0xFF515151)),
                               ),
-                              onTap: (){
+                              onTap: () {
                                 Navigator.pushReplacement(
                                   context,
                                   new MaterialPageRoute(
@@ -191,9 +187,7 @@ class ProfileScreenState extends State<ProfileScreen>{
                                   ),
                                 );
                               },
-                            )
-                        )
-                    ),
+                            ))),
                     Padding(
                       padding: EdgeInsets.only(left: 15, right: 15),
                       child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
@@ -209,23 +203,29 @@ class ProfileScreenState extends State<ProfileScreen>{
                   child: Padding(
                     padding: EdgeInsets.only(left: 30, bottom: 30),
                     child: GestureDetector(
-                      child: Text('Выход', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
+                      child: Text(
+                        'Выход',
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF424242)),
+                      ),
                       onTap: () async {
-                        if(await Internet.checkConnection()){
-                          NecessaryDataForAuth.clear().then((value){
-                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                                DeviceIdScreen()), (Route<dynamic> route) => false);
+                        if (await Internet.checkConnection()) {
+                          NecessaryDataForAuth.clear().then((value) {
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => DeviceIdScreen()),
+                                (Route<dynamic> route) => false);
                           });
-                        }else{
+                        } else {
                           noConnection(context);
                         }
                       },
                     ),
-                  )
-              ),
+                  )),
             )
           ],
-        )
-    );
+        ));
   }
 }

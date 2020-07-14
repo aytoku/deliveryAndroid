@@ -9,19 +9,22 @@ import 'package:food_delivery/screens/my_addresses_screen.dart';
 
 // ignore: must_be_immutable
 class AddMyAddressScreen extends StatefulWidget {
-
   MyAddressesModel myAddressesModel;
+
   AddMyAddressScreen({Key key, this.myAddressesModel}) : super(key: key);
+
   @override
-  AddMyAddressScreenState createState() => AddMyAddressScreenState(myAddressesModel);
+  AddMyAddressScreenState createState() =>
+      AddMyAddressScreenState(myAddressesModel);
 }
 
-class AddMyAddressScreenState extends State<AddMyAddressScreen>{
-
+class AddMyAddressScreenState extends State<AddMyAddressScreen> {
   bool status1 = false;
   String name;
   MyAddressesModel myAddressesModel;
+
   AddMyAddressScreenState(this.myAddressesModel);
+
   TextEditingController nameField = new TextEditingController();
   TextEditingController commentField = new TextEditingController();
 
@@ -35,8 +38,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
         return Center(
           child: Dialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Container(
               height: 50,
               width: 100,
@@ -66,18 +68,17 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: Padding(
-                        padding: EdgeInsets.only(top:30, bottom: 25),
+                        padding: EdgeInsets.only(top: 30, bottom: 25),
                         child: Container(
                             height: 40,
                             width: 60,
                             child: Padding(
-                              padding: EdgeInsets.only(top: 12, bottom: 12, right: 10),
-                              child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                            )
-                        )
-                    )
-                ),
-                onTap: (){
+                              padding: EdgeInsets.only(
+                                  top: 12, bottom: 12, right: 10),
+                              child: SvgPicture.asset(
+                                  'assets/svg_images/arrow_left.svg'),
+                            )))),
+                onTap: () {
                   Navigator.pop(context);
                 },
               ),
@@ -91,25 +92,22 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF424242)
-                        ),
+                            color: Color(0xFF424242)),
                       ),
-                    )
-                ),
+                    )),
                 onTap: () async {
-                  if(await Internet.checkConnection()){
-                    List<MyAddressesModel> list = await MyAddressesModel.getAddresses();
+                  if (await Internet.checkConnection()) {
+                    List<MyAddressesModel> list =
+                        await MyAddressesModel.getAddresses();
                     list.remove(myAddressesModel);
                     await MyAddressesModel.saveData();
                     Navigator.push(
                       context,
-                      new MaterialPageRoute(
-                          builder: (context) {
-                            return new MyAddressesScreen();
-                          }
-                      ),
+                      new MaterialPageRoute(builder: (context) {
+                        return new MyAddressesScreen();
+                      }),
                     );
-                  }else{
+                  } else {
                     noConnection(context);
                   }
                 },
@@ -120,38 +118,41 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(top: 30, left: 20),
-              child: Text('Название',style: TextStyle(fontSize: 14, color: Color(0xFF9B9B9B))),
+              child: Text('Название',
+                  style: TextStyle(fontSize: 14, color: Color(0xFF9B9B9B))),
             ),
           ),
           Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              height: 30,
-              child: Padding(
-                padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                child:TextField(
-                  controller: nameField,
-                  decoration: new InputDecoration(
-                    border: InputBorder.none,
-                    counterText: '',
+              alignment: Alignment.centerLeft,
+              child: Container(
+                height: 30,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                  child: TextField(
+                    controller: nameField,
+                    decoration: new InputDecoration(
+                      border: InputBorder.none,
+                      counterText: '',
+                    ),
                   ),
                 ),
-              ),
-            )
-          ),
+              )),
           Divider(height: 1.0, color: Color(0xFFEDEDED)),
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(top: 30, left: 20),
-              child: Text(myAddressesModel.address,style: TextStyle(fontSize: 17, color: Color(0xFF424242))),
+              child: Text(myAddressesModel.address,
+                  style: TextStyle(fontSize: 17, color: Color(0xFF424242))),
             ),
           ),
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.only(top: 10, left: 20, bottom: 20),
-              child: Text('г.Владикавказ, республика Северная Осетия-Алания,\nРоссия',style: TextStyle(fontSize: 11, color: Color(0xFF9B9B9B))),
+              child: Text(
+                  'г.Владикавказ, республика Северная Осетия-Алания,\nРоссия',
+                  style: TextStyle(fontSize: 11, color: Color(0xFF9B9B9B))),
             ),
           ),
           Divider(height: 1.0, color: Color(0xFFEDEDED)),
@@ -170,28 +171,33 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen>{
           Padding(
             padding: EdgeInsets.only(left: 10, top: 220),
             child: FlatButton(
-              child: Text("Сохранить", style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
+              child: Text(
+                "Сохранить",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold),
+              ),
               color: Color(0xFFFE534F),
               splashColor: Colors.redAccent,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),
               ),
-              padding: EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
+              padding:
+                  EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
               onPressed: () async {
-                if(await Internet.checkConnection()){
+                if (await Internet.checkConnection()) {
                   Navigator.push(
                     context,
-                    new MaterialPageRoute(
-                        builder: (context) {
-                          myAddressesModel.type = MyAddressesType.home;
-                          myAddressesModel.name = nameField.text;
-                          myAddressesModel.comment = commentField.text;
-                          MyAddressesModel.saveData();
-                          return new MyAddressesScreen();
-                        }
-                    ),
+                    new MaterialPageRoute(builder: (context) {
+                      myAddressesModel.type = MyAddressesType.home;
+                      myAddressesModel.name = nameField.text;
+                      myAddressesModel.comment = commentField.text;
+                      MyAddressesModel.saveData();
+                      return new MyAddressesScreen();
+                    }),
                   );
-                }else{
+                } else {
                   noConnection(context);
                 }
               },

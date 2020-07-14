@@ -7,24 +7,29 @@ import 'package:food_delivery/screens/auth_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/sideBar/side_bar.dart';
 
-class   DeviceIdScreen extends StatelessWidget {
-
+class DeviceIdScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<NecessaryDataForAuth>(
       future: NecessaryDataForAuth.getData(),
       // ignore: missing_return
-      builder: (BuildContext context, AsyncSnapshot<NecessaryDataForAuth> snapshot){
-        if(snapshot.connectionState == ConnectionState.done){
-          CartDataModel.getCart().then((value) { currentUser.cartDataModel = value; print('Cnjbn');});
+      builder:
+          (BuildContext context, AsyncSnapshot<NecessaryDataForAuth> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          CartDataModel.getCart().then((value) {
+            currentUser.cartDataModel = value;
+            print('Cnjbn');
+          });
           necessaryDataForAuth = snapshot.data;
-          if(necessaryDataForAuth.refresh_token == null || necessaryDataForAuth.phone_number == null || necessaryDataForAuth.name == null){
+          if (necessaryDataForAuth.refresh_token == null ||
+              necessaryDataForAuth.phone_number == null ||
+              necessaryDataForAuth.name == null) {
             currentUser.isLoggedIn = false;
             return HomeScreen();
           }
           print(necessaryDataForAuth.refresh_token);
           return HomeScreen();
-        }else{
+        } else {
           return Center(
             child: CircularProgressIndicator(),
           );
@@ -34,12 +39,12 @@ class   DeviceIdScreen extends StatelessWidget {
   }
 }
 
-class ara extends StatelessWidget{
+class ara extends StatelessWidget {
   Widget build(BuildContext context) {
     print('ZAEBALI');
     return GestureDetector(
       child: Text('sdfsdf'),
-      onTap: (){
+      onTap: () {
         Navigator.push(
           context,
           new MaterialPageRoute(

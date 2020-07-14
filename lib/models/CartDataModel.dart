@@ -34,16 +34,19 @@ class CartDataModel {
   List<Map<String, dynamic>> toJson(){
     List<Map<String, dynamic>> list = new List<Map<String, dynamic>>();
     cart.forEach((Order order) {
-      List<dynamic> toppings = new List<dynamic>();
-      order.food.toppings.forEach((element) {
-        Map<String, dynamic> item = {
-          'name': element.name,
-          'uuid': element.uuid,
-          'price': element.price,
-          'comment': element.comment
-        };
-        toppings.add(item);
-      });
+      List<dynamic> toppings;
+      if(order.food.toppings != null){
+        toppings = new List<dynamic>();
+        order.food.toppings.forEach((element) {
+          Map<String, dynamic> item = {
+            'name': element.name,
+            'uuid': element.uuid,
+            'price': element.price,
+            'comment': element.comment
+          };
+          toppings.add(item);
+        });
+      }
       Map<String, dynamic> item =
       {
         "uuid": order.food.uuid,

@@ -21,15 +21,19 @@ import 'home_screen.dart';
 
 class CostErrorScreen extends StatefulWidget {
   final TicketModel ticketModel;
+
   CostErrorScreen({Key key, this.ticketModel}) : super(key: key);
 
   @override
-  CostErrorScreenState createState() => CostErrorScreenState(ticketModel: ticketModel);
+  CostErrorScreenState createState() =>
+      CostErrorScreenState(ticketModel: ticketModel);
 }
 
-class CostErrorScreenState extends State<CostErrorScreen>{
+class CostErrorScreenState extends State<CostErrorScreen> {
   final TicketModel ticketModel;
+
   CostErrorScreenState({this.ticketModel});
+
   TextEditingController descField = new TextEditingController();
 
   noConnection(BuildContext context) {
@@ -42,8 +46,7 @@ class CostErrorScreenState extends State<CostErrorScreen>{
         return Center(
           child: Dialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Container(
               height: 50,
               width: 100,
@@ -66,7 +69,7 @@ class CostErrorScreenState extends State<CostErrorScreen>{
         body: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top:30, bottom: 0),
+              padding: EdgeInsets.only(top: 30, bottom: 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -81,15 +84,14 @@ class CostErrorScreenState extends State<CostErrorScreen>{
                                   height: 50,
                                   width: 60,
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 15, bottom: 15, right: 15),
+                                    padding: EdgeInsets.only(
+                                        top: 15, bottom: 15, right: 15),
                                     child: Center(
-                                      child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
+                                      child: SvgPicture.asset(
+                                          'assets/svg_images/arrow_left.svg'),
                                     ),
-                                  )
-                              )
-                          )
-                      ),
-                      onTap: (){
+                                  )))),
+                      onTap: () {
                         Navigator.pop(context);
                       },
                     ),
@@ -99,7 +101,13 @@ class CostErrorScreenState extends State<CostErrorScreen>{
                     child: Center(
                       child: Padding(
                         padding: EdgeInsets.only(right: 30),
-                        child: Text("Ошибка стоимости", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF424242)),),
+                        child: Text(
+                          "Ошибка стоимости",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF424242)),
+                        ),
                       ),
                     ),
                   )
@@ -112,10 +120,7 @@ class CostErrorScreenState extends State<CostErrorScreen>{
                 padding: EdgeInsets.only(left: 15, top: 20),
                 child: Text(
                   'Вы можете написать подробный комментарий\nо доставке или сообщить какую-либо\nинформацию о заказе',
-                  style: TextStyle(
-                    color: Color(0xFF424242),
-                    fontSize: 14
-                  ),
+                  style: TextStyle(color: Color(0xFF424242), fontSize: 14),
                 ),
               ),
             ),
@@ -127,20 +132,14 @@ class CostErrorScreenState extends State<CostErrorScreen>{
                     padding: EdgeInsets.only(left: 15, top: 20),
                     child: Text(
                       '*',
-                      style: TextStyle(
-                          color: Color(0xFFFC5B58),
-                          fontSize: 14
-                      ),
+                      style: TextStyle(color: Color(0xFFFC5B58), fontSize: 14),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: 5, top: 20),
                     child: Text(
                       'Комментарий',
-                      style: TextStyle(
-                          color: Color(0xFFB0B0B0),
-                          fontSize: 14
-                      ),
+                      style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 14),
                     ),
                   ),
                 ],
@@ -153,11 +152,7 @@ class CostErrorScreenState extends State<CostErrorScreen>{
                 width: 320,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(7.0),
-                    border: Border.all(
-                        width: 1.0,
-                        color: Colors.grey[200]
-                    )
-                ),
+                    border: Border.all(width: 1.0, color: Colors.grey[200])),
                 child: TextField(
                   minLines: 1,
                   maxLines: 100,
@@ -176,15 +171,19 @@ class CostErrorScreenState extends State<CostErrorScreen>{
             Padding(
               padding: EdgeInsets.only(left: 0, top: 20, bottom: 10),
               child: FlatButton(
-                child: Text("Отправить", style: TextStyle(color: Colors.white, fontSize: 15),),
+                child: Text(
+                  "Отправить",
+                  style: TextStyle(color: Colors.white, fontSize: 15),
+                ),
                 color: Color(0xFFFC5B58),
                 splashColor: Colors.redAccent,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7),
                 ),
-                padding: EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
+                padding:
+                    EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
                 onPressed: () async {
-                  if(await Internet.checkConnection()){
+                  if (await Internet.checkConnection()) {
                     ticketModel.description = descField.text;
                     await loadServiceData(ticketModel);
                     Navigator.pushReplacement(
@@ -193,14 +192,13 @@ class CostErrorScreenState extends State<CostErrorScreen>{
                         builder: (context) => new HomeScreen(),
                       ),
                     );
-                  }else{
+                  } else {
                     noConnection(context);
                   }
                 },
               ),
             )
           ],
-        )
-    );
+        ));
   }
 }

@@ -27,11 +27,9 @@ import 'package:food_delivery/widgets/rating_starts.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'dart:async';
 
-
 import 'food_bottom_sheet_screen.dart';
 
 class CodeScreen extends StatefulWidget {
-
   CodeScreen({Key key}) : super(key: key);
 
   @override
@@ -39,7 +37,6 @@ class CodeScreen extends StatefulWidget {
 }
 
 class _CodeScreenState extends State<CodeScreen> {
-
   TextField code1;
   TextField code2;
   TextField code3;
@@ -57,8 +54,7 @@ class _CodeScreenState extends State<CodeScreen> {
         return Center(
           child: Dialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Container(
               height: 50,
               width: 100,
@@ -72,16 +68,18 @@ class _CodeScreenState extends State<CodeScreen> {
     );
   }
 
-  void buttonColor(){
+  void buttonColor() {
     String code = code1.controller.text +
         code2.controller.text +
         code3.controller.text +
         code4.controller.text;
-    if(code.length > 0 && buttonStateKey.currentState.color != Color(0xFFFE534F)){
+    if (code.length > 0 &&
+        buttonStateKey.currentState.color != Color(0xFFFE534F)) {
       buttonStateKey.currentState.setState(() {
         buttonStateKey.currentState.color = Color(0xFFFE534F);
       });
-    }else if(code.length == 0 && buttonStateKey.currentState.color != Color(0xFFF3F3F3)){
+    } else if (code.length == 0 &&
+        buttonStateKey.currentState.color != Color(0xFFF3F3F3)) {
       buttonStateKey.currentState.setState(() {
         buttonStateKey.currentState.color = Color(0xFFF3F3F3);
       });
@@ -91,229 +89,257 @@ class _CodeScreenState extends State<CodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      body: FutureBuilder<AuthData>(
-        future: loadAuthData(necessaryDataForAuth.device_id, currentUser.phone),
-        builder: (BuildContext context, AsyncSnapshot<AuthData> snapshot){
-          if(snapshot.connectionState == ConnectionState.done){
-            return Column(
-              children: <Widget>[
-                GestureDetector(
-                  child: Align(
-                      alignment: Alignment.topRight,
+        resizeToAvoidBottomPadding: false,
+        body: FutureBuilder<AuthData>(
+          future:
+              loadAuthData(necessaryDataForAuth.device_id, currentUser.phone),
+          builder: (BuildContext context, AsyncSnapshot<AuthData> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Column(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                            padding: EdgeInsets.only(right: 15, top: 50),
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              child: Center(
+                                child: SvgPicture.asset(
+                                    'assets/svg_images/code_cross.svg'),
+                              ),
+                            ))),
+                    onTap: () => Navigator.pop(context),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Center(
                       child: Padding(
-                        padding: EdgeInsets.only(right: 15, top: 50),
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          child: Center(
-                            child: SvgPicture.asset('assets/svg_images/code_cross.svg'),
-                          ),
-                        )
-                      )
-                  ),
-                  onTap: () => Navigator.pop(
-                      context
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 40),
-                      child: Text('Введите код из смс',style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold)),
+                        padding: EdgeInsets.only(top: 20, bottom: 40),
+                        child: Text('Введите код из смс',
+                            style: TextStyle(
+                                fontSize: 19, fontWeight: FontWeight.bold)),
+                      ),
                     ),
                   ),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Container(
-                    child: Column(
-                      children: <Widget>[
-                        Center(
-                          child: Container(
-                            width: 180,
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 0, left: 0, bottom: 10),
-                              child: Row(
-                                children: <Widget>[
-                                  Flexible(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 7, right: 7),
-                                      child: code1 = TextField(
+                  Flexible(
+                    flex: 3,
+                    child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          Center(
+                            child: Container(
+                              width: 180,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    right: 0, left: 0, bottom: 10),
+                                child: Row(
+                                  children: <Widget>[
+                                    Flexible(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.only(left: 7, right: 7),
+                                        child: code1 = TextField(
+                                            focusNode: new FocusNode(),
+                                            controller:
+                                                new TextEditingController(),
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 28),
+                                            keyboardType: TextInputType.phone,
+                                            maxLength: 1,
+                                            decoration: new InputDecoration(
+                                              enabledBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFFFD6F6D)),
+                                              ),
+                                              counterText: '',
+                                            ),
+                                            onChanged: (String value) {
+                                              if (value != '') {
+                                                code2.focusNode.requestFocus();
+                                              }
+                                              buttonColor();
+                                            }),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.only(left: 7, right: 7),
+                                        child: code2 = TextField(
+                                            focusNode: new FocusNode(),
+                                            controller:
+                                                new TextEditingController(),
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 28),
+                                            keyboardType: TextInputType.phone,
+                                            maxLength: 1,
+                                            decoration: new InputDecoration(
+                                              enabledBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFFFD6F6D)),
+                                              ),
+                                              counterText: '',
+                                            ),
+                                            onChanged: (String value) {
+                                              if (value != '') {
+                                                code3.focusNode.requestFocus();
+                                              }
+                                              buttonColor();
+                                            }),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.only(left: 7, right: 7),
+                                        child: code3 = TextField(
+                                            focusNode: new FocusNode(),
+                                            controller:
+                                                new TextEditingController(),
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 28),
+                                            keyboardType: TextInputType.phone,
+                                            maxLength: 1,
+                                            decoration: new InputDecoration(
+                                              enabledBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFFFD6F6D)),
+                                              ),
+                                              counterText: '',
+                                            ),
+                                            onChanged: (String value) {
+                                              if (value != '') {
+                                                code4.focusNode.requestFocus();
+                                              }
+                                              buttonColor();
+                                            }),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.only(left: 7, right: 7),
+                                        child: code4 = TextField(
                                           focusNode: new FocusNode(),
-                                          controller: new TextEditingController(),
+                                          controller:
+                                              new TextEditingController(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(fontSize: 28),
                                           keyboardType: TextInputType.phone,
                                           maxLength: 1,
                                           decoration: new InputDecoration(
                                             enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xFFFD6F6D)),
+                                              borderSide: BorderSide(
+                                                  color: Color(0xFFFD6F6D)),
                                             ),
                                             counterText: '',
                                           ),
-                                          onChanged: (String value){
-                                            if(value != ''){
-                                              code2.focusNode.requestFocus();
-                                            }
-                                            buttonColor();
-                                          }
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 7, right: 7),
-                                      child: code2 = TextField(
-                                          focusNode: new FocusNode(),
-                                          controller: new TextEditingController(),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 28),
-                                          keyboardType: TextInputType.phone,
-                                          maxLength: 1,
-                                          decoration: new InputDecoration(
-                                            enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xFFFD6F6D)),
-                                            ),
-                                            counterText: '',
-                                          ),
-                                          onChanged: (String value){
-                                            if(value != ''){
-                                              code3.focusNode.requestFocus();
-                                            }
-                                            buttonColor();
-                                          }
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 7, right: 7),
-                                      child: code3 = TextField(
-                                          focusNode: new FocusNode(),
-                                          controller: new TextEditingController(),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 28),
-                                          keyboardType: TextInputType.phone,
-                                          maxLength: 1,
-                                          decoration: new InputDecoration(
-                                            enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(color: Color(0xFFFD6F6D)),
-                                            ),
-                                            counterText: '',
-                                          ),
-                                          onChanged: (String value){
-                                            if(value != ''){
-                                              code4.focusNode.requestFocus();
-                                            }
-                                            buttonColor();
-                                          }
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 7, right: 7),
-                                      child: code4 = TextField(
-                                        focusNode: new FocusNode(),
-                                        controller: new TextEditingController(),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 28),
-                                        keyboardType: TextInputType.phone,
-                                        maxLength: 1,
-                                        decoration: new InputDecoration(
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(color: Color(0xFFFD6F6D)),
-                                          ),
-                                          counterText: '',
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Flexible(
-                          flex: 0,
-                          child: Center(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 10, bottom: 0, left: 0),
-                              child: Text(error,style: TextStyle(color: Colors.red, fontSize: 12),),
+                          Flexible(
+                            flex: 0,
+                            child: Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10, bottom: 0, left: 0),
+                                child: Text(
+                                  error,
+                                  style: TextStyle(
+                                      color: Colors.red, fontSize: 12),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 0, top: 15),
-                            child: new TimerCountDown(codeScreenState: this),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 10),
-                            child: Button(key: buttonStateKey, color: Color(0xFFF3F3F3),onTap:() async {
-                              if(await Internet.checkConnection()){
-                                String temp = '';
-                                temp = code1.controller.text +
-                                    code2.controller.text +
-                                    code3.controller.text +
-                                    code4.controller.text;
-                                authCodeData = await loadAuthCodeData(necessaryDataForAuth.device_id, int.parse(temp));
-                                if(authCodeData != null){
-                                  necessaryDataForAuth.phone_number = currentUser.phone;
-                                  necessaryDataForAuth.refresh_token = authCodeData.refresh_token;
-                                  necessaryDataForAuth.name = '';
-                                  NecessaryDataForAuth.saveData();
-                                  Navigator.push(
-                                    context,
-                                    new MaterialPageRoute(
-                                      builder: (context) => new NameScreen(),
-                                    ),
-                                  );
-                                }else{
-                                  setState(() {
-                                    error = 'Вы ввели неверный смс код';
-                                  });
-                                }
-                              }else{
-                                noConnection(context);
-                              }
-                            },),
-                          ),
-                        ],
-                      )
-                  ),
-                )
-              ],
-            );
-          }else{
-            return Center(
-              child: CircularProgressIndicator(
-              ),
-            );
-          }
-        },
-      )
-    );
+                  Flexible(
+                    flex: 1,
+                    child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 0, top: 15),
+                              child: new TimerCountDown(codeScreenState: this),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: 20, left: 0, right: 0, top: 10),
+                              child: Button(
+                                key: buttonStateKey,
+                                color: Color(0xFFF3F3F3),
+                                onTap: () async {
+                                  if (await Internet.checkConnection()) {
+                                    String temp = '';
+                                    temp = code1.controller.text +
+                                        code2.controller.text +
+                                        code3.controller.text +
+                                        code4.controller.text;
+                                    authCodeData = await loadAuthCodeData(
+                                        necessaryDataForAuth.device_id,
+                                        int.parse(temp));
+                                    if (authCodeData != null) {
+                                      necessaryDataForAuth.phone_number =
+                                          currentUser.phone;
+                                      necessaryDataForAuth.refresh_token =
+                                          authCodeData.refresh_token;
+                                      necessaryDataForAuth.name = '';
+                                      NecessaryDataForAuth.saveData();
+                                      Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                          builder: (context) =>
+                                              new NameScreen(),
+                                        ),
+                                      );
+                                    } else {
+                                      setState(() {
+                                        error = 'Вы ввели неверный смс код';
+                                      });
+                                    }
+                                  } else {
+                                    noConnection(context);
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
+                        )),
+                  )
+                ],
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ));
   }
 }
 
 class TimerCountDown extends StatefulWidget {
-  TimerCountDown({Key key, this.codeScreenState,}) : super(key: key);
+  TimerCountDown({
+    Key key,
+    this.codeScreenState,
+  }) : super(key: key);
   final _CodeScreenState codeScreenState;
 
   @override
@@ -324,14 +350,17 @@ class TimerCountDown extends StatefulWidget {
 
 class TimerCountDownState extends State<TimerCountDown> {
   TimerCountDownState({this.codeScreenState});
+
   final _CodeScreenState codeScreenState;
   Timer _timer;
   int _start = 60;
+
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
       oneSec,
-          (Timer timer) => setState((){
+      (Timer timer) => setState(
+        () {
           if (_start < 1) {
             timer.cancel();
             _timer.cancel();
@@ -351,32 +380,34 @@ class TimerCountDownState extends State<TimerCountDown> {
 
   @override
   Widget build(BuildContext context) {
-    if(_start == 60){
+    if (_start == 60) {
       startTimer();
     }
-    return  _start != 0 ?  Center(
-      child: Text(
-          'Получить новый код можно через $_start c',
-          style: TextStyle(
-            color: Color(0x97979797),
-            fontSize: 13.0,
-            letterSpacing: 1.2,
+    return _start != 0
+        ? Center(
+            child: Text('Получить новый код можно через $_start c',
+                style: TextStyle(
+                  color: Color(0x97979797),
+                  fontSize: 13.0,
+                  letterSpacing: 1.2,
+                )),
           )
-      ),
-    ): GestureDetector(
-      child: Text('Отпарвить код повторно', style: TextStyle(),),
-      onTap: (){
-        codeScreenState.setState(() {
-
-        });
-      },
-    );
+        : GestureDetector(
+            child: Text(
+              'Отпарвить код повторно',
+              style: TextStyle(),
+            ),
+            onTap: () {
+              codeScreenState.setState(() {});
+            },
+          );
   }
 }
 
-class Button extends StatefulWidget{
+class Button extends StatefulWidget {
   Color color;
   final AsyncCallback onTap;
+
   Button({Key key, this.color, this.onTap}) : super(key: key);
 
   @override
@@ -385,7 +416,7 @@ class Button extends StatefulWidget{
   }
 }
 
-class ButtonState extends State<Button>{
+class ButtonState extends State<Button> {
   String error = '';
   TextField code1;
   TextField code2;
@@ -393,6 +424,7 @@ class ButtonState extends State<Button>{
   TextField code4;
   Color color;
   final AsyncCallback onTap;
+
   ButtonState(this.color, this.onTap);
 
   noConnection(BuildContext context) {
@@ -405,8 +437,7 @@ class ButtonState extends State<Button>{
         return Center(
           child: Dialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Container(
               height: 50,
               width: 100,
@@ -427,24 +458,21 @@ class ButtonState extends State<Button>{
 //
 //    }
     return FlatButton(
-      child: Text(
-          'Далее',
+      child: Text('Далее',
           style: TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.w600,
-              color: Colors.white
-          )
-      ),
+              color: Colors.white)),
       color: color,
       splashColor: Colors.grey,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
       ),
       padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
-      onPressed: ()async {
-        if(await Internet.checkConnection()){
+      onPressed: () async {
+        if (await Internet.checkConnection()) {
           await onTap();
-        }else{
+        } else {
           noConnection(context);
         }
       },
@@ -456,8 +484,7 @@ class ButtonState extends State<Button>{
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
       return 'Укажите норер';
-    }
-    else if (!regExp.hasMatch(value)) {
+    } else if (!regExp.hasMatch(value)) {
       return 'Указан неверный номер';
     }
     return null;

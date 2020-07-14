@@ -28,10 +28,12 @@ import 'food_bottom_sheet_screen.dart';
 
 class AttachCardScreen extends StatefulWidget {
   final CardModel cardModel;
+
   AttachCardScreen({Key key, this.cardModel}) : super(key: key);
 
   @override
-  AttachCardScreenState createState() => AttachCardScreenState(cardModel: cardModel);
+  AttachCardScreenState createState() =>
+      AttachCardScreenState(cardModel: cardModel);
 }
 
 class AttachCardScreenState extends State<AttachCardScreen> {
@@ -41,7 +43,9 @@ class AttachCardScreenState extends State<AttachCardScreen> {
   TextEditingController expirationField = new TextEditingController();
   TextEditingController cvvField = new TextEditingController();
   final CardModel cardModel;
+
   AttachCardScreenState({this.cardModel});
+
   @override
   Widget build(BuildContext context) {
     numberField.text = cardModel.number;
@@ -56,25 +60,28 @@ class AttachCardScreenState extends State<AttachCardScreen> {
               child: Row(
                 children: <Widget>[
                   Align(
-                    alignment: Alignment.topLeft,
-                    child: GestureDetector(
-                      child: Container(
-                          width: 20,
-                          height: 20,
-                          child: Center(
-                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                          )
-                      ),
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                    )
-                  ),
+                      alignment: Alignment.topLeft,
+                      child: GestureDetector(
+                        child: Container(
+                            width: 20,
+                            height: 20,
+                            child: Center(
+                              child: SvgPicture.asset(
+                                  'assets/svg_images/arrow_left.svg'),
+                            )),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      )),
                   Align(
                     alignment: Alignment.topCenter,
                     child: Padding(
                       padding: EdgeInsets.only(left: 120),
-                      child: Text('Новая карта', style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),),
+                      child: Text(
+                        'Новая карта',
+                        style: TextStyle(
+                            fontSize: 19, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ],
@@ -84,9 +91,7 @@ class AttachCardScreenState extends State<AttachCardScreen> {
               alignment: Alignment.topLeft,
               child: Padding(
                 padding: EdgeInsets.only(top: 35, left: 15),
-                child: Text(
-                    'Номер карты'
-                ),
+                child: Text('Номер карты'),
               ),
             ),
             Padding(
@@ -103,7 +108,7 @@ class AttachCardScreenState extends State<AttachCardScreen> {
               ),
             ),
             Expanded(
-              child:  Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Expanded(
@@ -113,9 +118,7 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                           alignment: Alignment.topLeft,
                           child: Padding(
                             padding: EdgeInsets.only(top: 15, left: 15),
-                            child: Text(
-                                'Срок действия'
-                            ),
+                            child: Text('Срок действия'),
                           ),
                         ),
                         Padding(
@@ -141,9 +144,7 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                           alignment: Alignment.topLeft,
                           child: Padding(
                             padding: EdgeInsets.only(top: 15, left: 15),
-                            child: Text(
-                                'CVV'
-                            ),
+                            child: Text('CVV'),
                           ),
                         ),
                         Padding(
@@ -162,9 +163,7 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 5),
-                          child: Text(
-                            'Трехзначный код на\nобороте карты'
-                          ),
+                          child: Text('Трехзначный код на\nобороте карты'),
                         ),
                       ],
                     ),
@@ -177,22 +176,21 @@ class AttachCardScreenState extends State<AttachCardScreen> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
+                  padding:
+                      EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
                   child: FlatButton(
-                    child: Text(
-                        'Привязать карту',
+                    child: Text('Привязать карту',
                         style: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white
-                        )
-                    ),
+                            color: Colors.white)),
                     color: Colors.grey,
                     splashColor: Colors.grey,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
+                    padding: EdgeInsets.only(
+                        left: 120, top: 20, right: 120, bottom: 20),
                     onPressed: () async {
                       cardModel.number = numberField.text;
                       cardModel.expiration = controller.text;
@@ -210,8 +208,7 @@ class AttachCardScreenState extends State<AttachCardScreen> {
               ),
             )
           ],
-        )
-    );
+        ));
   }
 
   String validateMobile(String value) {
@@ -219,8 +216,7 @@ class AttachCardScreenState extends State<AttachCardScreen> {
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
       return 'Укажите норер';
-    }
-    else if (!regExp.hasMatch(value)) {
+    } else if (!regExp.hasMatch(value)) {
       return 'Указан неверный номер';
     }
     return null;

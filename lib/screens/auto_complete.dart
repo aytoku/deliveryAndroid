@@ -10,6 +10,7 @@ import 'dart:convert';
 
 class AutoComplete extends StatefulWidget {
   String hint;
+
   AutoComplete(Key key, this.hint) : super(key: key);
 
   @override
@@ -18,42 +19,49 @@ class AutoComplete extends StatefulWidget {
 
 class AutoCompleteDemoState extends State<AutoComplete> {
   String hint;
+
   AutoCompleteDemoState(this.hint);
 
   AutoCompleteTextField searchTextField;
-  GlobalKey<AutoCompleteTextFieldState<DestinationPoints>> key = new GlobalKey();
-  static List<DestinationPoints> necessaryAddressDataItems = new List<DestinationPoints>();
+  GlobalKey<AutoCompleteTextFieldState<DestinationPoints>> key =
+      new GlobalKey();
+  static List<DestinationPoints> necessaryAddressDataItems =
+      new List<DestinationPoints>();
   bool loading = true;
-
 
   void getUsers(String name) async {
     print(name);
     try {
-      if(name.length > 0){
-        necessaryAddressDataItems = (await loadNecessaryAddressData(name)).destinationPoints;
-      }else{
+      if (name.length > 0) {
+        necessaryAddressDataItems =
+            (await loadNecessaryAddressData(name)).destinationPoints;
+      } else {
         List<MyAddressesModel> temp = await MyAddressesModel.getAddresses();
         necessaryAddressDataItems = new List<DestinationPoints>();
-        for(int i = 0; i < temp.length; i++){
+        for (int i = 0; i < temp.length; i++) {
           var element = temp[i];
-          NecessaryAddressData necessaryAddressData = await loadNecessaryAddressData(element.address);
-          if(necessaryAddressData.destinationPoints.length > 0){
+          NecessaryAddressData necessaryAddressData =
+              await loadNecessaryAddressData(element.address);
+          if (necessaryAddressData.destinationPoints.length > 0) {
             necessaryAddressData.destinationPoints[0].comment = temp[i].comment;
-            necessaryAddressDataItems.add(necessaryAddressData.destinationPoints[0]);
-          }else{
-            necessaryAddressDataItems.add(new DestinationPoints(street: element.address, house: '', comment: temp[i].comment));
+            necessaryAddressDataItems
+                .add(necessaryAddressData.destinationPoints[0]);
+          } else {
+            necessaryAddressDataItems.add(new DestinationPoints(
+                street: element.address, house: '', comment: temp[i].comment));
           }
         }
       }
       print(necessaryAddressDataItems[0].unrestricted_value);
-      print('dick lenght '+necessaryAddressDataItems.length.toString());
-      if(loading){
+      print('dick lenght ' + necessaryAddressDataItems.length.toString());
+      if (loading) {
         setState(() {
           loading = false;
         });
-      }if(key.currentState != null){
+      }
+      if (key.currentState != null) {
         key.currentState.suggestions = necessaryAddressDataItems;
-        key.currentState.setState(() { });
+        key.currentState.setState(() {});
       }
     } catch (e) {
       print("Error getting users.");
@@ -87,11 +95,11 @@ class AutoCompleteDemoState extends State<AutoComplete> {
   Widget build(BuildContext context) {
     return Container(
       height: 30,
-      child: Theme(data: new ThemeData(hintColor: Color(0xF2F2F2F2)),
+      child: Theme(
+        data: new ThemeData(hintColor: Color(0xF2F2F2F2)),
         child: Padding(
           padding: EdgeInsets.only(left: 15, right: 0, top: 10),
-          child:
-          searchTextField = AutoCompleteTextField<DestinationPoints>(
+          child: searchTextField = AutoCompleteTextField<DestinationPoints>(
             key: key,
             clearOnSubmit: false,
             minLength: 0,
@@ -107,17 +115,16 @@ class AutoCompleteDemoState extends State<AutoComplete> {
               await getUsers(value);
               print(value.length);
             },
-            itemFilter: (item, query){
-              return item.street
-                  .toLowerCase()
-                  .contains(query.toLowerCase());
+            itemFilter: (item, query) {
+              return item.street.toLowerCase().contains(query.toLowerCase());
             },
             itemSorter: (a, b) {
               return a.street.compareTo(b.street);
             },
             itemSubmitted: (item) {
               setState(() {
-                searchTextField.textField.controller.text = item.street + ', ' + item.house;
+                searchTextField.textField.controller.text =
+                    item.street + ', ' + item.house;
               });
             },
             itemBuilder: (context, item) {

@@ -26,11 +26,9 @@ import 'package:food_delivery/widgets/rating_starts.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'dart:async';
 
-
 import 'food_bottom_sheet_screen.dart';
 
 class NameScreen extends StatefulWidget {
-
   NameScreen({Key key}) : super(key: key);
 
   @override
@@ -39,6 +37,7 @@ class NameScreen extends StatefulWidget {
 
 class NameScreenState extends State<NameScreen> {
   GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
+
   noConnection(BuildContext context) {
     showDialog(
       context: context,
@@ -49,8 +48,7 @@ class NameScreenState extends State<NameScreen> {
         return Center(
           child: Dialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Container(
               height: 50,
               width: 100,
@@ -80,15 +78,12 @@ class NameScreenState extends State<NameScreen> {
                           height: 40,
                           width: 60,
                           child: Padding(
-                            padding: EdgeInsets.only(top: 12, bottom: 12, right: 30),
-                            child: SvgPicture.asset('assets/svg_images/arrow_left.svg'),
-                          )
-                      )
-                  )
-              ),
-              onTap: () => Navigator.pop(
-                  context
-              ),
+                            padding:
+                                EdgeInsets.only(top: 12, bottom: 12, right: 30),
+                            child: SvgPicture.asset(
+                                'assets/svg_images/arrow_left.svg'),
+                          )))),
+              onTap: () => Navigator.pop(context),
             ),
             Align(
               alignment: Alignment.center,
@@ -99,14 +94,19 @@ class NameScreenState extends State<NameScreen> {
                     child: Center(
                       child: Padding(
                         padding: EdgeInsets.only(top: 0, bottom: 15),
-                        child: Text('Как вас зовут?',style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Color(0xB5B5B5B5))),
+                        child: Text('Как вас зовут?',
+                            style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xB5B5B5B5))),
                       ),
                     ),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(right: 30, left: 30, bottom: 100),
+                      padding:
+                          EdgeInsets.only(right: 30, left: 30, bottom: 100),
                       child: Row(
                         children: <Widget>[
                           Flexible(
@@ -119,39 +119,49 @@ class NameScreenState extends State<NameScreen> {
                                       borderRadius: BorderRadius.circular(7.0),
                                       border: Border.all(
                                           width: 1.0,
-                                          color: Color(0xF5F5F5F5)
-                                      )
-                                  ),
+                                          color: Color(0xF5F5F5F5))),
                                   child: TextField(
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                     keyboardType: TextInputType.text,
                                     decoration: new InputDecoration(
                                       hintText: 'Ваше имя',
                                       contentPadding: EdgeInsets.only(left: 15),
-                                      hintStyle: TextStyle(color: Color(0xFFB5B5B5), fontSize: 13, fontWeight: FontWeight.bold),
+                                      hintStyle: TextStyle(
+                                          color: Color(0xFFB5B5B5),
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold),
                                       border: InputBorder.none,
                                       counterText: '',
                                     ),
-                                    onChanged: (String value)async {
-                                      if(await Internet.checkConnection()){
+                                    onChanged: (String value) async {
+                                      if (await Internet.checkConnection()) {
                                         necessaryDataForAuth.name = value;
-                                        if(value.length > 0 && buttonStateKey.currentState.color != Color(0xFFFE534F)){
-                                          buttonStateKey.currentState.setState(() {
-                                            buttonStateKey.currentState.color = Color(0xFFFE534F);
+                                        if (value.length > 0 &&
+                                            buttonStateKey.currentState.color !=
+                                                Color(0xFFFE534F)) {
+                                          buttonStateKey.currentState
+                                              .setState(() {
+                                            buttonStateKey.currentState.color =
+                                                Color(0xFFFE534F);
                                           });
-                                        }else if(value.length == 0 && buttonStateKey.currentState.color != Color(0xFFF3F3F3)){
-                                          buttonStateKey.currentState.setState(() {
-                                            buttonStateKey.currentState.color = Color(0xFFF3F3F3);
+                                        } else if (value.length == 0 &&
+                                            buttonStateKey.currentState.color !=
+                                                Color(0xFFF3F3F3)) {
+                                          buttonStateKey.currentState
+                                              .setState(() {
+                                            buttonStateKey.currentState.color =
+                                                Color(0xFFF3F3F3);
                                           });
                                         }
-                                      }else{
+                                      } else {
                                         noConnection(context);
                                       }
                                     },
                                   ),
-                                )
-                            ),
+                                )),
                           ),
                         ],
                       ),
@@ -170,23 +180,26 @@ class NameScreenState extends State<NameScreen> {
                       child: Column(
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(bottom: 20, left: 0, right: 0, top: 0),
-                            child: Button(key: buttonStateKey,color: Color(0xFFF3F3F3),),
+                            padding: EdgeInsets.only(
+                                bottom: 20, left: 0, right: 0, top: 0),
+                            child: Button(
+                              key: buttonStateKey,
+                              color: Color(0xFFF3F3F3),
+                            ),
                           ),
                         ],
-                      )
-                  ),
+                      )),
                 ),
               ),
             )
           ],
-        )
-    );
+        ));
   }
 }
 
-class Button extends StatefulWidget{
+class Button extends StatefulWidget {
   Color color;
+
   Button({Key key, this.color}) : super(key: key);
 
   @override
@@ -195,9 +208,10 @@ class Button extends StatefulWidget{
   }
 }
 
-class ButtonState extends State<Button>{
+class ButtonState extends State<Button> {
   String error = '';
   Color color;
+
   ButtonState(this.color);
 
   noConnection(BuildContext context) {
@@ -210,8 +224,7 @@ class ButtonState extends State<Button>{
         return Center(
           child: Dialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Container(
               height: 50,
               width: 100,
@@ -224,6 +237,7 @@ class ButtonState extends State<Button>{
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -231,29 +245,27 @@ class ButtonState extends State<Button>{
 //
 //    }
     return FlatButton(
-      child: Text(
-          'Далее',
+      child: Text('Далее',
           style: TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.w600,
-              color: Colors.white
-          )
-      ),
+              color: Colors.white)),
       color: color,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(50),
       ),
       padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
-      onPressed: ()async {
-        if(await Internet.checkConnection()){
+      onPressed: () async {
+        if (await Internet.checkConnection()) {
           currentUser.isLoggedIn = true;
           await NecessaryDataForAuth.saveData();
           await new FirebaseNotifications().setUpFirebase();
           print(necessaryDataForAuth.name);
           homeScreenKey = new GlobalKey<HomeScreenState>();
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-              HomeScreen()), (Route<dynamic> route) => false);
-        }else{
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+              (Route<dynamic> route) => false);
+        } else {
           noConnection(context);
         }
       },
