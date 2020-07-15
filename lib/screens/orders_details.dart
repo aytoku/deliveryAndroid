@@ -302,8 +302,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
             }),
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Stack(
           children: <Widget>[
 //              Padding(
 //                  padding: EdgeInsets.only(left: 20, bottom: 20),
@@ -323,7 +322,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
 //              ),
             Center(
               child: Padding(
-                  padding: EdgeInsets.only(left: 80, bottom: 20, right: 0),
+                  padding: EdgeInsets.only(left: 0, bottom: 20, right: 0),
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: GestureDetector(

@@ -63,25 +63,22 @@ class ProfileScreenState extends State<ProfileScreen> {
             Align(
               child: Padding(
                 padding: EdgeInsets.only(top: 30, bottom: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Stack(
                   children: <Widget>[
-                    Flexible(
-                      flex: 1,
+                    Align(
+                      alignment: Alignment.topLeft,
                       child: InkWell(
-                        child: Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                                padding: EdgeInsets.only(),
-                                child: Container(
-                                    height: 40,
-                                    width: 60,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 12, bottom: 12, right: 0),
-                                      child: SvgPicture.asset(
-                                          'assets/svg_images/arrow_left.svg'),
-                                    )))),
+                        child: Padding(
+                            padding: EdgeInsets.only(),
+                            child: Container(
+                                height: 40,
+                                width: 60,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 12, bottom: 12, right: 0),
+                                  child: SvgPicture.asset(
+                                      'assets/svg_images/arrow_left.svg'),
+                                ))),
                         onTap: () async {
                           if (await Internet.checkConnection()) {
                             homeScreenKey = new GlobalKey<HomeScreenState>();
@@ -95,17 +92,14 @@ class ProfileScreenState extends State<ProfileScreen> {
                         },
                       ),
                     ),
-                    Flexible(
-                      flex: 8,
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 25),
-                          child: Text(
-                            "Ваши данные",
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
-                          ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text(
+                          "Ваши данные",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
                         ),
                       ),
                     )
@@ -137,6 +131,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                             padding:
                                 EdgeInsets.only(left: 30, right: 0, bottom: 10),
                             child: TextField(
+                              textCapitalization: TextCapitalization.sentences,
                               style: TextStyle(
                                   color: Color(0xFF515151), fontSize: 17),
                               controller: nameField,

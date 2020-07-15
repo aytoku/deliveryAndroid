@@ -49,22 +49,20 @@ class ServiceScreenState extends State<ServiceScreen> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: 30),
-            child: Row(
+            child: Stack(
               children: <Widget>[
-                Flexible(
-                  flex: 1,
+                Align(
+                  alignment: Alignment.topLeft,
                   child: InkWell(
-                    child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                            height: 50,
-                            width: 60,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  top: 17, bottom: 17, right: 10),
-                              child: SvgPicture.asset(
-                                  'assets/svg_images/arrow_left.svg'),
-                            ))),
+                    child: Container(
+                        height: 50,
+                        width: 60,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 17, bottom: 17, right: 10),
+                          child: SvgPicture.asset(
+                              'assets/svg_images/arrow_left.svg'),
+                        )),
                     onTap: () async {
                       if (await Internet.checkConnection()) {
                         homeScreenKey = new GlobalKey<HomeScreenState>();
@@ -78,11 +76,11 @@ class ServiceScreenState extends State<ServiceScreen> {
                     },
                   ),
                 ),
-                Flexible(
-                  flex: 6,
+                Align(
+                  alignment: Alignment.topCenter,
                   child: Center(
                     child: Padding(
-                      padding: EdgeInsets.only(right: 20, top: 0),
+                      padding: EdgeInsets.only(top: 15),
                       child: Text(
                         "Служба поддержки",
                         style: TextStyle(

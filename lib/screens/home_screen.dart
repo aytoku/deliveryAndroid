@@ -99,7 +99,7 @@ class HomeScreenState extends State<HomeScreen> {
                         child: Image.network(
                           restaurant.image,
                           height: 200.0,
-                          width: 450.0,
+                          width: MediaQuery.of(context).size.width,
                           fit: BoxFit.cover,
                         ))),
                 Container(
@@ -355,13 +355,16 @@ class HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: EdgeInsets.only(top: 60),
             child: ListTile(
-                title: GestureDetector(
-              child: Text(
-                'Авторизоваться',
-                style: TextStyle(
-                    fontSize: 17,
-                    color: Color(0xFF424242),
-                    letterSpacing: 0.45),
+                title: InkWell(
+              child: Padding(
+                padding: EdgeInsets.only(top: 20, bottom: 20),
+                child: Text(
+                  'Авторизоваться',
+                  style: TextStyle(
+                      fontSize: 17,
+                      color: Color(0xFF424242),
+                      letterSpacing: 0.45),
+                ),
               ),
               onTap: () async {
                 if (await Internet.checkConnection()) {

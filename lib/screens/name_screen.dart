@@ -122,6 +122,7 @@ class NameScreenState extends State<NameScreen> {
                                           color: Color(0xF5F5F5F5))),
                                   child: TextField(
                                     textAlign: TextAlign.start,
+                                    textCapitalization: TextCapitalization.sentences,
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
@@ -173,7 +174,7 @@ class NameScreenState extends State<NameScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 17),
                 child: Container(
                   child: Align(
                       alignment: Alignment.bottomCenter,

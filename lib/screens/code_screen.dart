@@ -97,19 +97,23 @@ class _CodeScreenState extends State<CodeScreen> {
             if (snapshot.connectionState == ConnectionState.done) {
               return Column(
                 children: <Widget>[
-                  GestureDetector(
-                    child: Align(
-                        alignment: Alignment.topRight,
-                        child: Padding(
-                            padding: EdgeInsets.only(right: 15, top: 50),
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              child: Center(
-                                child: SvgPicture.asset(
-                                    'assets/svg_images/code_cross.svg'),
-                              ),
-                            ))),
+                  InkWell(
+                    child: Stack(
+                      children: <Widget>[
+                        Align(
+                            alignment: Alignment.topRight,
+                            child: Padding(
+                                padding: EdgeInsets.only(right: 15, top: 30),
+                                child: Container(
+                                  width: 40,
+                                  height: 60,
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/code_cross.svg'),
+                                  ),
+                                ))),
+                      ],
+                    ),
                     onTap: () => Navigator.pop(context),
                   ),
                   Align(

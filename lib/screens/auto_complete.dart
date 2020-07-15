@@ -100,6 +100,7 @@ class AutoCompleteDemoState extends State<AutoComplete> {
         child: Padding(
           padding: EdgeInsets.only(left: 15, right: 0, top: 10),
           child: searchTextField = AutoCompleteTextField<DestinationPoints>(
+            textCapitalization: TextCapitalization.sentences,
             key: key,
             clearOnSubmit: false,
             minLength: 0,

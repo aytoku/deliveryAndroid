@@ -69,169 +69,167 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: Column(
+        body: Stack(
           children: <Widget>[
-            Flexible(
-              flex: 4,
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    InkWell(
-                      child: Align(
-                          alignment: Alignment.topLeft,
+            GestureDetector(
+              child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 0, top: 30),
+                      child: Container(
+                          height: 40,
+                          width: 60,
                           child: Padding(
-                              padding: EdgeInsets.only(left: 0, top: 30),
-                              child: Container(
-                                  height: 40,
-                                  width: 60,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 12, bottom: 12, right: 10),
-                                    child: SvgPicture.asset(
-                                        'assets/svg_images/arrow_left.svg'),
-                                  )))),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    Align(
-                        alignment: Alignment.topLeft,
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 15),
-                            child: Text(
-                              'Ваш номер телефона',
-                              style: TextStyle(
-                                  fontSize: 19, fontWeight: FontWeight.bold),
-                            ),
+                            padding: EdgeInsets.only(
+                                top: 12, bottom: 12, right: 10),
+                            child: SvgPicture.asset(
+                                'assets/svg_images/arrow_left.svg'),
+                          )))),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 80),
+                  child: Text(
+                    'Ваш номер телефона',
+                    style: TextStyle(
+                        fontSize: 19, fontWeight: FontWeight.bold),
+                  ),
+                ),),
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: EdgeInsets.only(top: 150),
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Flexible(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 0),
+                          child: Text(
+                            'Россия +7',
+                            style:
+                            TextStyle(fontSize: 17, color: Color(0xFF979797)),
                           ),
-                        )),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 30),
-                        child: Text(
-                          'Россия +7',
-                          style:
-                              TextStyle(fontSize: 17, color: Color(0xFF979797)),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: TextField(
-                          controller: controller,
-                          style: TextStyle(fontSize: 28),
-                          textAlign: TextAlign.center,
-                          maxLength: 16,
-                          keyboardType: TextInputType.phone,
-                          decoration: new InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 0),
-                            hintText: '+79188888888',
-                            counterText: '',
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFFD6F6D)),
+                      Flexible(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: TextField(
+                            controller: controller,
+                            style: TextStyle(fontSize: 28),
+                            textAlign: TextAlign.center,
+                            maxLength: 16,
+                            keyboardType: TextInputType.phone,
+                            decoration: new InputDecoration(
+                              contentPadding: EdgeInsets.only(left: 0),
+                              hintText: '+79188888888',
+                              counterText: '',
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Color(0xFFFD6F6D)),
+                              ),
                             ),
+                            onChanged: (String value) {
+                              currentUser.phone = value;
+                              if (value.length > 0 &&
+                                  buttonStateKey.currentState.color !=
+                                      Color(0xFFFE534F)) {
+                                buttonStateKey.currentState.setState(() {
+                                  buttonStateKey.currentState.color =
+                                      Color(0xFFFE534F);
+                                });
+                              } else if (value.length == 0 &&
+                                  buttonStateKey.currentState.color !=
+                                      Color(0xF3F3F3F3)) {
+                                buttonStateKey.currentState.setState(() {
+                                  buttonStateKey.currentState.color =
+                                      Color(0xF3F3F3F3);
+                                });
+                              }
+                            },
                           ),
-                          onChanged: (String value) {
-                            currentUser.phone = value;
-                            if (value.length > 0 &&
-                                buttonStateKey.currentState.color !=
-                                    Color(0xFFFE534F)) {
-                              buttonStateKey.currentState.setState(() {
-                                buttonStateKey.currentState.color =
-                                    Color(0xFFFE534F);
-                              });
-                            } else if (value.length == 0 &&
-                                buttonStateKey.currentState.color !=
-                                    Color(0xF3F3F3F3)) {
-                              buttonStateKey.currentState.setState(() {
-                                buttonStateKey.currentState.color =
-                                    Color(0xF3F3F3F3);
-                              });
-                            }
-                          },
                         ),
                       ),
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text(
-                          error,
-                          style: TextStyle(color: Colors.red, fontSize: 12),
+                      Flexible(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text(
+                            error,
+                            style: TextStyle(color: Colors.red, fontSize: 12),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-            Flexible(
-              flex: 1,
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    GestureDetector(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 10),
-                        child: Text.rich(
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: GestureDetector(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 80, top: 10),
+                  child: Text.rich(
+                    TextSpan(
+                        text:
+                        'Нажимая кнопку “Далее”, вы принимете условия\n',
+                        style: TextStyle(
+                            color: Color(0x97979797), fontSize: 13),
+                        children: <TextSpan>[
                           TextSpan(
-                              text:
-                                  'Нажимая кнопку “Далее”, вы принимете условия\n',
+                              text: 'Пользовательского соглашения',
                               style: TextStyle(
-                                  color: Color(0x97979797), fontSize: 13),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: 'Пользовательского соглашения',
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () async {
-                                        if (await Internet.checkConnection()) {
-                                          if (await canLaunch(
-                                              "https://faem.ru/legal/agreement")) {
-                                            await launch(
-                                                "https://faem.ru/legal/agreement");
-                                          }
-                                        } else {
-                                          noConnection(context);
-                                        }
-                                      }),
-                                TextSpan(
-                                  text: ' и ',
-                                ),
-                                TextSpan(
-                                    text: 'Политики\nконфиденцальности',
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline),
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () async {
-                                        if (await Internet.checkConnection()) {
-                                          if (await canLaunch(
-                                              "https://faem.ru/privacy")) {
-                                            await launch(
-                                                "https://faem.ru/privacy");
-                                          }
-                                        } else {
-                                          noConnection(context);
-                                        }
-                                      }),
-                              ]),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                    Align(
-                      child: Padding(
-                          padding: EdgeInsets.only(bottom: 10),
-                          child: Button(key: buttonStateKey)),
-                    )
-                  ],
+                                  decoration: TextDecoration.underline),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () async {
+                                  if (await Internet.checkConnection()) {
+                                    if (await canLaunch(
+                                        "https://faem.ru/legal/agreement")) {
+                                      await launch(
+                                          "https://faem.ru/legal/agreement");
+                                    }
+                                  } else {
+                                    noConnection(context);
+                                  }
+                                }),
+                          TextSpan(
+                            text: ' и ',
+                          ),
+                          TextSpan(
+                              text: 'Политики\nконфиденцальности',
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () async {
+                                  if (await Internet.checkConnection()) {
+                                    if (await canLaunch(
+                                        "https://faem.ru/privacy")) {
+                                      await launch(
+                                          "https://faem.ru/privacy");
+                                    }
+                                  } else {
+                                    noConnection(context);
+                                  }
+                                }),
+                        ]),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            )
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Button(key: buttonStateKey)),
+            ),
           ],
         ));
   }

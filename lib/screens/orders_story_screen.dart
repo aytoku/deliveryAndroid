@@ -382,43 +382,32 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 10),
-                      child: Row(
+                      child: Stack(
                         children: <Widget>[
-                          Flexible(
-                            flex: 1,
+                          Align(
+                            alignment: Alignment.topLeft,
                             child: InkWell(
-                              child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Padding(
-                                      padding: EdgeInsets.only(left: 0, top: 0),
-                                      child: Container(
-                                          height: 40,
-                                          width: 60,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 12, bottom: 12, right: 10),
-                                            child: SvgPicture.asset(
-                                                'assets/svg_images/arrow_left.svg'),
-                                          )))),
-                              onTap: () async {
-                                if (await Internet.checkConnection()) {
-                                  homeScreenKey =
-                                      new GlobalKey<HomeScreenState>();
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                          builder: (context) => HomeScreen()),
-                                      (Route<dynamic> route) => false);
-                                } else {
-                                  noConnection(context);
-                                }
+                              child: Padding(
+                                  padding: EdgeInsets.only(left: 0, top: 0),
+                                  child: Container(
+                                      height: 40,
+                                      width: 60,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 12, bottom: 12, right: 10),
+                                        child: SvgPicture.asset(
+                                            'assets/svg_images/arrow_left.svg'),
+                                      ))),
+                              onTap: () {
+                                Navigator.pop(context);
                               },
                             ),
                           ),
-                          Flexible(
-                            flex: 7,
+                          Align(
+                            alignment: Alignment.topCenter,
                             child: Center(
                               child: Padding(
-                                padding: EdgeInsets.only(right: 40),
+                                padding: EdgeInsets.only(top: 10),
                                 child: Text(
                                   "История заказов",
                                   style: TextStyle(

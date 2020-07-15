@@ -244,12 +244,12 @@ class _AddressScreenState extends State<AddressScreen>
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 30, bottom: 15),
-                  child: Row(
+                  child: Stack(
                     children: <Widget>[
-                      Flexible(
-                        flex: 1,
+                      Align(
+                        alignment: Alignment.topLeft,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 15),
+                          padding: EdgeInsets.only(left: 0),
                           child: InkWell(
                             onTap: () => Navigator.pop(context),
                             child: Padding(
@@ -266,10 +266,10 @@ class _AddressScreenState extends State<AddressScreen>
                           ),
                         ),
                       ),
-                      Flexible(
-                        flex: 6,
+                      Align(
+                        alignment: Alignment.topCenter,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 60),
+                          padding: EdgeInsets.only(top: 10),
                           child: Text(
                             "Оформление заказа",
                             style: TextStyle(
@@ -462,6 +462,7 @@ class _AddressScreenState extends State<AddressScreen>
                                   child: Container(
                                     height: 20,
                                     child: TextField(
+                                      textCapitalization: TextCapitalization.sentences,
                                       controller: officeField,
                                       decoration: new InputDecoration(
                                         border: InputBorder.none,
@@ -501,6 +502,7 @@ class _AddressScreenState extends State<AddressScreen>
                                   child: Container(
                                     height: 20,
                                     child: TextField(
+                                      textCapitalization: TextCapitalization.sentences,
                                       controller: floorField,
                                       decoration: new InputDecoration(
                                         border: InputBorder.none,
@@ -536,6 +538,7 @@ class _AddressScreenState extends State<AddressScreen>
                                   child: Container(
                                     height: 20,
                                     child: TextField(
+                                      textCapitalization: TextCapitalization.sentences,
                                       controller: commentField,
                                       decoration: new InputDecoration(
                                         border: InputBorder.none,
@@ -1025,12 +1028,12 @@ class _TakeAwayState extends State<TakeAway>
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 30, bottom: 10),
-                  child: Row(
+                  child: Stack(
                     children: <Widget>[
-                      Flexible(
-                        flex: 1,
+                      Align(
+                        alignment: Alignment.topLeft,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 15),
+                          padding: EdgeInsets.only(left: 0),
                           child: InkWell(
                             onTap: () => Navigator.pop(context),
                             child: Padding(
@@ -1047,10 +1050,10 @@ class _TakeAwayState extends State<TakeAway>
                           ),
                         ),
                       ),
-                      Flexible(
-                        flex: 6,
+                      Align(
+                        alignment: Alignment.topCenter,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 60),
+                          padding: EdgeInsets.only(top: 10),
                           child: Text(
                             "Оформление заказа",
                             style: TextStyle(
@@ -1214,6 +1217,7 @@ class _TakeAwayState extends State<TakeAway>
                           child: Container(
                             height: 20,
                             child: TextField(
+                              textCapitalization: TextCapitalization.sentences,
                               controller: commentField,
                               decoration: new InputDecoration(
                                 border: InputBorder.none,
@@ -1242,6 +1246,7 @@ class _TakeAwayState extends State<TakeAway>
                           child: Container(
                             height: 20,
                             child: TextField(
+                              textCapitalization: TextCapitalization.sentences,
                               decoration: new InputDecoration(
                                 border: InputBorder.none,
                                 counterText: '',

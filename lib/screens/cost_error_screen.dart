@@ -66,41 +66,39 @@ class CostErrorScreenState extends State<CostErrorScreen> {
     // TODO: implement build
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: Column(
+        body: Stack(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 30, bottom: 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 1,
-                    child: InkWell(
-                      child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                              padding: EdgeInsets.only(),
-                              child: Container(
-                                  height: 50,
-                                  width: 60,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 15, bottom: 15, right: 15),
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                          'assets/svg_images/arrow_left.svg'),
-                                    ),
-                                  )))),
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: EdgeInsets.only(top: 30, bottom: 0),
+                child: Stack(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: InkWell(
+                        child: Padding(
+                            padding: EdgeInsets.only(),
+                            child: Container(
+                                height: 50,
+                                width: 60,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 15, bottom: 15, right: 15),
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/arrow_left.svg'),
+                                  ),
+                                ))),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ),
-                  ),
-                  Flexible(
-                    flex: 6,
-                    child: Center(
+                    Align(
+                      alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: EdgeInsets.only(right: 30),
+                        padding: EdgeInsets.only(top: 15),
                         child: Text(
                           "Ошибка стоимости",
                           style: TextStyle(
@@ -109,93 +107,127 @@ class CostErrorScreenState extends State<CostErrorScreen> {
                               color: Color(0xFF424242)),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
             Align(
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.center,
               child: Padding(
-                padding: EdgeInsets.only(left: 15, top: 20),
-                child: Text(
-                  'Вы можете написать подробный комментарий\nо доставке или сообщить какую-либо\nинформацию о заказе',
-                  style: TextStyle(color: Color(0xFF424242), fontSize: 14),
+                padding: EdgeInsets.only(top: 100),
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Flexible(
+                        flex: 1,
+                        child: Column(
+                          children: <Widget>[
+                            Flexible(
+                              flex: 1,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 0, top: 0),
+                                child: Text(
+                                  'Вы можете написать подробный комментарий\nо доставке или сообщить какую-либо\nинформацию о заказе',
+                                  style: TextStyle(color: Color(0xFF424242), fontSize: 14),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 1,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 150, top: 10),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(right: 160, top: 0),
+                                        child: Text(
+                                          '*',
+                                          style: TextStyle(color: Color(0xFFFC5B58), fontSize: 14),
+                                        ),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left: 10, right: 40),
+                                        child: Text(
+                                          'Комментарий',
+                                          style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 14),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Flexible(
+                        flex: 4,
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 100),
+                          child: Container(
+                            height: 345,
+                            width: 320,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7.0),
+                                border: Border.all(width: 1.0, color: Colors.grey[200])),
+                            child: TextField(
+                              minLines: 1,
+                              maxLines: 100,
+                              controller: descField,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(fontSize: 14),
+                              keyboardType: TextInputType.text,
+                              decoration: new InputDecoration(
+                                contentPadding: EdgeInsets.all(15),
+                                border: InputBorder.none,
+                                counterText: '',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
             Align(
-              alignment: Alignment.centerLeft,
-              child: Row(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 15, top: 20),
-                    child: Text(
-                      '*',
-                      style: TextStyle(color: Color(0xFFFC5B58), fontSize: 14),
-                    ),
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(left: 0, top: 20, bottom: 10),
+                child: FlatButton(
+                  child: Text(
+                    "Отправить",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 5, top: 20),
-                    child: Text(
-                      'Комментарий',
-                      style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 14),
-                    ),
+                  color: Color(0xFFFC5B58),
+                  splashColor: Colors.redAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(7),
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: Container(
-                height: 345,
-                width: 320,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7.0),
-                    border: Border.all(width: 1.0, color: Colors.grey[200])),
-                child: TextField(
-                  minLines: 1,
-                  maxLines: 100,
-                  controller: descField,
-                  textAlign: TextAlign.start,
-                  style: TextStyle(fontSize: 14),
-                  keyboardType: TextInputType.text,
-                  decoration: new InputDecoration(
-                    contentPadding: EdgeInsets.all(15),
-                    border: InputBorder.none,
-                    counterText: '',
-                  ),
+                  padding:
+                  EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
+                  onPressed: () async {
+                    if (await Internet.checkConnection()) {
+                      ticketModel.description = descField.text;
+                      await loadServiceData(ticketModel);
+                      Navigator.pushReplacement(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new HomeScreen(),
+                        ),
+                      );
+                    } else {
+                      noConnection(context);
+                    }
+                  },
                 ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 0, top: 20, bottom: 10),
-              child: FlatButton(
-                child: Text(
-                  "Отправить",
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ),
-                color: Color(0xFFFC5B58),
-                splashColor: Colors.redAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7),
-                ),
-                padding:
-                    EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
-                onPressed: () async {
-                  if (await Internet.checkConnection()) {
-                    ticketModel.description = descField.text;
-                    await loadServiceData(ticketModel);
-                    Navigator.pushReplacement(
-                      context,
-                      new MaterialPageRoute(
-                        builder: (context) => new HomeScreen(),
-                      ),
-                    );
-                  } else {
-                    noConnection(context);
-                  }
-                },
               ),
             )
           ],
