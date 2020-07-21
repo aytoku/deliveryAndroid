@@ -68,11 +68,9 @@ class CreateOrder {
       "callback_phone": currentUser.phone,
       "increased_fare": 25,
       "comment": comment,
-      "features": [{
-        'tag': [
-          'deliver_2door'
-        ],
-      }],
+      "features_uuids": (door_to_door) ? [
+        "8209935f-6251-4982-9b02-b2d642418b5e"
+      ] : null,
       "products_input": cartDataModel.toServerJSON(),
       "routes": [
         restaurant.destination_points[0].toJson(),

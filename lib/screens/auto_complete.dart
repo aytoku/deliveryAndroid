@@ -94,7 +94,6 @@ class AutoCompleteDemoState extends State<AutoComplete> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 30,
       child: Theme(
         data: new ThemeData(hintColor: Color(0xF2F2F2F2)),
         child: Padding(

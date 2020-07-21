@@ -66,33 +66,49 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    controller.beforeChange = (String previous, String next) {
+      if(controller.text == '8') {
+        controller.updateText('+7 ');
+      }
+      return true;
+    };
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: Stack(
           children: <Widget>[
-            GestureDetector(
-              child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 0, top: 30),
-                      child: Container(
-                          height: 40,
-                          width: 60,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                top: 12, bottom: 12, right: 10),
-                            child: SvgPicture.asset(
-                                'assets/svg_images/arrow_left.svg'),
-                          )))),
-              onTap: () {
-                Navigator.pop(context);
-              },
+            Align(
+              alignment: Alignment.topCenter,
+              child: Row(
+                children: <Widget>[
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Padding(
+                        padding: EdgeInsets.only(left: 0, top: 30),
+                        child: Container(
+                            height: 40,
+                            width: 60,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 12, bottom: 12, right: 10),
+                              child: SvgPicture.asset(
+                                  'assets/svg_images/arrow_left.svg'),
+                            ))),
+                  ),
+                ],
+              ),
             ),
             Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 80),
+                  padding: EdgeInsets.only(top: 90),
                   child: Text(
                     'Ваш номер телефона',
                     style: TextStyle(
@@ -124,11 +140,14 @@ class _AuthScreenState extends State<AuthScreen> {
                           child: TextField(
                             controller: controller,
                             style: TextStyle(fontSize: 28),
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             maxLength: 16,
                             keyboardType: TextInputType.phone,
                             decoration: new InputDecoration(
-                              contentPadding: EdgeInsets.only(left: 0),
+                              hintStyle: TextStyle(
+                                color: Color(0xFFC0BFC6)
+                              ),
+                              contentPadding: EdgeInsets.only(left: 80),
                               hintText: '+79188888888',
                               counterText: '',
                               enabledBorder: UnderlineInputBorder(
@@ -136,6 +155,11 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                             ),
                             onChanged: (String value) {
+
+                              print(value);
+                              if(value == '+7 8'){
+                                controller.text = '+7';
+                              }
                               currentUser.phone = value;
                               if (value.length > 0 &&
                                   buttonStateKey.currentState.color !=
@@ -228,7 +252,7 @@ class _AuthScreenState extends State<AuthScreen> {
               alignment: Alignment.bottomCenter,
               child: Padding(
                   padding: EdgeInsets.only(bottom: 10),
-                  child: Button(key: buttonStateKey)),
+                  child: Button(key: buttonStateKey, color: Color(0xF3F3F3F3),)),
             ),
           ],
         ));
@@ -315,6 +339,7 @@ class ButtonState extends State<Button> {
               currentUser.phone = '+' + currentUser.phone;
             }
             if (currentUser.phone != necessaryDataForAuth.phone_number) {
+              necessaryDataForAuth.name = '';
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -322,17 +347,22 @@ class ButtonState extends State<Button> {
                 ),
               );
             } else {
-              if (!(authCodeData != null &&
-                  authCodeData.refresh_token != null &&
-                  await CreateOrder.sendRefreshToken())) {
-                await NecessaryDataForAuth.clear();
+              print(necessaryDataForAuth.refresh_token);
+              //print();
+              if (await NecessaryDataForAuth.refreshToken(necessaryDataForAuth.refresh_token) == null) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new CodeScreen(),
+                  ),
+                );
               }
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => new DeviceIdScreen(),
-                ),
-              );
+              else {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                        builder: (context) => HomeScreen()),
+                        (Route<dynamic> route) => false);
+              }
             }
           } else {
             setState(() {

@@ -207,12 +207,11 @@ class ProfileScreenState extends State<ProfileScreen> {
                       ),
                       onTap: () async {
                         if (await Internet.checkConnection()) {
-                          NecessaryDataForAuth.clear().then((value) {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => DeviceIdScreen()),
-                                (Route<dynamic> route) => false);
-                          });
+                          necessaryDataForAuth.refresh_token = null;
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => DeviceIdScreen()),
+                                  (Route<dynamic> route) => false);
                         } else {
                           noConnection(context);
                         }

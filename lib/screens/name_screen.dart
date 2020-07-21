@@ -37,7 +37,7 @@ class NameScreen extends StatefulWidget {
 
 class NameScreenState extends State<NameScreen> {
   GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
-
+  TextEditingController nameFieldController = new TextEditingController();
   noConnection(BuildContext context) {
     showDialog(
       context: context,
@@ -121,8 +121,10 @@ class NameScreenState extends State<NameScreen> {
                                           width: 1.0,
                                           color: Color(0xF5F5F5F5))),
                                   child: TextField(
+                                    controller: nameFieldController,
                                     textAlign: TextAlign.start,
-                                    textCapitalization: TextCapitalization.sentences,
+                                    textCapitalization:
+                                        TextCapitalization.sentences,
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
@@ -138,27 +140,23 @@ class NameScreenState extends State<NameScreen> {
                                       counterText: '',
                                     ),
                                     onChanged: (String value) async {
-                                      if (await Internet.checkConnection()) {
-                                        necessaryDataForAuth.name = value;
-                                        if (value.length > 0 &&
-                                            buttonStateKey.currentState.color !=
-                                                Color(0xFFFE534F)) {
-                                          buttonStateKey.currentState
-                                              .setState(() {
-                                            buttonStateKey.currentState.color =
-                                                Color(0xFFFE534F);
-                                          });
-                                        } else if (value.length == 0 &&
-                                            buttonStateKey.currentState.color !=
-                                                Color(0xFFF3F3F3)) {
-                                          buttonStateKey.currentState
-                                              .setState(() {
-                                            buttonStateKey.currentState.color =
-                                                Color(0xFFF3F3F3);
-                                          });
-                                        }
-                                      } else {
-                                        noConnection(context);
+                                      //necessaryDataForAuth.name = value;
+                                      if (value.length > 0 &&
+                                          buttonStateKey.currentState.color !=
+                                              Color(0xFFFE534F)) {
+                                        buttonStateKey.currentState
+                                            .setState(() {
+                                          buttonStateKey.currentState.color =
+                                              Color(0xFFFE534F);
+                                        });
+                                      } else if (value.length == 0 &&
+                                          buttonStateKey.currentState.color !=
+                                              Color(0xFFF3F3F3)) {
+                                        buttonStateKey.currentState
+                                            .setState(() {
+                                          buttonStateKey.currentState.color =
+                                              Color(0xFFF3F3F3);
+                                        });
                                       }
                                     },
                                   ),
@@ -186,6 +184,24 @@ class NameScreenState extends State<NameScreen> {
                             child: Button(
                               key: buttonStateKey,
                               color: Color(0xFFF3F3F3),
+                              onTap: () async {
+                                if (await Internet.checkConnection()) {
+                                  necessaryDataForAuth.name = nameFieldController.text;
+                                  currentUser.isLoggedIn = true;
+                                  await NecessaryDataForAuth.saveData();
+                                  await new FirebaseNotifications()
+                                      .setUpFirebase();
+                                  print(necessaryDataForAuth.name);
+                                  homeScreenKey =
+                                      new GlobalKey<HomeScreenState>();
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (context) => HomeScreen()),
+                                      (Route<dynamic> route) => false);
+                                } else {
+                                  noConnection(context);
+                                }
+                              },
                             ),
                           ),
                         ],
@@ -200,20 +216,22 @@ class NameScreenState extends State<NameScreen> {
 
 class Button extends StatefulWidget {
   Color color;
+  VoidCallback onTap;
 
-  Button({Key key, this.color}) : super(key: key);
+  Button({Key key, this.color, this.onTap}) : super(key: key);
 
   @override
   ButtonState createState() {
-    return new ButtonState(color);
+    return new ButtonState(color, onTap: onTap);
   }
 }
 
 class ButtonState extends State<Button> {
   String error = '';
   Color color;
+  final VoidCallback onTap;
 
-  ButtonState(this.color);
+  ButtonState(this.color, {this.onTap});
 
   noConnection(BuildContext context) {
     showDialog(
@@ -257,18 +275,7 @@ class ButtonState extends State<Button> {
       ),
       padding: EdgeInsets.only(left: 120, top: 20, right: 120, bottom: 20),
       onPressed: () async {
-        if (await Internet.checkConnection()) {
-          currentUser.isLoggedIn = true;
-          await NecessaryDataForAuth.saveData();
-          await new FirebaseNotifications().setUpFirebase();
-          print(necessaryDataForAuth.name);
-          homeScreenKey = new GlobalKey<HomeScreenState>();
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-              (Route<dynamic> route) => false);
-        } else {
-          noConnection(context);
-        }
+        await onTap();
       },
     );
   }

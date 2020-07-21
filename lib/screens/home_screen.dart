@@ -7,6 +7,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_delivery/Internet/check_internet.dart';
 import 'package:food_delivery/PostData/chat.dart';
 import 'package:food_delivery/PostData/fcm.dart';
+import 'package:food_delivery/PostData/getOptions.dart';
 import 'package:food_delivery/PostData/orders_story_data.dart';
 import 'package:food_delivery/PostData/restaurant_data_pass.dart';
 import 'package:food_delivery/PostData/restaurant_items_data_pass.dart';
@@ -124,25 +125,28 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                       Row(
                         children: <Widget>[
-//                            Text(
-//                              (restaurant.destination_points != null)? '~' + time : '',
-//                              style: TextStyle(
-//                                  fontSize: 12.0,
-//                                  fontWeight: FontWeight.w600
-//                              ),
-//                              overflow: TextOverflow.ellipsis,
-//                            ),
                           Text(
-                            (restaurant.destination_points != null)
-                                ? restaurant.destination_points[0].type
-                                : ' ',
+                            (restaurant.order_preparation_time_second != null)? '~' + '${restaurant.order_preparation_time_second ~/ 60} мин' : '',
                             style: TextStyle(
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF3F3F3F),
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w600
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text(
+                              (restaurant.destination_points != null)
+                                  ? restaurant.destination_points[0].type
+                                  : ' ',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF3F3F3F),
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          )
                         ],
                       ),
                       SizedBox(
@@ -494,7 +498,7 @@ class HomeScreenState extends State<HomeScreen> {
 //                          child: Text('asdasd'),
 //                        ),
 //                        onTap: ()async {
-//                          await loadTestFCM(FCMToken, 'chat_message');
+//                          await loadOptions();
 //                          //launch("tel://+79187072154");
 //                        },
 //                      ),
@@ -690,7 +694,7 @@ class OrderCheckingState extends State<OrderChecking> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 0),
+                      padding: EdgeInsets.only(left: 10),
                       child: Align(
                         child: Text(
                           'Ваш заказ из ' +

@@ -60,6 +60,35 @@ class CostErrorScreenState extends State<CostErrorScreen> {
     );
   }
 
+  showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop(true);
+        });
+        return Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))),
+          child: Container(
+            height: 150,
+            width: 300,
+            child: Padding(
+                padding: EdgeInsets.only(top: 0, left: 15, right: 15),
+                child: Center(
+                  child: Text(
+                    'Ваше сообщение отправлено, его рассмотрят в ближайшее время',
+                    style: TextStyle(
+                        fontSize: 17, fontWeight: FontWeight.bold),
+                  ),
+                )
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     descField.text = ticketModel.description;
@@ -209,13 +238,14 @@ class CostErrorScreenState extends State<CostErrorScreen> {
                   color: Color(0xFFFC5B58),
                   splashColor: Colors.redAccent,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(7),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   padding:
                   EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
                   onPressed: () async {
                     if (await Internet.checkConnection()) {
                       ticketModel.description = descField.text;
+                      showAlertDialog(context);
                       await loadServiceData(ticketModel);
                       Navigator.pushReplacement(
                         context,

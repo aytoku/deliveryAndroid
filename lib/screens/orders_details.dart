@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:food_delivery/Internet/check_internet.dart';
+import 'package:food_delivery/PostData/OrderCancel.dart';
 import 'package:food_delivery/data/data.dart';
 import 'package:food_delivery/models/CreateOrderModel.dart';
 import 'package:food_delivery/models/OrderStoryModel.dart';
@@ -14,6 +15,8 @@ import 'package:food_delivery/screens/address_screen.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/restaurant_screen.dart';
 import 'package:intl/intl.dart';
+
+import 'home_screen.dart';
 
 class OrdersDetailsScreen extends StatefulWidget {
   final OrdersStoryModelItem ordersStoryModelItem;
@@ -68,6 +71,18 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
         ordersStoryModelItem.created_at_unix * 1000);
     var time = '';
     time = format.format(date);
+    var state_array = [
+      'waiting_for_confirmation',
+      'cooking',
+      'offer_offered',
+      'smart_distribution',
+      'finding_driver',
+      'offer_rejected',
+      'order_start',
+      'on_place',
+      'on_the_way',
+      'order_payment'
+    ];
     // TODO: implement build
     return Scaffold(
         body: Column(
@@ -113,7 +128,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
             ],
           ),
         ),
-        Divider(height: 1.0, color: Colors.grey),
+        Divider(height: 1.0, color: Color(0xFFF5F5F5)),
         Stack(
           children: <Widget>[
             Align(
@@ -122,7 +137,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 padding: EdgeInsets.only(left: 15, top: 15, right: 0),
                 child: Text(
                   (ordersStoryModelItem.store != null)
-                      ? ordersStoryModelItem.routes[0].value
+                      ? ordersStoryModelItem.store.name
                       : 'Пусто',
                   style: TextStyle(
                       fontSize: 14,
@@ -295,7 +310,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 10),
-                        child: Divider(height: 1.0, color: Colors.grey),
+                        child: Divider(height: 1.0, color: Color(0xFFF5F5F5)),
                       )
                     ],
                   ));
@@ -325,7 +340,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                   padding: EdgeInsets.only(left: 0, bottom: 20, right: 0),
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: GestureDetector(
+                    child: (!state_array.contains(ordersStoryModelItem.state)) ? GestureDetector(
                       child: Container(
                           height: 50,
                           width: 200,
@@ -364,6 +379,35 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                               return new CartScreen(restaurant: restaurant);
                             }),
                           );
+                        } else {
+                          noConnection(context);
+                        }
+                      },
+                    ) : GestureDetector(
+                      child: Container(
+                          height: 50,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFFE534F),
+                            borderRadius: BorderRadius.circular(50.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Отменить',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )),
+                      onTap: () async {
+                        if (await Internet.checkConnection()) {
+                          await loadOrderCancel(ordersStoryModelItem.uuid);
+                          homeScreenKey = new GlobalKey();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen()),
+                                  (Route<dynamic> route) => false);
                         } else {
                           noConnection(context);
                         }

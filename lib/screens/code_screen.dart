@@ -7,6 +7,7 @@ import 'package:food_delivery/PostData/auth_data_pass.dart';
 import 'package:food_delivery/config/config.dart';
 import 'package:food_delivery/models/Auth.dart';
 import 'package:food_delivery/models/AuthCode.dart';
+import 'package:food_delivery/models/firebase_notification_handler.dart';
 import 'package:food_delivery/screens/name_screen.dart';
 import 'package:food_delivery/sideBar/side_bar.dart';
 import 'package:food_delivery/test/api_test.dart';
@@ -194,6 +195,9 @@ class _CodeScreenState extends State<CodeScreen> {
                                               if (value != '') {
                                                 code3.focusNode.requestFocus();
                                               }
+                                              if(value.isEmpty){
+                                                code1.focusNode.requestFocus();
+                                              }
                                               buttonColor();
                                             }),
                                       ),
@@ -223,6 +227,9 @@ class _CodeScreenState extends State<CodeScreen> {
                                               if (value != '') {
                                                 code4.focusNode.requestFocus();
                                               }
+                                              if(value.isEmpty){
+                                                code2.focusNode.requestFocus();
+                                              }
                                               buttonColor();
                                             }),
                                       ),
@@ -233,6 +240,11 @@ class _CodeScreenState extends State<CodeScreen> {
                                         padding:
                                             EdgeInsets.only(left: 7, right: 7),
                                         child: code4 = TextField(
+                                          onChanged: (String value){
+                                            if(value.isEmpty){
+                                              code3.focusNode.requestFocus();
+                                            }
+                                          },
                                           focusNode: new FocusNode(),
                                           controller:
                                               new TextEditingController(),
@@ -304,15 +316,28 @@ class _CodeScreenState extends State<CodeScreen> {
                                           currentUser.phone;
                                       necessaryDataForAuth.refresh_token =
                                           authCodeData.refresh_token;
-                                      necessaryDataForAuth.name = '';
                                       NecessaryDataForAuth.saveData();
-                                      Navigator.push(
-                                        context,
-                                        new MaterialPageRoute(
-                                          builder: (context) =>
-                                              new NameScreen(),
-                                        ),
-                                      );
+                                      if(necessaryDataForAuth.name == ''){
+                                        Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                            builder: (context) =>
+                                            new NameScreen(),
+                                          ),
+                                        );
+                                      }
+                                      else{
+                                        homeScreenKey =
+                                        new GlobalKey<HomeScreenState>();
+                                        await new FirebaseNotifications()
+                                            .setUpFirebase();
+                                        currentUser.isLoggedIn = true;
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                            MaterialPageRoute(
+                                                builder: (context) => HomeScreen()),
+                                                (Route<dynamic> route) => false);
+                                      }
+
                                     } else {
                                       setState(() {
                                         error = 'Вы ввели неверный смс код';

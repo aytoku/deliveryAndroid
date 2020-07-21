@@ -240,116 +240,124 @@ class _AddressScreenState extends State<AddressScreen>
         resizeToAvoidBottomPadding: false,
         body: Container(
             color: Colors.white,
-            child: Column(
+            child: Stack(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 30, bottom: 15),
-                  child: Stack(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 0),
-                          child: InkWell(
-                            onTap: () => Navigator.pop(context),
-                            child: Padding(
-                                padding: EdgeInsets.only(right: 0),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 30, bottom: 15),
+                    child: Stack(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 0),
+                            child: InkWell(
+                              onTap: () => Navigator.pop(context),
+                              child: Padding(
+                                  padding: EdgeInsets.only(right: 0),
+                                  child: Container(
+                                      height: 40,
+                                      width: 60,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 12, bottom: 12, right: 20),
+                                        child: SvgPicture.asset(
+                                            'assets/svg_images/arrow_left.svg'),
+                                      ))),
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Text(
+                              "Оформление заказа",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF000000)),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 40),
+                    child: Divider(
+                      color: Color(0xFFF5F5F5),
+                      height: 1,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 80),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          flex: 1,
+                          child: SizedBox(
+                            height: 40,
+                            child: GestureDetector(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 5, right: 5),
                                 child: Container(
-                                    height: 40,
-                                    width: 60,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 12, bottom: 12, right: 20),
-                                      child: SvgPicture.asset(
-                                          'assets/svg_images/arrow_left.svg'),
-                                    ))),
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Text(
-                            "Оформление заказа",
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF000000)),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Divider(
-                    color: Color(0xFFF5F5F5),
-                    height: 1,
-                  ),
-                ),
-                Flexible(
-                  flex: 0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Flexible(
-                        flex: 1,
-                        child: SizedBox(
-                          height: 40,
-                          child: GestureDetector(
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(40)),
-                                  color: Color(0xFFFE534F),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 40, right: 40, top: 10),
-                                  child: Text(
-                                    'Доставка',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 15),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(40)),
+                                    color: Color(0xFFFE534F),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 40, right: 40, top: 10),
+                                    child: Text(
+                                      'Доставка',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: SizedBox(
-                          height: 40,
-                          child: GestureDetector(
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 5, right: 5),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(40)),
-                                  color: Colors.white,
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 40, right: 40, top: 10),
-                                  child: Text(
-                                    'Заберу сам',
-                                    style: TextStyle(
-                                        color: Color(0xFF999999), fontSize: 15),
+                        Flexible(
+                          flex: 1,
+                          child: SizedBox(
+                            height: 40,
+                            child: GestureDetector(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 5, right: 5),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(40)),
+                                    color: Colors.white,
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 40, right: 40, top: 10),
+                                    child: Text(
+                                      'Заберу сам',
+                                      style: TextStyle(
+                                          color: Color(0xFF999999), fontSize: 15),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            onTap: () async {
-                              if (await Internet.checkConnection()) {
-                                pageState._controller.animateToPage(1,
-                                    duration: Duration(seconds: 1),
-                                    curve: Curves.elasticOut);
+                              onTap: () async {
+                                if (await Internet.checkConnection()) {
+                                  pageState._controller.animateToPage(1,
+                                      duration: Duration(seconds: 1),
+                                      curve: Curves.elasticOut);
 //                            {
 //                            Navigator.pushReplacement(
 //                              context,
@@ -358,39 +366,32 @@ class _AddressScreenState extends State<AddressScreen>
 //                              ),
 //                            );
 //                          }
-                                setState(() {
-                                  _color = !_color;
-                                });
-                              } else {
-                                noConnection(context);
-                              }
-                            },
+                                  setState(() {
+                                    _color = !_color;
+                                  });
+                                } else {
+                                  noConnection(context);
+                                }
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    )
                   ),
                 ),
-                Flexible(
-                  flex: 0,
-                  child: Container(
-                    child: Column(
-                      children: <Widget>[
-                        Flexible(
-                          flex: 0,
-                          child: Column(
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 120),
+                    child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-//                    Row(
-//                      children: <Widget>[
-//                        Padding(
-//                          padding: EdgeInsets.only(top: 10, left: 15),
-//                          child: Text('Адрес доставки',style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-//                        ),
-//                      ],
-//                    ),
                               Padding(
-                                padding: EdgeInsets.only(top: 15, left: 15),
+                                padding: EdgeInsets.only(top: 20, left: 15),
                                 child: Row(
                                   children: <Widget>[
                                     //_buildTextFormField('Адрес доставки')
@@ -403,44 +404,18 @@ class _AddressScreenState extends State<AddressScreen>
                                   ],
                                 ),
                               ),
-                              Padding(
-                                  padding: EdgeInsets.only(
-                                    top: 5,
-                                  ),
-                                  child:
-                                      AutoComplete(destinationPointsKey, '')),
+                              AutoComplete(destinationPointsKey, ''),
                               Padding(
                                 padding: EdgeInsets.only(left: 15, right: 15),
                                 child: Divider(
                                     height: 1.0, color: Color(0xFFEDEDED)),
                               ),
-//                      Padding(
-//                        padding: EdgeInsets.only(top: 0),
-//                        child: GestureDetector(
-//                          child: Column(
-//                            children: <Widget>[
-//                              Text('sdfs', textAlign: TextAlign.start,),
-//                              Divider(height: 1, color: Color(0xFFF5F5F5),thickness: 2,)
-//                            ],
-//                          ),
-//                          onTap: (){
-//                            _deleteButton(myAddressesModel);
-//                          },
-//                        ),
-//                      ),
-//                      Padding(
-//                        padding: EdgeInsets.only(left: 15, bottom: 20),
-//                        child: _buildTextFormField("Подъезд"),
-//                      ),Padding(
-//                        padding: EdgeInsets.only(left: 15, bottom: 20),
-//                        child: _buildTextFormField("Кв./офис"),
-//                      ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: 15, left: 15, bottom: 5, right: 85),
+                                    top: 20, left: 15, bottom: 5, right: 85),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
                                       'Подъезд',
@@ -480,7 +455,7 @@ class _AddressScreenState extends State<AddressScreen>
                                     top: 15, left: 15, bottom: 5, right: 60),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
                                       'Кв./офис',
@@ -515,10 +490,6 @@ class _AddressScreenState extends State<AddressScreen>
                                 child: Divider(
                                     height: 1.0, color: Color(0xFFEDEDED)),
                               ),
-//                      Padding(
-//                        padding: EdgeInsets.only(left: 15, bottom: 20),
-//                        child: _buildTextFormField("Комментарий к заказу"),
-//                      ),
                               Padding(
                                 padding: EdgeInsets.only(
                                     top: 15, left: 15, bottom: 5),
@@ -586,7 +557,7 @@ class _AddressScreenState extends State<AddressScreen>
                                     top: 10, left: 15, right: 15, bottom: 10),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
                                       'Доставка до двери',
@@ -613,67 +584,50 @@ class _AddressScreenState extends State<AddressScreen>
                                 height: 10,
                                 color: Color(0xFAFAFAFA),
                               ),
-                            ],
-                          ),
-                        ),
-                        Flexible(
-                          flex: 0,
-                          child: Container(
-                            child: Column(
-                              children: <Widget>[
-                                Row(
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: 10, bottom: 5, left: 20),
+                                child: Row(
                                   children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 10, bottom: 5, left: 20),
-                                      child: Row(
-                                        children: <Widget>[
-                                          Text(
-                                            "Способ оплаты",
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color(0xFFB0B0B0)),
-                                          ),
-                                        ],
-                                      ),
+                                    Text(
+                                      "Способ оплаты",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFFB0B0B0)),
                                     ),
                                   ],
                                 ),
-//                                ListTile(
-//                                  leading: SvgPicture.asset('assets/svg_images/dollar_bills.svg'),
-//                                  title: Text("Наличными", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black),),
-//                                  trailing: SvgPicture.asset('assets/svg_images/circle.svg'),
-//                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    GestureDetector(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: 20, bottom: 20),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Row(
-                                              children: <Widget>[
-                                                SvgPicture.asset(image),
-                                                Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 15),
-                                                  child: Text(
-                                                    title,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.black),
-                                                  ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  GestureDetector(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 20, bottom: 20),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Row(
+                                            children: <Widget>[
+                                              SvgPicture.asset(image),
+                                              Padding(
+                                                padding:
+                                                EdgeInsets.only(left: 15),
+                                                child: Text(
+                                                  title,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                      FontWeight.bold,
+                                                      color: Colors.black),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
+                                          ),
 //                                            Align(
 //                                              alignment: Alignment.centerRight,
 //                                              child: Padding(
@@ -681,17 +635,16 @@ class _AddressScreenState extends State<AddressScreen>
 //                                                child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
 //                                              ),
 //                                            )
-                                          ],
-                                        ),
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -757,7 +710,7 @@ class _AddressScreenState extends State<AddressScreen>
                       color: Color(0xFFFE534F),
                       splashColor: Colors.redAccent,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       padding: EdgeInsets.only(
                           left: 10, top: 10, right: 20, bottom: 10),
@@ -777,7 +730,7 @@ class _AddressScreenState extends State<AddressScreen>
                               comment: commentField.text,
                               cartDataModel: currentUser.cartDataModel,
                               restaurant: restaurant,
-                              payment_type: 'Наличными',
+                              payment_type: 'cash',
                               door_to_door: status1,
                             );
                             showAlertDialog(context);
@@ -1378,7 +1331,7 @@ class _TakeAwayState extends State<TakeAway>
                       color: Color(0xFFFE534F),
                       splashColor: Colors.redAccent,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       padding: EdgeInsets.only(
                           left: 10, top: 10, right: 20, bottom: 10),

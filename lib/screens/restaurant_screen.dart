@@ -174,7 +174,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                           Align(
                             alignment: Alignment.bottomLeft,
                             child: Text(
-                              '${restaurantDataItems.price}',
+                              '${restaurantDataItems.price}\₽',
                               style: TextStyle(
                                   fontSize: 12.0,
                                   fontWeight: FontWeight.w600,
@@ -497,7 +497,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(right: 10),
                         child: Text(
-                          '${restaurantDataItems.price}',
+                          '${restaurantDataItems.price}\₽',
                           style: TextStyle(
                               fontSize: 12.0,
                               fontWeight: FontWeight.w600,
@@ -784,7 +784,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                               Flexible(
                                   flex: 1,
                                   child: Padding(
-                                    padding: EdgeInsets.all(0),
+                                    padding: EdgeInsets.only(left: 10),
                                     child: InkWell(
                                         onTap: () => Navigator.pop(context),
                                         child: Container(
@@ -897,12 +897,21 @@ class CartItemsQuantityState extends State<CartItemsQuantity> {
       }
     });
     return Padding(
-      padding: EdgeInsets.only(left: 120),
-      child: Text('$amount',
-          style: TextStyle(
-            fontSize: 14.0,
-            letterSpacing: 1.2,
-          )),
+      padding: EdgeInsets.only(bottom: 10),
+      child: (amount != 0) ? Container(
+        decoration: BoxDecoration(
+          color: Color(0xFFFE534F),
+          shape: BoxShape.circle
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: Text('$amount',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.0,
+              )),
+        ),
+      ) : Text(''),
     );
   }
 
@@ -1167,7 +1176,7 @@ class BasketButtonState extends State<BasketButton> {
         color: Color(0xFFFE534F),
         splashColor: Colors.redAccent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10),
         ),
         padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
         onPressed: () async {

@@ -105,7 +105,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
             )
           ],
         ),
-        Divider(height: 1.0, color: Colors.grey),
+        Divider(height: 1.0, color: Color(0xFFF5F5F5)),
       ],
     );
   }
@@ -421,7 +421,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
                         ],
                       ),
                     ),
-                    Divider(height: 1.0, color: Colors.grey),
+                    Divider(height: 1.0, color: Color(0xFFF5F5F5)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[

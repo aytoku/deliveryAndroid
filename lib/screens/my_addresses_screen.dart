@@ -97,15 +97,15 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                     padding: EdgeInsets.only(
                       left: 15,
                       top: 33,
-                      bottom: 18,
+                      bottom: 0,
                     ),
                     child: SvgPicture.asset('assets/svg_images/home.svg'),
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                      top: 30,
+                      top: 10,
                       left: 25,
-                      bottom: 18,
+                      bottom: 22,
                     ),
                     child: AutoComplete(
                         destinationPointsKey, 'Введите адрес дома'),
