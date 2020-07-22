@@ -147,6 +147,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                         padding:
                                             EdgeInsets.only(left: 7, right: 7),
                                         child: code1 = TextField(
+                                            autofocus: true,
                                             focusNode: new FocusNode(),
                                             controller:
                                                 new TextEditingController(),

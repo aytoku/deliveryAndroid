@@ -43,6 +43,12 @@ class FirebaseNotifications {
   }
 
   static Future<void> OrderCheckingUpdater(String order_uuid, String order_state) async {
+    if(homeScreenKey.currentState != null && homeScreenKey.currentState.orderList != null
+        && !DeliveryStates.contains(order_state)){
+      homeScreenKey.currentState.orderList.removeWhere((element) => element.ordersStoryModelItem.uuid == order_uuid);
+      if(homeScreenKey.currentState.orderList.length == 0)
+        homeScreenKey.currentState.setState(() { });
+    }
     if(orderCheckingStates.containsKey(order_uuid)) {
       if(orderCheckingStates[order_uuid].currentState != null) {
         orderCheckingStates[order_uuid].currentState.setState(() {

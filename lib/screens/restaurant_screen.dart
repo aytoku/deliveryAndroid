@@ -475,33 +475,45 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Stack(
                   children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 15),
-                      child: Text(
-                        restaurantDataItems.name,
-                        style: TextStyle(
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF000000)),
-                        textAlign: TextAlign.start,
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(left: 15),
+                            child: Text(
+                              restaurantDataItems.name,
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF000000)),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 5),
+                            child: Text(
+                              restaurantDataItems.weight.toString() + ' г',
+                              style: TextStyle(
+                                  fontSize: 12.0,
+                                  color: Color(0xFFB0B0B0)),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(
-                      height: 4.0,
-                    ),
                     Align(
-                      alignment: AlignmentDirectional.centerEnd,
+                      alignment: Alignment.topRight,
                       child: Padding(
                         padding: EdgeInsets.only(right: 10),
                         child: Text(
                           '${restaurantDataItems.price}\₽',
                           style: TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFFB0B0B0)),
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF000000)),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -911,7 +923,12 @@ class CartItemsQuantityState extends State<CartItemsQuantity> {
                 fontSize: 14.0,
               )),
         ),
-      ) : Text(''),
+      ) : Text(restaurantDataItems.weight.toString() + ' г',
+      style: TextStyle(
+          color: Color(0xFFB0B0B0),
+          fontSize: 12
+       ),
+      ),
     );
   }
 

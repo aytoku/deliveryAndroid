@@ -25,6 +25,19 @@ String FCMToken = '';
 int code = 0;
 NecessaryDataForAuth necessaryDataForAuth = new NecessaryDataForAuth(phone_number: null, refresh_token: null, device_id: null, name: null);
 
+var DeliveryStates = [
+  'cooking',
+  'offer_offered',
+  'smart_distribution',
+  'finding_driver',
+  'offer_rejected',
+  'order_start',
+  'on_place',
+  'waiting_for_confirmation',
+  'on_the_way',
+  'order_payment'
+];
+
 final addCart = AddCart(
   imageUrl: 'assets/images/restaurant1.jpg',
   name: 'Sandwich Street',);

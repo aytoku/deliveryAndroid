@@ -383,7 +383,7 @@ class _AddressScreenState extends State<AddressScreen>
                 Align(
                   alignment: Alignment.center,
                   child: Padding(
-                    padding: EdgeInsets.only(top: 120),
+                    padding: EdgeInsets.only(top: 120, bottom: 10),
                     child: Container(
                       child: Column(
                         children: <Widget>[

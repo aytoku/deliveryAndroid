@@ -138,6 +138,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         child: Padding(
                           padding: EdgeInsets.only(top: 20),
                           child: TextField(
+                            autofocus: true,
                             controller: controller,
                             style: TextStyle(fontSize: 28),
                             textAlign: TextAlign.start,

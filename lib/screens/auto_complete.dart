@@ -81,7 +81,7 @@ class AutoCompleteDemoState extends State<AutoComplete> {
           child: Padding(
             padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
             child: Text(
-              user.street + ', ' + user.house,
+              user.unrestricted_value,
               style: TextStyle(fontSize: 16.0, decoration: TextDecoration.none),
               textAlign: TextAlign.start,
             ),
@@ -116,15 +116,15 @@ class AutoCompleteDemoState extends State<AutoComplete> {
               print(value.length);
             },
             itemFilter: (item, query) {
-              return item.street.toLowerCase().contains(query.toLowerCase());
+              return item.unrestricted_value.toLowerCase().contains(query.toLowerCase());
             },
             itemSorter: (a, b) {
-              return a.street.compareTo(b.street);
+              return a.unrestricted_value.compareTo(b.unrestricted_value);
             },
             itemSubmitted: (item) {
               setState(() {
                 searchTextField.textField.controller.text =
-                    item.street + ', ' + item.house;
+                    item.unrestricted_value;
               });
             },
             itemBuilder: (context, item) {

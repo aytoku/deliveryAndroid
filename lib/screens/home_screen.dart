@@ -390,7 +390,6 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //print(currentUser.isLoggedIn);
     return Container(
       child: Scaffold(
         key: _scaffoldKey,
@@ -517,13 +516,12 @@ class HomeScreenState extends State<HomeScreen> {
                                   orderList = snapshot.data;
                                   return (currentUser.isLoggedIn)
                                       ? Container(
-                                          height: 200,
-                                          child: ListView(
-                                            children: snapshot.data,
-                                            scrollDirection: Axis.horizontal,
-                                          ),
-                                        )
-                                      : Container(
+                                    height: 200,
+                                    child: ListView(
+                                      children: snapshot.data,
+                                      scrollDirection: Axis.horizontal,
+                                    ),
+                                  ) : Container(
                                           height: 0,
                                         );
                                 } else {
@@ -626,8 +624,10 @@ class OrderChecking extends StatefulWidget {
   }
 }
 
-class OrderCheckingState extends State<OrderChecking> {
+class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveClientMixin {
   final OrdersStoryModelItem ordersStoryModelItem;
+  @override
+  bool get wantKeepAlive => true;
 
   OrderCheckingState(this.ordersStoryModelItem);
 
@@ -940,51 +940,51 @@ class OrderCheckingState extends State<OrderChecking> {
                         launch("tel://" + ordersStoryModelItem.driver.phone);
                       },
                     )),
-//              Align(
-//                  alignment: Alignment.centerRight,
-//                  child: GestureDetector(
-//                    child: Padding(
-//                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 10),
-//                      child: (in_the_way.contains(ordersStoryModelItem.state)) ? Container(
-//                        width: 130,
-//                        decoration: BoxDecoration(
-//                            borderRadius: BorderRadius.all(Radius.circular(11)),
-//                            color: Colors.green),
-//                        child: Padding(
-//                          padding: EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
-//                          child: Row(
-//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                            children: <Widget>[
-//                              Padding(
-//                                padding: EdgeInsets.only(left: 25),
-//                                child: SvgPicture.asset('assets/svg_images/chat.svg'),
-//                              ),
-//                              Padding(
-//                                padding: EdgeInsets.only(right: 25),
-//                                child: Text(
-//                                  'Чат',
-//                                  style: TextStyle(
-//                                      fontWeight: FontWeight.bold,
-//                                      fontSize: 14,
-//                                      color: Colors.white
-//                                  ),
-//                                ),
-//                              )
-//                            ],
-//                          ),
-//                        ),
-//                      ) : Container(),
-//                    ),
-//                    onTap: (){
-//                      Navigator.pushReplacement(
-//                        context,
-//                        new MaterialPageRoute(
-//                          builder: (context) => new ChatScreen(order_uuid: ordersStoryModelItem.uuid, key: chatKey),
-//                        ),
-//                      );
-//                    },
-//                  )
-//              ),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 10),
+                      child: (in_the_way.contains(ordersStoryModelItem.state)) ? Container(
+                        width: 130,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(11)),
+                            color: Colors.green),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: 25),
+                                child: SvgPicture.asset('assets/svg_images/chat.svg'),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 25),
+                                child: Text(
+                                  'Чат',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: Colors.white
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ) : Container(),
+                    ),
+                    onTap: (){
+                      Navigator.pushReplacement(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new ChatScreen(order_uuid: ordersStoryModelItem.uuid, key: chatKey),
+                        ),
+                      );
+                    },
+                  )
+              ),
               ],
             )
           ],
@@ -1115,104 +1115,112 @@ class ChatScreenState extends State<ChatScreen> {
     }
     return Scaffold(
         key: _scaffoldKey,
-        body: Column(
+        body: Stack(
           children: <Widget>[
-            Row(children: <Widget>[
-              InkWell(
-                child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 0, top: 40),
-                        child: Container(
-                            height: 40,
-                            width: 60,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  top: 12, bottom: 12, right: 10),
-                              child: SvgPicture.asset(
-                                  'assets/svg_images/arrow_left.svg'),
-                            )))),
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new HomeScreen(),
-                    ),
-                  );
-                },
-              ),
-              Padding(
-                  padding: EdgeInsets.only(top: 40, left: 90),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Stack(children: <Widget>[
+                InkWell(
                   child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Center(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                          padding: EdgeInsets.only(left: 0, top: 30),
+                          child: Container(
+                              height: 40,
+                              width: 60,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 12, bottom: 12, right: 10),
+                                child: SvgPicture.asset(
+                                    'assets/svg_images/arrow_left.svg'),
+                              )))),
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new HomeScreen(),
+                      ),
+                    );
+                  },
+                ),
+                Padding(
+                    padding: EdgeInsets.only(top: 40, left: 0),
+                    child: Align(
+                      alignment: Alignment.topCenter,
                       child: Text(
                         'Чат с водителем',
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.bold),
                       ),
+                    ))
+              ]),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: EdgeInsets.only(top: 60),
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: chatMessageList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return chatMessageList[index];
+                  },
+                  //chatMessageList
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    height: 60,
+                    child: QuickMessageScreen(
+                      messageField: messageField,
                     ),
-                  ))
-            ]),
-            Flexible(
-              flex: 10,
-              child: new ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: chatMessageList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return chatMessageList[index];
-                },
-                //chatMessageList
-              ),
-            ),
-            Flexible(
-              flex: 1,
-              child: QuickMessageScreen(
-                messageField: messageField,
-              ),
-            ),
-            Flexible(
-                flex: 1,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 15, bottom: 10),
-                  child: Container(
-                    height: 40,
-                    width: 320,
-                    child: TextField(
-                      controller: messageField,
-                      decoration: InputDecoration(
-                        suffix: GestureDetector(
-                          child: SvgPicture.asset(
-                              'assets/svg_images/send_message.svg'),
-                          onTap: () async {
-                            if (await Internet.checkConnection()) {
-                              var message = await Chat.sendMessage(
-                                  order_uuid, messageField.text, 'driver');
-                              chatMessagesStates.forEach((key, value) {
-                                print(
-                                    key + ' ' + value.currentState.toString());
-                              });
-                              setState(() {
-                                GlobalKey<ChatMessageScreenState>
-                                    chatMessageScreenStateKey =
-                                    new GlobalKey<ChatMessageScreenState>();
-                                chatMessagesStates[message.uuid] =
-                                    chatMessageScreenStateKey;
-                                chatMessageList.insert(
-                                    0,
-                                    new ChatMessageScreen(
-                                        key: chatMessageScreenStateKey,
-                                        chatMessage: message));
-                              });
-                            } else {
-                              noConnection(context);
-                            }
-                          },
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 60, bottom: 20, right: 15, left: 15),
+                    child: Container(
+                      height: 40,
+                      child: TextField(
+                        controller: messageField,
+                        decoration: InputDecoration(
+                          suffix: GestureDetector(
+                            child: SvgPicture.asset(
+                                'assets/svg_images/send_message.svg'),
+                            onTap: () async {
+                              if (await Internet.checkConnection()) {
+                                var message = await Chat.sendMessage(
+                                    order_uuid, messageField.text, 'driver');
+                                chatMessagesStates.forEach((key, value) {
+                                  print(
+                                      key + ' ' + value.currentState.toString());
+                                });
+                                setState(() {
+                                  GlobalKey<ChatMessageScreenState>
+                                  chatMessageScreenStateKey =
+                                  new GlobalKey<ChatMessageScreenState>();
+                                  chatMessagesStates[message.uuid] =
+                                      chatMessageScreenStateKey;
+                                  chatMessageList.insert(
+                                      0,
+                                      new ChatMessageScreen(
+                                          key: chatMessageScreenStateKey,
+                                          chatMessage: message));
+                                });
+                              } else {
+                                noConnection(context);
+                              }
+                            },
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                )),
+                  )
+                ],
+              ),
+            ),
           ],
         ));
   }
@@ -1293,10 +1301,10 @@ class ChatMessageScreenState extends State<ChatMessageScreen> {
                       padding: EdgeInsets.only(top: 10, bottom: 10),
                       child: Container(
                           decoration: BoxDecoration(
-                              color: Colors.grey,
+                              color: Color(0xFFE5E6EA),
                               borderRadius: BorderRadius.circular(17.0),
                               border:
-                                  Border.all(width: 1.0, color: Colors.grey)),
+                                  Border.all(width: 1.0, color: Color(0xFFE5E6EA))),
                           child: Padding(
                             padding: EdgeInsets.all(10),
                             child: Text(
@@ -1319,10 +1327,10 @@ class ChatMessageScreenState extends State<ChatMessageScreen> {
                         padding: EdgeInsets.only(top: 10, bottom: 10),
                         child: Container(
                             decoration: BoxDecoration(
-                                color: Colors.redAccent,
+                                color: Color(0xFFFC5B58),
                                 borderRadius: BorderRadius.circular(17.0),
                                 border: Border.all(
-                                    width: 1.0, color: Colors.redAccent)),
+                                    width: 1.0, color: Color(0xFFFC5B58))),
                             child: Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
@@ -1337,16 +1345,21 @@ class ChatMessageScreenState extends State<ChatMessageScreen> {
                       )),
                 ),
           Padding(
-            padding: EdgeInsets.only(left: 40),
-            child: Align(
+            padding: EdgeInsets.only(left: 10),
+            child: (chatMessage.ack && chatMessage.to == 'client') ? Align(
               alignment: Alignment.topRight,
-              child: Text(
-                (chatMessage.ack && chatMessage.to == 'client')
-                    ? 'Прочитано'
-                    : 'Доставлено',
+              child: Text('Прочитано',
                 style: TextStyle(fontSize: 11, color: Colors.grey),
               ),
-            ),
+            ): Padding(
+              padding: EdgeInsets.only(right: 40),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text('Доставлено',
+                  style: TextStyle(fontSize: 11, color: Colors.grey),
+                ),
+              ),
+            )
           )
         ],
       ),
@@ -1397,7 +1410,7 @@ class QuickMessageScreenState extends State<QuickMessageScreen> {
                     padding: EdgeInsets.only(
                       left: 15,
                       right: 15,
-                      top: 5,
+                      top: 10,
                     ),
                     child: Text(
                       quickMessage.messages[index],
