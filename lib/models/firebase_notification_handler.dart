@@ -20,6 +20,7 @@ class FirebaseNotifications {
     await firebaseCloudMessaging_Listeners();
   }
 
+  // ignore: missing_return
   static Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
     print(message);
     print('EXPLOOOOSION');
@@ -43,6 +44,7 @@ class FirebaseNotifications {
   }
 
   static Future<void> OrderCheckingUpdater(String order_uuid, String order_state) async {
+    print('vnature' + homeScreenKey.currentState.toString());
     if(homeScreenKey.currentState != null && homeScreenKey.currentState.orderList != null
         && !DeliveryStates.contains(order_state)){
       homeScreenKey.currentState.orderList.removeWhere((element) => element.ordersStoryModelItem.uuid == order_uuid);

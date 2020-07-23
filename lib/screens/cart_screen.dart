@@ -703,15 +703,12 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                     flex: 0,
                     child: Padding(
                       padding: EdgeInsets.only(left: 5),
-                      child: GestureDetector(
+                      child: InkWell(
                         onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) =>
-                                  new RestaurantScreen(restaurant: restaurant),
-                            ),
-                          );
+                          homeScreenKey = new GlobalKey<HomeScreenState>();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (context) => HomeScreen()),
+                                  (Route<dynamic> route) => false);
                         },
                         child: Padding(
                             padding: EdgeInsets.only(right: 0),

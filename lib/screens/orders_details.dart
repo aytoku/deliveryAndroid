@@ -59,6 +59,41 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
     );
   }
 
+  showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: 0),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            child: Container(
+                height: 150,
+                width: 320,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                      child: Text(
+                        'Отмена заказа',
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF424242)),
+                      ),
+                    ),
+                    Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  ],
+                )),
+          ),
+        );
+      },
+    );
+  }
+
   bool status1 = false;
 
   @override
@@ -402,6 +437,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           )),
                       onTap: () async {
                         if (await Internet.checkConnection()) {
+                          showAlertDialog(context);
                           await loadOrderCancel(ordersStoryModelItem.uuid);
                           homeScreenKey = new GlobalKey();
                           Navigator.of(context).pushAndRemoveUntil(

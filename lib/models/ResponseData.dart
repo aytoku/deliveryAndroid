@@ -25,6 +25,7 @@ class DeliveryResponseData {
 class Records{
   String uuid;
   String name;
+  String phone;
   String comment;
   bool own_delivery;
   String image;
@@ -40,6 +41,7 @@ class Records{
   Records( {
     this.uuid,
     this.name,
+    this.phone,
     this.comment,
     this.own_delivery,
     this.image,
@@ -65,6 +67,7 @@ class Records{
     {
       'uuid': this.uuid,
       'name': this.name,
+      'phone': this.phone,
       'comment': this.comment,
       'own_delivery': this.own_delivery,
       'image': this.image,
@@ -114,6 +117,7 @@ class Records{
     return Records(
       uuid: parsedJson['uuid'],
       name: parsedJson['name'],
+      phone: parsedJson['phone'],
       comment: parsedJson['comment'],
       image: parsedJson['image'],
       work_schedule: workScheduleList,

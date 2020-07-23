@@ -655,6 +655,94 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
     );
   }
 
+  showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: 0),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            child: Container(
+                height: 210,
+                width: 315,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                      child: Text(
+                        'Кому вы хотите позвонить?',
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF424242)),
+                      ),
+                    ),
+                    Divider(
+                      height: 1,
+                      color: Colors.grey,
+                    ),
+                    InkWell(
+                      child: Container(
+                        child: Padding(
+                            padding: EdgeInsets.only(top: 20, bottom: 20, left: 15),
+                            child: Row(
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                    'assets/svg_images/call_to_restaurant.svg'),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    'В заведение',
+                                    style: TextStyle(
+                                        fontSize: 17, color: Color(0xFF424242)),
+                                  ),
+                                )
+                              ],
+                            )
+                        ),
+                      ),
+                      onTap: () {
+                        launch("tel://" + ordersStoryModelItem.store.phone);
+                      },
+                    ),
+                    Divider(
+                      height: 1,
+                      color: Colors.grey,
+                    ),
+                    InkWell(
+                      child: Container(
+                        child: Padding(
+                            padding: EdgeInsets.only(top: 20, bottom: 20, left: 15),
+                            child: Row(
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                    'assets/svg_images/call_to_driver.svg'),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    'Водителю',
+                                    style: TextStyle(
+                                        fontSize: 17, color: Color(0xFF424242)),
+                                  ),
+                                )
+                              ],
+                            )
+                        ),
+                      ),
+                      onTap: () {
+                        launch("tel://" + ordersStoryModelItem.driver.phone);
+                      },
+                    )
+                  ],
+                )),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var processing = ['waiting_for_confirmation'];
@@ -907,37 +995,37 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                             top: 10, bottom: 10, right: 30, left: 10),
                         child: (in_the_way.contains(ordersStoryModelItem.state))
                             ? Container(
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(11)),
-                                    border: Border.all(color: Colors.green),
-                                    color: Colors.white),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 5, right: 10, bottom: 5, left: 10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      SvgPicture.asset(
-                                          'assets/svg_images/phone.svg'),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          'Позвонить',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14),
-                                        ),
-                                      )
-                                    ],
+                          decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(11)),
+                              border: Border.all(color: Colors.green),
+                              color: Colors.white),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 5, right: 10, bottom: 5, left: 10),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                    'assets/svg_images/phone.svg'),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Позвонить',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
                                   ),
-                                ),
-                              )
+                                )
+                              ],
+                            ),
+                          ),
+                        )
                             : Container(),
                       ),
                       onTap: () {
-                        launch("tel://" + ordersStoryModelItem.driver.phone);
+                        showAlertDialog(context);
                       },
                     )),
               Align(

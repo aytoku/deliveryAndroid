@@ -113,7 +113,6 @@ class AutoCompleteDemoState extends State<AutoComplete> {
             style: TextStyle(color: Colors.black, fontSize: 16.0),
             textChanged: (String value) async {
               await getUsers(value);
-              print(value.length);
             },
             itemFilter: (item, query) {
               return item.unrestricted_value.toLowerCase().contains(query.toLowerCase());
