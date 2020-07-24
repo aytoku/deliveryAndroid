@@ -212,7 +212,7 @@ class _AddressScreenState extends State<AddressScreen>
                       myAddressesModel.address = destinationPointsKey
                           .currentState
                           .searchTextField
-                          .textField
+                          .textFieldConfiguration
                           .controller
                           .text;
                       return new AddressScreen(
@@ -717,14 +717,14 @@ class _AddressScreenState extends State<AddressScreen>
                       onPressed: () async {
                         if (await Internet.checkConnection()) {
                           if (destinationPointsKey.currentState.searchTextField
-                                  .textField.controller.text.length >
+                                  .textFieldConfiguration.controller.text.length >
                               0) {
                             Center(
                               child: CircularProgressIndicator(),
                             );
                             CreateOrder createOrder = new CreateOrder(
                               address: destinationPointsKey.currentState
-                                  .searchTextField.textField.controller.text,
+                                  .searchTextField.textFieldConfiguration.controller.text,
                               office: officeField.text,
                               floor: floorField.text,
                               comment: commentField.text,

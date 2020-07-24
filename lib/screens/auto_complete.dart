@@ -1,5 +1,6 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:food_delivery/PostData/necessary_address_data_pass.dart';
 import 'package:food_delivery/models/NecessaryAddressModel.dart';
 import 'package:food_delivery/models/ResponseData.dart';
@@ -22,15 +23,10 @@ class AutoCompleteDemoState extends State<AutoComplete> {
 
   AutoCompleteDemoState(this.hint);
 
-  AutoCompleteTextField searchTextField;
-  GlobalKey<AutoCompleteTextFieldState<DestinationPoints>> key =
-      new GlobalKey();
-  static List<DestinationPoints> necessaryAddressDataItems =
-      new List<DestinationPoints>();
-  bool loading = true;
+  TypeAheadField searchTextField;
 
-  void getUsers(String name) async {
-    print(name);
+  Future<List<DestinationPoints>> getUsers(String name) async {
+    List<DestinationPoints> necessaryAddressDataItems;
     try {
       if (name.length > 0) {
         necessaryAddressDataItems =
@@ -54,23 +50,16 @@ class AutoCompleteDemoState extends State<AutoComplete> {
       }
       print(necessaryAddressDataItems[0].unrestricted_value);
       print('dick lenght ' + necessaryAddressDataItems.length.toString());
-      if (loading) {
-        setState(() {
-          loading = false;
-        });
-      }
-      if (key.currentState != null) {
-        key.currentState.suggestions = necessaryAddressDataItems;
-        key.currentState.setState(() {});
-      }
     } catch (e) {
       print("Error getting users.");
+    } finally {
+      return necessaryAddressDataItems;
     }
   }
 
   @override
   void initState() {
-    getUsers('');
+    //getUsers('');
     super.initState();
   }
 
@@ -93,45 +82,58 @@ class AutoCompleteDemoState extends State<AutoComplete> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController controller = new TextEditingController();
+    FocusNode node = new FocusNode();
     return Container(
       child: Theme(
         data: new ThemeData(hintColor: Color(0xF2F2F2F2)),
         child: Padding(
           padding: EdgeInsets.only(left: 15, right: 0, top: 10),
-          child: searchTextField = AutoCompleteTextField<DestinationPoints>(
-            textCapitalization: TextCapitalization.sentences,
-            key: key,
-            clearOnSubmit: false,
-            minLength: 0,
-            suggestions: necessaryAddressDataItems,
-            decoration: new InputDecoration(
-              hintText: hint,
-              hintStyle: TextStyle(color: Color(0xFFD4D4D4), fontSize: 17),
-              border: InputBorder.none,
-              counterText: '',
+          child: searchTextField = TypeAheadField(
+            textFieldConfiguration: TextFieldConfiguration(
+                controller: controller,
+                textCapitalization: TextCapitalization.sentences,
+                autofocus: true,
+                focusNode: node,
+                style: TextStyle(
+                  color: Color(0xFF000000),
+                ),
+              decoration: new InputDecoration(
+                hintText: hint,
+                hintStyle: TextStyle(
+                  color: Color(0xFFD4D4D4),
+                  fontSize: 17
+                ),
+                border: InputBorder.none,
+                counterText: '',
+              ),
             ),
-            style: TextStyle(color: Colors.black, fontSize: 16.0),
-            textChanged: (String value) async {
-              await getUsers(value);
+            suggestionsCallback: (pattern) async {
+              return await getUsers(pattern);
             },
-            itemFilter: (item, query) {
-              return item.unrestricted_value.toLowerCase().contains(query.toLowerCase());
+            loadingBuilder: (BuildContext context) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             },
-            itemSorter: (a, b) {
-              return a.unrestricted_value.compareTo(b.unrestricted_value);
-            },
-            itemSubmitted: (item) {
-              setState(() {
-                searchTextField.textField.controller.text =
-                    item.unrestricted_value;
-              });
-            },
-            itemBuilder: (context, item) {
-              // ui for the autocomplete row
+            errorBuilder: (context, suggestion) => Text('error'),
+            noItemsFoundBuilder: (context) => Text('empty'),
+            itemBuilder: (context, suggestion) {
               print('vi zaebali menya ispolzovat postoyanno fagoti');
-              return row(item);
+              return row(suggestion);
+              return ListTile(
+                leading: Icon(Icons.shopping_cart),
+                title: Text(suggestion['name']),
+                subtitle: Text('\$${suggestion['price']}'),
+              );
             },
-          ),
+            onSuggestionSelected: (suggestion) {
+              print('asdasdasdadasd');
+              controller.text =(suggestion as DestinationPoints).unrestricted_value;
+              //FocusScope.of(context).unfocus();
+              node.requestFocus();
+            },
+          )
         ),
       ),
     );

@@ -48,7 +48,7 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   List<OrderChecking> orderList;
   int page = 1;
   int limit = 12;
@@ -63,7 +63,24 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _color = true;
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('darova' + state.toString());
+    if(state == AppLifecycleState.resumed){
+      setState(() {
+
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   _buildNearlyRestaurant() {
@@ -1156,7 +1173,7 @@ class ChatScreen extends StatefulWidget {
   }
 }
 
-class ChatScreenState extends State<ChatScreen> {
+class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   List<ChatMessageScreen> chatMessageList;
   String order_uuid;
 
@@ -1164,6 +1181,27 @@ class ChatScreenState extends State<ChatScreen> {
 
   TextEditingController messageField = new TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state == AppLifecycleState.resumed){
+      setState(() {
+
+      });
+    }
+  }
 
   noConnection(BuildContext context) {
     showDialog(
@@ -1203,7 +1241,8 @@ class ChatScreenState extends State<ChatScreen> {
     }
     return Scaffold(
         key: _scaffoldKey,
-        body: Stack(
+        resizeToAvoidBottomPadding: false,
+        body: Column(
           children: <Widget>[
             Align(
               alignment: Alignment.topCenter,
@@ -1245,17 +1284,21 @@ class ChatScreenState extends State<ChatScreen> {
             ),
             Align(
               alignment: Alignment.center,
-              child: Padding(
-                padding: EdgeInsets.only(top: 60),
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: chatMessageList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return chatMessageList[index];
-                  },
-                  //chatMessageList
+              child: Container(
+                height: 450,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.vertical,
+                    itemCount: chatMessageList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return chatMessageList[chatMessageList.length-1-index];
+                    },
+                    //chatMessageList
+                  ),
                 ),
-              ),
+              )
             ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -1335,17 +1378,18 @@ class ChatScreenState extends State<ChatScreen> {
             chatMessageList.add(new ChatMessageScreen(
                 chatMessage: element, key: chatMessageScreenStateKey));
           });
-          GlobalKey<ChatMessageScreenState> chatMessageScreenStateKey =
-              new GlobalKey<ChatMessageScreenState>();
-          chatMessagesStates['123'] = chatMessageScreenStateKey;
-          chatMessageList.add(new ChatMessageScreen(
-              key: chatMessageScreenStateKey,
-              chatMessage: new ChatMessage(
-                  message: 'halo',
-                  ack: false,
-                  uuid: '123',
-                  from: 'driver',
-                  to: 'client')));
+//          GlobalKey<ChatMessageScreenState> chatMessageScreenStateKey =
+//              new GlobalKey<ChatMessageScreenState>();
+          //chatMessagesStates['123'] = chatMessageScreenStateKey;
+//          chatMessageList.add(new ChatMessageScreen(
+//              key: chatMessageScreenStateKey,
+//              chatMessage: new ChatMessage(
+//                  message: 'halo',
+//                  ack: false,
+//                  uuid: '123',
+//                  from: 'driver',
+//                  to: 'client')
+//          ));
           return buildChat();
         } else {
           return Center(
@@ -1432,23 +1476,22 @@ class ChatMessageScreenState extends State<ChatMessageScreen> {
                             )),
                       )),
                 ),
+          (chatMessage.to != 'client') ?
           Padding(
             padding: EdgeInsets.only(left: 10),
-            child: (chatMessage.ack && chatMessage.to == 'client') ? Align(
-              alignment: Alignment.topRight,
+            child: (chatMessage.ack ) ? Align(
+              alignment: Alignment.centerRight,
               child: Text('Прочитано',
                 style: TextStyle(fontSize: 11, color: Colors.grey),
               ),
-            ): Padding(
-              padding: EdgeInsets.only(right: 40),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text('Доставлено',
-                  style: TextStyle(fontSize: 11, color: Colors.grey),
-                ),
+            ): Align(
+              alignment: Alignment.centerRight,
+              child: Text('Доставлено',
+                style: TextStyle(fontSize: 11, color: Colors.grey),
               ),
-            )
-          )
+            ),
+          ) :
+              Container(height: 0,)
         ],
       ),
     );
@@ -1480,7 +1523,7 @@ class QuickMessageScreenState extends State<QuickMessageScreen> {
       children: List.generate(quickMessage.messages.length, (index) {
         return GestureDetector(
           child: Padding(
-              padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
+              padding: EdgeInsets.only(left: 15, right: 5, top: 10, bottom: 10),
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(40)),

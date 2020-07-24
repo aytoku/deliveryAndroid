@@ -165,8 +165,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                         myAddressesModel.type = MyAddressesType.home;
                         myAddressesModel.address = destinationPointsKey
                             .currentState
-                            .searchTextField
-                            .textField
+                            .searchTextField.textFieldConfiguration
                             .controller
                             .text;
                         return new AddMyAddressScreen(
