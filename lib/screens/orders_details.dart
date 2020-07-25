@@ -94,6 +94,41 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
     );
   }
 
+  showNoCancelAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop(true);
+        });
+        return Padding(
+          padding: EdgeInsets.only(bottom: 0),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            child: Container(
+                height: 100,
+                width: 320,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, top: 20, bottom: 20, right: 15),
+                      child: Text(
+                        'Вы не можете отменить заказ',
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF424242)),
+                      ),
+                    ),
+                  ],
+                )),
+          ),
+        );
+      },
+    );
+  }
+
   bool status1 = false;
 
   @override
@@ -115,6 +150,10 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
       'offer_rejected',
       'order_start',
       'on_place',
+      'on_the_way',
+      'order_payment'
+    ];
+    var not_cancel_state = [
       'on_the_way',
       'order_payment'
     ];
@@ -437,6 +476,10 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           )),
                       onTap: () async {
                         if (await Internet.checkConnection()) {
+                          if(not_cancel_state.contains(ordersStoryModelItem.state)){
+                            showNoCancelAlertDialog(context);
+                            return;
+                          }
                           showAlertDialog(context);
                           await loadOrderCancel(ordersStoryModelItem.uuid);
                           homeScreenKey = new GlobalKey();

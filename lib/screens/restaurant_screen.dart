@@ -369,6 +369,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             topRight: const Radius.circular(12),
           )),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Expanded(
             child: MediaQuery.removePadding(
@@ -406,54 +407,57 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       ],
                     )),
                 (restaurantDataItems.comment != "" &&
-                        restaurantDataItems.comment != null)
+                    restaurantDataItems.comment != null)
                     ? Container(
-                        color: Color(0xFFFAFAFA),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  left: 15, top: 20, bottom: 20),
-                              child: Text(
-                                restaurantDataItems.comment,
-                                style: TextStyle(
-                                    color: Color(0xFFB0B0B0), fontSize: 13),
-                              ),
-                            )),
-                      )
+                  color: Color(0xFFFAFAFA),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 15, top: 20, bottom: 20),
+                        child: Text(
+                          restaurantDataItems.comment,
+                          style: TextStyle(
+                              color: Color(0xFFB0B0B0), fontSize: 13),
+                        ),
+                      )),
+                )
                     : Container(
-                        color: Colors.grey,
-                        height: 0,
-                      ),
+                  height: 0,
+                ),
                 (restaurantDataItems.variants != null)
                     ? Padding(
-                        padding: EdgeInsets.only(left: 15, top: 10),
-                        child: Text(
-                          'Варианты',
-                          style: TextStyle(color: Color(0xFF424242)),
-                        ),
-                      )
-                    : Text(''),
+                  padding: EdgeInsets.only(left: 15, top: 10),
+                  child: Text(
+                    'Варианты',
+                    style: TextStyle(color: Color(0xFF424242)),
+                  ),
+                )
+                    : Container(
+                  height: 0,
+                ),
                 (restaurantDataItems.variants != null)
                     ? VariantsSelector(
-                        key: variantsSelectorStateKey,
-                        variantsList: restaurantDataItems.variants)
+                    key: variantsSelectorStateKey,
+                    variantsList: restaurantDataItems.variants)
                     : Container(height: 0),
                 (restaurantDataItems.toppings != null)
                     ? Padding(
-                        padding: EdgeInsets.only(left: 15),
-                        child: Text(
-                          'Топпинги',
-                          style: TextStyle(color: Color(0xFF424242)),
-                        ),
-                      )
-                    : Text(''),
+                  padding: EdgeInsets.only(left: 15),
+                  child: Text(
+                    'Топпинги',
+                    style: TextStyle(color: Color(0xFF424242)),
+                  ),
+                )
+                    : Container(
+                  height: 0,
+                ),
                 (restaurantDataItems.toppings != null)
                     ? ToppingsSelector(
-                        key: toppingsSelectorStateKey,
-                        toppingsList: restaurantDataItems.toppings)
+                    key: toppingsSelectorStateKey,
+                    toppingsList: restaurantDataItems.toppings)
                     : Container(height: 0),
-              ]),
+              ])
             ),
           ),
 //          Expanded(

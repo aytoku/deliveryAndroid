@@ -22,6 +22,8 @@ class AutoCompleteDemoState extends State<AutoComplete> {
   String hint;
 
   AutoCompleteDemoState(this.hint);
+  TextEditingController controller = new TextEditingController();
+  FocusNode node = new FocusNode();
 
   TypeAheadField searchTextField;
 
@@ -37,7 +39,7 @@ class AutoCompleteDemoState extends State<AutoComplete> {
         for (int i = 0; i < temp.length; i++) {
           var element = temp[i];
           NecessaryAddressData necessaryAddressData =
-              await loadNecessaryAddressData(element.address);
+          await loadNecessaryAddressData(element.address);
           if (necessaryAddressData.destinationPoints.length > 0) {
             necessaryAddressData.destinationPoints[0].comment = temp[i].comment;
             necessaryAddressDataItems
@@ -82,58 +84,58 @@ class AutoCompleteDemoState extends State<AutoComplete> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = new TextEditingController();
-    FocusNode node = new FocusNode();
     return Container(
       child: Theme(
         data: new ThemeData(hintColor: Color(0xF2F2F2F2)),
         child: Padding(
-          padding: EdgeInsets.only(left: 15, right: 0, top: 10),
-          child: searchTextField = TypeAheadField(
-            textFieldConfiguration: TextFieldConfiguration(
+            padding: EdgeInsets.only(left: 15, right: 0, top: 10),
+            child: searchTextField = TypeAheadField(
+              textFieldConfiguration: TextFieldConfiguration(
                 controller: controller,
                 textCapitalization: TextCapitalization.sentences,
                 autofocus: true,
-                focusNode: node,
+                //focusNode: node,
                 style: TextStyle(
                   color: Color(0xFF000000),
                 ),
-              decoration: new InputDecoration(
-                hintText: hint,
-                hintStyle: TextStyle(
-                  color: Color(0xFFD4D4D4),
-                  fontSize: 17
+                decoration: new InputDecoration(
+                  hintText: hint,
+                  hintStyle: TextStyle(
+                      color: Color(0xFFD4D4D4),
+                      fontSize: 17
+                  ),
+                  border: InputBorder.none,
+                  counterText: '',
                 ),
-                border: InputBorder.none,
-                counterText: '',
               ),
-            ),
-            suggestionsCallback: (pattern) async {
-              return await getUsers(pattern);
-            },
-            loadingBuilder: (BuildContext context) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            },
-            errorBuilder: (context, suggestion) => Text('error'),
-            noItemsFoundBuilder: (context) => Text('empty'),
-            itemBuilder: (context, suggestion) {
-              print('vi zaebali menya ispolzovat postoyanno fagoti');
-              return row(suggestion);
-              return ListTile(
-                leading: Icon(Icons.shopping_cart),
-                title: Text(suggestion['name']),
-                subtitle: Text('\$${suggestion['price']}'),
-              );
-            },
-            onSuggestionSelected: (suggestion) {
-              print('asdasdasdadasd');
-              controller.text =(suggestion as DestinationPoints).unrestricted_value;
-              //FocusScope.of(context).unfocus();
-              node.requestFocus();
-            },
-          )
+              suggestionsCallback: (pattern) async {
+                return await getUsers(pattern);
+              },
+              loadingBuilder: (BuildContext context) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+              errorBuilder: (context, suggestion) => Text('error'),
+              noItemsFoundBuilder: (context) => Text('empty'),
+              itemBuilder: (context, suggestion) {
+                print('vi zaebali menya ispolzovat postoyanno fagoti');
+                return row(suggestion);
+                return ListTile(
+                  leading: Icon(Icons.shopping_cart),
+                  title: Text(suggestion['name']),
+                  subtitle: Text('\$${suggestion['price']}'),
+                );
+              },
+              onSuggestionSelected: (suggestion) {
+                print('asdasdasdadasd');
+                controller.text =(suggestion as DestinationPoints).unrestricted_value;
+                //FocusScope.of(context).unfocus();
+                node.requestFocus();
+                print(controller.text.length);
+                //controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
+              },
+            )
         ),
       ),
     );

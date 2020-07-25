@@ -148,16 +148,22 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
           ),
 
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.topLeft,
             child: Padding(
-              padding: EdgeInsets.only(top: 120),
+              padding: EdgeInsets.only(top: 120, left: 20),
+              child: Padding(
+                padding: EdgeInsets.only(top: 30, left: 0),
+                child: Text(myAddressesModel.address,
+                    style: TextStyle(fontSize: 17, color: Color(0xFF424242))),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsets.only(top: 170),
               child: Column(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 30, left: 20),
-                    child: Text(myAddressesModel.address,
-                        style: TextStyle(fontSize: 17, color: Color(0xFF424242))),
-                  ),
                   Padding(
                     padding: EdgeInsets.only(top: 10, right: 5, bottom: 20),
                     child: Text(
@@ -171,9 +177,9 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
             ),
           ),
           Align(
-            alignment: Alignment.center,
+            alignment: Alignment.topLeft,
             child: Padding(
-              padding: EdgeInsets.only(left: 20, bottom: 20),
+              padding: EdgeInsets.only(left: 20, top: 210),
               child: TextField(
                 controller: commentField,
                 textCapitalization: TextCapitalization.sentences,
