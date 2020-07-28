@@ -913,7 +913,7 @@ class CartItemsQuantityState extends State<CartItemsQuantity> {
       }
     });
     return Padding(
-      padding: EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(top: 0),
       child: (amount != 0) ? Container(
         decoration: BoxDecoration(
           color: Color(0xFFFE534F),

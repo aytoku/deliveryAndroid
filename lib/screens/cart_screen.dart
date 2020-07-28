@@ -32,11 +32,12 @@ class _CartScreenState extends State<CartScreen> {
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
   double total;
   bool delete = false;
+  //int deliveryPrice = 134;
 
   _CartScreenState(this.restaurant);
 
   _buildList() {
-    double totalPrice = 0;
+    double totalPrice = 134;
     currentUser.cartDataModel.cart.forEach(
         (Order order) => totalPrice += order.quantity * order.food.price);
     return Expanded(
@@ -319,7 +320,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     MainModel model = MainModel();
-    double totalPrice = 0;
+    double totalPrice = 134;
     currentUser.cartDataModel.cart.forEach(
         (Order order) => totalPrice += order.quantity * order.food.price);
     Order bloc;

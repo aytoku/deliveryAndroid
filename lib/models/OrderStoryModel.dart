@@ -149,15 +149,24 @@ class FoodRecordsStory{
 
 class Driver{
   String phone;
+  String color;
+  String car;
+  String reg_number;
 
   Driver( {
-    this.phone
+    this.phone,
+    this.color,
+    this.car,
+    this.reg_number
   });
 
   factory Driver.fromJson(Map<String, dynamic> parsedJson){
 
     return Driver(
-        phone: parsedJson['phone']
+        phone: parsedJson['phone'],
+        color: parsedJson['color'],
+        car: parsedJson['car'],
+        reg_number: parsedJson['reg_number']
     );
   }
 }

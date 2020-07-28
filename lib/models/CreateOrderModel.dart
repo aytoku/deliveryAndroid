@@ -17,6 +17,8 @@ import 'dart:convert' as convert;
 class CreateOrder {
   String address;
   String office;
+  String intercom;
+  String entrance;
   String floor;
   String comment;
   String delivery;
@@ -28,6 +30,8 @@ class CreateOrder {
   CreateOrder({
     this.address,
     this.office,
+    this.intercom,
+    this.entrance,
     this.floor,
     this.comment,
     this.delivery,

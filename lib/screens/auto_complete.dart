@@ -93,8 +93,8 @@ class AutoCompleteDemoState extends State<AutoComplete> {
               textFieldConfiguration: TextFieldConfiguration(
                 controller: controller,
                 textCapitalization: TextCapitalization.sentences,
-                autofocus: true,
-                //focusNode: node,
+                //autofocus: true,
+                focusNode: node,
                 style: TextStyle(
                   color: Color(0xFF000000),
                 ),
@@ -133,7 +133,7 @@ class AutoCompleteDemoState extends State<AutoComplete> {
                 //FocusScope.of(context).unfocus();
                 node.requestFocus();
                 print(controller.text.length);
-                //controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
+                controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
               },
             )
         ),

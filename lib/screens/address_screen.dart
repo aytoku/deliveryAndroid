@@ -120,9 +120,16 @@ class _AddressScreenState extends State<AddressScreen>
   final maxLines = 1;
   TextEditingController commentField = new TextEditingController();
   TextEditingController officeField = new TextEditingController();
+  TextEditingController intercomField = new TextEditingController();
+  TextEditingController entranceField = new TextEditingController();
   TextEditingController floorField = new TextEditingController();
+  TextField floorTextField;
+  TextField intercomTextField;
+  TextField entranceTextField;
+  TextField officeTextField;
 
   String addressName = '';
+  int deliveryPrice = 134;
 
   List<MyAddressesModel> myAddressesModelList;
   MyAddressesModel myAddressesModel;
@@ -232,7 +239,8 @@ class _AddressScreenState extends State<AddressScreen>
 
   @override
   Widget build(BuildContext context) {
-    double totalPrice = 0;
+    FocusNode focusNode;
+    double totalPrice = 134;
     currentUser.cartDataModel.cart.forEach(
         (Order order) => totalPrice += order.quantity * order.food.price);
     return Scaffold(
@@ -412,39 +420,75 @@ class _AddressScreenState extends State<AddressScreen>
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: 20, left: 15, bottom: 5, right: 85),
+                                    top: 15, left: 15, bottom: 5, right: 0),
                                 child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Text(
-                                      'Подъезд',
-                                      style: TextStyle(
-                                          color: Color(0xFFB0B0B0),
-                                          fontSize: 13),
+                                    Container(
+                                      width: 150,
+                                      child: Column(
+                                        children: <Widget>[
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                'Подъезд',
+                                                style: TextStyle(
+                                                    color: Color(0xFFB0B0B0),
+                                                    fontSize: 13),
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only( bottom: 0, top: 5),
+                                              child: Container(
+                                                height: 20,
+                                                child: TextField(
+                                                  textCapitalization: TextCapitalization.sentences,
+                                                  controller: entranceField,
+                                                  focusNode: focusNode,
+                                                  decoration: new InputDecoration(
+                                                    border: InputBorder.none,
+                                                    counterText: '',
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
                                     ),
-                                    Text(
-                                      'Этаж',
-                                      style: TextStyle(
-                                          color: Color(0xFFB0B0B0),
-                                          fontSize: 13),
-                                    )
+                                    Container(
+                                      width: 150,
+                                      child: Column(
+                                        children: <Widget>[
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                'Этаж',
+                                                style: TextStyle(
+                                                    color: Color(0xFFB0B0B0),
+                                                    fontSize: 13),
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only( bottom: 0, top: 5),
+                                              child: Container(
+                                                height: 20,
+                                                child: TextField(
+                                                  textCapitalization: TextCapitalization.sentences,
+                                                  controller: floorField,
+                                                  focusNode: focusNode,
+                                                  decoration: new InputDecoration(
+                                                    border: InputBorder.none,
+                                                    counterText: '',
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 15, bottom: 5),
-                                  child: Container(
-                                    height: 20,
-                                    child: TextField(
-                                      textCapitalization: TextCapitalization.sentences,
-                                      controller: officeField,
-                                      decoration: new InputDecoration(
-                                        border: InputBorder.none,
-                                        counterText: '',
-                                      ),
-                                    ),
-                                  )),
                               Padding(
                                 padding: EdgeInsets.only(left: 15, right: 15),
                                 child: Divider(
@@ -452,39 +496,75 @@ class _AddressScreenState extends State<AddressScreen>
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: 15, left: 15, bottom: 5, right: 60),
+                                    top: 15, left: 15, bottom: 5, right: 0),
                                 child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Text(
-                                      'Кв./офис',
-                                      style: TextStyle(
-                                          color: Color(0xFFB0B0B0),
-                                          fontSize: 13),
+                                    Container(
+                                      width: 150,
+                                      child: Column(
+                                        children: <Widget>[
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                'Кв./офис',
+                                                style: TextStyle(
+                                                    color: Color(0xFFB0B0B0),
+                                                    fontSize: 13),
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only( bottom: 0, top: 5),
+                                              child: Container(
+                                                height: 20,
+                                                child: TextField(
+                                                  textCapitalization: TextCapitalization.sentences,
+                                                  controller: officeField,
+                                                  focusNode: focusNode,
+                                                  decoration: new InputDecoration(
+                                                    border: InputBorder.none,
+                                                    counterText: '',
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
                                     ),
-                                    Text(
-                                      'Домофон',
-                                      style: TextStyle(
-                                          color: Color(0xFFB0B0B0),
-                                          fontSize: 13),
-                                    )
+                                    Container(
+                                      width: 150,
+                                      child: Column(
+                                        children: <Widget>[
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                'Домофон',
+                                                style: TextStyle(
+                                                    color: Color(0xFFB0B0B0),
+                                                    fontSize: 13),
+                                              ),
+                                            ],
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only( bottom: 5, top: 5),
+                                              child: Container(
+                                                height: 20,
+                                                child: TextField(
+                                                  textCapitalization: TextCapitalization.sentences,
+                                                  controller: entranceField,
+                                                  focusNode: focusNode,
+                                                  decoration: new InputDecoration(
+                                                    border: InputBorder.none,
+                                                    counterText: '',
+                                                  ),
+                                                ),
+                                              )),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
-                              Padding(
-                                  padding: EdgeInsets.only(left: 15, bottom: 5),
-                                  child: Container(
-                                    height: 20,
-                                    child: TextField(
-                                      textCapitalization: TextCapitalization.sentences,
-                                      controller: floorField,
-                                      decoration: new InputDecoration(
-                                        border: InputBorder.none,
-                                        counterText: '',
-                                      ),
-                                    ),
-                                  )),
                               Padding(
                                 padding: EdgeInsets.only(left: 15, right: 15),
                                 child: Divider(
@@ -698,7 +778,7 @@ class _AddressScreenState extends State<AddressScreen>
                                 child: Padding(
                                   padding: EdgeInsets.all(10),
                                   child: Text(
-                                      '${totalPrice.toStringAsFixed(0)} \Р',
+                                      '${(totalPrice).toStringAsFixed(0)} \Р',
                                       style: TextStyle(
                                           fontSize: 14.0,
                                           fontWeight: FontWeight.w600,
@@ -713,7 +793,7 @@ class _AddressScreenState extends State<AddressScreen>
                         borderRadius: BorderRadius.circular(10),
                       ),
                       padding: EdgeInsets.only(
-                          left: 10, top: 10, right: 20, bottom: 10),
+                          left: 10, top: 10, right: 10, bottom: 10),
                       onPressed: () async {
                         if (await Internet.checkConnection()) {
                           if (destinationPointsKey.currentState.searchTextField
@@ -727,6 +807,8 @@ class _AddressScreenState extends State<AddressScreen>
                                   .searchTextField.textFieldConfiguration.controller.text,
                               office: officeField.text,
                               floor: floorField.text,
+                              entrance: entranceField.text,
+                              intercom: intercomField.text,
                               comment: commentField.text,
                               cartDataModel: currentUser.cartDataModel,
                               restaurant: restaurant,
@@ -969,7 +1051,7 @@ class _TakeAwayState extends State<TakeAway>
 
   @override
   Widget build(BuildContext context) {
-    double totalPrice = 0;
+    double totalPrice = 134;
     currentUser.cartDataModel.cart.forEach(
         (Order order) => totalPrice += order.quantity * order.food.price);
     return Scaffold(
@@ -1334,7 +1416,7 @@ class _TakeAwayState extends State<TakeAway>
                         borderRadius: BorderRadius.circular(10),
                       ),
                       padding: EdgeInsets.only(
-                          left: 10, top: 10, right: 20, bottom: 10),
+                          left: 10, top: 10, right: 10, bottom: 10),
                       onPressed: () async {
                         if (await Internet.checkConnection()) {
                           CreateOrderTakeAway createOrderTakeAway =

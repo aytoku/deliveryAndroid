@@ -533,7 +533,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                   orderList = snapshot.data;
                                   return (currentUser.isLoggedIn)
                                       ? Container(
-                                    height: 200,
+                                    height: MediaQuery.of(context).size.height * 0.35,
                                     child: ListView(
                                       children: snapshot.data,
                                       scrollDirection: Axis.horizontal,
@@ -848,6 +848,15 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                   )
                 ],
               ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: (in_the_way
+                  .contains(ordersStoryModelItem.state)) ? Padding(
+                padding: EdgeInsets.only(right: 170, bottom: 10),
+                child: Text(ordersStoryModelItem.driver.color + ' ' + ordersStoryModelItem.driver.car + ' ' + ordersStoryModelItem.driver.reg_number,
+                  style: TextStyle(color: Color(0xFF000000), fontSize: 16),),
+              ) : Container(height: 0),
             ),
             Expanded(
               child: Padding(
