@@ -443,7 +443,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     : Container(height: 0),
                 (restaurantDataItems.toppings != null)
                     ? Padding(
-                  padding: EdgeInsets.only(left: 15),
+                  padding: EdgeInsets.only(left: 15, top: 10),
                   child: Text(
                     'Топпинги',
                     style: TextStyle(color: Color(0xFF424242)),
@@ -498,12 +498,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 5),
-                            child: Text(
+                            child: (restaurantDataItems.weight != null) ? Text(
                               restaurantDataItems.weight.toString() + ' г',
                               style: TextStyle(
                                   fontSize: 12.0,
                                   color: Color(0xFFB0B0B0)),
-                            ),
+                            ) : Container(),
                           ),
                         ],
                       ),
@@ -927,12 +927,12 @@ class CartItemsQuantityState extends State<CartItemsQuantity> {
                 fontSize: 14.0,
               )),
         ),
-      ) : Text(restaurantDataItems.weight.toString() + ' г',
+      ) : (restaurantDataItems.weight != null) ? Text(restaurantDataItems.weight.toString() + ' г',
       style: TextStyle(
           color: Color(0xFFB0B0B0),
           fontSize: 12
        ),
-      ),
+      ) : Container(),
     );
   }
 
