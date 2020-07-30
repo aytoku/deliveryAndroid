@@ -156,7 +156,6 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                             ),
                             onChanged: (String value) {
-
                               print(value);
                               if(value == '+7 8'){
                                 controller.text = '+7';

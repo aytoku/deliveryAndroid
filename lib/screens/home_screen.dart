@@ -84,10 +84,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   }
 
   _buildNearlyRestaurant() {
-//    var format = new DateFormat('HH:mm');
-//    var date = new DateTime.fromMicrosecondsSinceEpoch(records_items[0].order_preparation_time_second * 1000);
-//    var time = '';
-//    time = format.format(date);
     List<Widget> restaurantList = [];
     records_items.forEach((Records restaurant) {
       restaurantList.add(GestureDetector(
@@ -192,7 +188,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             print(await Internet.checkConnection());
           }));
     });
-
     return Column(children: restaurantList);
   }
 

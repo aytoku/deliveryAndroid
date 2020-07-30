@@ -701,8 +701,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
   @override
   Widget build(BuildContext context) {
-    FoodRecords restaurantDataItems;
-    GlobalKey<CartItemsQuantityState> cartItemsQuantityKey;
     return Scaffold(
       key: _scaffoldStateKey,
       body: FutureBuilder<RestaurantDataItems>(
