@@ -693,108 +693,120 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
     return Scaffold(
       body: Container(
         color: Colors.white,
-        child: Padding(
-          padding: EdgeInsets.only(top: 20),
-          child: Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 0,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 5),
-                      child: InkWell(
-                        onTap: () {
-                          homeScreenKey = new GlobalKey<HomeScreenState>();
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (context) => HomeScreen()),
-                                  (Route<dynamic> route) => false);
-                        },
-                        child: Padding(
-                            padding: EdgeInsets.only(right: 0),
-                            child: Container(
-                                width: 40,
-                                height: 60,
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                      'assets/svg_images/arrow_left.svg'),
-                                ))),
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 0,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 0),
-                      child: Text(
-                        'Корзина',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF000000)),
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 0,
-                    child: Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
-                            child: GestureDetector(
-                              child: SvgPicture.asset(
-                                  'assets/svg_images/delete.svg'),
-                            ))),
-                  ),
-                ],
-              ),
-              Container(
-                decoration: BoxDecoration(color: Color(0xFFFAFAFA)),
-                child: Column(
+        child: Stack(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 30),
-                      child: Center(
-                        child: Image(
-                          image: AssetImage('assets/images/basket.png'),
+                    Flexible(
+                      flex: 0,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: InkWell(
+                          onTap: () {
+                            homeScreenKey = new GlobalKey<HomeScreenState>();
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(builder: (context) => HomeScreen()),
+                                    (Route<dynamic> route) => false);
+                          },
+                          child: Padding(
+                              padding: EdgeInsets.only(right: 0),
+                              child: Container(
+                                  width: 40,
+                                  height: 60,
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/arrow_left.svg'),
+                                  ))),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Center(
-                          child: Text(
-                        'Корзина пуста',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            color: Color(0xFF424242)),
-                      )),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 100),
-                      child: Center(
+                    Flexible(
+                      flex: 0,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 0),
                         child: Text(
-                          'Перейдите в список мест, чтобы\nоформить заказ заново',
-                          style:
-                              TextStyle(color: Color(0xFFB0B0B0), fontSize: 15),
-                          textAlign: TextAlign.center,
+                          'Корзина',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF000000)),
                         ),
                       ),
+                    ),
+                    Flexible(
+                      flex: 0,
+                      child: Padding(
+                          padding: EdgeInsets.only(right: 10),
+                          child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
+                              child: GestureDetector(
+                                child: SvgPicture.asset(
+                                    'assets/svg_images/delete.svg'),
+                              ))),
                     ),
                   ],
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: EdgeInsets.only(top: 80),
+                child: Container(
+                  decoration: BoxDecoration(color: Color(0xFFFAFAFA)),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(top: 30),
+                        child: Center(
+                          child: Image(
+                            image: AssetImage('assets/images/basket.png'),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Center(
+                            child: Text(
+                              'Корзина пуста',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                  color: Color(0xFF424242)),
+                            )),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 100),
+                        child: Center(
+                          child: Text(
+                            'Перейдите в список мест, чтобы\nоформить заказ заново',
+                            style:
+                            TextStyle(color: Color(0xFFB0B0B0), fontSize: 15),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                decoration: BoxDecoration(color: Colors.white),
                 child: Padding(
                   padding:
-                      EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
+                  EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 15),
                   child: FlatButton(
                     child: Text(
                       'Вернуться на главную',
@@ -811,14 +823,14 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                       homeScreenKey = new GlobalKey<HomeScreenState>();
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(builder: (context) => HomeScreen()),
-                          (Route<dynamic> route) => false);
+                              (Route<dynamic> route) => false);
                     },
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
+            ),
+          ],
+        )
       ),
     );
   }

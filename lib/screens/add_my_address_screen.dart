@@ -156,17 +156,20 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(top: 30, left: 15),
+                      padding: EdgeInsets.only(top: 30, left: 15, right: 15),
                       child: Text(myAddressesModel.address,
                           style: TextStyle(fontSize: 17, color: Color(0xFF424242))),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10, right: 10, bottom: 20),
-                    child: Text(
-                        'г.Владикавказ, республика Северная Осетия-Алания, Россия',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(fontSize: 11, color: Color(0xFF9B9B9B))),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 10, right: 10, bottom: 20, left: 15),
+                      child: Text(
+                          'г.Владикавказ, республика Северная Осетия-Алания, Россия',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 11, color: Color(0xFF9B9B9B))),
+                    ),
                   ),
                   Divider(height: 1.0, color: Color(0xFFEDEDED)),
                 ],
