@@ -372,9 +372,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Expanded(
-            child: MediaQuery.removePadding(
-              removeBottom: true,
-              context: context,
+            child: Container(
+              height: 300,
               child: ListView(padding: EdgeInsets.zero, children: <Widget>[
                 ClipRRect(
                     borderRadius: BorderRadius.only(
@@ -457,8 +456,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     key: toppingsSelectorStateKey,
                     toppingsList: restaurantDataItems.toppings)
                     : Container(height: 0),
-              ])
-            ),
+              ]),
+            )
           ),
 //          Expanded(
 //            child: ListView(

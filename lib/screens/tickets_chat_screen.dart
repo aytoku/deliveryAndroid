@@ -135,7 +135,7 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
             Align(
                 alignment: Alignment.center,
                 child: Container(
-                  height: 450,
+                  height: 470,
                   child: Padding(
                     padding: EdgeInsets.only(top: 20),
                     child: ListView.builder(
@@ -155,7 +155,7 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(
-                        top: 60, bottom: 20, right: 15, left: 15),
+                        top: 40, bottom: 20, right: 15, left: 15),
                     child: Container(
                       height: 40,
                       child: TextField(
