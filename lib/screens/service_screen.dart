@@ -24,7 +24,6 @@ class ServiceScreen extends StatefulWidget {
 }
 
 class ServiceScreenState extends State<ServiceScreen> {
-  bool status1 = false;
 
   noConnection(BuildContext context) {
     showDialog(
@@ -180,7 +179,7 @@ class ServiceScreenState extends State<ServiceScreen> {
                                       new MaterialPageRoute(
                                         builder: (context) => new ServiceOrdersStoryScreen(
                                             ticketModel: new TicketModel(
-                                                title: 'Ошибка в заказе', description: '')),
+                                                title: 'Ошибка стоимости', description: '')),
                                       ),
                                     );
                                   } else {
@@ -209,7 +208,7 @@ class ServiceScreenState extends State<ServiceScreen> {
                                       new MaterialPageRoute(
                                         builder: (context) => new ServiceOrdersStoryScreen(
                                             ticketModel: new TicketModel(
-                                                title: 'Ошибка в заказе', description: '')),
+                                                title: 'Ошибка программмы', description: '')),
                                       ),
                                     );
                                   } else {
@@ -238,7 +237,7 @@ class ServiceScreenState extends State<ServiceScreen> {
                                       new MaterialPageRoute(
                                         builder: (context) => new ServiceOrdersStoryScreen(
                                             ticketModel: new TicketModel(
-                                                title: 'Ошибка в заказе', description: '')),
+                                                title: 'Другая причина', description: '')),
                                       ),
                                     );
                                   } else {
@@ -289,8 +288,7 @@ class ServiceScreenState extends State<ServiceScreen> {
                                               fontSize: 17
                                           ),
                                         ),
-                                        trailing:
-                                        SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                                        trailing: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
                                         onTap: () async {
                                           if (await Internet.checkConnection()) {
                                             Navigator.push(
