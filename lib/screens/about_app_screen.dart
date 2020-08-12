@@ -65,7 +65,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                         child: InkWell(
                             child: Container(
                                 height: 50,
-                                width: 55,
+                                width: 55 ,
                                 child: Padding(
                                   padding: EdgeInsets.only(
                                       top: 17, bottom: 17, right: 10),
@@ -82,7 +82,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                         child: Padding(
                           padding: EdgeInsets.only(top: 15),
                           child: Text(
-                            "Служба поддержки",
+                            "О приложении",
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,

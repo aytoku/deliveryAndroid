@@ -272,7 +272,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                      padding: EdgeInsets.only(left: 15, top: 20, bottom: 20, right: 15),
                       child: Text(
                         'Все ранее добавленные блюда из ресторна ${currentUser.cartDataModel.cart[0].restaurant.name} будут удалены из корзины',
                         style: TextStyle(
